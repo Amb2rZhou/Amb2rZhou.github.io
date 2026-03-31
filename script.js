@@ -232,7 +232,7 @@ window.addEventListener('scroll', () => {
 });
 
 // === Chat Widget ===
-const WORKER_URL = ''; // Empty = same origin (Vercel), relative paths /api/chat and /api/insights
+const WORKER_URL = 'https://amb2r-zhou-github-io.vercel.app';
 
 const chatToggle = document.getElementById('chatToggle');
 const chatPanel = document.getElementById('chatPanel');
@@ -298,7 +298,7 @@ async function sendMessage() {
   const thinkingText = translations[currentLang]['chat.thinking'];
   const botMsg = addMessage(thinkingText, 'bot typing');
 
-  const endpoint = chatMode === 'insights' ? '/api/insights' : '/api/chat';
+  const endpoint = chatMode === 'insights' ? WORKER_URL + '/api/insights' : WORKER_URL + '/api/chat';
 
   try {
     const res = await fetch(endpoint, {
