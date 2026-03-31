@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zhile Zhou | 周芷乐</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="#hero" class="nav-logo">ZZ</a>
+      <div class="nav-links">
+        <a href="#about" data-i18n="nav.about">About</a>
+        <a href="#experience" data-i18n="nav.experience">Experience</a>
+        <a href="#projects" data-i18n="nav.projects">Projects</a>
+        <a href="#contact" data-i18n="nav.contact">Contact</a>
+        <button class="lang-toggle" id="langToggle" aria-label="Toggle language">
+          EN | 中
+        </button>
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+          <i class="fas fa-moon"></i>
+        </button>
+      </div>
+      <div class="mobile-controls">
+        <button class="lang-toggle" id="langToggleMobile" aria-label="Toggle language">
+          EN | 中
+        </button>
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#about" data-i18n="nav.about">About</a>
+    <a href="#experience" data-i18n="nav.experience">Experience</a>
+    <a href="#projects" data-i18n="nav.projects">Projects</a>
+    <a href="#contact" data-i18n="nav.contact">Contact</a>
+  </div>
+
+  <!-- Hero -->
+  <section class="hero" id="hero">
+    <div class="hero-content">
+      <div class="hero-text">
+        <p class="hero-greeting" data-i18n="hero.greeting">Hi, I'm</p>
+        <h1 class="hero-name">Zhile Zhou <span class="hero-name-cn">周芷乐</span></h1>
+        <p class="hero-title" data-i18n="hero.title">Economics & AI Strategy</p>
+        <p class="hero-desc" data-i18n="hero.desc" data-i18n-html="true">
+          Master's student at <strong>CUHK & Northwestern University</strong>,
+          passionate about the intersection of economics, AI, and technology strategy.
+          Currently exploring how AI reshapes industries and building tools that matter.
+        </p>
+        <div class="hero-links">
+          <a href="https://github.com/Amb2rZhou" target="_blank" class="hero-btn"><i class="fab fa-github"></i> GitHub</a>
+          <a href="https://www.linkedin.com/in/%E8%8A%B7%E4%B9%90-%E5%91%A8-a3b410273" target="_blank" class="hero-btn"><i class="fab fa-linkedin"></i> LinkedIn</a>
+          <a href="mailto:zhilezhou2026@u.northwestern.edu" class="hero-btn hero-btn-primary"><i class="fas fa-envelope"></i> Contact</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-avatar">
+          <img src="avatar.jpg" alt="Zhile Zhou" onerror="this.style.display='none';this.parentElement.classList.add('no-img')">
+          <span class="avatar-fallback">ZZ</span>
+        </div>
+      </div>
+    </div>
+    <div class="scroll-hint">
+      <i class="fas fa-chevron-down"></i>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section class="section" id="about">
+    <div class="container">
+      <h2 class="section-title" data-i18n="about.title">About Me</h2>
+      <div class="about-grid">
+        <div class="about-card">
+          <i class="fas fa-graduation-cap"></i>
+          <h3 data-i18n="about.education">Education</h3>
+          <div data-i18n="about.edu.content" data-i18n-html="true">
+            <p><strong>CUHK & Northwestern University</strong><br>
+            M.S. in Applied Economics & Quantitative Econometrics<br>
+            GPA: 4.0/4.0 | Scholarship Recipient</p>
+            <p><strong>CUHK-Shenzhen</strong><br>
+            B.A. in Economics | Top 1% Gaokao<br>
+            Dean's List × 3 | First Class Honors</p>
+            <p><strong>Copenhagen Business School</strong><br>
+            Exchange Student</p>
+          </div>
+        </div>
+        <div class="about-card">
+          <i class="fas fa-brain"></i>
+          <h3 data-i18n="about.whatido">What I Do</h3>
+          <div data-i18n="about.whatido.content" data-i18n-html="true">
+            <p>I sit at the crossroads of <strong>economics</strong> and <strong>AI technology</strong>.
+            My work spans AI strategy research, building intelligent automation tools,
+            and translating cutting-edge tech into actionable business insights.</p>
+            <p>I'm a firm believer in <strong>vibe coding</strong> — building functional tools
+            with AI assistance to solve real problems fast.</p>
+          </div>
+        </div>
+        <div class="about-card">
+          <i class="fas fa-code"></i>
+          <h3 data-i18n="about.techstack">Tech Stack</h3>
+          <div class="skills-tags">
+            <span>Python</span><span>R</span><span>SQL</span>
+            <span>Stata</span><span>Matlab</span>
+            <span>Claude Code</span><span>Vibe Coding</span>
+            <span>NLP</span><span>Machine Learning</span>
+            <span>XGBoost</span><span>Data Analysis</span>
+          </div>
+        </div>
+        <div class="about-card">
+          <i class="fas fa-globe"></i>
+          <h3 data-i18n="about.beyond">Beyond Work</h3>
+          <p data-i18n="about.beyond.content" data-i18n-html="true">📷 Photography enthusiast<br>
+          🌍 Traveled 15+ countries<br>
+          🎮 Mobile & console gamer<br>
+          🗣️ Fluent in English & Chinese<br>
+          <span class="subtle">GRE 326+4.5 | TOEFL 109</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Experience -->
+  <section class="section section-alt" id="experience">
+    <div class="container">
+      <h2 class="section-title" data-i18n="exp.title">Experience</h2>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-date">2025.12 — <span data-i18n="exp.present">Present</span></div>
+          <div class="timeline-content">
+            <h3 data-i18n="exp.xhs.role">AI Technology Strategy Intern</h3>
+            <p class="timeline-company" data-i18n="exp.xhs.company">Xiaohongshu (REDnote) · Shanghai</p>
+            <ul data-i18n="exp.xhs.items" data-i18n-html="true">
+              <li>Deep-dive research on AI Coding, embodied intelligence, and OpenClaw — reports endorsed by senior tech executives</li>
+              <li>Built <strong>Frontier Insight Bot</strong> with Claude Code: automated intelligence pipeline covering 250+ global AI sources, delivering daily briefs & weekly strategic reports</li>
+              <li>Led internal AI workshops on Vibe Coding; packaged workflows into Skills with 100+ downloads on company platform</li>
+              <li>Authored 10+ strategic business reports driving decisions across security, risk control, and operational efficiency</li>
+            </ul>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-date">2025.04 — 2025.12</div>
+          <div class="timeline-content">
+            <h3 data-i18n="exp.ipsos.role">Social Media User Research Intern</h3>
+            <p class="timeline-company" data-i18n="exp.ipsos.company">Ipsos China · Shanghai</p>
+            <ul data-i18n="exp.ipsos.items" data-i18n-html="true">
+              <li>Built multi-source social media keyword systems & corpus databases using AI-assisted pipelines</li>
+              <li>Developed rule-based models for sentiment analysis and multi-dimensional topic tracking</li>
+              <li>Produced regular reports on topic trends and sentiment analysis for FMCG & e-commerce clients</li>
+            </ul>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-date">2023.07 — 2023.10</div>
+          <div class="timeline-content">
+            <h3 data-i18n="exp.guohai.role">Industry Analyst — Overseas Internet Team</h3>
+            <p class="timeline-company" data-i18n="exp.guohai.company">Guohai Securities · Top 3 National Team</p>
+            <ul data-i18n="exp.guohai.items" data-i18n-html="true">
+              <li>Conducted deep research on AIGC, gaming, and e-commerce sectors</li>
+              <li>Processed 100K+ data points tracking DAU, app downloads, and website PV across platforms</li>
+              <li>Authored a 58-page report on Unity's product matrix and business model</li>
+              <li>Built valuation models using DCF, PE/PS comparable analysis</li>
+            </ul>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-date">2022.05 — 2022.11</div>
+          <div class="timeline-content">
+            <h3 data-i18n="exp.minsheng.role">Investment Banking Intern</h3>
+            <p class="timeline-company" data-i18n="exp.minsheng.company">Minsheng Securities</p>
+            <ul data-i18n="exp.minsheng.items" data-i18n-html="true">
+              <li>Supported 2 IPO projects with due diligence, background checks, and financial verification</li>
+              <li>Conducted 15+ client interviews in English with overseas suppliers</li>
+              <li>Drafted industry sections for prospectuses in IVD and pet food sectors</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section class="section" id="projects">
+    <div class="container">
+      <h2 class="section-title" data-i18n="proj.title">Projects</h2>
+      <div class="projects-grid">
+        <div class="project-card featured" data-i18n-featured="true">
+          <div class="project-icon"><i class="fas fa-robot"></i></div>
+          <h3>AI Frontier Insight</h3>
+          <p data-i18n="proj.afi.desc">Automated AI intelligence system covering 250+ global sources. Crawls, filters, summarizes, and distributes daily briefs & weekly strategic reports.</p>
+          <div class="project-tags">
+            <span>Claude Code</span><span>Python</span><span>GitHub Actions</span><span>Automation</span>
+          </div>
+          <a href="https://github.com/Amb2rZhou/ai-frontier-insight" target="_blank" class="project-link">
+            <i class="fab fa-github"></i> <span data-i18n="proj.viewgithub">View on GitHub</span>
+          </a>
+        </div>
+        <div class="project-card">
+          <div class="project-icon"><i class="fas fa-newspaper"></i></div>
+          <h3>Daily News Digest</h3>
+          <p data-i18n="proj.dnd.desc">Fully automated daily news pipeline using Skills-based architecture. Fetches, curates, and pushes tech news across multiple channels.</p>
+          <div class="project-tags">
+            <span>Python</span><span>RSS</span><span>GitHub Actions</span><span>Webhook</span>
+          </div>
+          <a href="https://github.com/Amb2rZhou/daily-news-digest" target="_blank" class="project-link">
+            <i class="fab fa-github"></i> <span data-i18n="proj.viewgithub">View on GitHub</span>
+          </a>
+        </div>
+        <div class="project-card">
+          <div class="project-icon"><i class="fas fa-microphone"></i></div>
+          <h3>Interview Digest Skill</h3>
+          <p data-i18n="proj.ids.desc">Converts interviews from YouTube, Apple Podcasts, Bilibili, and more into structured text summaries. Supports batch processing.</p>
+          <div class="project-tags">
+            <span>Claude Code</span><span>Skill</span><span>NLP</span>
+          </div>
+          <a href="https://github.com/Amb2rZhou/interview-digest-skill" target="_blank" class="project-link">
+            <i class="fab fa-github"></i> <span data-i18n="proj.viewgithub">View on GitHub</span>
+          </a>
+        </div>
+        <div class="project-card">
+          <div class="project-icon"><i class="fas fa-file-alt"></i></div>
+          <h3>Transcript Writer</h3>
+          <p data-i18n="proj.tw.desc">Transforms meeting audio recordings into clean, structured transcripts automatically.</p>
+          <div class="project-tags">
+            <span>Python</span><span>Audio Processing</span>
+          </div>
+          <a href="https://github.com/Amb2rZhou/transcript-writer" target="_blank" class="project-link">
+            <i class="fab fa-github"></i> <span data-i18n="proj.viewgithub">View on GitHub</span>
+          </a>
+        </div>
+        <div class="project-card">
+          <div class="project-icon"><i class="fas fa-chart-line"></i></div>
+          <h3 data-i18n="proj.misinfo.title">Social Media Misinformation Detector</h3>
+          <p data-i18n="proj.misinfo.desc" data-i18n-html="true">ML model for classifying UGC authenticity on social media. Built with Random Forest, XGBoost, and SVM on 5000+ labeled samples. Achieved 79.8% accuracy. <strong>Best Technology Award.</strong></p>
+          <div class="project-tags">
+            <span>Machine Learning</span><span>NLP</span><span>Python</span><span>TF-IDF</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section class="section section-alt" id="contact">
+    <div class="container">
+      <h2 class="section-title" data-i18n="contact.title">Get in Touch</h2>
+      <p class="contact-desc" data-i18n="contact.desc">Feel free to reach out — whether it's about collaboration, opportunities, or just a chat about AI and economics.</p>
+      <div class="contact-links">
+        <a href="mailto:zhilezhou2026@u.northwestern.edu" class="contact-item">
+          <i class="fas fa-envelope"></i>
+          <span>zhilezhou2026@u.northwestern.edu</span>
+        </a>
+        <a href="https://github.com/Amb2rZhou" target="_blank" class="contact-item">
+          <i class="fab fa-github"></i>
+          <span>Amb2rZhou</span>
+        </a>
+        <a href="https://www.linkedin.com/in/%E8%8A%B7%E4%B9%90-%E5%91%A8-a3b410273" target="_blank" class="contact-item">
+          <i class="fab fa-linkedin"></i>
+          <span>LinkedIn</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p data-i18n="footer.text">&copy; 2026 Zhile Zhou. Built with curiosity and Claude Code.</p>
+  </footer>
+
+  <!-- Chat Widget -->
+  <div class="chat-widget" id="chatWidget">
+    <button class="chat-toggle" id="chatToggle" aria-label="Ask me anything">
+      <i class="fas fa-comments"></i>
+      <span class="chat-badge" data-i18n="chat.badge">Ask me anything!</span>
+    </button>
+    <div class="chat-panel" id="chatPanel">
+      <div class="chat-header">
+        <div class="chat-header-info">
+          <div class="chat-avatar">ZZ</div>
+          <div>
+            <strong data-i18n="chat.assistant.name">Zhile's AI Assistant</strong>
+            <p data-i18n="chat.assistant.subtitle">Ask anything about me</p>
+          </div>
+        </div>
+        <button class="chat-close" id="chatClose"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="chat-messages" id="chatMessages">
+        <div class="chat-message bot">
+          <p data-i18n="chat.welcome">Hi! 👋 I'm Zhile's AI assistant. Ask me anything about her background, experience, projects, or skills — I'll do my best to answer!</p>
+        </div>
+      </div>
+      <div class="chat-input-wrap">
+        <input type="text" id="chatInput" data-i18n-placeholder="chat.placeholder" placeholder="Type your question..." autocomplete="off">
+        <button id="chatSend"><i class="fas fa-paper-plane"></i></button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
