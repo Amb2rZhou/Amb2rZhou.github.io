@@ -7,6 +7,7 @@ const PERSONAL_CONTEXT_RAW = 'https://raw.githubusercontent.com/Amb2rZhou/person
 const PERSONAL_CONTEXT_FILES = [
   'agent-skill-ecosystem-report.md',
   'research-report-SKILL.md',
+  'openclaw-insight.md',
 ];
 
 // Simple in-memory cache (persists within a warm function invocation)
@@ -109,7 +110,9 @@ function isPersonalResearchQuestion(question) {
     lower.includes('research') || lower.includes('研究') || lower.includes('报告') ||
     lower.includes('skill') || lower.includes('技能') || lower.includes('agent') ||
     lower.includes('生态') || lower.includes('ecosystem') || lower.includes('分析') ||
-    lower.includes('analysis') || lower.includes('你的');
+    lower.includes('analysis') || lower.includes('你的') ||
+    lower.includes('openclaw') || lower.includes('法律') || lower.includes('legal') ||
+    lower.includes('law') || lower.includes('合同') || lower.includes('contract');
 }
 
 async function fetchPersonalContext(question) {
