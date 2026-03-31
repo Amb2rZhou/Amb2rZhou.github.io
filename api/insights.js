@@ -128,8 +128,7 @@ async function fetchPersonalContext(question) {
   const results = (await Promise.all(promises)).filter(Boolean);
   let context = '';
   for (const r of results) {
-    // Take up to 2000 chars per file to stay within budget
-    const truncated = r.content.slice(0, 2000);
+    const truncated = r.content.slice(0, 3000);
     context += `\n--- Zhile's Research: ${r.file} ---\n${truncated}\n`;
   }
   return context;
@@ -246,9 +245,20 @@ async function fetchInsightsContext(question) {
 
   const results = (await Promise.all(fetchPromises)).filter(Boolean);
 
-  // Build context string, respecting ~6000 char limit
+  // Fetch personal research context if relevant
+  const personalContext = await fetchPersonalContext(question);
+  const isPersonalQ = personalContext.length > 0;
+
+  // Build context string, respecting char limit
   let context = '';
-  let charBudget = 8000;
+  let charBudget = 10000;
+
+  // If question is about personal research, add that FIRST so it doesn't get cut off
+  if (isPersonalQ) {
+    const trimmed = personalContext.slice(0, 5000);
+    context += trimmed;
+    charBudget -= trimmed.length;
+  }
 
   // If weekly-focused question, put weekly reports first
   const orderedResults = wantWeekly
@@ -271,13 +281,6 @@ async function fetchInsightsContext(question) {
     context += chunk;
     charBudget -= chunk.length;
     if (charBudget <= 0) break;
-  }
-
-  // Fetch personal research context if relevant
-  const personalContext = await fetchPersonalContext(question);
-  if (personalContext && charBudget > 0) {
-    const trimmed = personalContext.slice(0, charBudget);
-    context += trimmed;
   }
 
   return {
