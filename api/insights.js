@@ -3,6 +3,11 @@
 
 const GITHUB_API_BASE = 'https://api.github.com/repos/Amb2rZhou/ai-frontier-insight/contents/data';
 const GITHUB_RAW_BASE = 'https://raw.githubusercontent.com/Amb2rZhou/ai-frontier-insight/main/data';
+const PERSONAL_CONTEXT_RAW = 'https://raw.githubusercontent.com/Amb2rZhou/personal-context/main';
+const PERSONAL_CONTEXT_FILES = [
+  'agent-skill-ecosystem-report.md',
+  'research-report-SKILL.md',
+];
 
 // Simple in-memory cache (persists within a warm function invocation)
 const memoryCache = new Map();
@@ -94,6 +99,37 @@ function isWeeklyQuestion(question) {
     lower.includes('本周') || lower.includes('上周') || lower.includes('趋势') ||
     lower.includes('last week') || lower.includes('this week') ||
     lower.includes('weekly') || lower.includes('深度') || lower.includes('洞察');
+}
+
+function isPersonalResearchQuestion(question) {
+  const lower = question.toLowerCase();
+  return lower.includes('芷乐') || lower.includes('zhile') || lower.includes('觉得') ||
+    lower.includes('看法') || lower.includes('观点') || lower.includes('认为') ||
+    lower.includes('opinion') || lower.includes('think') || lower.includes('view') ||
+    lower.includes('research') || lower.includes('研究') || lower.includes('报告') ||
+    lower.includes('skill') || lower.includes('技能') || lower.includes('agent') ||
+    lower.includes('生态') || lower.includes('ecosystem') || lower.includes('分析') ||
+    lower.includes('analysis') || lower.includes('你的');
+}
+
+async function fetchPersonalContext(question) {
+  const shouldFetch = isPersonalResearchQuestion(question);
+  if (!shouldFetch) return '';
+
+  const promises = PERSONAL_CONTEXT_FILES.map(file =>
+    cachedFetch(`${PERSONAL_CONTEXT_RAW}/${file}`, 3600)
+      .then(async r => r.ok ? { file, content: await r.text() } : null)
+      .catch(() => null)
+  );
+
+  const results = (await Promise.all(promises)).filter(Boolean);
+  let context = '';
+  for (const r of results) {
+    // Take up to 2000 chars per file to stay within budget
+    const truncated = r.content.slice(0, 2000);
+    context += `\n--- Zhile's Research: ${r.file} ---\n${truncated}\n`;
+  }
+  return context;
 }
 
 function extractBriefContent(briefJson) {
@@ -209,7 +245,7 @@ async function fetchInsightsContext(question) {
 
   // Build context string, respecting ~6000 char limit
   let context = '';
-  let charBudget = 6000;
+  let charBudget = 8000;
 
   // If weekly-focused question, put weekly reports first
   const orderedResults = wantWeekly
@@ -232,6 +268,13 @@ async function fetchInsightsContext(question) {
     context += chunk;
     charBudget -= chunk.length;
     if (charBudget <= 0) break;
+  }
+
+  // Fetch personal research context if relevant
+  const personalContext = await fetchPersonalContext(question);
+  if (personalContext && charBudget > 0) {
+    const trimmed = personalContext.slice(0, charBudget);
+    context += trimmed;
   }
 
   return {
@@ -263,16 +306,21 @@ export default async function handler(req, res) {
       return res.status(502).json({ error: 'Failed to retrieve report data' });
     }
 
-    const insightsSystemPrompt = `You are an AI assistant for the AI Frontier Insight system, a daily AI intelligence briefing service built by Zhile Zhou (周芷乐). You answer questions based on the actual reports produced by the system.
+    const insightsSystemPrompt = `You are an AI assistant for the AI Frontier Insight system, a daily AI intelligence briefing service built by Zhile Zhou (周芷乐). You answer questions based on the actual reports and original research produced by Zhile.
 
-Below are the retrieved report contents. Use them to answer the user's question accurately.
+The data comes from two sources:
+1. AI Frontier Insight — Zhile's self-built automated intelligence system that produces daily briefs and weekly reports
+2. Zhile's original research reports — her personal analysis and perspectives on AI topics (e.g., Agent/Skill ecosystem analysis)
+
+Below are the retrieved contents. Use them to answer the user's question accurately.
 
 ${insightsContext.context}
 
 ---
 
 Instructions:
-- Cite specific dates and report names when answering (e.g., "According to the March 25 daily brief..." or "In the W13 weekly report...").
+- When citing daily/weekly reports, mention specific dates (e.g., "According to the March 25 daily brief..." or "In the W13 weekly report...").
+- When citing Zhile's research reports, attribute them as Zhile's original analysis and perspectives (e.g., "In Zhile's research on the Agent-Skill ecosystem...").
 - If the user asks about dates or periods not covered in the retrieved data above, clearly say "I don't have data for that period" and mention what dates are available.
 - Available daily brief dates: ${insightsContext.availableDates.slice(0, 10).join(', ')}
 - Available weekly reports: ${insightsContext.availableWeekly.slice(0, 5).join(', ')}
