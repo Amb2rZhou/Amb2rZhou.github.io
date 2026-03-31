@@ -35,6 +35,8 @@ CHUNK_OVERLAP = 50
 GH_API = "https://api.github.com"
 GH_RAW = "https://raw.githubusercontent.com"
 
+GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN", "")
+
 PERSONAL_CONTEXT_FILES = [
     "agent-skill-ecosystem-report.md",
     "research-report-SKILL.md",
@@ -61,8 +63,11 @@ def check_env():
 
 def gh_get(url: str, retries: int = 3) -> requests.Response:
     """GET with simple retry / rate-limit handling."""
+    headers = {"User-Agent": "RAG-Indexer"}
+    if GITHUB_TOKEN:
+        headers["Authorization"] = f"token {GITHUB_TOKEN}"
     for attempt in range(retries):
-        resp = requests.get(url, timeout=30)
+        resp = requests.get(url, headers=headers, timeout=30)
         if resp.status_code == 200:
             return resp
         if resp.status_code == 403 and "rate limit" in resp.text.lower():
