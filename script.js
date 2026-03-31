@@ -232,7 +232,7 @@ window.addEventListener('scroll', () => {
 });
 
 // === Chat Widget ===
-const WORKER_URL = 'YOUR_CLOUDFLARE_WORKER_URL'; // Replace after deploying worker
+const WORKER_URL = 'https://zhile-chatbot.zhilezhou2026.workers.dev'; // Replace after deploying worker
 
 const chatToggle = document.getElementById('chatToggle');
 const chatPanel = document.getElementById('chatPanel');
