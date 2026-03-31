@@ -388,6 +388,122 @@
       .nav-back span { display: none; }
       .markdown-body { padding: 20px 16px; }
     }
+
+    /* === Chat Widget === */
+    .chat-widget { position: fixed; bottom: 24px; right: 24px; z-index: 200; }
+
+    .chat-toggle {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: var(--accent); color: #fff; border: none;
+      font-size: 1.4rem; cursor: pointer;
+      box-shadow: 0 4px 16px rgba(99,102,241,0.4);
+      transition: all var(--transition);
+      position: relative;
+    }
+    .chat-toggle:hover { transform: scale(1.08); }
+
+    .chat-badge {
+      position: absolute; bottom: calc(100% + 8px); right: 0;
+      white-space: nowrap; font-size: 0.78rem; font-weight: 500;
+      background: var(--card-bg); color: var(--text);
+      padding: 6px 14px; border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+      opacity: 1; transition: opacity var(--transition);
+      pointer-events: none;
+    }
+    .chat-badge::after {
+      content: ''; position: absolute; top: 100%; right: 20px;
+      border: 6px solid transparent; border-top-color: var(--card-bg);
+    }
+
+    .chat-panel {
+      position: absolute; bottom: 70px; right: 0;
+      width: 380px; max-height: 520px;
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: 16px; box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+      display: none; flex-direction: column;
+      overflow: hidden;
+    }
+    .chat-panel.active { display: flex; }
+
+    .chat-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px; border-bottom: 1px solid var(--card-border);
+      background: var(--accent); color: #fff;
+    }
+    .chat-header-info { display: flex; align-items: center; gap: 12px; }
+    .chat-header-info p { font-size: 0.78rem; opacity: 0.85; margin: 0; color: rgba(255,255,255,0.85); }
+    .chat-header-info strong { color: #fff; }
+
+    .chat-avatar {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: rgba(255,255,255,0.2); display: flex;
+      align-items: center; justify-content: center;
+      font-weight: 700; font-size: 0.85rem;
+    }
+
+    .chat-close {
+      background: none; border: none; color: rgba(255,255,255,0.8);
+      cursor: pointer; font-size: 1.1rem; padding: 4px;
+    }
+    .chat-close:hover { color: #fff; }
+
+    .chat-messages {
+      flex: 1; overflow-y: auto; padding: 16px;
+      display: flex; flex-direction: column; gap: 12px;
+      max-height: 360px; min-height: 200px;
+    }
+
+    .chat-message {
+      max-width: 85%; padding: 10px 14px; border-radius: 12px;
+      font-size: 0.88rem; line-height: 1.6;
+    }
+    .chat-message.bot {
+      background: var(--accent-bg); color: var(--text);
+      align-self: flex-start; border-bottom-left-radius: 4px;
+    }
+    .chat-message.user {
+      background: var(--accent); color: #fff;
+      align-self: flex-end; border-bottom-right-radius: 4px;
+    }
+    .chat-message p { margin: 0; }
+
+    .chat-message.bot.typing::after {
+      content: ''; display: inline-block;
+      width: 4px; height: 4px; border-radius: 50%;
+      background: var(--accent); margin-left: 4px;
+      animation: typingDot 1s infinite;
+    }
+    @keyframes typingDot {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 1; }
+    }
+
+    .chat-input-wrap {
+      display: flex; padding: 12px; gap: 8px;
+      border-top: 1px solid var(--card-border);
+    }
+    .chat-input-wrap input {
+      flex: 1; padding: 10px 14px; border-radius: 8px;
+      border: 1px solid var(--card-border); background: var(--bg);
+      color: var(--text); font-size: 0.88rem; outline: none;
+      font-family: inherit;
+      transition: border var(--transition);
+    }
+    .chat-input-wrap input:focus { border-color: var(--accent); }
+    .chat-input-wrap button {
+      width: 40px; height: 40px; border-radius: 8px;
+      background: var(--accent); color: #fff; border: none;
+      cursor: pointer; font-size: 0.9rem;
+      transition: background var(--transition);
+    }
+    .chat-input-wrap button:hover { background: var(--accent-light); }
+    .chat-input-wrap button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    @media (max-width: 480px) {
+      .chat-panel { width: calc(100vw - 32px); right: -8px; }
+      .chat-badge { display: none; }
+    }
   </style>
 </head>
 <body>
@@ -464,6 +580,35 @@
     <p data-i18n="footer.text">&copy; 2026 Zhile Zhou. Built with curiosity and Claude Code.</p>
   </footer>
 
+  <!-- Chat Widget -->
+  <div class="chat-widget" id="chatWidget">
+    <button class="chat-toggle" id="chatToggle" aria-label="Ask about AI insights">
+      <i class="fas fa-comments"></i>
+      <span class="chat-badge" data-i18n="chat.badge">Ask about AI trends!</span>
+    </button>
+    <div class="chat-panel" id="chatPanel">
+      <div class="chat-header">
+        <div class="chat-header-info">
+          <div class="chat-avatar"><i class="fas fa-satellite-dish" style="font-size:0.9rem"></i></div>
+          <div>
+            <strong data-i18n="chat.assistant.name">Insights Assistant</strong>
+            <p data-i18n="chat.assistant.subtitle">Ask about AI trends & reports</p>
+          </div>
+        </div>
+        <button class="chat-close" id="chatClose"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="chat-messages" id="chatMessages">
+        <div class="chat-message bot">
+          <p data-i18n="chat.welcome">Hi! 👋 Ask me anything about AI trends, daily signals, or weekly insights from the Frontier Insight reports.</p>
+        </div>
+      </div>
+      <div class="chat-input-wrap">
+        <input type="text" id="chatInput" data-i18n-placeholder="chat.placeholder" placeholder="Ask about AI trends..." autocomplete="off">
+        <button id="chatSend"><i class="fas fa-paper-plane"></i></button>
+      </div>
+    </div>
+  </div>
+
   <script>
     // === i18n ===
     const translations = {
@@ -479,6 +624,13 @@
         'error.empty': 'No reports available yet.',
         'select.placeholder': '-- Select --',
         'footer.text': '\u00a9 2026 Zhile Zhou. Built with curiosity and Claude Code.',
+        'chat.badge': 'Ask about AI trends!',
+        'chat.assistant.name': 'Insights Assistant',
+        'chat.assistant.subtitle': 'Ask about AI trends & reports',
+        'chat.welcome': 'Hi! \ud83d\udc4b Ask me anything about AI trends, daily signals, or weekly insights from the Frontier Insight reports.',
+        'chat.placeholder': 'Ask about AI trends...',
+        'chat.thinking': 'Thinking...',
+        'chat.error': "Sorry, I'm having trouble connecting right now. Please try again later!",
       },
       zh: {
         'nav.back': '\u8fd4\u56de\u9996\u9875',
@@ -492,6 +644,13 @@
         'error.empty': '\u6682\u65e0\u62a5\u544a\u3002',
         'select.placeholder': '-- \u8bf7\u9009\u62e9 --',
         'footer.text': '\u00a9 2026 \u5468\u82b7\u4e50. \u7528\u597d\u5947\u5fc3\u548c Claude Code \u6784\u5efa\u3002',
+        'chat.badge': '\u95ee\u95ee AI \u8d8b\u52bf\uff01',
+        'chat.assistant.name': '\u6d1e\u5bdf\u52a9\u624b',
+        'chat.assistant.subtitle': '\u95ee\u95ee AI \u8d8b\u52bf\u548c\u62a5\u544a',
+        'chat.welcome': '\u4f60\u597d\uff01\ud83d\udc4b \u53ef\u4ee5\u95ee\u6211\u5173\u4e8e AI \u8d8b\u52bf\u3001\u6bcf\u65e5\u4fe1\u53f7\u6216\u6bcf\u5468\u6df1\u5ea6\u6d1e\u5bdf\u7684\u4efb\u4f55\u95ee\u9898\u3002',
+        'chat.placeholder': '\u95ee\u95ee AI \u8d8b\u52bf...',
+        'chat.thinking': '\u601d\u8003\u4e2d...',
+        'chat.error': '\u62b1\u6b49\uff0c\u76ee\u524d\u8fde\u63a5\u51fa\u4e86\u70b9\u95ee\u9898\u3002\u8bf7\u7a0d\u540e\u518d\u8bd5\uff01',
       }
     };
 
@@ -537,6 +696,13 @@
             el.textContent = t;
           }
         }
+      });
+
+      // Update placeholder attributes
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        const val = translations[lang] && translations[lang][key];
+        if (val) el.placeholder = val;
       });
 
       document.querySelectorAll('.lang-toggle').forEach(btn => {
@@ -751,6 +917,84 @@
           </div>`;
       }
     }
+
+    // === Chat Widget ===
+    const INSIGHTS_WORKER_URL = 'YOUR_CLOUDFLARE_WORKER_URL/insights'; // Replace after deploying worker
+
+    const chatToggle = document.getElementById('chatToggle');
+    const chatPanel = document.getElementById('chatPanel');
+    const chatClose = document.getElementById('chatClose');
+    const chatMessages = document.getElementById('chatMessages');
+    const chatInput = document.getElementById('chatInput');
+    const chatSend = document.getElementById('chatSend');
+
+    let chatOpen = false;
+
+    chatToggle.addEventListener('click', () => {
+      chatOpen = !chatOpen;
+      chatPanel.classList.toggle('active', chatOpen);
+      if (chatOpen) {
+        chatInput.focus();
+        chatToggle.querySelector('.chat-badge').style.opacity = '0';
+      }
+    });
+
+    chatClose.addEventListener('click', () => {
+      chatOpen = false;
+      chatPanel.classList.remove('active');
+    });
+
+    function addChatMessage(text, type) {
+      const msg = document.createElement('div');
+      msg.className = `chat-message ${type}`;
+      msg.innerHTML = `<p>${text}</p>`;
+      chatMessages.appendChild(msg);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+      return msg;
+    }
+
+    async function sendChatMessage() {
+      const text = chatInput.value.trim();
+      if (!text) return;
+
+      chatInput.value = '';
+      chatSend.disabled = true;
+      addChatMessage(text, 'user');
+
+      const thinkingText = t('chat.thinking');
+      const botMsg = addChatMessage(thinkingText, 'bot typing');
+
+      try {
+        const res = await fetch(INSIGHTS_WORKER_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ question: text })
+        });
+
+        if (!res.ok) throw new Error('API error');
+
+        const data = await res.json();
+        botMsg.className = 'chat-message bot';
+        botMsg.querySelector('p').innerHTML = formatChatResponse(data.answer);
+      } catch (err) {
+        botMsg.className = 'chat-message bot';
+        botMsg.querySelector('p').textContent = t('chat.error');
+      }
+
+      chatSend.disabled = false;
+      chatInput.focus();
+    }
+
+    function formatChatResponse(text) {
+      return text
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\n/g, '<br>');
+    }
+
+    chatSend.addEventListener('click', sendChatMessage);
+    chatInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') sendChatMessage();
+    });
 
     // === Init ===
     document.addEventListener('DOMContentLoaded', () => {
