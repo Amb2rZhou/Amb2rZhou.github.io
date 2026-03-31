@@ -50,8 +50,12 @@ const translations = {
     'chat.assistant.subtitle': 'Ask anything about me',
     'chat.welcome': "Hi! \ud83d\udc4b I'm Zhile's AI assistant. Ask me anything about her background, experience, projects, or skills \u2014 I'll do my best to answer!",
     'chat.placeholder': 'Type your question...',
+    'chat.placeholder.insights': 'Ask about AI trends...',
     'chat.thinking': 'Thinking...',
-    'chat.error': "Sorry, I'm having trouble connecting right now. Please try again later or reach out via email!"
+    'chat.error': "Sorry, I'm having trouble connecting right now. Please try again later or reach out via email!",
+    'chat.mode.personal': 'About Me',
+    'chat.mode.insights': 'AI Insights',
+    'chat.welcome.insights': "Hi! \ud83d\udc4b Ask me anything about AI trends, daily signals, or weekly insights from the Frontier Insight reports."
   },
   zh: {
     'nav.about': '\u5173\u4e8e\u6211',
@@ -103,8 +107,12 @@ const translations = {
     'chat.assistant.subtitle': '\u5173\u4e8e\u6211\u7684\u4efb\u4f55\u95ee\u9898\u90fd\u53ef\u4ee5\u95ee',
     'chat.welcome': '\u4f60\u597d\uff01\ud83d\udc4b \u6211\u662f\u82b7\u4e50\u7684 AI \u52a9\u624b\u3002\u5173\u4e8e\u5979\u7684\u80cc\u666f\u3001\u7ecf\u5386\u3001\u9879\u76ee\u6216\u6280\u80fd\uff0c\u90fd\u53ef\u4ee5\u95ee\u6211\uff01',
     'chat.placeholder': '\u8f93\u5165\u4f60\u7684\u95ee\u9898...',
+    'chat.placeholder.insights': '\u95ee\u95ee AI \u8d8b\u52bf...',
     'chat.thinking': '\u601d\u8003\u4e2d...',
-    'chat.error': '\u62b1\u6b49\uff0c\u76ee\u524d\u8fde\u63a5\u51fa\u4e86\u70b9\u95ee\u9898\u3002\u8bf7\u7a0d\u540e\u518d\u8bd5\uff0c\u6216\u901a\u8fc7\u90ae\u4ef6\u8054\u7cfb\uff01'
+    'chat.error': '\u62b1\u6b49\uff0c\u76ee\u524d\u8fde\u63a5\u51fa\u4e86\u70b9\u95ee\u9898\u3002\u8bf7\u7a0d\u540e\u518d\u8bd5\uff0c\u6216\u901a\u8fc7\u90ae\u4ef6\u8054\u7cfb\uff01',
+    'chat.mode.personal': '\u95ee\u6211',
+    'chat.mode.insights': 'AI \u6d1e\u5bdf',
+    'chat.welcome.insights': '\u4f60\u597d\uff01\ud83d\udc4b \u53ef\u4ee5\u95ee\u6211\u5173\u4e8e AI \u8d8b\u52bf\u3001\u6bcf\u65e5\u4fe1\u53f7\u6216\u6bcf\u5468\u6df1\u5ea6\u6d1e\u5bdf\u7684\u4efb\u4f55\u95ee\u9898\u3002'
   }
 };
 
@@ -234,6 +242,7 @@ const chatInput = document.getElementById('chatInput');
 const chatSend = document.getElementById('chatSend');
 
 let chatOpen = false;
+let chatMode = 'personal'; // 'personal' or 'insights'
 
 chatToggle.addEventListener('click', () => {
   chatOpen = !chatOpen;
@@ -247,6 +256,26 @@ chatToggle.addEventListener('click', () => {
 chatClose.addEventListener('click', () => {
   chatOpen = false;
   chatPanel.classList.remove('active');
+});
+
+// Mode tab switching
+document.querySelectorAll('.chat-mode-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    const newMode = tab.dataset.mode;
+    if (newMode === chatMode) return;
+    chatMode = newMode;
+    document.querySelectorAll('.chat-mode-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    // Clear messages and show appropriate welcome
+    chatMessages.innerHTML = '';
+    const welcomeKey = chatMode === 'insights' ? 'chat.welcome.insights' : 'chat.welcome';
+    const welcomeText = translations[currentLang][welcomeKey];
+    addMessage(welcomeText, 'bot');
+    // Update placeholder
+    const placeholderKey = chatMode === 'insights' ? 'chat.placeholder.insights' : 'chat.placeholder';
+    chatInput.placeholder = translations[currentLang][placeholderKey];
+    chatInput.focus();
+  });
 });
 
 function addMessage(text, type) {
@@ -266,11 +295,13 @@ async function sendMessage() {
   chatSend.disabled = true;
   addMessage(text, 'user');
 
-  const thinkingText = translations[currentLang] ? translations[currentLang]['chat.thinking'] : 'Thinking...';
+  const thinkingText = translations[currentLang]['chat.thinking'];
   const botMsg = addMessage(thinkingText, 'bot typing');
 
+  const endpoint = chatMode === 'insights' ? WORKER_URL + '/insights' : WORKER_URL + '/chat';
+
   try {
-    const res = await fetch(WORKER_URL, {
+    const res = await fetch(endpoint, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ question: text })
@@ -283,8 +314,7 @@ async function sendMessage() {
     botMsg.querySelector('p').innerHTML = formatResponse(data.answer);
   } catch (err) {
     botMsg.className = 'chat-message bot';
-    const errorText = translations[currentLang] ? translations[currentLang]['chat.error'] : "Sorry, I'm having trouble connecting right now. Please try again later or reach out via email!";
-    botMsg.querySelector('p').textContent = errorText;
+    botMsg.querySelector('p').textContent = translations[currentLang]['chat.error'];
   }
 
   chatSend.disabled = false;
@@ -292,7 +322,6 @@ async function sendMessage() {
 }
 
 function formatResponse(text) {
-  // Basic markdown-like formatting
   return text
     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
     .replace(/\n/g, '<br>');

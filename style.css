@@ -468,9 +468,24 @@ a:hover { color: var(--accent-light); }
   50% { opacity: 1; }
 }
 
+.chat-mode-tabs {
+  display: flex; padding: 6px 12px 0; gap: 4px;
+  border-top: 1px solid var(--card-border);
+}
+.chat-mode-tab {
+  flex: 1; padding: 6px 0; border: none; background: none;
+  font-size: 0.78rem; font-weight: 500; font-family: inherit;
+  color: var(--text-secondary); cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all var(--transition);
+}
+.chat-mode-tab:hover { color: var(--accent); }
+.chat-mode-tab.active {
+  color: var(--accent); border-bottom-color: var(--accent);
+}
+
 .chat-input-wrap {
   display: flex; padding: 12px; gap: 8px;
-  border-top: 1px solid var(--card-border);
 }
 .chat-input-wrap input {
   flex: 1; padding: 10px 14px; border-radius: 8px;
