@@ -680,8 +680,7 @@
             date: f.name,
             label: f.name  // e.g., "2026-03-30"
           }))
-          .sort((a, b) => b.date.localeCompare(a.date))
-          .slice(0, 14);
+          .sort((a, b) => b.date.localeCompare(a.date));
 
         renderSidebar(dailyDates, 'daily');
       } catch (err) {
