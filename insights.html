@@ -993,7 +993,7 @@
 
     chatSend.addEventListener('click', sendChatMessage);
     chatInput.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') sendChatMessage();
+      if (e.key === 'Enter' && !e.isComposing) sendChatMessage();
     });
 
     // === Init ===
