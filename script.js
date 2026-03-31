@@ -55,7 +55,7 @@ const translations = {
     'chat.error': "Sorry, I'm having trouble connecting right now. Please try again later or reach out via email!",
     'chat.mode.personal': 'About Me',
     'chat.mode.insights': 'AI Insights',
-    'chat.welcome.insights': "Hi! \ud83d\udc4b Ask me anything about AI trends, daily signals, or weekly insights from the Frontier Insight reports."
+    'chat.welcome.insights': "Hi! \ud83d\udc4b Ask me about AI trends, daily signals, or weekly deep insights. All answers are based on Zhile's self-built intelligence database and her original analysis."
   },
   zh: {
     'nav.about': '\u5173\u4e8e\u6211',
@@ -112,7 +112,7 @@ const translations = {
     'chat.error': '\u62b1\u6b49\uff0c\u76ee\u524d\u8fde\u63a5\u51fa\u4e86\u70b9\u95ee\u9898\u3002\u8bf7\u7a0d\u540e\u518d\u8bd5\uff0c\u6216\u901a\u8fc7\u90ae\u4ef6\u8054\u7cfb\uff01',
     'chat.mode.personal': '\u95ee\u6211',
     'chat.mode.insights': 'AI \u6d1e\u5bdf',
-    'chat.welcome.insights': '\u4f60\u597d\uff01\ud83d\udc4b \u53ef\u4ee5\u95ee\u6211\u5173\u4e8e AI \u8d8b\u52bf\u3001\u6bcf\u65e5\u4fe1\u53f7\u6216\u6bcf\u5468\u6df1\u5ea6\u6d1e\u5bdf\u7684\u4efb\u4f55\u95ee\u9898\u3002'
+    'chat.welcome.insights': '\u4f60\u597d\uff01\ud83d\udc4b \u53ef\u4ee5\u95ee\u6211\u5173\u4e8e AI \u8d8b\u52bf\u3001\u6bcf\u65e5\u4fe1\u53f7\u6216\u6bcf\u5468\u6df1\u5ea6\u6d1e\u5bdf\u7684\u95ee\u9898\u3002\u6240\u6709\u56de\u7b54\u57fa\u4e8e\u82b7\u4e50\u81ea\u5efa\u7684\u60c5\u62a5\u6570\u636e\u5e93\u548c\u5979\u7684\u539f\u521b\u5206\u6790\u89c2\u70b9\u3002'
   }
 };
 
