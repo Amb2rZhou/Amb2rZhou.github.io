@@ -23,7 +23,7 @@ async function embedQuestion(question) {
   return data.data[0].embedding;
 }
 
-async function searchDocuments(embedding) {
+async function searchDocuments(embedding, matchCount = 20) {
   const supabaseUrl = process.env.SUPABASE_URL;
   const supabaseKey = process.env.SUPABASE_KEY;
 
@@ -38,7 +38,7 @@ async function searchDocuments(embedding) {
     body: JSON.stringify({
       query_embedding: embedding,
       match_threshold: 0.2,
-      match_count: 8,
+      match_count: matchCount,
     }),
   });
 
@@ -55,21 +55,35 @@ function buildContext(documents) {
     return 'No relevant documents found.';
   }
 
-  // Group by source type
+  // Separate personal research from other sources — personal gets priority
+  const personal = documents.filter(d => d.source === 'personal');
+  const others = documents.filter(d => d.source !== 'personal');
+
+  // Take all personal chunks (up to 8) + top 8 from other sources
+  const selectedPersonal = personal.slice(0, 8);
+  const selectedOthers = others.slice(0, 8);
+  const selected = [...selectedPersonal, ...selectedOthers];
+
+  // Group by source type for display
   const groups = {};
-  for (const doc of documents) {
+  for (const doc of selected) {
     const source = doc.source || 'unknown';
     if (!groups[source]) groups[source] = [];
     groups[source].push(doc);
   }
 
   let context = '';
-  for (const [source, docs] of Object.entries(groups)) {
-    context += `\n=== Source: ${source} ===\n`;
+  // Put personal research first so it gets priority in LLM attention
+  const sourceOrder = ['personal', ...Object.keys(groups).filter(s => s !== 'personal')];
+  for (const source of sourceOrder) {
+    const docs = groups[source];
+    if (!docs) continue;
+    const label = source === 'personal' ? "Zhile's Original Research & Analysis" : source === 'daily' ? 'Daily Briefs' : source === 'weekly' ? 'Weekly Reports' : source;
+    context += `\n=== ${label} ===\n`;
     for (const doc of docs) {
-      const label = doc.filename || doc.id;
-      const sim = doc.similarity ? ` (similarity: ${doc.similarity.toFixed(3)})` : '';
-      context += `\n--- ${label}${sim} ---\n${doc.content}\n`;
+      const fname = doc.filename || doc.id;
+      const sim = doc.similarity ? ` (relevance: ${doc.similarity.toFixed(3)})` : '';
+      context += `\n--- ${fname}${sim} ---\n${doc.content}\n`;
     }
   }
 
@@ -99,7 +113,7 @@ export default async function handler(req, res) {
       return res.status(502).json({ error: 'Failed to generate embedding' });
     }
 
-    // Step 2: Search for relevant documents
+    // Step 2: Search for relevant documents (fetch 20 results)
     let documents;
     try {
       documents = await searchDocuments(embedding);
@@ -114,9 +128,9 @@ export default async function handler(req, res) {
     const systemPrompt = `You are an AI assistant for the AI Frontier Insight system, a daily AI intelligence briefing service built by Zhile Zhou (周芷乐).
 
 The data comes from three sources:
-1. Daily briefs — automated daily AI news digests with signals, insights, and implications
+1. Zhile's original research — her personal deep-dive analysis and perspectives on AI topics (HIGHEST PRIORITY — always cite these when available)
 2. Weekly reports — in-depth weekly trend analysis and strategic insights
-3. Zhile's original research — her personal analysis and perspectives on AI topics
+3. Daily briefs — automated daily AI news digests with signals, insights, and implications
 
 Below are the most relevant retrieved chunks from the knowledge base:
 
@@ -125,8 +139,9 @@ ${context}
 ---
 
 Instructions:
+- Prioritize Zhile's original research when it is present in the retrieved chunks. Her analysis represents unique, first-hand perspectives.
 - Answer based on the retrieved content above. Do not fabricate information not present in the chunks.
-- When citing information, mention the source — dates for daily briefs (e.g., "According to the March 25 daily brief..."), report names for weekly reports (e.g., "In the W13 weekly report..."), or document titles for research reports.
+- When citing, mention the source — document titles for research (e.g., "In Zhile's OpenClaw deep-dive analysis..."), dates for daily briefs, report names for weekly reports.
 - If the retrieved chunks do not contain enough information to answer the question, clearly say so.
 - Answer in the same language the user asks in (Chinese or English).
 - Be concise, informative, and factual.`;
