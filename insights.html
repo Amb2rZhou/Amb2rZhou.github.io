@@ -670,7 +670,7 @@
     async function fetchDailyList() {
       showSidebarLoading();
       try {
-        const res = await fetch('https://api.github.com/repos/Amb2rZhou/ai-frontier-insight/contents/data/daily');
+        const res = await fetch('https://api.github.com/repos/Amb2rZhou/ai-frontier-insight/contents/data/daily?per_page=100');
         if (!res.ok) throw new Error('API error');
         const data = await res.json();
 
