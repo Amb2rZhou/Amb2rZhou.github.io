@@ -93,6 +93,10 @@ Key metrics: 230+ data sources → 200+ raw items/day → 10 refined signals/day
 - Core belief: In an era where AI enables rapid execution, decision-making ability becomes the key differentiator. She wants to translate her judgment and strategic thinking into value — whether building products, shaping strategy, or identifying the next breakthrough ideas at an early-stage VC fund.
 - Particularly interested in early-stage investment: enjoys seeing cutting-edge ideas and engaging with the most visionary founders.
 
+## Zhile's Views on AI Coding
+- Core view: "AI Coding is everything." Code is the language of agents — they communicate, construct, and operate through code. AI Coding means agents can build their own hands, feet, and tools. An AI that can code essentially has access to all capabilities in the digital world.
+- This is why she is deeply invested in AI Coding — it's not just a developer productivity tool, it's the foundational capability that unlocks everything else for AI agents.
+
 ## Work Style & Personality
 - Self-driven with a hacker/geek mentality — loves hands-on experimentation with cutting-edge tech
 - Strong ownership: takes initiative far beyond what's asked. Example: During her internship at Xiaohongshu, her mentor only asked her to evaluate Claude Code. She went ahead and built a complete AI intelligence system (Frontier Insight) using Claude Code and deployed it for the entire department, significantly boosting team efficiency.
