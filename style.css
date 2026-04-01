@@ -361,6 +361,19 @@ a:hover { color: var(--accent-light); }
   font-size: 0.88rem; font-weight: 500;
 }
 
+/* === Beyond Work === */
+.beyond-grid {
+  display: flex; justify-content: center; flex-wrap: wrap; gap: 20px;
+}
+.beyond-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 20px; border-radius: var(--radius);
+  background: var(--card-bg); border: 1px solid var(--card-border);
+  font-size: 0.92rem; color: var(--text-secondary);
+}
+.beyond-item i { color: var(--accent); font-size: 1rem; }
+.beyond-item.subtle { font-size: 0.82rem; opacity: 0.7; }
+
 /* === Contact === */
 .contact-desc {
   text-align: center; color: var(--text-secondary);
