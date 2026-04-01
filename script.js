@@ -262,6 +262,7 @@ const chatSend = document.getElementById('chatSend');
 let chatOpen = false;
 let chatMode = 'personal'; // 'personal' or 'insights'
 let chatHistory = []; // conversation history for multi-turn
+const chatCache = { personal: { html: null, history: [] }, insights: { html: null, history: [] } };
 
 // Add initial suggested questions
 addSuggestedQuestions('personal');
@@ -293,16 +294,23 @@ document.querySelectorAll('.chat-mode-tab').forEach(tab => {
   tab.addEventListener('click', () => {
     const newMode = tab.dataset.mode;
     if (newMode === chatMode) return;
+    // Save current mode's state
+    chatCache[chatMode].html = chatMessages.innerHTML;
+    chatCache[chatMode].history = chatHistory;
     chatMode = newMode;
     document.querySelectorAll('.chat-mode-tab').forEach(t => t.classList.remove('active'));
     tab.classList.add('active');
-    // Clear messages, history, and show appropriate welcome
-    chatMessages.innerHTML = '';
-    chatHistory = [];
-    const welcomeKey = chatMode === 'insights' ? 'chat.welcome.insights' : 'chat.welcome';
-    const welcomeText = translations[currentLang][welcomeKey];
-    addMessage(welcomeText, 'bot');
-    addSuggestedQuestions(chatMode);
+    // Restore or initialize
+    if (chatCache[chatMode].html !== null) {
+      chatMessages.innerHTML = chatCache[chatMode].html;
+      chatHistory = chatCache[chatMode].history;
+    } else {
+      chatMessages.innerHTML = '';
+      chatHistory = [];
+      const welcomeKey = chatMode === 'insights' ? 'chat.welcome.insights' : 'chat.welcome';
+      addMessage(translations[currentLang][welcomeKey], 'bot');
+      addSuggestedQuestions(chatMode);
+    }
     // Update placeholder
     const placeholderKey = chatMode === 'insights' ? 'chat.placeholder.insights' : 'chat.placeholder';
     chatInput.placeholder = translations[currentLang][placeholderKey];
