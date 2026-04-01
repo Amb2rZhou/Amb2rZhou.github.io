@@ -155,12 +155,6 @@ Instructions:
 - Answer in the same language the user asks in (Chinese or English).
 - Be concise, informative, and factual.`;
 
-    const response = await fetch('https://api.deepseek.com/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${process.env.DEEPSEEK_API_KEY}`,
-      },
     // Build messages with conversation history (keep last 6 turns to limit tokens)
     const messages = [{ role: 'system', content: systemPrompt }];
     if (Array.isArray(history)) {
@@ -172,6 +166,12 @@ Instructions:
     }
     messages.push({ role: 'user', content: question });
 
+    const response = await fetch('https://api.deepseek.com/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${process.env.DEEPSEEK_API_KEY}`,
+      },
       body: JSON.stringify({
         model: 'deepseek-chat',
         messages,
