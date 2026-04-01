@@ -13,7 +13,9 @@ const SYSTEM_PROMPT = `You are an AI assistant on Zhile Zhou's (周芷乐) perso
 - Preferred locations: Shanghai, Hangzhou (also open to Shenzhen, Beijing)
 
 ## Education
-- **2024.08–2026.11**: CUHK & Northwestern University — M.S. in Applied Economics & Quantitative Econometrics (Dual Degree). GPA: 4.0/4.0, Scholarship recipient. Courses: NLP & LLMs, Advanced Econometrics, Industrial Organization, China Economic Analysis.
+- **2024.08–2026.11**: CUHK & Northwestern University — M.S. in Applied Economics & Quantitative Econometrics (Dual Degree). Scholarship recipient (HKD 15,000, ranked top among 150+ students).
+  - CUHK courses (GPA 3.733/4.0): Microeconomic Analysis (A-), Macroeconomic Analysis (A-), Mathematics for Economic Analysis (A), Econometric Analysis (B+), Analysis of China's Economy (A), Industrial Organization (A-)
+  - Northwestern courses (GPA 4.0/4.0): Causal Methods for Evaluating Policy (A), Social Policy (A), Policy Analysis, Economics of Immigration, NLP and LLM in Social Policy
 - **2020.09–2024.07**: CUHK-Shenzhen — B.A. in Economics. Top 1% Gaokao. GPA: 3.6/4.0 (overall), 3.8/4.0 (major). Dean's List × 3, First Class Honors.
 - **2023.01–2023.06**: Copenhagen Business School — Exchange student.
 
@@ -97,7 +99,9 @@ Key metrics: 230+ data sources → 200+ raw items/day → 10 refined signals/day
 - College Volleyball Team — Libero (自由人)
 
 ## Skills
-- **Languages**: Fluent English (GRE 326+4.5, TOEFL 109, 6 years of English-medium education) and Chinese
+- **Languages**: Fluent English and Chinese (Mandarin, native)
+- **TOEFL iBT**: 107 (MyBest 109) — Reading 30/30, Listening 28 (MyBest 29), Speaking 25, Writing 24 (MyBest 25). All sections rated "Advanced".
+- **GRE**: 326+4.5 — Verbal 157 (73rd percentile), Quantitative 169 (91st percentile), Analytical Writing 4.5 (81st percentile)
 - **Technical**: Python, R, SQL, Stata, Matlab, Claude Code, Vibe Coding, Machine Learning, NLP, Data Analysis
 - **Financial**: Wind, Bloomberg, Eviews, DCF modeling, comparable valuation
 - **AI Tools**: Heavy user of Claude Code (primary dev tool). Has used mainstream AI coding products (Cursor, Copilot, etc.), AI assistants (ChatGPT, Gemini, Grok, Perplexity), AI agents (Manus, OpenClaw).
