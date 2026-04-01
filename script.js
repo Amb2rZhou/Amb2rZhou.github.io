@@ -46,6 +46,10 @@ const translations = {
     'proj.afi.arch': 'System Architecture',
     'proj.afi.insights': 'Live Insights',
     'nav.insights': 'Insights',
+    'beyond.photo': 'Photography enthusiast',
+    'beyond.travel': 'Traveled 15+ countries',
+    'beyond.game': 'Mobile & console gamer',
+    'beyond.lang': 'Fluent in English & Chinese',
     'contact.title': 'Get in Touch',
     'contact.desc': "Feel free to reach out \u2014 whether it's about collaboration, opportunities, or just a chat about AI and economics.",
     'hero.resume': 'Resume',
@@ -64,7 +68,7 @@ const translations = {
     'chat.suggest.personal.1': 'What roles would suit Amber?',
     'chat.suggest.personal.2': 'How was this website and chatbot built?',
     'chat.suggest.insights.1': 'What AI trends are most worth watching right now?',
-    'chat.suggest.insights.2': 'What are the opportunities for AI agents?'
+    'chat.suggest.insights.2': 'What do AI agent vendors mainly compete on?'
   },
   zh: {
     'nav.about': '\u5173\u4e8e\u6211',
@@ -112,6 +116,10 @@ const translations = {
     'proj.afi.arch': '\u7cfb\u7edf\u67b6\u6784',
     'proj.afi.insights': '\u67e5\u770b\u6d1e\u5bdf',
     'nav.insights': '\u6d1e\u5bdf',
+    'beyond.photo': '\u6444\u5f71\u7231\u597d\u8005',
+    'beyond.travel': '\u65c5\u884c\u8fc7 15+ \u4e2a\u56fd\u5bb6',
+    'beyond.game': '\u624b\u6e38 & \u4e3b\u673a\u6e38\u620f\u73a9\u5bb6',
+    'beyond.lang': '\u4e2d\u82f1\u53cc\u8bed\u6d41\u5229',
     'contact.title': '\u8054\u7cfb\u6211',
     'contact.desc': '\u6b22\u8fce\u8054\u7cfb\u6211\u2014\u2014\u65e0\u8bba\u662f\u5408\u4f5c\u3001\u673a\u4f1a\uff0c\u8fd8\u662f\u804a\u804a AI \u4e0e\u7ecf\u6d4e\u5b66\u3002',
     'hero.resume': '\u4e0b\u8f7d\u7b80\u5386',
@@ -130,7 +138,7 @@ const translations = {
     'chat.suggest.personal.1': '\u5979\u9002\u5408\u505a\u4ec0\u4e48\u5de5\u4f5c\uff1f',
     'chat.suggest.personal.2': '\u8fd9\u4e2a\u7f51\u7ad9\u548c\u804a\u5929\u673a\u5668\u4eba\u662f\u600e\u4e48\u505a\u7684\uff1f',
     'chat.suggest.insights.1': '\u6700\u8fd1 AI \u9886\u57df\u6700\u503c\u5f97\u5173\u6ce8\u7684\u8d8b\u52bf\u662f\u4ec0\u4e48\uff1f',
-    'chat.suggest.insights.2': 'AI Agent \u7684\u53d1\u5c55\u673a\u4f1a\u6709\u54ea\u4e9b\uff1f'
+    'chat.suggest.insights.2': 'Agent \u5382\u5546\u7684\u4e3b\u8981\u7ade\u4e89\u5185\u5bb9\u662f\u4ec0\u4e48\uff1f'
   }
 };
 
