@@ -40,6 +40,7 @@ GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN", "")
 PERSONAL_CONTEXT_FILES = [
     "openclaw-insight.md",
     "Apple_Vision_Pro_Software_Tech_Insight.md",
+    "agent-skill-ecosystem-report.md",
 ]
 
 
