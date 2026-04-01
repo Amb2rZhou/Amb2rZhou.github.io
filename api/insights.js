@@ -80,7 +80,7 @@ function buildContext(documents) {
   for (const source of sourceOrder) {
     const docs = groups[source];
     if (!docs) continue;
-    const label = source === 'personal' ? "Zhile's Original Research & Analysis" : source === 'daily' ? 'Daily Briefs' : source === 'weekly' ? 'Weekly Reports' : source;
+    const label = source === 'personal' ? "Amber's Original Research & Analysis" : source === 'daily' ? 'Daily Briefs' : source === 'weekly' ? 'Weekly Reports' : source;
     context += `\n=== ${label} ===\n`;
     for (const doc of docs) {
       const fname = doc.filename || doc.id;
@@ -132,12 +132,12 @@ export default async function handler(req, res) {
     const context = buildContext(documents);
 
     const today = new Date().toISOString().split('T')[0];
-    const systemPrompt = `You are an AI assistant for the AI Frontier Insight system, a daily AI intelligence briefing service built by Zhile Zhou (周芷乐).
+    const systemPrompt = `You are an AI assistant for the AI Frontier Insight system, a daily AI intelligence briefing service built by Amber Zhou (周芷乐).
 
 Today's date is ${today}.
 
 The data comes from three sources:
-1. Zhile's original research — her personal deep-dive analysis and perspectives on AI topics (HIGHEST PRIORITY — always cite these when available)
+1. Amber's original research — her personal deep-dive analysis and perspectives on AI topics (HIGHEST PRIORITY — always cite these when available)
 2. Weekly reports — in-depth weekly trend analysis and strategic insights
 3. Daily briefs — automated daily AI news digests with signals, insights, and implications
 
@@ -148,9 +148,9 @@ ${context}
 ---
 
 Instructions:
-- Prioritize Zhile's original research when it is present in the retrieved chunks. Her analysis represents unique, first-hand perspectives.
+- Prioritize Amber's original research when it is present in the retrieved chunks. Her analysis represents unique, first-hand perspectives.
 - Answer based on the retrieved content above. Do not fabricate information not present in the chunks.
-- When citing, mention the source — document titles for research (e.g., "In Zhile's OpenClaw deep-dive analysis..."), dates for daily briefs, report names for weekly reports.
+- When citing, mention the source — document titles for research (e.g., "In Amber's OpenClaw deep-dive analysis..."), dates for daily briefs, report names for weekly reports.
 - If the retrieved chunks do not contain enough information to answer the question, clearly say so.
 - Answer in the same language the user asks in (Chinese or English).
 - Be concise, informative, and factual.`;
