@@ -33,9 +33,11 @@ const translations = {
     'proj.title': 'Projects',
     'proj.featured': 'Featured',
     'proj.afi.desc': 'Automated AI intelligence system covering 250+ global sources. Crawls, filters, summarizes, and distributes daily briefs & weekly strategic reports.',
-    'proj.dnd.desc': 'Fully automated daily news pipeline using Skills-based architecture. Fetches, curates, and pushes tech news across multiple channels.',
-    'proj.ids.desc': 'Converts interviews from YouTube, Apple Podcasts, Bilibili, and more into structured text summaries. Supports batch processing.',
-    'proj.tw.desc': 'Transforms meeting audio recordings into clean, structured transcripts automatically.',
+    'proj.toolkit.desc': 'A collection of Claude Code Skills for end-to-end research automation \u2014 from information gathering to structured output.',
+    'proj.toolkit.news': 'Daily News Digest \u2014 automated multi-source news pipeline',
+    'proj.toolkit.interview': 'Interview Digest \u2014 podcast & video to structured summary',
+    'proj.toolkit.transcript': 'Transcript Writer \u2014 meeting audio to text',
+    'proj.toolkit.more': 'More skills in development...',
     'proj.misinfo.title': 'Social Media Misinformation Detector',
     'proj.misinfo.desc': 'ML model for classifying UGC authenticity on social media. Built with Random Forest, XGBoost, and SVM on 5000+ labeled samples. Achieved 79.8% accuracy. <strong>Best Technology Award.</strong>',
     'proj.viewgithub': 'View on GitHub',
@@ -55,7 +57,13 @@ const translations = {
     'chat.error': "Sorry, I'm having trouble connecting right now. Please try again later or reach out via email!",
     'chat.mode.personal': 'About Me',
     'chat.mode.insights': 'AI Insights',
-    'chat.welcome.insights': "Hi! \ud83d\udc4b Ask me about AI trends, daily signals, or weekly deep insights. All answers are based on Zhile's self-built intelligence database and her original analysis."
+    'chat.welcome.insights': "Hi! \ud83d\udc4b Ask me about AI trends, daily signals, or weekly deep insights. All answers are based on Zhile's self-built intelligence database and her original analysis.",
+    'chat.suggest.personal.1': "What's Zhile's background?",
+    'chat.suggest.personal.2': 'What AI projects has she built?',
+    'chat.suggest.personal.3': 'Tell me about her work experience',
+    'chat.suggest.insights.1': 'What are the latest AI trends?',
+    'chat.suggest.insights.2': "What's Zhile's take on AI Coding?",
+    'chat.suggest.insights.3': 'Summarize this week\'s key signals'
   },
   zh: {
     'nav.about': '\u5173\u4e8e\u6211',
@@ -90,9 +98,11 @@ const translations = {
     'proj.title': '\u9879\u76ee',
     'proj.featured': '\u91cd\u70b9\u9879\u76ee',
     'proj.afi.desc': '\u8986\u76d6 250+ \u5168\u7403 AI \u4fe1\u6e90\u7684\u81ea\u52a8\u5316\u60c5\u62a5\u7cfb\u7edf\u3002\u6bcf\u65e5\u8f93\u51fa\u7cbe\u70bc\u4fe1\u53f7\u65e5\u62a5\uff0c\u6bcf\u5468\u751f\u6210\u6218\u7565\u7ea7\u6df1\u5ea6\u5468\u62a5\u3002',
-    'proj.dnd.desc': '\u57fa\u4e8e Skills \u67b6\u6784\u7684\u5168\u81ea\u52a8\u6bcf\u65e5\u65b0\u95fb\u63a8\u9001\u7ba1\u7ebf\u3002\u591a\u6e20\u9053\u5206\u53d1\u79d1\u6280\u65b0\u95fb\u3002',
-    'proj.ids.desc': '\u5c06 YouTube\u3001\u82f9\u679c\u64ad\u5ba2\u3001B\u7ad9\u7b49\u5e73\u53f0\u7684\u8bbf\u8c08\u5185\u5bb9\u8f6c\u5316\u4e3a\u7ed3\u6784\u5316\u6587\u5b57\u6458\u8981\uff0c\u652f\u6301\u6279\u91cf\u5904\u7406\u3002',
-    'proj.tw.desc': '\u4f1a\u8bae\u5f55\u97f3\u81ea\u52a8\u8f6c\u5f55\u4e3a\u7ed3\u6784\u5316\u6587\u5b57\u8bb0\u5f55\u3002',
+    'proj.toolkit.desc': '\u57fa\u4e8e Claude Code Skills \u7684\u7aef\u5230\u7aef\u7814\u7a76\u81ea\u52a8\u5316\u5de5\u5177\u96c6\u2014\u2014\u4ece\u4fe1\u606f\u91c7\u96c6\u5230\u7ed3\u6784\u5316\u8f93\u51fa\u3002',
+    'proj.toolkit.news': '\u6bcf\u65e5\u65b0\u95fb\u6458\u8981\u2014\u2014\u591a\u6e90\u81ea\u52a8\u5316\u65b0\u95fb\u7ba1\u7ebf',
+    'proj.toolkit.interview': '\u8bbf\u8c08\u6458\u8981\u2014\u2014\u64ad\u5ba2/\u89c6\u9891\u8f6c\u7ed3\u6784\u5316\u6458\u8981',
+    'proj.toolkit.transcript': '\u4f1a\u8bae\u8f6c\u5f55\u2014\u2014\u5f55\u97f3\u81ea\u52a8\u8f6c\u6587\u5b57',
+    'proj.toolkit.more': '\u66f4\u591a Skill \u6301\u7eed\u5f00\u53d1\u4e2d...',
     'proj.misinfo.title': '\u793e\u5a92 UGC \u771f\u5047\u4fe1\u606f\u8bc6\u522b\u6a21\u578b',
     'proj.misinfo.desc': '\u57fa\u4e8e\u968f\u673a\u68ee\u6797\u3001XGBoost\u3001SVM \u7684 UGC \u771f\u5b9e\u6027\u5206\u7c7b\u673a\u5668\u5b66\u4e60\u6a21\u578b\u3002\u5728 5000+ \u6807\u6ce8\u6837\u672c\u4e0a\u4e09\u5206\u7c7b\u51c6\u786e\u7387\u8fbe 79.8%\u3002<strong>\u6700\u4f73\u6280\u672f\u5956\u3002</strong>',
     'proj.viewgithub': '\u5728 GitHub \u4e0a\u67e5\u770b',
@@ -112,7 +122,13 @@ const translations = {
     'chat.error': '\u62b1\u6b49\uff0c\u76ee\u524d\u8fde\u63a5\u51fa\u4e86\u70b9\u95ee\u9898\u3002\u8bf7\u7a0d\u540e\u518d\u8bd5\uff0c\u6216\u901a\u8fc7\u90ae\u4ef6\u8054\u7cfb\uff01',
     'chat.mode.personal': '\u95ee\u6211',
     'chat.mode.insights': 'AI \u6d1e\u5bdf',
-    'chat.welcome.insights': '\u4f60\u597d\uff01\ud83d\udc4b \u53ef\u4ee5\u95ee\u6211\u5173\u4e8e AI \u8d8b\u52bf\u3001\u6bcf\u65e5\u4fe1\u53f7\u6216\u6bcf\u5468\u6df1\u5ea6\u6d1e\u5bdf\u7684\u95ee\u9898\u3002\u6240\u6709\u56de\u7b54\u57fa\u4e8e\u82b7\u4e50\u81ea\u5efa\u7684\u60c5\u62a5\u6570\u636e\u5e93\u548c\u5979\u7684\u539f\u521b\u5206\u6790\u89c2\u70b9\u3002'
+    'chat.welcome.insights': '\u4f60\u597d\uff01\ud83d\udc4b \u53ef\u4ee5\u95ee\u6211\u5173\u4e8e AI \u8d8b\u52bf\u3001\u6bcf\u65e5\u4fe1\u53f7\u6216\u6bcf\u5468\u6df1\u5ea6\u6d1e\u5bdf\u7684\u95ee\u9898\u3002\u6240\u6709\u56de\u7b54\u57fa\u4e8e\u82b7\u4e50\u81ea\u5efa\u7684\u60c5\u62a5\u6570\u636e\u5e93\u548c\u5979\u7684\u539f\u521b\u5206\u6790\u89c2\u70b9\u3002',
+    'chat.suggest.personal.1': '\u82b7\u4e50\u7684\u80cc\u666f\u662f\u4ec0\u4e48\uff1f',
+    'chat.suggest.personal.2': '\u5979\u505a\u8fc7\u54ea\u4e9b AI \u9879\u76ee\uff1f',
+    'chat.suggest.personal.3': '\u4ecb\u7ecd\u4e00\u4e0b\u5979\u7684\u5de5\u4f5c\u7ecf\u5386',
+    'chat.suggest.insights.1': '\u6700\u8fd1\u6709\u4ec0\u4e48 AI \u65b0\u8d8b\u52bf\uff1f',
+    'chat.suggest.insights.2': '\u82b7\u4e50\u5bf9 AI Coding \u600e\u4e48\u770b\uff1f',
+    'chat.suggest.insights.3': '\u603b\u7ed3\u672c\u5468\u7684\u5173\u952e\u4fe1\u53f7'
   }
 };
 
@@ -244,6 +260,9 @@ const chatSend = document.getElementById('chatSend');
 let chatOpen = false;
 let chatMode = 'personal'; // 'personal' or 'insights'
 
+// Add initial suggested questions
+addSuggestedQuestions('personal');
+
 // Show chat badge hint after 3 seconds
 setTimeout(() => {
   const badge = chatToggle.querySelector('.chat-badge');
@@ -279,6 +298,7 @@ document.querySelectorAll('.chat-mode-tab').forEach(tab => {
     const welcomeKey = chatMode === 'insights' ? 'chat.welcome.insights' : 'chat.welcome';
     const welcomeText = translations[currentLang][welcomeKey];
     addMessage(welcomeText, 'bot');
+    addSuggestedQuestions(chatMode);
     // Update placeholder
     const placeholderKey = chatMode === 'insights' ? 'chat.placeholder.insights' : 'chat.placeholder';
     chatInput.placeholder = translations[currentLang][placeholderKey];
@@ -295,12 +315,38 @@ function addMessage(text, type) {
   return msg;
 }
 
+function addSuggestedQuestions(mode) {
+  const prefix = mode === 'insights' ? 'chat.suggest.insights' : 'chat.suggest.personal';
+  const container = document.createElement('div');
+  container.className = 'chat-suggestions';
+  for (let i = 1; i <= 3; i++) {
+    const text = translations[currentLang][`${prefix}.${i}`];
+    if (!text) continue;
+    const btn = document.createElement('button');
+    btn.className = 'chat-suggestion-btn';
+    btn.textContent = text;
+    btn.addEventListener('click', () => {
+      chatInput.value = text;
+      sendMessage();
+      // Remove suggestions after clicking
+      const suggestions = chatMessages.querySelector('.chat-suggestions');
+      if (suggestions) suggestions.remove();
+    });
+    container.appendChild(btn);
+  }
+  chatMessages.appendChild(container);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
 async function sendMessage() {
   const text = chatInput.value.trim();
   if (!text) return;
 
   chatInput.value = '';
   chatSend.disabled = true;
+  // Remove suggested questions once user sends a message
+  const suggestions = chatMessages.querySelector('.chat-suggestions');
+  if (suggestions) suggestions.remove();
   addMessage(text, 'user');
 
   const thinkingText = translations[currentLang]['chat.thinking'];
