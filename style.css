@@ -322,8 +322,8 @@ a:hover { color: var(--accent-light); }
   box-shadow: 0 8px 24px rgba(0,0,0,0.08);
 }
 .project-card.featured { border-color: var(--accent); }
-.project-card.featured::before {
-  content: 'Featured'; display: inline-block;
+.featured-badge {
+  display: inline-block;
   font-size: 0.72rem; font-weight: 600; color: var(--accent);
   background: var(--accent-bg); padding: 3px 10px;
   border-radius: 20px; margin-bottom: 12px; width: fit-content;
