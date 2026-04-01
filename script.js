@@ -45,7 +45,7 @@ const translations = {
     'contact.title': 'Get in Touch',
     'contact.desc': "Feel free to reach out \u2014 whether it's about collaboration, opportunities, or just a chat about AI and economics.",
     'footer.text': '\u00a9 2026 Zhile Zhou. Built with curiosity and Claude Code.',
-    'chat.badge': 'Ask me anything!',
+    'chat.badge': 'Try my AI assistant!',
     'chat.assistant.name': "Zhile's AI Assistant",
     'chat.assistant.subtitle': 'Ask anything about me',
     'chat.welcome': "Hi! \ud83d\udc4b I'm Zhile's AI assistant. Ask me anything about her background, experience, projects, or skills \u2014 I'll do my best to answer!",
@@ -102,7 +102,7 @@ const translations = {
     'contact.title': '\u8054\u7cfb\u6211',
     'contact.desc': '\u6b22\u8fce\u8054\u7cfb\u6211\u2014\u2014\u65e0\u8bba\u662f\u5408\u4f5c\u3001\u673a\u4f1a\uff0c\u8fd8\u662f\u804a\u804a AI \u4e0e\u7ecf\u6d4e\u5b66\u3002',
     'footer.text': '\u00a9 2026 \u5468\u82b7\u4e50. \u7528\u597d\u5947\u5fc3\u548c Claude Code \u6784\u5efa\u3002',
-    'chat.badge': '\u6709\u4ec0\u4e48\u60f3\u95ee\u7684\uff1f',
+    'chat.badge': '\u8bd5\u8bd5\u6211\u7684 AI \u52a9\u624b\uff01',
     'chat.assistant.name': '\u82b7\u4e50\u7684 AI \u52a9\u624b',
     'chat.assistant.subtitle': '\u5173\u4e8e\u6211\u7684\u4efb\u4f55\u95ee\u9898\u90fd\u53ef\u4ee5\u95ee',
     'chat.welcome': '\u4f60\u597d\uff01\ud83d\udc4b \u6211\u662f\u82b7\u4e50\u7684 AI \u52a9\u624b\u3002\u5173\u4e8e\u5979\u7684\u80cc\u666f\u3001\u7ecf\u5386\u3001\u9879\u76ee\u6216\u6280\u80fd\uff0c\u90fd\u53ef\u4ee5\u95ee\u6211\uff01',
@@ -244,12 +244,20 @@ const chatSend = document.getElementById('chatSend');
 let chatOpen = false;
 let chatMode = 'personal'; // 'personal' or 'insights'
 
+// Show chat badge hint after 3 seconds
+setTimeout(() => {
+  const badge = chatToggle.querySelector('.chat-badge');
+  if (badge) badge.classList.add('visible');
+}, 3000);
+
 chatToggle.addEventListener('click', () => {
   chatOpen = !chatOpen;
   chatPanel.classList.toggle('active', chatOpen);
   if (chatOpen) {
     chatInput.focus();
-    chatToggle.querySelector('.chat-badge').style.opacity = '0';
+    const badge = chatToggle.querySelector('.chat-badge');
+    if (badge) badge.classList.remove('visible');
+    chatToggle.classList.add('no-pulse');
   }
 });
 
