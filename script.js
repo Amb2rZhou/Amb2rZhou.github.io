@@ -59,12 +59,10 @@ const translations = {
     'chat.mode.personal': 'About Me',
     'chat.mode.insights': 'AI Insights',
     'chat.welcome.insights': "Hi! \ud83d\udc4b Ask me about AI trends, daily signals, or weekly deep insights. All answers are based on Zhile's self-built intelligence database and her original analysis.",
-    'chat.suggest.personal.1': "What's Zhile's background?",
-    'chat.suggest.personal.2': 'What AI projects has she built?',
-    'chat.suggest.personal.3': 'Tell me about her work experience',
-    'chat.suggest.insights.1': 'What are the latest AI trends?',
-    'chat.suggest.insights.2': "What's Zhile's take on AI Coding?",
-    'chat.suggest.insights.3': 'Summarize this week\'s key signals'
+    'chat.suggest.personal.1': "What's her career plan?",
+    'chat.suggest.personal.2': 'How was this website and chatbot built?',
+    'chat.suggest.insights.1': 'What AI trends are most worth watching right now?',
+    'chat.suggest.insights.2': 'What are the opportunities for AI agents?'
   },
   zh: {
     'nav.about': '\u5173\u4e8e\u6211',
@@ -125,12 +123,10 @@ const translations = {
     'chat.mode.personal': '\u95ee\u6211',
     'chat.mode.insights': 'AI \u6d1e\u5bdf',
     'chat.welcome.insights': '\u4f60\u597d\uff01\ud83d\udc4b \u53ef\u4ee5\u95ee\u6211\u5173\u4e8e AI \u8d8b\u52bf\u3001\u6bcf\u65e5\u4fe1\u53f7\u6216\u6bcf\u5468\u6df1\u5ea6\u6d1e\u5bdf\u7684\u95ee\u9898\u3002\u6240\u6709\u56de\u7b54\u57fa\u4e8e\u82b7\u4e50\u81ea\u5efa\u7684\u60c5\u62a5\u6570\u636e\u5e93\u548c\u5979\u7684\u539f\u521b\u5206\u6790\u89c2\u70b9\u3002',
-    'chat.suggest.personal.1': '\u82b7\u4e50\u7684\u80cc\u666f\u662f\u4ec0\u4e48\uff1f',
-    'chat.suggest.personal.2': '\u5979\u505a\u8fc7\u54ea\u4e9b AI \u9879\u76ee\uff1f',
-    'chat.suggest.personal.3': '\u4ecb\u7ecd\u4e00\u4e0b\u5979\u7684\u5de5\u4f5c\u7ecf\u5386',
-    'chat.suggest.insights.1': '\u6700\u8fd1\u6709\u4ec0\u4e48 AI \u65b0\u8d8b\u52bf\uff1f',
-    'chat.suggest.insights.2': '\u82b7\u4e50\u5bf9 AI Coding \u600e\u4e48\u770b\uff1f',
-    'chat.suggest.insights.3': '\u603b\u7ed3\u672c\u5468\u7684\u5173\u952e\u4fe1\u53f7'
+    'chat.suggest.personal.1': '\u5979\u7684\u804c\u4e1a\u89c4\u5212\u662f\u4ec0\u4e48\uff1f',
+    'chat.suggest.personal.2': '\u8fd9\u4e2a\u7f51\u7ad9\u548c\u804a\u5929\u673a\u5668\u4eba\u662f\u600e\u4e48\u505a\u7684\uff1f',
+    'chat.suggest.insights.1': '\u6700\u8fd1 AI \u9886\u57df\u6700\u503c\u5f97\u5173\u6ce8\u7684\u8d8b\u52bf\u662f\u4ec0\u4e48\uff1f',
+    'chat.suggest.insights.2': 'AI Agent \u7684\u53d1\u5c55\u673a\u4f1a\u6709\u54ea\u4e9b\uff1f'
   }
 };
 
