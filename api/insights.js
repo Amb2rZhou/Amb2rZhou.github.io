@@ -105,7 +105,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { question } = req.body;
+    const { question, history } = req.body;
     if (!question || typeof question !== 'string' || question.length > 1000) {
       return res.status(400).json({ error: 'Invalid question' });
     }
@@ -158,12 +158,20 @@ Instructions:
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${process.env.DEEPSEEK_API_KEY}`,
       },
+    // Build messages with conversation history (keep last 6 turns to limit tokens)
+    const messages = [{ role: 'system', content: systemPrompt }];
+    if (Array.isArray(history)) {
+      for (const msg of history.slice(-6)) {
+        if (msg.role === 'user' || msg.role === 'assistant') {
+          messages.push({ role: msg.role, content: String(msg.content).slice(0, 500) });
+        }
+      }
+    }
+    messages.push({ role: 'user', content: question });
+
       body: JSON.stringify({
         model: 'deepseek-chat',
-        messages: [
-          { role: 'system', content: systemPrompt },
-          { role: 'user', content: question },
-        ],
+        messages,
         max_tokens: 1000,
         temperature: 0.7,
       }),

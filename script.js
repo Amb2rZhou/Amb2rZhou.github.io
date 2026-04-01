@@ -257,6 +257,7 @@ const chatSend = document.getElementById('chatSend');
 
 let chatOpen = false;
 let chatMode = 'personal'; // 'personal' or 'insights'
+let chatHistory = []; // conversation history for multi-turn
 
 // Add initial suggested questions
 addSuggestedQuestions('personal');
@@ -291,8 +292,9 @@ document.querySelectorAll('.chat-mode-tab').forEach(tab => {
     chatMode = newMode;
     document.querySelectorAll('.chat-mode-tab').forEach(t => t.classList.remove('active'));
     tab.classList.add('active');
-    // Clear messages and show appropriate welcome
+    // Clear messages, history, and show appropriate welcome
     chatMessages.innerHTML = '';
+    chatHistory = [];
     const welcomeKey = chatMode === 'insights' ? 'chat.welcome.insights' : 'chat.welcome';
     const welcomeText = translations[currentLang][welcomeKey];
     addMessage(welcomeText, 'bot');
@@ -352,11 +354,13 @@ async function sendMessage() {
 
   const endpoint = chatMode === 'insights' ? WORKER_URL + '/api/insights' : WORKER_URL + '/api/chat';
 
+  chatHistory.push({ role: 'user', content: text });
+
   try {
     const res = await fetch(endpoint, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ question: text })
+      body: JSON.stringify({ question: text, history: chatHistory.slice(0, -1) })
     });
 
     if (res.status === 429) {
@@ -371,6 +375,7 @@ async function sendMessage() {
     const data = await res.json();
     botMsg.className = 'chat-message bot';
     botMsg.querySelector('p').innerHTML = formatResponse(data.answer);
+    chatHistory.push({ role: 'assistant', content: data.answer });
   } catch (err) {
     botMsg.className = 'chat-message bot';
     botMsg.querySelector('p').textContent = translations[currentLang]['chat.error'];

@@ -158,10 +158,21 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { question } = req.body;
+    const { question, history } = req.body;
     if (!question || typeof question !== 'string' || question.length > 1000) {
       return res.status(400).json({ error: 'Invalid question' });
     }
+
+    // Build messages with conversation history (keep last 10 turns to limit tokens)
+    const messages = [{ role: 'system', content: SYSTEM_PROMPT }];
+    if (Array.isArray(history)) {
+      for (const msg of history.slice(-10)) {
+        if (msg.role === 'user' || msg.role === 'assistant') {
+          messages.push({ role: msg.role, content: String(msg.content).slice(0, 500) });
+        }
+      }
+    }
+    messages.push({ role: 'user', content: question });
 
     const response = await fetch('https://api.deepseek.com/chat/completions', {
       method: 'POST',
@@ -171,10 +182,7 @@ export default async function handler(req, res) {
       },
       body: JSON.stringify({
         model: 'deepseek-chat',
-        messages: [
-          { role: 'system', content: SYSTEM_PROMPT },
-          { role: 'user', content: question },
-        ],
+        messages,
         max_tokens: 500,
         temperature: 0.7,
       }),
