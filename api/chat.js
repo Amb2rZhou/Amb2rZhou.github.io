@@ -76,6 +76,10 @@ Key metrics: 230+ data sources → 200+ raw items/day → 10 refined signals/day
 - daily-ai-news: Multi-source daily news collection
 - post-update-sync: Cross-layer consistency check after changes
 
+## Student Activities
+- Supply Chain & Management Society — committee member (管理层)
+- College Volleyball Team — Libero (自由人)
+
 ## Skills
 - **Languages**: Fluent English (GRE 326+4.5, TOEFL 109, 6 years of English-medium education) and Chinese
 - **Technical**: Python, R, SQL, Stata, Matlab, Claude Code, Vibe Coding, Machine Learning, NLP, Data Analysis
