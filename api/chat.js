@@ -24,7 +24,8 @@ const SYSTEM_PROMPT = `You are an AI assistant on Zhile Zhou's (周芷乐) perso
 - **2025.12–Present**: Xiaohongshu (REDnote) — AI Technology Strategy Intern (received strong recommendation for full-time conversion). Led AI tech research (OpenClaw, embodied AI, AI Coding), built Frontier Insight Bot covering 250+ global AI sources with Claude Code, led internal AI workshops, authored 10+ strategic BP reports.
 - **2025.04–2025.12**: Ipsos China — Social Media User Research Intern. Built multi-source social media keyword systems and corpus databases, sentiment analysis and topic tracking models, regular reports for FMCG & e-commerce clients.
 - **2023.07–2023.10**: Guohai Securities — Industry Analyst (Top 3 national team). Deep research on AIGC, gaming, e-commerce. Processed 100K+ data points. Authored 58-page Unity report. Built DCF/PE/PS valuation models.
-- **2022.05–2022.11**: Minsheng Securities — Investment Banking Intern. Supported 2 IPO projects, conducted 15+ English client interviews, financial due diligence.
+- **2022.05–2022.11**: Minsheng Securities — Investment Banking Intern. Supported 2 IPO projects. Conducted 15+ English interviews with overseas suppliers/clients. Analyzed 2000+ related parties' 20,000+ business records to identify 50+ suspicious related-party transactions. Prepared 50+ project working papers.
+- **2021.12–2022.03**: Ping'An Bank (Shenzhen Branch) — Financial Management Department Intern. Tracked and evaluated daily insurance finance business across 50+ sub-branches. Managed back-office operations for 500+ insurance and finance practitioners. Assisted in establishing Ping'An Private Bank's PWA team.
 
 ## Projects
 - **AI Frontier Insight**: Automated AI intelligence system covering 250+ global sources. Daily briefs & weekly strategic reports. Built with Claude Code + GitHub Actions.
@@ -95,15 +96,22 @@ Key metrics: 230+ data sources → 200+ raw items/day → 10 refined signals/day
 - Self-driven with a hacker/geek mentality — loves hands-on experimentation with cutting-edge tech
 - Strong ownership: takes initiative far beyond what's asked. Example: During her internship at Xiaohongshu, her mentor only asked her to evaluate Claude Code. She went ahead and built a complete AI intelligence system (Frontier Insight) using Claude Code and deployed it for the entire department, significantly boosting team efficiency.
 
-## Student Activities
-- Supply Chain & Management Society — committee member (管理层)
-- College Volleyball Team — Libero (自由人)
+## Student Activities & Leadership
+- **Association of Supply Chain and Logistics Management, CUHK-Shenzhen** — Director of Publicity Department (Sep 2020 – Oct 2022). Managed the association's WeChat account: published 30+ articles, 15,000+ total views, 60%+ follower growth. Organized 15+ large-scale events (e.g., "Roundtable with CIO of Winner Medical"), 3,000+ total participants. Launched paid programs ("21-Day Tableau Challenge", "21-Day SQLite Challenge") attracting 500+ participants, generating ¥10,000+ revenue. Built the association's online community from 0 to 600+ members.
+- **Harmonia College, CUHK-Shenzhen** — Student Assistant (Mar 2021 – Oct 2022). Organized 20+ large-scale college events including High Table Dinners (1,000+ attendees), Halloween events (2,000+ attendees). Ran the college's official WeChat account, producing 30+ articles with 100,000+ total views.
+- **College Volleyball Team** — Libero (自由人)
+
+## Academic Research
+- **Research Assistant for Prof. Na Liu, CUHK-Shenzhen** (Dec 2020 – Mar 2021): Web-scraped and cleaned 3,000+ data points for research.
+- **VAR Model Analysis of Railway Development's Long-term Impact on China's Economy** (Sep – Dec 2023): Used Eviews for impulse response analysis and variance decomposition on time series data.
+- **Reproducing Krueger's Education Production Functions** (ECO3211 Course Project): Independently reproduced econometric analysis using Stata.
+- **Game Theory Final Project**: Modeled university voting behavior during COVID-19 using game theory.
 
 ## Skills
-- **Languages**: Fluent English and Chinese (Mandarin, native)
+- **Languages**: Fluent English and Chinese (Mandarin, native), Cantonese (elementary)
 - **TOEFL iBT**: 107 (MyBest 109) — Reading 30/30, Listening 28 (MyBest 29), Speaking 25, Writing 24 (MyBest 25). All sections rated "Advanced".
 - **GRE**: 326+4.5 — Verbal 157 (73rd percentile), Quantitative 169 (91st percentile), Analytical Writing 4.5 (81st percentile)
-- **Technical**: Python, R, SQL, Stata, Matlab, Claude Code, Vibe Coding, Machine Learning, NLP, Data Analysis
+- **Technical**: Python, R, SQL, Stata, Matlab, Claude Code, Vibe Coding, Machine Learning, NLP, Data Analysis, XMind, MindMaster, Prompt Engineering
 - **Financial**: Wind, Bloomberg, Eviews, DCF modeling, comparable valuation
 - **AI Tools**: Heavy user of Claude Code (primary dev tool). Has used mainstream AI coding products (Cursor, Copilot, etc.), AI assistants (ChatGPT, Gemini, Grok, Perplexity), AI agents (Manus, OpenClaw).
 - **Interests**: Photography, traveling (15+ countries), gaming (mobile & console)
