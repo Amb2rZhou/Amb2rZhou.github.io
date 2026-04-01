@@ -41,6 +41,8 @@ PERSONAL_CONTEXT_FILES = [
     "agent-skill-ecosystem-report.md",
     "research-report-SKILL.md",
     "openclaw-insight.md",
+    "market-sizing-SKILL.md",
+    "Apple_Vision_Pro_Software_Tech_Insight.md",
 ]
 
 
@@ -341,9 +343,23 @@ def generate_embeddings(texts: List[str]) -> List[List[float]]:
 # Supabase upsert
 # ---------------------------------------------------------------------------
 
+def delete_all_documents():
+    """Delete all existing documents before re-indexing."""
+    url = f"{SUPABASE_URL}/rest/v1/documents?id=gt.0"
+    headers = {
+        "apikey": SUPABASE_KEY,
+        "Authorization": f"Bearer {SUPABASE_KEY}",
+    }
+    resp = requests.delete(url, headers=headers, timeout=30)
+    if resp.status_code in (200, 204):
+        print("  Cleared existing documents")
+    else:
+        print(f"  Warning: delete returned {resp.status_code}: {resp.text[:200]}")
+
+
 def upsert_documents(rows: List[Dict[str, Any]]):
     """Upsert rows into Supabase documents table via REST API, batched."""
-    url = f"{SUPABASE_URL}/rest/v1/documents"
+    url = f"{SUPABASE_URL}/rest/v1/documents?on_conflict=filename,chunk_index"
     headers = {
         "apikey": SUPABASE_KEY,
         "Authorization": f"Bearer {SUPABASE_KEY}",
@@ -410,8 +426,10 @@ def main():
     embeddings = generate_embeddings(all_texts)
     print(f"  Generated {len(embeddings)} embeddings")
 
-    # 3. Build rows and upsert
-    print("\nUpserting to Supabase ...")
+    # 3. Clear old data and insert fresh
+    print("\nClearing old documents ...")
+    delete_all_documents()
+    print("\nInserting to Supabase ...")
     rows = []
     for (source, filename, chunk_index, content), embedding in zip(records, embeddings):
         if not embedding:
