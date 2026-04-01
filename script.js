@@ -335,6 +335,9 @@ function formatResponse(text) {
 }
 
 chatSend.addEventListener('click', sendMessage);
+let isIMEComposing = false;
+chatInput.addEventListener('compositionstart', () => { isIMEComposing = true; });
+chatInput.addEventListener('compositionend', () => { isIMEComposing = false; });
 chatInput.addEventListener('keydown', (e) => {
-  if (e.key === 'Enter' && !e.isComposing) sendMessage();
+  if (e.key === 'Enter' && !e.isComposing && !isIMEComposing) sendMessage();
 });
