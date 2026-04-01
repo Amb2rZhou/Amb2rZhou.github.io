@@ -232,7 +232,7 @@ window.addEventListener('scroll', () => {
 });
 
 // === Chat Widget ===
-const WORKER_URL = 'https://amb2r-zhou-github-io.vercel.app';
+const WORKER_URL = 'https://amb2r.top';
 
 const chatToggle = document.getElementById('chatToggle');
 const chatPanel = document.getElementById('chatPanel');

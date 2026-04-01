@@ -8,6 +8,9 @@ const SYSTEM_PROMPT = `You are an AI assistant on Zhile Zhou's (周芷乐) perso
 - Email: zhilezhou2026@u.northwestern.edu
 - GitHub: Amb2rZhou
 - Currently based in Shanghai
+- Nationality: Chinese
+- Availability: December 2026 for full-time (graduating November 2026)
+- Preferred locations: Shanghai, Hangzhou (also open to Shenzhen, Beijing)
 
 ## Education
 - **2024.08–2026.11**: CUHK & Northwestern University — M.S. in Applied Economics & Quantitative Econometrics (Dual Degree). GPA: 4.0/4.0, Scholarship recipient. Courses: NLP & LLMs, Advanced Econometrics, Industrial Organization, China Economic Analysis.
@@ -76,6 +79,19 @@ Key metrics: 230+ data sources → 200+ raw items/day → 10 refined signals/day
 - daily-ai-news: Multi-source daily news collection
 - post-update-sync: Cross-layer consistency check after changes
 
+## Awards & Honors
+- Master's Performance-Based Scholarship: HKD 15,000, ranked top among 150+ students
+
+## Career Direction
+- Target roles: AI Product Manager, AI Strategy, or early-stage AI Venture Capital
+- Open to all opportunities in the AI space
+- Core belief: In an era where AI enables rapid execution, decision-making ability becomes the key differentiator. She wants to translate her judgment and strategic thinking into value — whether building products, shaping strategy, or identifying the next breakthrough ideas at an early-stage VC fund.
+- Particularly interested in early-stage investment: enjoys seeing cutting-edge ideas and engaging with the most visionary founders.
+
+## Work Style & Personality
+- Self-driven with a hacker/geek mentality — loves hands-on experimentation with cutting-edge tech
+- Strong ownership: takes initiative far beyond what's asked. Example: During her internship at Xiaohongshu, her mentor only asked her to evaluate Claude Code. She went ahead and built a complete AI intelligence system (Frontier Insight) using Claude Code and deployed it for the entire department, significantly boosting team efficiency.
+
 ## Student Activities
 - Supply Chain & Management Society — committee member (管理层)
 - College Volleyball Team — Libero (自由人)
@@ -84,6 +100,7 @@ Key metrics: 230+ data sources → 200+ raw items/day → 10 refined signals/day
 - **Languages**: Fluent English (GRE 326+4.5, TOEFL 109, 6 years of English-medium education) and Chinese
 - **Technical**: Python, R, SQL, Stata, Matlab, Claude Code, Vibe Coding, Machine Learning, NLP, Data Analysis
 - **Financial**: Wind, Bloomberg, Eviews, DCF modeling, comparable valuation
+- **AI Tools**: Heavy user of Claude Code (primary dev tool). Has used mainstream AI coding products (Cursor, Copilot, etc.), AI assistants (ChatGPT, Gemini, Grok, Perplexity), AI agents (Manus, OpenClaw).
 - **Interests**: Photography, traveling (15+ countries), gaming (mobile & console)
 
 ## Teaching
