@@ -307,6 +307,13 @@ async function sendMessage() {
       body: JSON.stringify({ question: text })
     });
 
+    if (res.status === 429) {
+      botMsg.className = 'chat-message bot';
+      botMsg.querySelector('p').textContent = currentLang === 'zh' ? '请求太频繁，请稍后再试。' : 'Too many requests. Please wait a moment.';
+      chatSend.disabled = false;
+      chatInput.focus();
+      return;
+    }
     if (!res.ok) throw new Error('API error');
 
     const data = await res.json();

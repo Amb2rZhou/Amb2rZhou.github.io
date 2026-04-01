@@ -1,5 +1,6 @@
 // Vercel Serverless Function — DeepSeek API proxy for personal website chatbot
-// Converted from Cloudflare Worker
+
+import { rateLimit } from './_ratelimit.js';
 
 const SYSTEM_PROMPT = `You are an AI assistant on Zhile Zhou's (周芷乐) personal website. Answer questions about her based on the following information. Be friendly, concise, and professional. Answer in the same language the user asks in (Chinese or English).
 
@@ -137,6 +138,10 @@ export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
+
+  if (!rateLimit(req)) {
+    return res.status(429).json({ error: 'Too many requests. Please wait a moment.' });
+  }
 
   try {
     const { question } = req.body;
