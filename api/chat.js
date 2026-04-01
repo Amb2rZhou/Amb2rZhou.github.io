@@ -33,6 +33,7 @@ const SYSTEM_PROMPT = `You are an AI assistant on Zhile Zhou's (周芷乐) perso
   - Interview Digest — podcast & video to structured summary
   - Transcript Writer — meeting audio to text
   - Market Sizing — TAM/SAM/SOM estimation with multi-method cross-validation, confidence intervals, and structured output (report + spreadsheet)
+  - Research Report — end-to-end deep research workflow: topic brainstorming, multi-source information gathering, insight formation, and final report writing. Supports industry research, company analysis, policy analysis, tech trends, etc.
 - **Social Media Misinformation Detector ("The Truth Detector")**: NLP-based fake news detection system built in Northwestern's NLP & LLM course (SE_POL 421). Team project (Group NLPeers). Classified 5,284 tweets (COVID-19, Refugees, Russia-Ukraine war) into True/False/Other using 5 feature categories: social media interaction features, deep URL analysis (domain type classification), linguistic patterns (caps, profanity, adjective ratios), TF-IDF (1480 features), and sentiment/subjectivity scores. Models: Random Forest, XGBoost, SVM. Best result: SVM with 77% accuracy, 0.88 AUC, 0.73 F1 on 3-class task. Won Best Technology Award.
 
 ## AI Frontier Insight Bot — Detailed Architecture

@@ -38,10 +38,7 @@ GH_RAW = "https://raw.githubusercontent.com"
 GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN", "")
 
 PERSONAL_CONTEXT_FILES = [
-    "agent-skill-ecosystem-report.md",
-    "research-report-SKILL.md",
     "openclaw-insight.md",
-    "market-sizing-SKILL.md",
     "Apple_Vision_Pro_Software_Tech_Insight.md",
 ]
 
