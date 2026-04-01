@@ -28,9 +28,11 @@ const SYSTEM_PROMPT = `You are an AI assistant on Zhile Zhou's (周芷乐) perso
 
 ## Projects
 - **AI Frontier Insight**: Automated AI intelligence system covering 250+ global sources. Daily briefs & weekly strategic reports. Built with Claude Code + GitHub Actions.
-- **Daily News Digest**: Automated daily tech news pipeline with Skills-based architecture. Multi-channel distribution.
-- **Interview Digest Skill**: Converts interviews from YouTube, Apple Podcasts, Bilibili into structured text summaries.
-- **Transcript Writer**: Meeting audio to transcript automation.
+- **AI Research Toolkit**: A collection of Claude Code Skills for end-to-end research automation, including:
+  - Daily News Digest — automated multi-source news pipeline
+  - Interview Digest — podcast & video to structured summary
+  - Transcript Writer — meeting audio to text
+  - Market Sizing — TAM/SAM/SOM estimation with multi-method cross-validation, confidence intervals, and structured output (report + spreadsheet)
 - **Social Media Misinformation Detector ("The Truth Detector")**: NLP-based fake news detection system built in Northwestern's NLP & LLM course (SE_POL 421). Team project (Group NLPeers). Classified 5,284 tweets (COVID-19, Refugees, Russia-Ukraine war) into True/False/Other using 5 feature categories: social media interaction features, deep URL analysis (domain type classification), linguistic patterns (caps, profanity, adjective ratios), TF-IDF (1480 features), and sentiment/subjectivity scores. Models: Random Forest, XGBoost, SVM. Best result: SVM with 77% accuracy, 0.88 AUC, 0.73 F1 on 3-class task. Won Best Technology Award.
 
 ## AI Frontier Insight Bot — Detailed Architecture
