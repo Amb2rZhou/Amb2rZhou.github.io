@@ -801,7 +801,7 @@
     async function fetchWeeklyList() {
       showSidebarLoading();
       try {
-        const res = await fetch('https://api.github.com/repos/Amb2rZhou/ai-frontier-insight/contents/data/weekly');
+        const res = await fetch('https://amb2r.top/api/github-proxy?path=repos/Amb2rZhou/ai-frontier-insight/contents/data/weekly');
         if (!res.ok) throw new Error('API error');
         const data = await res.json();
 
@@ -836,7 +836,7 @@
     async function fetchDailyList() {
       showSidebarLoading();
       try {
-        const res = await fetch('https://api.github.com/repos/Amb2rZhou/ai-frontier-insight/contents/data/daily?per_page=100');
+        const res = await fetch('https://amb2r.top/api/github-proxy?path=repos/Amb2rZhou/ai-frontier-insight/contents/data/daily&per_page=100');
         if (!res.ok) throw new Error('API error');
         const data = await res.json();
 
@@ -884,9 +884,9 @@
       // Build URL
       let url;
       if (type === 'weekly') {
-        url = `https://raw.githubusercontent.com/Amb2rZhou/ai-frontier-insight/main/data/weekly/${value}`;
+        url = `https://amb2r.top/api/github-raw?path=Amb2rZhou/ai-frontier-insight/main/data/weekly/${value}`;
       } else {
-        url = `https://raw.githubusercontent.com/Amb2rZhou/ai-frontier-insight/main/data/daily/${value}/${value}_daily.md`;
+        url = `https://amb2r.top/api/github-raw?path=Amb2rZhou/ai-frontier-insight/main/data/daily/${value}/${value}_daily.md`;
       }
 
       try {
