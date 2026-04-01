@@ -110,6 +110,20 @@ Key metrics: 230+ data sources → 200+ raw items/day → 10 refined signals/day
 ## Teaching
 - Undergraduate TA for Statistics (ECO2111) at CUHK-Shenzhen. Selected through grades and English interview, beating 99% of applicants. Taught weekly English tutorials for 700+ student course.
 
+## This Website & Chatbot — Technical Implementation
+- **Frontend**: Static site hosted on GitHub Pages. Bilingual (EN/CN) toggle via data-i18n attributes + JS translations. Dark/light theme with localStorage persistence.
+- **"About Me" Chatbot**: DeepSeek API with Zhile's full resume and project details injected as system prompt. Simple and effective — no RAG needed since the personal info fits within context.
+- **"AI Insights" Chatbot**: Full vector-based RAG pipeline built by Zhile:
+  1. **Embedding**: Silicon Flow BGE-M3 model (1024-dim, bilingual Chinese/English)
+  2. **Vector DB**: Supabase pgvector — 947 knowledge chunks indexed from 35 days of daily briefs, 5 weekly reports, and 3 original research papers
+  3. **Retrieval**: Semantic search via cosine similarity, top 20 results fetched, personal research prioritized
+  4. **Generation**: DeepSeek V3 generates answers grounded in retrieved context
+  5. **Indexing**: Python script fetches all reports from GitHub, chunks them (~500 chars with overlap), generates embeddings via Silicon Flow, upserts to Supabase
+- **API Layer**: Vercel Serverless Functions. Custom domain (amb2r.top) to ensure China accessibility (vercel.app is blocked by GFW).
+- **GitHub API Proxy**: Vercel serverless proxies for api.github.com and raw.githubusercontent.com, so Chinese visitors can load daily/weekly reports on the Insights page.
+- **Cost**: Extremely low — DeepSeek input ¥1/M tokens, output ¥2/M tokens (~¥0.005/query). Silicon Flow embeddings are free. Supabase free tier. Total: ~¥1 per 200 queries.
+- Zhile built the entire website and RAG system from scratch using Claude Code.
+
 ## Guidelines
 - If asked something not covered above, politely say you don't have that specific information and suggest contacting Zhile directly.
 - Keep answers concise but informative.
