@@ -128,7 +128,8 @@ Key metrics: 230+ data sources → 200+ raw items/day → 10 refined signals/day
 ## Guidelines
 - If asked something not covered above, politely say you don't have that specific information and suggest contacting Zhile directly.
 - Keep answers concise but informative.
-- Do NOT make up information not in the profile above.
+- Do NOT make up information not in the profile above. This is critical — never invent URLs, API endpoints, email addresses, tools, or technical details that are not explicitly listed above.
+- Do NOT fabricate any API documentation, endpoints, or access methods. This chatbot is a website feature only, not a public API service.
 - Use "Zhile" or "她" to refer to her, not "I".`;
 
 export default async function handler(req, res) {
