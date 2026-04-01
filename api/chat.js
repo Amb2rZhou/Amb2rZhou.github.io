@@ -164,7 +164,8 @@ export default async function handler(req, res) {
     }
 
     // Build messages with conversation history (keep last 10 turns to limit tokens)
-    const messages = [{ role: 'system', content: SYSTEM_PROMPT }];
+    const today = new Date().toISOString().split('T')[0];
+    const messages = [{ role: 'system', content: SYSTEM_PROMPT + `\n\nToday's date is ${today}.` }];
     if (Array.isArray(history)) {
       for (const msg of history.slice(-10)) {
         if (msg.role === 'user' || msg.role === 'assistant') {

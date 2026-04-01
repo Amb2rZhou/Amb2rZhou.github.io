@@ -131,7 +131,10 @@ export default async function handler(req, res) {
     // Step 3: Build context and call DeepSeek
     const context = buildContext(documents);
 
+    const today = new Date().toISOString().split('T')[0];
     const systemPrompt = `You are an AI assistant for the AI Frontier Insight system, a daily AI intelligence briefing service built by Zhile Zhou (周芷乐).
+
+Today's date is ${today}.
 
 The data comes from three sources:
 1. Zhile's original research — her personal deep-dive analysis and perspectives on AI topics (HIGHEST PRIORITY — always cite these when available)
