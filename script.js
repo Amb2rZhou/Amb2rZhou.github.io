@@ -340,6 +340,15 @@ document.querySelectorAll('.chat-mode-tab').forEach(tab => {
     if (chatCache[chatMode].html !== null) {
       chatMessages.innerHTML = chatCache[chatMode].html;
       chatHistory = chatCache[chatMode].history;
+      // Re-bind suggestion buttons (innerHTML wipes event listeners)
+      chatMessages.querySelectorAll('.chat-suggestion-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          chatInput.value = btn.textContent;
+          sendMessage();
+          const suggestions = chatMessages.querySelector('.chat-suggestions');
+          if (suggestions) suggestions.remove();
+        });
+      });
     } else {
       chatMessages.innerHTML = '';
       chatHistory = [];
