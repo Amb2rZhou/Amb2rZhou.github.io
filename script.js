@@ -165,9 +165,8 @@ if (isCleanMode) {
     document.getElementById('xhs-experience')?.style.setProperty('display', 'none');
     document.getElementById('afi-project')?.style.setProperty('display', 'none');
     document.getElementById('toolkit-project')?.style.setProperty('display', 'none');
-    // Hide Insights nav links and chat tab
+    // Hide Insights page link (keep chat tab)
     document.querySelectorAll('a[href="insights.html"]').forEach(el => el.style.display = 'none');
-    document.querySelector('.chat-mode-tab[data-mode="insights"]')?.style.setProperty('display', 'none');
   });
 }
 

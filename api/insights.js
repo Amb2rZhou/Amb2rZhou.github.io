@@ -158,7 +158,7 @@ Instructions:
     // Append clean mode instruction if needed
     let finalSystemPrompt = systemPrompt;
     if (ref === 't') {
-      finalSystemPrompt += `\n\nIMPORTANT: Do not mention Xiaohongshu (小红书), REDnote, or any work done there. Present information neutrally without company attribution.`;
+      finalSystemPrompt += `\n\nIMPORTANT: Do not mention Xiaohongshu (小红书), REDnote, or any work done there. Do NOT cite or reference specific source documents, filenames, dates of daily briefs, or weekly reports. Do NOT say things like "根据X月X日的日报" or "In Amber's report on...". Present all information as general AI industry knowledge and analysis, without revealing the underlying data sources.`;
     }
 
     // Build messages with conversation history (keep last 6 turns to limit tokens)
