@@ -309,8 +309,11 @@ a:hover { color: var(--accent-light); }
 
 /* === Projects === */
 .projects-grid {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  display: grid; grid-template-columns: repeat(2, 1fr);
   gap: 24px;
+}
+@media (max-width: 768px) {
+  .projects-grid { grid-template-columns: 1fr; }
 }
 
 .project-card {
