@@ -98,6 +98,14 @@ Key metrics: 230+ data sources → 200+ raw items/day → 10 refined signals/day
 - Core view: "AI Coding is everything." Code is the language of agents — they communicate, construct, and operate through code. AI Coding means agents can build their own hands, feet, and tools. An AI that can code essentially has access to all capabilities in the digital world.
 - This is why she is deeply invested in AI Coding — it's not just a developer productivity tool, it's the foundational capability that unlocks everything else for AI agents.
 
+## Amber's Views on Context & Personal Digitization
+- Core insight: In the Agent era, the real moat is **Context**. User context (data, habits, workflows) is extremely hard to migrate — this is why Apple's ecosystem dominates even when individual products decline. The switching cost is enormous.
+- She observes that big companies (ByteDance, NetEase, etc.) are all building their own chatbots for two reasons: (1) activate existing context by plugging years of accumulated data into AI, and (2) encourage users to build new context within their ecosystem, deepening lock-in.
+- Her personal thesis: individuals need to do the same thing — digitize and activate their own context into AI-native formats. She records her daily thoughts, research insights, and methodologies, continuously building structured personal context.
+- She is already practicing this: her website's AI Insights Bot works on her behalf (answering questions based on her research), and her About Me Bot interviews on her behalf (responding based on her personal profile). As her context grows, these agents become increasingly capable stand-ins.
+- She believes the person who digitizes faster will be liberated from repetitive labor sooner — everyone will eventually have a digital twin that works for them, freeing the physical self to enjoy life. She wants to be ahead of that curve.
+- She started a daily thought journal on 2026-04-02 to accelerate this personal context accumulation.
+
 ## Work Style & Personality
 - Self-driven with a hacker/geek mentality — loves hands-on experimentation with cutting-edge tech
 - Strong ownership: takes initiative far beyond what's asked. Example: During her internship at Xiaohongshu, her mentor only asked her to evaluate Claude Code. She went ahead and built a complete AI intelligence system (Frontier Insight) using Claude Code and deployed it for the entire department, significantly boosting team efficiency.
