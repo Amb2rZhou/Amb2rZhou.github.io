@@ -142,6 +142,31 @@ const translations = {
   }
 };
 
+// === Clean Mode ===
+const isCleanMode = new URLSearchParams(window.location.search).get('ref') === 't';
+
+if (isCleanMode) {
+  // Override "What I Do" translations to remove XHS mention
+  translations.en['about.whatido.content'] = '<p>Economics trained how I think — identifying key variables and making decisions under uncertainty. AI is how I amplify that ability.</p><p>I read arXiv papers and track GitHub repos daily, and I build my own tools from scratch. I believe good judgment is built on truly understanding the technology — I don\'t make calls on things I haven\'t dug into myself.</p>';
+  translations.zh['about.whatido.content'] = '<p>经济学训练了我的判断力——在不确定性中识别关键变量、做出决策。AI 是我将这种能力放大的方式。</p><p>我每天阅读 arXiv 论文、追踪 GitHub 前沿仓库，也自己动手把想法造出来。我相信好的判断力建立在对技术的真正理解之上——看不懂的东西，我不会假装能做决策。</p>';
+
+  // Override meta description
+  const metaDesc = document.querySelector('meta[name="description"]');
+  if (metaDesc) {
+    metaDesc.setAttribute('content', 'Amber Zhou (周芷乐) — AI Enthusiast & Builder. Master\'s at CUHK & Northwestern.');
+  }
+
+  // Hide XHS-related elements after DOM loads
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('xhs-experience')?.style.setProperty('display', 'none');
+    document.getElementById('afi-project')?.style.setProperty('display', 'none');
+    document.getElementById('toolkit-project')?.style.setProperty('display', 'none');
+    // Hide Insights nav links and chat tab
+    document.querySelectorAll('a[href="insights.html"]').forEach(el => el.style.display = 'none');
+    document.querySelector('.chat-mode-tab[data-mode="insights"]')?.style.setProperty('display', 'none');
+  });
+}
+
 // === Language Toggle ===
 let currentLang = localStorage.getItem('lang') || 'en';
 
@@ -380,7 +405,7 @@ async function sendMessage() {
     const res = await fetch(endpoint, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ question: text, history: chatHistory.slice(0, -1) })
+      body: JSON.stringify({ question: text, history: chatHistory.slice(0, -1), ...(isCleanMode && { ref: 't' }) })
     });
 
     if (res.status === 429) {

@@ -105,7 +105,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { question, history } = req.body;
+    const { question, history, ref } = req.body;
     if (!question || typeof question !== 'string' || question.length > 1000) {
       return res.status(400).json({ error: 'Invalid question' });
     }
@@ -155,8 +155,14 @@ Instructions:
 - Answer in the same language the user asks in (Chinese or English).
 - Be concise, informative, and factual.`;
 
+    // Append clean mode instruction if needed
+    let finalSystemPrompt = systemPrompt;
+    if (ref === 't') {
+      finalSystemPrompt += `\n\nIMPORTANT: Do not mention Xiaohongshu (小红书), REDnote, or any work done there. Present information neutrally without company attribution.`;
+    }
+
     // Build messages with conversation history (keep last 6 turns to limit tokens)
-    const messages = [{ role: 'system', content: systemPrompt }];
+    const messages = [{ role: 'system', content: finalSystemPrompt }];
     if (Array.isArray(history)) {
       for (const msg of history.slice(-6)) {
         if (msg.role === 'user' || msg.role === 'assistant') {

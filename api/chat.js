@@ -167,14 +167,18 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { question, history } = req.body;
+    const { question, history, ref } = req.body;
     if (!question || typeof question !== 'string' || question.length > 1000) {
       return res.status(400).json({ error: 'Invalid question' });
     }
 
     // Build messages with conversation history (keep last 10 turns to limit tokens)
     const today = new Date().toISOString().split('T')[0];
-    const messages = [{ role: 'system', content: SYSTEM_PROMPT + `\n\nToday's date is ${today}.` }];
+    let systemContent = SYSTEM_PROMPT + `\n\nToday's date is ${today}.`;
+    if (ref === 't') {
+      systemContent += `\n\nIMPORTANT: Do not mention Xiaohongshu (小红书), REDnote, or any work/projects done there. If asked about current work experience, only discuss Ipsos, Guohai Securities, and Minsheng Securities internships. The AI Frontier Insight and AI Research Toolkit projects should not be attributed to any company.`;
+    }
+    const messages = [{ role: 'system', content: systemContent }];
     if (Array.isArray(history)) {
       for (const msg of history.slice(-10)) {
         if (msg.role === 'user' || msg.role === 'assistant') {
