@@ -416,14 +416,19 @@ a:hover { color: var(--accent-light); }
 .chat-widget { position: fixed; bottom: 24px; right: 24px; z-index: 200; }
 
 .chat-toggle {
-  width: 56px; height: 56px; border-radius: 50%;
-  background: var(--accent); color: #fff; border: none;
-  font-size: 1.4rem; cursor: pointer;
-  box-shadow: 0 4px 16px rgba(99,102,241,0.4);
+  width: 64px; height: 64px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), #818cf8); color: #fff; border: none;
+  font-size: 1.6rem; cursor: pointer;
+  box-shadow: 0 6px 24px rgba(99,102,241,0.5);
   transition: all var(--transition);
+  animation: chatGlow 2s ease-in-out infinite;
   position: relative;
 }
-.chat-toggle:hover { transform: scale(1.08); }
+.chat-toggle:hover { transform: scale(1.1); animation: none; box-shadow: 0 8px 32px rgba(99,102,241,0.6); }
+@keyframes chatGlow {
+  0%, 100% { box-shadow: 0 6px 24px rgba(99,102,241,0.5); }
+  50% { box-shadow: 0 6px 32px rgba(99,102,241,0.8); }
+}
 
 .chat-badge {
   position: absolute; bottom: calc(100% + 8px); right: 0;
