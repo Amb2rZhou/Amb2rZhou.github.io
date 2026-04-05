@@ -288,6 +288,25 @@ window.addEventListener('scroll', () => {
 // === Chat Widget ===
 const WORKER_URL = 'https://amb2r.top';
 
+// === Analytics ===
+const _t = (event, data = {}) => {
+  data.path = location.pathname;
+  data.ref = new URLSearchParams(location.search).get('ref') || '';
+  fetch(WORKER_URL + '/api/track', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ event, data }),
+  }).catch(() => {});
+};
+// Page view
+_t('page_view');
+// Session duration — send on unload
+const _tStart = Date.now();
+window.addEventListener('beforeunload', () => {
+  const dur = Math.round((Date.now() - _tStart) / 1000);
+  navigator.sendBeacon(WORKER_URL + '/api/track', JSON.stringify({ event: 'session_end', data: { duration_sec: dur, path: location.pathname, ref: new URLSearchParams(location.search).get('ref') || '' } }));
+});
+
 const chatToggle = document.getElementById('chatToggle');
 const chatPanel = document.getElementById('chatPanel');
 const chatClose = document.getElementById('chatClose');
@@ -401,6 +420,7 @@ async function sendMessage() {
 
   chatInput.value = '';
   chatSend.disabled = true;
+  _t('chat_message', { mode: chatMode });
   // Remove suggested questions once user sends a message
   const suggestions = chatMessages.querySelector('.chat-suggestions');
   if (suggestions) suggestions.remove();
