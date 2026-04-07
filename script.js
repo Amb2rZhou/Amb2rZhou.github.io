@@ -289,7 +289,11 @@ window.addEventListener('scroll', () => {
 const WORKER_URL = 'https://amb2r.top';
 
 // === Analytics ===
+// Mark self: visit amb2r.top?_notrack once to exclude yourself
+if (new URLSearchParams(location.search).has('_notrack')) localStorage.setItem('_notrack', '1');
+const _isSelf = localStorage.getItem('_notrack') === '1';
 const _t = (event, data = {}) => {
+  if (_isSelf) return;
   data.path = location.pathname;
   data.ref = new URLSearchParams(location.search).get('ref') || '';
   fetch(WORKER_URL + '/api/track', {
