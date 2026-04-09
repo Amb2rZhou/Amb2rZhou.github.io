@@ -41,6 +41,10 @@ PERSONAL_CONTEXT_FILES = [
     "openclaw-insight.md",
     "Apple_Vision_Pro_Software_Tech_Insight.md",
     "agent-skill-ecosystem-report.md",
+    "claude-code-architecture-report.md",
+    "harness-engineer-research-report.md",
+    "daily-thoughts/2026-04-02-context-is-the-moat.md",
+    "daily-thoughts/2026-04-09-ai-era-context-dividend.md",
 ]
 
 
