@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hermes Agent 架构深度研究 & 与 OpenClaw 对比分析</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    background: #f6f8fa; color: #1f2328; line-height: 1.7;
+  }
+  .container { max-width: 860px; margin: 0 auto; padding: 32px 24px; background: #fff; min-height: 100vh; }
+  h1 { font-size: 26px; margin-bottom: 8px; color: #1f2328; }
+  h2 { font-size: 20px; margin: 36px 0 16px; padding-bottom: 8px; border-bottom: 2px solid #d0d7de; color: #1f2328; }
+  h3 { font-size: 16px; margin: 24px 0 12px; color: #1f2328; }
+  p { margin: 10px 0; font-size: 15px; }
+  a { color: #0969da; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  strong { color: #1f2328; }
+  code {
+    font-family: "JetBrains Mono", "SF Mono", "Fira Code", monospace;
+    background: #f6f8fa; padding: 2px 6px; border-radius: 4px; font-size: 0.88em;
+    border: 1px solid #e1e4e8;
+  }
+  pre {
+    background: #f6f8fa; border: 1px solid #d0d7de; border-radius: 8px;
+    padding: 16px; overflow-x: auto; margin: 12px 0; font-size: 13px; line-height: 1.6;
+  }
+  pre code { background: none; border: none; padding: 0; }
+  blockquote {
+    border-left: 4px solid #d0d7de; padding: 8px 16px; margin: 12px 0;
+    color: #656d76; background: #f6f8fa; border-radius: 0 6px 6px 0;
+  }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 14px; }
+  th { background: #f6f8fa; font-weight: 600; text-align: left; padding: 10px 12px; border: 1px solid #d0d7de; }
+  td { padding: 10px 12px; border: 1px solid #d0d7de; vertical-align: top; }
+  tr:hover td { background: #f6f8fa; }
+  ul, ol { margin: 8px 0 8px 24px; font-size: 15px; }
+  li { margin: 4px 0; }
+  hr { border: none; border-top: 1px solid #d0d7de; margin: 32px 0; }
+  img { max-width: 100%; border-radius: 8px; margin: 16px 0; border: 1px solid #d0d7de; }
+  .meta { color: #656d76; font-size: 14px; margin-bottom: 16px; line-height: 1.8; }
+  .meta strong { color: #1f2328; }
+  .conclusion-box {
+    background: #fff8e1; border: 1.5px solid #f0c040; border-radius: 8px;
+    padding: 16px 20px; margin: 16px 0; font-size: 14px; line-height: 1.8;
+  }
+  .insight-box {
+    background: #f0f6ff; border-left: 4px solid #0969da; border-radius: 0 6px 6px 0;
+    padding: 12px 16px; margin: 12px 0; font-size: 14px;
+  }
+  .section-num { color: #656d76; font-weight: 400; }
+  .back-link {
+    display: inline-block; margin-bottom: 16px; font-size: 13px; color: #656d76;
+  }
+  .back-link:hover { color: #0969da; }
+  .footer { text-align: center; color: #b0b8c1; font-size: 12px; margin-top: 48px; padding-top: 16px; border-top: 1px solid #e1e4e8; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<a class="back-link" href="/">&larr; Back to Amber's site</a>
+
+<h1>Hermes Agent 架构深度研究 & 与 OpenClaw 对比分析</h1>
+
+<div class="meta">
+  <strong>研究主题：</strong>Nous Research 开源 AI Agent 框架 Hermes Agent 的架构设计与技术实现<br>
+  <strong>报告类型：</strong>技术趋势 / 竞品分析<br>
+  <strong>日期：</strong>2026-04-11
+</div>
+
+<div class="conclusion-box">
+  <strong>核心结论：</strong>Hermes Agent 是目前 personal AI agent 赛道中最具"自进化"特色的开源框架。它以 agent loop 为核心、以自动生成 skill 为飞轮，走的是"单用户深度陪伴"路线；而 OpenClaw 以 Gateway 为中枢、以多平台覆盖为护城河，走的是"多设备全场景覆盖"路线。两者在记忆系统、skill 管理、安全模型上的设计取舍，反映了 personal agent 领域两种截然不同的产品哲学。
+</div>
+
+<hr>
+
+<h2><span class="section-num">一、</span>Hermes Agent 是什么</h2>
+
+<p>Hermes Agent 是 Nous Research 于 2026 年 2 月发布的开源 AI agent 框架（<a href="https://github.com/NousResearch/hermes-agent">GitHub</a>，MIT 协议）。截至 2026 年 4 月，GitHub 约 22,000 stars。</p>
+
+<p>官方定位用一句话概括：<strong>"The agent that grows with you"</strong>——住在你服务器上，越用越聪明。</p>
+
+<p>这个定位精准地指出了它和其他 agent 框架的核心差异：<strong>不是工具，是伙伴</strong>。大多数 agent 框架（包括 OpenClaw）的 skill 需要人工编写和维护，Hermes Agent 能在使用过程中自动生成 skill、自动改进 skill、自动积累对用户的理解。</p>
+
+<p><strong>技术栈：</strong>Python（94%），SQLite + FTS5，<code>uv</code> 包管理，<code>pytest</code> 测试框架。</p>
+
+<p><strong>最新版本：</strong>v0.7.0（2026.4.3），代号"The Resilience Release"——168 PRs merged，46 issues resolved，689 commits（<a href="https://github.com/NousResearch/hermes-agent/releases/tag/v2026.4.3">Release Notes</a>）。</p>
+
+<hr>
+
+<h2><span class="section-num">二、</span>核心架构拆解</h2>
+
+<h3>2.1 架构总览</h3>
+
+<p>Hermes Agent 的架构围绕一个核心设计原则：<strong>platform-agnostic core</strong>——无论从 CLI、Gateway、ACP（Agent Communication Protocol）还是 batch 模式进入，底层共用同一个 <code>AIAgent</code> 类（<a href="https://hermes-agent.nousresearch.com/docs/developer-guide/architecture/">Architecture Docs</a>）。</p>
+
+<img src="hermes-agent-architecture.png" alt="Hermes Agent 系统架构图">
+
+<h3>2.2 ReAct Loop</h3>
+
+<p>核心循环实现了经典的 ReAct（Reasoning and Acting）模式：</p>
+
+<pre><code>User input → process_input()
+  → AIAgent.run_conversation()
+    → prompt_builder.build_system_prompt()
+    → runtime_provider.resolve_runtime_provider()
+    → API call (chat_completions / codex_responses / anthropic)
+    → tool_calls? → model_tools.handle_function_call()
+    → loop until done</code></pre>
+
+<p>三个关键设计点：</p>
+<ol>
+  <li><strong>三种 API 模式</strong>：支持 OpenAI chat completions、Codex responses、Anthropic 原生三种协议，覆盖 18+ provider</li>
+  <li><strong>可中断</strong>：loop 支持 mid-flight interruption，用户可以随时打断</li>
+  <li><strong>Prompt 稳定性</strong>：system prompt 在 session 内不可变（frozen snapshot），只有用户主动操作才会触发重建——这是为了最大化 prefix cache 命中率</li>
+</ol>
+
+<h3>2.3 Prompt Assembly Pipeline</h3>
+
+<p>Prompt 组装是 Hermes Agent 最精细的子系统之一。<code>prompt_builder.py</code> 按固定顺序拼接以下内容：</p>
+
+<table>
+  <tr><th>顺序</th><th>来源</th><th>说明</th></tr>
+  <tr><td>1</td><td>SOUL.md</td><td>人格定义（类似 OpenClaw 的 SOUL.md）</td></tr>
+  <tr><td>2</td><td>MEMORY.md</td><td>Agent 的笔记：环境信息、惯例、学到的东西</td></tr>
+  <tr><td>3</td><td>USER.md</td><td>用户画像：偏好、沟通风格、期望</td></tr>
+  <tr><td>4</td><td>Skills</td><td>按需加载的知识文档</td></tr>
+  <tr><td>5</td><td>Context files</td><td>.hermes.md, AGENTS.md 等项目级上下文</td></tr>
+  <tr><td>6</td><td>Tool-use guidance</td><td>工具使用说明</td></tr>
+  <tr><td>7</td><td>Model-specific</td><td>针对不同模型的特化指令</td></tr>
+</table>
+
+<p>当 context 超过模型限制时，<code>context_compressor.py</code> 执行有损压缩（lossy summarization）。对 Anthropic 模型，<code>prompt_caching.py</code> 自动插入 cache breakpoints 实现 prefix caching。</p>
+
+<h3>2.4 Tool Registry</h3>
+
+<p>47 个内置工具，分布在 20 个 toolset 中。采用<strong>声明式自注册</strong>——每个工具文件在 import 时调用 <code>registry.register()</code>，无需中央配置文件。</p>
+
+<table>
+  <tr><th>Toolset</th><th>工具数</th><th>能力</th></tr>
+  <tr><td>Terminal</td><td>多个</td><td>命令执行，抽象 6 种后端</td></tr>
+  <tr><td>Browser</td><td>11</td><td>Web 自动化，Camofox 反检测浏览器（v0.7.0 新增）</td></tr>
+  <tr><td>File</td><td>多个</td><td>读/写/patch/搜索</td></tr>
+  <tr><td>Web</td><td>多个</td><td>搜索 + 内容提取</td></tr>
+  <tr><td>Code</td><td>多个</td><td>沙箱化 Python/Shell 执行</td></tr>
+  <tr><td>Delegation</td><td>1+</td><td>Subagent 生成</td></tr>
+  <tr><td>MCP</td><td>~2,200 LOC</td><td>Model Context Protocol 动态扩展</td></tr>
+  <tr><td>Memory</td><td>多个</td><td>add/replace/remove 记忆条目</td></tr>
+  <tr><td>Skills</td><td>多个</td><td>create/patch/edit skill 文档</td></tr>
+</table>
+
+<hr>
+
+<h2><span class="section-num">三、</span>记忆系统</h2>
+
+<p>Hermes Agent 的记忆系统是它"越用越懂你"的核心支撑。分三层（<a href="https://hermes-agent.nousresearch.com/docs/user-guide/features/memory">Memory Docs</a>）：</p>
+
+<h3>3.1 即时记忆：MEMORY.md + USER.md</h3>
+
+<table>
+  <tr><th>文件</th><th>容量</th><th>内容</th></tr>
+  <tr><td>MEMORY.md</td><td>~2,200 chars / ~800 tokens</td><td>Agent 的个人笔记——环境信息、惯例、学到的东西</td></tr>
+  <tr><td>USER.md</td><td>~1,375 chars / ~500 tokens</td><td>用户画像——偏好、沟通风格、期望</td></tr>
+</table>
+
+<div class="insight-box">
+  <strong>关键设计：Frozen Snapshot 模式。</strong>两个文件在 session 开始时做一次快照注入 system prompt，session 内不再变化。修改通过 <code>memory</code> tool 立即写盘，但下次 session 才生效。目的是<strong>保证 prefix cache 命中</strong>——如果 system prompt 每次工具调用后都变，cache 全废。
+</div>
+
+<p><strong>容量管理：</strong>80% 利用率触发整合提示，防止无限膨胀。</p>
+<p><strong>安全：</strong>记忆条目写入前做注入和渗透模式扫描，重复条目自动拒绝。</p>
+
+<h3>3.2 历史记忆：SQLite + FTS5</h3>
+
+<p>所有 CLI 和 Gateway session 存储在 <code>~/.hermes/state.db</code>（SQLite），FTS5 全文索引支持跨 session 搜索。<code>session_search</code> 工具结合 Gemini Flash 做摘要，实现"几个月前聊过的事也能找回来"。</p>
+
+<ul>
+  <li><strong>Lineage tracking</strong>：跨压缩的父子关系追踪</li>
+  <li><strong>Per-platform isolation</strong>：不同消息平台的 session 相互隔离</li>
+  <li><strong>Atomic writes</strong>：并发写入安全</li>
+  <li><strong>Profile scoping</strong>：<code>hermes -p &lt;name&gt;</code> 每个 profile 独立 HERMES_HOME</li>
+</ul>
+
+<h3>3.3 外部记忆 Provider（v0.7.0+）</h3>
+
+<p>8 个可插拔的第三方记忆后端，<strong>与内置记忆并行运行</strong>，不替代：</p>
+
+<table>
+  <tr><th>Provider</th><th>能力</th></tr>
+  <tr><td>Honcho</td><td>辩证式用户建模，profile-scoped host/peer 解析</td></tr>
+  <tr><td>OpenViking</td><td>知识图谱</td></tr>
+  <tr><td>Mem0</td><td>语义搜索 + 自动事实提取</td></tr>
+  <tr><td>Hindsight</td><td>跨 session 建模</td></tr>
+  <tr><td>Holographic</td><td>全息记忆</td></tr>
+  <tr><td>RetainDB</td><td>持久化结构记忆</td></tr>
+  <tr><td>ByteRover</td><td>—</td></tr>
+  <tr><td>Supermemory</td><td>—</td></tr>
+</table>
+
+<hr>
+
+<h2><span class="section-num">四、</span>Skills 系统——核心差异化</h2>
+
+<p>Skills 是 Hermes Agent 最具特色的子系统，也是它和其他 agent 框架拉开差距的地方（<a href="https://hermes-agent.nousresearch.com/docs/user-guide/features/skills/">Skills Docs</a>）。</p>
+
+<h3>4.1 Skill 格式</h3>
+
+<p>遵循 <a href="https://agentskills.io">agentskills.io</a> 开放标准。SKILL.md 结构：</p>
+
+<pre><code>---
+name: skill-name
+description: "..."
+version: "1.0"
+platforms: [macos, linux]
+metadata:
+  hermes:
+    tags: [...]
+    category: "..."
+    fallback_for_toolsets: [...]
+    requires_toolsets: [...]
+---
+
+# When to Use
+# Quick Reference
+# Procedure
+# Pitfalls
+# Verification</code></pre>
+
+<h3>4.2 渐进式加载（Progressive Disclosure）</h3>
+
+<p>三级加载最小化 token 消耗：</p>
+
+<table>
+  <tr><th>Level</th><th>操作</th><th>Token 成本</th></tr>
+  <tr><td>L0</td><td><code>skills_list()</code></td><td>~3k tokens（只返回 metadata）</td></tr>
+  <tr><td>L1</td><td><code>skill_view(name)</code></td><td>加载完整内容</td></tr>
+  <tr><td>L2</td><td><code>skill_view(name, path)</code></td><td>访问特定引用文件</td></tr>
+</table>
+
+<h3>4.3 自动生成 + 自我改进</h3>
+
+<div class="insight-box">
+  <strong>核心飞轮：</strong>完成复杂任务（5+ tool calls）→ 自动生成 SKILL.md → 下次类似任务自动加载 → 使用中 patch 改进 → 越用越精准
+</div>
+
+<p><strong>触发条件：</strong></p>
+<ul>
+  <li>完成复杂任务（5+ 次工具调用）</li>
+  <li>从错误中恢复</li>
+  <li>发现新的工作流模式</li>
+  <li>用户纠正后的经验总结</li>
+</ul>
+
+<p><strong><code>skill_manage</code> 工具操作：</strong> create / patch / edit / write_file / remove_file</p>
+
+<h3>4.4 条件激活（Fallback Skills）</h3>
+
+<p>Skill 可以声明在特定工具不可用时自动出现。例如：DuckDuckGo skill 只在 web toolset 缺少 API key 时自动出现——作为降级方案。</p>
+
+<hr>
+
+<h2><span class="section-num">五、</span>执行后端</h2>
+
+<p>6 种执行后端，统一通过 Terminal tools 抽象：</p>
+
+<table>
+  <tr><th>后端</th><th>场景</th><th>特点</th></tr>
+  <tr><td>Local</td><td>本机开发</td><td>零配置</td></tr>
+  <tr><td>Docker</td><td>隔离执行</td><td>容器加固 + namespace 隔离</td></tr>
+  <tr><td>SSH</td><td>远程服务器</td><td>密钥/密码认证</td></tr>
+  <tr><td>Daytona</td><td>Serverless</td><td>闲置近零成本</td></tr>
+  <tr><td>Singularity</td><td>HPC 集群</td><td>GPU 计算场景</td></tr>
+  <tr><td>Modal</td><td>Serverless GPU</td><td>按需 GPU</td></tr>
+</table>
+
+<hr>
+
+<h2><span class="section-num">六、</span>多平台网关</h2>
+
+<p>Gateway 是一个长驻进程，通过 14 个平台适配器复用统一的 session 路由：Telegram、Discord、Slack、WhatsApp、Signal、Matrix、Mattermost、Email、SMS、DingTalk、Feishu、WeChat、BlueBubbles、Webhook。</p>
+
+<p><strong>跨平台会话连续</strong>：可以在 CLI 上开始一个任务，Telegram 上收到通知，Discord 上继续——不丢上下文（<a href="https://thenewstack.io/persistent-ai-agents-compared/">The New Stack</a>）。</p>
+
+<hr>
+
+<h2><span class="section-num">七、</span>其他能力</h2>
+
+<h3>7.1 Cron 调度</h3>
+<p>内置 cron 调度器，支持自然语言定义定时任务。任务结果可投递到任意已连接平台。</p>
+
+<h3>7.2 Subagent 委派</h3>
+<p>支持生成隔离的子 agent，并行处理多个任务流。每个 subagent 有独立的 terminal 和 Python RPC 接口。</p>
+
+<h3>7.3 浏览器自动化</h3>
+<p>v0.7.0 新增 Camofox 反检测浏览器后端，支持持久化 session 和 VNC 调试。</p>
+
+<h3>7.4 安全机制</h3>
+<ul>
+  <li><strong>Secret 渗透扫描</strong>：扫描浏览器 URL 和 LLM 响应中的 URL 编码/base64/注入模式</li>
+  <li><strong>凭证目录保护</strong>：<code>.docker</code>、<code>.azure</code>、<code>.config/gh</code> 等目录自动屏蔽</li>
+  <li><strong>沙箱输出脱敏</strong>：<code>execute_code</code> 的输出做敏感数据 redaction</li>
+  <li><strong>零遥测</strong>：不收集用户数据</li>
+</ul>
+
+<h3>7.5 OpenClaw 迁移</h3>
+<p>内置 <code>hermes claw migrate</code> 命令，一键导入 OpenClaw 的 SOUL.md、记忆、Skills、Allowlist、平台配置、API 凭证。支持 <code>--dry-run</code> 预览。</p>
+
+<hr>
+
+<h2><span class="section-num">八、</span>与 OpenClaw 对比分析</h2>
+
+<blockquote>本节不重复 OpenClaw 架构细节（详见 <a href="../index.html">openclaw-insight</a>），只聚焦两者的设计取舍差异。</blockquote>
+
+<h3>8.1 架构哲学：Agent Loop vs Gateway Platform</h3>
+
+<table>
+  <tr><th></th><th>Hermes Agent</th><th>OpenClaw</th></tr>
+  <tr><td><strong>核心引擎</strong></td><td>AIAgent（agent loop 本身）</td><td>Gateway（WebSocket 控制面）</td></tr>
+  <tr><td><strong>设计中心</strong></td><td>Agent 的执行循环是一切的起点</td><td>消息路由 + 权限是一切的起点</td></tr>
+  <tr><td><strong>Agent 与进程关系</strong></td><td>Agent 是独立模块，可嵌入多种宿主</td><td>Pi Agent 直接嵌入 Gateway 进程</td></tr>
+  <tr><td><strong>崩溃隔离</strong></td><td>Agent 崩溃不影响 Gateway</td><td>Agent 崩溃 = Gateway 崩溃</td></tr>
+</table>
+
+<div class="insight-box">
+  <strong>洞察：</strong>Hermes 的"agent-loop-centric"设计更适合<strong>单用户深度场景</strong>——agent 是主角，平台是配角。OpenClaw 的"gateway-centric"设计更适合<strong>多设备多场景</strong>——平台覆盖是核心竞争力，agent 是其中一个组件。
+</div>
+
+<h3>8.2 记忆系统：分层自治 vs Markdown-first</h3>
+
+<table>
+  <tr><th>维度</th><th>Hermes Agent</th><th>OpenClaw</th></tr>
+  <tr><td><strong>主存储</strong></td><td>MEMORY.md + USER.md（frozen snapshot）</td><td>每日日志 memory/YYYY-MM-DD.md + MEMORY.md</td></tr>
+  <tr><td><strong>索引</strong></td><td>SQLite + FTS5</td><td>SQLite + sqlite-vec（向量）</td></tr>
+  <tr><td><strong>跨 session</strong></td><td>FTS5 搜索 + LLM 摘要</td><td>向量语义搜索</td></tr>
+  <tr><td><strong>外部扩展</strong></td><td>8 个插件（Honcho, Mem0 等）</td><td>内置即全部</td></tr>
+  <tr><td><strong>多用户</strong></td><td>单用户（profile 隔离）</td><td>Per-assistant 隔离</td></tr>
+</table>
+
+<h3>8.3 Skills：自动生成 vs 手动策展</h3>
+
+<table>
+  <tr><th>维度</th><th>Hermes Agent</th><th>OpenClaw</th></tr>
+  <tr><td><strong>生成方式</strong></td><td>Agent 自动生成 + 自我改进</td><td>人工编写、手动维护</td></tr>
+  <tr><td><strong>格式标准</strong></td><td>agentskills.io 开放标准</td><td>三层：Bundled / Managed / Workspace</td></tr>
+  <tr><td><strong>加载策略</strong></td><td>渐进式加载（L0→L1→L2）</td><td>—</td></tr>
+  <tr><td><strong>飞轮效应</strong></td><td>用得越多 skill 越好</td><td>依赖人工迭代</td></tr>
+</table>
+
+<h3>8.4 安全模型</h3>
+
+<table>
+  <tr><th>维度</th><th>Hermes Agent</th><th>OpenClaw</th></tr>
+  <tr><td><strong>目标场景</strong></td><td>单操作员，零遥测</td><td>多用户，多设备</td></tr>
+  <tr><td><strong>执行隔离</strong></td><td>Docker / Singularity 容器级沙箱</td><td>macOS TCC + Elevated Bash + Tailscale</td></tr>
+  <tr><td><strong>Secret 保护</strong></td><td>渗透模式扫描 + 凭证目录屏蔽</td><td>—</td></tr>
+  <tr><td><strong>CVE 历史</strong></td><td>暂无公开 CVE</td><td>CVE-2026-25253（token 渗透→Gateway 沦陷）</td></tr>
+</table>
+
+<h3>8.5 生态规模</h3>
+
+<table>
+  <tr><th></th><th>Hermes Agent</th><th>OpenClaw</th></tr>
+  <tr><td>GitHub Stars</td><td>~22,000</td><td>~354,000</td></tr>
+  <tr><td>发布时间</td><td>2026-02</td><td>2025-11</td></tr>
+  <tr><td>平台适配器</td><td>14</td><td>23+</td></tr>
+  <tr><td>移动端</td><td>—</td><td>iOS + Android 原生</td></tr>
+  <tr><td>语音能力</td><td>转录（STT）</td><td>Voice Wake + Talk Mode + TTS</td></tr>
+</table>
+
+<h3>8.6 适用场景总结</h3>
+
+<table>
+  <tr><th>场景</th><th>推荐</th><th>原因</th></tr>
+  <tr><td>单人深度研究/开发</td><td><strong>Hermes</strong></td><td>自进化 skill + 深度记忆</td></tr>
+  <tr><td>多设备全场景覆盖</td><td><strong>OpenClaw</strong></td><td>23+ 平台 + 移动端 + 语音</td></tr>
+  <tr><td>安全敏感</td><td><strong>Hermes</strong></td><td>容器沙箱 + 零遥测</td></tr>
+  <tr><td>团队协作</td><td><strong>OpenClaw</strong></td><td>Per-assistant 隔离 + 多用户 ACL</td></tr>
+  <tr><td>快速上手</td><td><strong>OpenClaw</strong></td><td>生态大、文档全、社区活跃</td></tr>
+  <tr><td>从 OpenClaw 迁移</td><td><strong>Hermes</strong></td><td>内置一键迁移</td></tr>
+</table>
+
+<hr>
+
+<h2><span class="section-num">九、</span>关键洞察</h2>
+
+<div class="insight-box">
+  <strong>9.1 "自进化" vs "手动策展"是 personal agent 的核心路线之争。</strong><br>
+  Hermes 赌的是：模型足够强之后，agent 可以自己积累知识。OpenClaw 赌的是：平台覆盖和用户习惯才是护城河。目前看，两条路都走得通，但 Hermes 的路线如果跑通，长期护城河更深——因为每个用户的 agent 都是独一无二的。
+</div>
+
+<div class="insight-box">
+  <strong>9.2 Frozen Snapshot 是一个值得借鉴的工程模式。</strong><br>
+  把记忆在 session 开始时冻结、session 内不变，换取 prefix cache 稳定命中。这个 trade-off 在 API 成本敏感的场景下非常有价值。
+</div>
+
+<div class="insight-box">
+  <strong>9.3 渐进式 Skill 加载值得参考。</strong><br>
+  L0（metadata）→ L1（全文）→ L2（引用文件）的三级加载，可以有效控制 prompt 膨胀。对于 skill 数量多的系统来说，这比一次性全部加载高效得多。
+</div>
+
+<div class="insight-box">
+  <strong>9.4 Hermes 的 OpenClaw 迁移命令是一步好棋。</strong><br>
+  内置 <code>hermes claw migrate</code> 直接降低了竞品用户的迁移成本。OpenClaw 的安全事件（CVE-2026-25253）可能加速了一部分用户向 Hermes 的迁移。
+</div>
+
+<hr>
+
+<h2>参考来源</h2>
+<ol>
+  <li><a href="https://github.com/NousResearch/hermes-agent">Hermes Agent GitHub 仓库</a> — Nous Research</li>
+  <li><a href="https://hermes-agent.nousresearch.com/docs/developer-guide/architecture/">Hermes Agent Architecture Docs</a> — 官方文档</li>
+  <li><a href="https://hermes-agent.nousresearch.com/docs/user-guide/features/memory">Hermes Agent Memory Docs</a> — 官方文档</li>
+  <li><a href="https://hermes-agent.nousresearch.com/docs/user-guide/features/skills/">Hermes Agent Skills Docs</a> — 官方文档</li>
+  <li><a href="https://github.com/NousResearch/hermes-agent/releases/tag/v2026.4.3">Hermes Agent v0.7.0 Release Notes</a> — GitHub Release</li>
+  <li><a href="https://hermes-agent.nousresearch.com/">Hermes Agent 官网</a> — Nous Research</li>
+  <li><a href="https://thenewstack.io/persistent-ai-agents-compared/">Persistent AI Agents Compared</a> — The New Stack</li>
+  <li><a href="https://getclaw.sh/blog/openclaw-vs-hermes-agent-security-model-comparison-2026">OpenClaw vs Hermes Agent Security</a> — getclaw.sh</li>
+  <li><a href="https://www.marktechpost.com/2026/02/26/nous-research-releases-hermes-agent-to-fix-ai-forgetfulness-with-multi-level-memory-and-dedicated-remote-terminal-access-support/">Nous Research Releases Hermes Agent</a> — MarkTechPost</li>
+  <li><a href="https://github.com/openclaw/openclaw">OpenClaw GitHub 仓库</a> — OpenClaw</li>
+</ol>
+
+<div class="footer">
+  Research by Amber Zhou · 2026-04-11 · Generated with Claude Code
+</div>
+
+</div>
+</body>
+</html>
