@@ -418,6 +418,19 @@ function addSuggestedQuestions(mode) {
   chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
+async function fetchWithTimeout(url, options, timeoutMs = 30000) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    const res = await fetch(url, { ...options, signal: controller.signal });
+    clearTimeout(timer);
+    return res;
+  } catch (err) {
+    clearTimeout(timer);
+    throw err;
+  }
+}
+
 async function sendMessage() {
   const text = chatInput.value.trim();
   if (!text) return;
@@ -434,15 +447,16 @@ async function sendMessage() {
   const botMsg = addMessage(thinkingText, 'bot typing');
 
   const endpoint = chatMode === 'insights' ? WORKER_URL + '/api/insights' : WORKER_URL + '/api/chat';
+  const timeoutMs = chatMode === 'insights' ? 55000 : 30000;
 
   chatHistory.push({ role: 'user', content: text });
 
   try {
-    const res = await fetch(endpoint, {
+    const res = await fetchWithTimeout(endpoint, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ question: text, history: chatHistory.slice(0, -1), ...(isCleanMode && { ref: 't' }) })
-    });
+    }, timeoutMs);
 
     if (res.status === 429) {
       botMsg.className = 'chat-message bot';
@@ -459,7 +473,9 @@ async function sendMessage() {
     chatHistory.push({ role: 'assistant', content: data.answer });
   } catch (err) {
     botMsg.className = 'chat-message bot';
-    botMsg.querySelector('p').textContent = translations[currentLang]['chat.error'];
+    const isTimeout = err.name === 'AbortError';
+    const timeoutText = currentLang === 'zh' ? '回复超时了，请再试一次。' : 'Response timed out. Please try again.';
+    botMsg.querySelector('p').textContent = isTimeout ? timeoutText : translations[currentLang]['chat.error'];
   }
 
   chatSend.disabled = false;
