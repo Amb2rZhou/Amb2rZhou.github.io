@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>阿里面试备忘录</title>
+<style>
+body{max-width:860px;margin:0 auto;padding:24px;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.7;color:#1f2328;background:#fff}
+h1{font-size:24px;margin-bottom:8px}h2{border-bottom:2px solid #d0d7de;padding-bottom:8px;margin-top:32px;font-size:20px}h3{margin-top:20px;font-size:16px}
+table{width:100%;border-collapse:collapse;font-size:14px;margin:12px 0}th,td{border:1px solid #d0d7de;padding:8px 12px;text-align:left;vertical-align:top}th{background:#f6f8fa;font-weight:600}
+code{background:#f6f8fa;padding:2px 6px;border-radius:4px;font-size:0.88em;border:1px solid #e1e4e8}
+pre{background:#f6f8fa;border:1px solid #d0d7de;border-radius:8px;padding:16px;overflow-x:auto;font-size:13px}pre code{background:none;border:none;padding:0}
+blockquote{border-left:4px solid #d0d7de;padding:8px 16px;color:#656d76;background:#f6f8fa;margin:12px 0;border-radius:0 6px 6px 0}
+hr{border:none;border-top:1px solid #d0d7de;margin:24px 0}
+a{color:#0969da;text-decoration:none}ul,ol{margin:8px 0 8px 24px}li{margin:4px 0}
+strong{color:#1f2328}
+</style>
+</head>
+<body>
+<h1
+id="阿里巴巴二面备忘录-ai-agent-pm天猫超市-搜推广营销产运">阿里巴巴二面备忘录
+— AI Agent PM（天猫超市 · 搜推广&amp;营销&amp;产运）</h1>
+<p><strong>面试时间：</strong> 周三下午 <strong>上轮反馈：</strong> ①
+产品经理职责范围多了解 ② 思路打开一些 ③ 下一面 Agent 相关知识多</p>
+<hr />
+<h2 id="一针对上轮反馈的调整">一、针对上轮反馈的调整</h2>
+<h3 id="pm-职责范围多了解">1.1 “PM 职责范围多了解”</h3>
+<p>面试官觉得你可能太偏技术/执行视角。PM 的职责全景：</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>阶段</th>
+<th>PM 做什么</th>
+<th>你可以怎么说</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>发现需求</strong></td>
+<td>用户调研、数据分析、竞品分析、业务目标拆解</td>
+<td>“我在 AFI 项目中每天分析 200+ 条信息源，提炼出 10 条
+signal，这本身就是需求发现的过程”</td>
+</tr>
+<tr>
+<td><strong>定义需求</strong></td>
+<td>PRD、用户故事、优先级排序（RICE/ICE）</td>
+<td>“我定义了 Signal→Insight→Implication
+三层框架，本质是信息产品的需求分层”</td>
+</tr>
+<tr>
+<td><strong>推动落地</strong></td>
+<td>跨团队协调、资源争取、进度管理</td>
+<td>“intern-clawd 涉及 hooks/wiki/IM 多个模块协调”</td>
+</tr>
+<tr>
+<td><strong>验证效果</strong></td>
+<td>AB 测试、数据埋点、用户反馈、迭代决策</td>
+<td>“每日情报经过 4 轮 prompt 调优，每轮都基于产出质量反馈迭代”</td>
+</tr>
+<tr>
+<td><strong>商业思考</strong></td>
+<td>ROI、商业模式、竞争壁垒</td>
+<td>“我写过 Context 红利的分析——谁掌握用户 Context
+谁就掌握超级入口”</td>
+</tr>
+</tbody>
+</table>
+<p><strong>关键转变</strong>：回答问题时，先说<strong>为什么做</strong>（用户/业务价值），再说<strong>怎么做</strong>（方案），最后说<strong>效果</strong>（数据）。不要一上来就讲技术方案。</p>
+<h3 id="思路打开一些">1.2 “思路打开一些”</h3>
+<p>回答模式升级：</p>
+<p>❌ 旧模式：“我做了一个 RSS 采集系统，用 DeepSeek 提取信号…” ✅
+新模式：“我发现团队每天花 2
+小时人工刷新闻，效率很低。我设计了一个自动化情报产品，把信息获取效率提升了
+10x。技术上用了多源采集 + LLM 分析…”</p>
+<p><strong>公式：场景痛点 → 产品方案 → 技术选型 → 量化效果</strong></p>
+<hr />
+<h2 id="二淘天集团-ai-战略必须了解">二、淘天集团 AI
+战略（必须了解）</h2>
+<h3 id="三大方向搜推智能产品事业部">2.1
+三大方向（搜推智能产品事业部）</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>方向</th>
+<th>产品</th>
+<th>效果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>流量匹配</strong></td>
+<td>AI 搜索、AI 推荐、AI 广告</td>
+<td>搜索相关性 +20%，推荐点击 +10%，购买效率 +25%，商家 ROI +12%</td>
+</tr>
+<tr>
+<td><strong>商家赋能</strong></td>
+<td>AI 美工、AI 营销、AI 数据分析、AI 客服</td>
+<td>每月生成 2 亿张图，AI 客服每天省 2000 万</td>
+</tr>
+<tr>
+<td><strong>消费者导购</strong></td>
+<td>拍立搜、AI 帮我挑、AI 试穿、AI 清单</td>
+<td>从”猜你喜欢”到”我懂你”</td>
+</tr>
+</tbody>
+</table>
+<p>来源：<a href="https://www.geekpark.net/news/355485">极客公园</a></p>
+<h3 id="核心转变">2.2 核心转变</h3>
+<p>从”流量电商”到”理解电商”： -
+搜索：理解复杂语义（“不容易塌的蓬松洗发水”） - 推荐：从行为相似 →
+兴趣抽象（语义推理） - 商品库：AI
+补全商品属性、场景描述，信息越丰富越容易被匹配</p>
+<h3 id="最新动向2026-年-3-4-月">2.3 最新动向（2026 年 3-4 月）</h3>
+<ul>
+<li><strong>淘宝闪购 AI
+Agent</strong>：覆盖入驻、店装、发品、选品托管、营销等全生命周期（<a
+href="https://finance.sina.com.cn/tech/roll/2026-04-09/doc-inhtwhrf6008583.shtml">新浪</a>）</li>
+<li><strong>Alibaba Token Hub（ATH）事业群</strong>：3/16 成立，围绕
+Token 重构电商</li>
+<li><strong>“悟空”企业 AI
+原生平台</strong>：选品、供应商尽调、全网比价、自动经营</li>
+<li><strong>Accio Work</strong>：国际站企业级
+Agent，全天候完成市场分析→选品→发布→谈判</li>
+</ul>
+<hr />
+<h2 id="三agent-知识备考重点">三、Agent 知识备考（重点）</h2>
+<h3 id="agent-是什么30-秒版">3.1 Agent 是什么（30 秒版）</h3>
+<p>Agent = LLM + 工具调用 + 记忆 +
+规划能力。不是聊天机器人，是能<strong>自主完成多步骤任务</strong>的 AI
+系统。</p>
+<p>核心循环：感知 → 推理 → 行动 → 观察结果 → 继续（ReAct Loop）</p>
+<h3 id="agent-核心组件">3.2 Agent 核心组件</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>组件</th>
+<th>作用</th>
+<th>天猫超市场景举例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>LLM（大脑）</strong></td>
+<td>理解意图、推理决策</td>
+<td>理解用户”给我家猫买点吃的，要性价比高的”</td>
+</tr>
+<tr>
+<td><strong>Tool Use（手脚）</strong></td>
+<td>调用 API、查数据库、执行操作</td>
+<td>调用商品搜索 API、比价接口、下单接口</td>
+</tr>
+<tr>
+<td><strong>Memory（记忆）</strong></td>
+<td>记住用户偏好、历史行为</td>
+<td>记住用户养的是英短、之前买过某品牌</td>
+</tr>
+<tr>
+<td><strong>Planning（规划）</strong></td>
+<td>分解复杂任务为子步骤</td>
+<td>“推荐猫粮”→ 确认猫种 → 筛选品牌 → 比价 → 推荐</td>
+</tr>
+</tbody>
+</table>
+<h3 id="agent-架构流派展示深度">3.3 Agent 架构流派（展示深度）</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>流派</th>
+<th>代表</th>
+<th>核心思路</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Agent Loop 中心</td>
+<td>Hermes Agent</td>
+<td>Agent 的执行循环是一切的起点，自动生成 skill</td>
+</tr>
+<tr>
+<td>Gateway 中心</td>
+<td>OpenClaw</td>
+<td>消息路由和权限控制是核心，Agent 是组件之一</td>
+</tr>
+<tr>
+<td>Harness 增强</td>
+<td>intern-clawd</td>
+<td>在现有 LLM 上叠加记忆+仪式+入口，不替换底层</td>
+</tr>
+</tbody>
+</table>
+<p><strong>你可以说</strong>：“我研究过主流 Agent 框架的架构差异——Hermes
+Agent 走 agent-loop-centric 路线，靠自动生成 skill
+实现越用越聪明；OpenClaw 走 gateway-centric
+路线，靠多平台覆盖建立护城河。我自己做的 intern-clawd
+走的是第三条路：不做底层 agent，而是在 Claude Code
+上叠加结构化记忆和仪式，让它从 coding 工具变成个人秘书。”</p>
+<h3 id="agent-天猫超市场景必须准备">3.4 Agent ×
+天猫超市场景（必须准备）</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>场景</th>
+<th>Agent 能做什么</th>
+<th>PM 要考虑什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>智能导购</strong></td>
+<td>对话式购物：理解模糊需求 → 推荐 → 比较 → 下单</td>
+<td>转化率、客单价、用户满意度</td>
+</tr>
+<tr>
+<td><strong>售后 Agent</strong></td>
+<td>自动处理退换货、物流查询、投诉分类</td>
+<td>解决率、人工转接率、响应时间</td>
+</tr>
+<tr>
+<td><strong>商家运营 Agent</strong></td>
+<td>自动选品、定价建议、营销文案生成</td>
+<td>商家 GMV、工具使用率、续费率</td>
+</tr>
+<tr>
+<td><strong>供应链 Agent</strong></td>
+<td>需求预测、库存优化、补货决策</td>
+<td>缺货率、库存周转率、损耗率</td>
+</tr>
+<tr>
+<td><strong>搜索增强</strong></td>
+<td>自然语言搜索 → 意图理解 → 多轮澄清 → 精准结果</td>
+<td>搜索转化率、零结果率</td>
+</tr>
+</tbody>
+</table>
+<p><strong>展开一个场景的示例回答：</strong></p>
+<blockquote>
+<p>“如果我来设计天猫超市的智能导购 Agent，我会分三步走。</p>
+<p>第一步，<strong>意图理解</strong>：用户说’给我推荐适合 3
+岁宝宝的零食’，Agent 需要理解年龄限制、安全标准、口味偏好。这里需要一个
+domain-specific 的意图分类器，不是通用 LLM 直接回答。</p>
+<p>第二步，<strong>工具调用</strong>：Agent 调用商品搜索
+API（带儿童零食标签过滤）、用户历史购买记录（有没有过敏信息）、实时库存接口（确保能发货）。</p>
+<p>第三步，<strong>个性化排序</strong>：基于用户画像（价格敏感度、品牌偏好、历史评价）做个性化排序，而不是按默认销量排。</p>
+<p>核心指标我会关注：对话转化率（多少对话最终下单）、客单价提升（Agent
+推荐 vs 自主搜索）、用户次日留存（Agent 导购体验是否让用户回来）。”</p>
+</blockquote>
+<hr />
+<h2 id="四你的项目-面试场景映射">四、你的项目 × 面试场景映射</h2>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>面试官可能问</th>
+<th>用哪个项目回答</th>
+<th>核心卖点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>你做过什么 AI 产品？</td>
+<td>AFI（情报系统）</td>
+<td>多源采集 → LLM 分析 → 自动推送，完整产品闭环</td>
+</tr>
+<tr>
+<td>你对 Agent 架构了解多少？</td>
+<td>Hermes 研报 + intern-clawd</td>
+<td>研究过 3 种架构流派，自己也搭了一套</td>
+</tr>
+<tr>
+<td>你怎么做需求定义？</td>
+<td>AFI 的 Signal→Insight→Implication</td>
+<td>三层内容框架就是需求分层</td>
+</tr>
+<tr>
+<td>你怎么做数据驱动？</td>
+<td>AFI prompt 调优 4 轮</td>
+<td>每轮基于产出质量反馈迭代</td>
+</tr>
+<tr>
+<td>你怎么理解电商 AI？</td>
+<td>Context 红利理论</td>
+<td>模型同质化 → 争 Context → 超级入口</td>
+</tr>
+<tr>
+<td>你怎么看 Agent 的未来？</td>
+<td>个人观点</td>
+<td>Agent 是操作系统层超级入口，高于一切 app</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="五高频问题-参考回答">五、高频问题 &amp; 参考回答</h2>
+<h3 id="q1-你觉得-ai-会怎么改变电商">Q1: 你觉得 AI 会怎么改变电商？</h3>
+<p>“我认为 AI
+对电商最大的改变不是效率提升，而是<strong>交互范式</strong>的重构。传统电商是’搜索→浏览→比较→下单’，AI
+时代会变成’说一句话→Agent 帮你完成一切’。淘天已经在做这件事——AI
+搜索理解语义需求，推荐从行为匹配转向兴趣推理。终局是用户不再需要逛，Agent
+比你更懂你需要什么。”</p>
+<h3 id="q2-如果让你设计一个-agent-产品你怎么做">Q2: 如果让你设计一个
+Agent 产品，你怎么做？</h3>
+<p>用上面天猫超市智能导购的示例回答。</p>
+<h3 id="q3-agent-落地最大的挑战是什么">Q3: Agent
+落地最大的挑战是什么？</h3>
+<p>“三个层面： 1. <strong>可靠性</strong>——Agent
+多步执行中一步错可能全盘崩，需要 human-in-the-loop 和 fallback 机制 2.
+<strong>评估困难</strong>——不像搜索有明确的 NDCG，Agent 的好坏很难量化
+3. <strong>成本</strong>——每次对话消耗大量
+token，需要在体验和成本之间找平衡（prompt caching、渐进式加载等）”</p>
+<h3 id="q4-你怎么理解产品经理这个角色">Q4:
+你怎么理解产品经理这个角色？</h3>
+<p>“产品经理的核心职责是<strong>在用户价值和商业价值之间找到最优解</strong>。不是写
+PRD
+的人，而是定义’做什么、为什么做、怎么衡量做得好不好’的人。具体来说：发现真实需求（不是用户说什么就做什么）、定义优先级（资源永远不够，选最值得做的）、推动跨团队执行、用数据验证效果并迭代。”</p>
+<hr />
+<h2 id="六面试前自检清单">六、面试前自检清单</h2>
+<ul class="task-list">
+<li><label><input
+type="checkbox" />每个项目都能用”<strong>痛点→方案→效果</strong>”讲清楚</label></li>
+<li><label><input type="checkbox" />能说出淘天 AI
+三大方向和关键数据</label></li>
+<li><label><input type="checkbox" />能展开一个 Agent ×
+天猫超市场景（导购 / 售后 / 商家运营）</label></li>
+<li><label><input type="checkbox" />能说出 Agent 核心组件（LLM / Tool
+Use / Memory / Planning）</label></li>
+<li><label><input type="checkbox" />能讲 Agent
+架构流派差异（展示深度）</label></li>
+<li><label><input type="checkbox" />回答时先说 why 再说
+how，不要一上来讲技术</label></li>
+</ul>
+</body></html>
