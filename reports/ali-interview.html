@@ -356,4 +356,75 @@ Use / Memory / Planning）</label></li>
 <li><label><input type="checkbox" />回答时先说 why 再说
 how，不要一上来讲技术</label></li>
 </ul>
+<hr />
+<h2 id="七mock-面试题整理">七、Mock 面试题整理</h2>
+<h3 id="q1-天猫超市最适合用-agent-解决的问题是什么">Q1: 天猫超市最适合用
+Agent 解决的问题是什么？</h3>
+<p><strong>核心思路</strong>：天猫超市是高频、低决策成本、复购驱动（日用快消标品）。用户心智是”快速补货”不是”慢慢逛”。最适合<strong>管家型
+Agent</strong>——记住购买周期、主动提醒、价格决策、一键下单。指标看月复购频次、Agent
+触达后转化率、客单价。</p>
+<h3 id="q2-agent-的好坏怎么量化评估">Q2: Agent 的好坏怎么量化评估？</h3>
+<p><strong>核心思路</strong>：分三层—— 1.
+<strong>任务完成率</strong>（结果）：意图发起后有没有完成下单？类似搜索满足率
+2. <strong>过程质量</strong>（体验）：对话轮数、人工转接率、用户纠错次数
+3. <strong>商业指标</strong>（价值）：客单价、复购率、LTV</p>
+<p>完成率判定靠隐式信号（下单/退货）+ 显式反馈（抽样 10%
+弹👍👎）。早期人工标注建基准线，规模化后隐式为主。</p>
+<h3 id="q3-agent-在电商场景落地最大的风险怎么控制">Q3: Agent
+在电商场景落地最大的风险？怎么控制？</h3>
+<p><strong>核心思路</strong>：最大风险是<strong>自主决策出错导致信任崩塌</strong>。搜索给错用户划走就行，Agent
+买错了是真金白银。</p>
+<p>做<strong>三级权限</strong>：低风险全自动（查价格）→
+中风险确认后执行（下单）→
+高风险禁止自动（退款）。随信任积累逐步放权。原则：宁可多问一步，不可自作主张。</p>
+<h3 id="q4-你的情报系统能力怎么迁移到搜推广场景">Q4:
+你的情报系统能力怎么迁移到搜推广场景？</h3>
+<p><strong>核心思路</strong>：情报系统的核心是从噪音中提取
+signal。搜推广的核心问题一样——从用户模糊的搜索词中提取真实意图。</p>
+<p>多源信号（搜索词 + 历史行为 + 用户画像）→ 意图推理 →
+个性化结果。比如搜”健康零食”，结合用户上周买蛋白粉的行为 →
+推蛋白棒而不是普通零食。</p>
+<h3 id="q5-加上-agent-能力后搜索推荐最大的变化是什么">Q5: 加上 Agent
+能力后，搜索推荐最大的变化是什么？</h3>
+<p><strong>核心思路</strong>：从<strong>单轮交互变成多轮对话</strong>。搜索不再是独立模块，而是对话的第一轮。推荐不再是被动展示，而是
+Agent 在对话中主动穿插关联推荐。</p>
+<p>新增指标：对话深度（几轮完成购买）、跨品类渗透率（有没有带动关联购买）。</p>
+<h3 id="q6-agent-和-rpa-的本质区别">Q6: Agent 和 RPA 的本质区别？</h3>
+<p><strong>核心思路</strong>：RPA
+是”录制→回放”，流程固定、遇到意外就崩。Agent
+是”给目标→自己想办法”，能理解、推理、应变。</p>
+<p>类比：RPA = 流水线工人（按 SOP）、Agent =
+实习生（给目标自己想办法）。不是替代关系，是各管各的层——确定性重复操作用
+RPA，需要判断的用 Agent。</p>
+<h3 id="q7-ai-pm-和传统-pm-最大的区别你为什么适合">Q7: AI PM 和传统 PM
+最大的区别？你为什么适合？</h3>
+<p><strong>核心思路</strong>：最大区别是<strong>不确定性</strong>——传统产品行为确定，AI
+产品行为概率性。</p>
+<p>三个能力差异：评估方式（bad case 监控 vs
+漏斗）、跟技术沟通（理解模型能力边界）、产品边界模糊（从意外用法发现机会）。</p>
+<p>我适合因为我是 AI 产品的深度用户和构建者——搭过 Agent
+体系、写过架构研报、每天在用在踩坑在迭代。</p>
+<hr />
+<h2 id="八面试前-todo">八、面试前 Todo</h2>
+<h3 id="必做周三前">必做（周三前）</h3>
+<ul class="task-list">
+<li><label><input
+type="checkbox" />亲手体验天猫超市搜索：搜模糊词（“健康零食”、“给宝宝买点吃的”），记录体验</label></li>
+<li><label><input
+type="checkbox" />对比京东到家/盒马搜索体验，找差异点</label></li>
+<li><label><input type="checkbox" />找找天猫超市已上线的 AI 功能（AI
+帮我挑、智能搜索等）</label></li>
+<li><label><input type="checkbox" />通读本备忘录 1-2 遍</label></li>
+<li><label><input type="checkbox" />准备 1-2
+个”我体验后发现的问题/机会”（面试时用）</label></li>
+</ul>
+<h3 id="建议做">建议做</h3>
+<ul class="task-list">
+<li><label><input type="checkbox" />看一下淘宝闪购 AI Agent
+的商家端产品（了解 B 端 Agent 落地）</label></li>
+<li><label><input type="checkbox" />看一下阿里 Accio Work
+的产品介绍（了解阿里 Agent 战略全景）</label></li>
+<li><label><input type="checkbox" />想一想”如果你是天猫超市的 AI
+PM，上任第一个月做什么？”</label></li>
+</ul>
 </body></html>
