@@ -112,6 +112,7 @@ const nodes = [
   { id: 'sh',    label: 'skillhub',            group: 'life', desc: 'Agent Skill 平台 (PRD 阶段)', size: 12 },
   { id: 'dt',    label: 'digital-twin',        group: 'life', desc: '数字分身网站·脱敏 context', size: 12 },
   { id: 'si',    label: 'summer-internship',   group: 'life', desc: '暑期实习投递 · 已投5家 待投25家', size: 11 },
+  { id: 'pb',    label: 'personal-brand',     group: 'life', desc: '个人影响力计划 · GH 100★ 小红书 100赞', size: 13 },
   // Topic
   { id: 'acd',   label: 'context-dividend',    group: 'topic', desc: 'AI 是 Gen Z 时代红利，Context 护城河', size: 12 },
   // Patterns
@@ -152,6 +153,13 @@ const edges = [
   { from: 'boss-profile', to: 'dt',  label: '个人' },
   { from: 'boss-profile', to: 'sh',  label: '个人' },
   { from: 'boss-profile', to: 'si',  label: '个人' },
+  { from: 'boss-profile', to: 'pb',  label: '个人' },
+  // personal-brand 关联
+  { from: 'pb',  to: 'ic',  label: '推广载体' },
+  { from: 'pb',  to: 'dt',  label: '展示窗口' },
+  { from: 'pb',  to: 'si',  label: '变现场景' },
+  { from: 'pb',  to: 'sh',  label: 'skill 下载' },
+  { from: 'pb',  to: 'acd', label: '理论基础' },
   // Patterns → Projects
   { from: 'p1', to: 'ias', label: '设计于' },
   { from: 'p2', to: 'ias', label: '踩坑于' },
