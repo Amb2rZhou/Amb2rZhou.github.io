@@ -1,0 +1,155 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>蚂蚁面试备忘录</title><style>body{max-width:860px;margin:0 auto;padding:24px;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.7;color:#1f2328;background:#fff}h1{font-size:24px;margin-bottom:8px}h2{border-bottom:2px solid #d0d7de;padding-bottom:8px;margin-top:32px;font-size:20px}h3{margin-top:20px;font-size:16px}table{width:100%;border-collapse:collapse;font-size:14px;margin:12px 0}th,td{border:1px solid #d0d7de;padding:8px 12px;text-align:left;vertical-align:top}th{background:#f6f8fa;font-weight:600}code{background:#f6f8fa;padding:2px 6px;border-radius:4px;font-size:0.88em;border:1px solid #e1e4e8}pre{background:#f6f8fa;border:1px solid #d0d7de;border-radius:8px;padding:16px;overflow-x:auto;font-size:13px}pre code{background:none;border:none;padding:0}blockquote{border-left:4px solid #d0d7de;padding:8px 16px;color:#656d76;background:#f6f8fa;margin:12px 0;border-radius:0 6px 6px 0}hr{border:none;border-top:1px solid #d0d7de;margin:24px 0}a{color:#0969da;text-decoration:none}ul,ol{margin:8px 0 8px 24px}li{margin:4px 0}strong{color:#1f2328}</style></head><body>
+<h1 id="蚂蚁集团面试备忘录-ai-产品经理">蚂蚁集团面试备忘录 — AI
+产品经理</h1>
+<p><strong>面试时间：</strong> 2026-04-15 15:45 <strong>岗位：</strong>
+AI 产品经理（2027届转正实习）</p>
+<hr />
+<h2 id="一蚂蚁-vs-阿里天猫超市的区别">一、蚂蚁 vs
+阿里（天猫超市）的区别</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>阿里（天猫超市）</th>
+<th>蚂蚁</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>核心产品</td>
+<td>电商购物</td>
+<td>支付宝、理财、保险、信用</td>
+</tr>
+<tr>
+<td>Agent 场景</td>
+<td>导购、补货、客服</td>
+<td>智能理财顾问、保险推荐、信用评估</td>
+</tr>
+<tr>
+<td>用户心智</td>
+<td>买东西</td>
+<td>管钱</td>
+</tr>
+<tr>
+<td>风险敏感度</td>
+<td>中（买错退就行）</td>
+<td><strong>极高</strong>（推错理财=资金损失）</td>
+</tr>
+<tr>
+<td>蚂蚁最大优势</td>
+<td>—</td>
+<td>最全的金融 Context（收支/信用/资产/保险）</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="二mock-题目-参考回答">二、Mock 题目 &amp; 参考回答</h2>
+<h3 id="q1-自我介绍">Q1: 自我介绍</h3>
+<p>我叫 Amber
+Zhou，西北大学应用经济学硕士在读，本科香港中文大学。目前在小红书财务与战略部门做
+AI 技术战略实习生。</p>
+<p>经济学背景加 AI 实践两边都有：AI 这边独立搭建了情报系统服务高管、把
+Claude Code 改造成 AI Agent 并开源、把部门研究流程抽象成标准化 AI
+Skill。经济学这边硕士方向是量化计量，对金融产品风险定价有系统理解。</p>
+<p>对蚂蚁感兴趣，是因为蚂蚁有最完整的用户金融
+Context——收支、信用、资产、保险全覆盖。这是做 AI
+金融产品最强的原料。</p>
+<h3 id="q2-蚂蚁核心业务-ai-在哪些环节创造价值">Q2: 蚂蚁核心业务 + AI
+在哪些环节创造价值</h3>
+<p>核心三块：支付（支付宝）、数字金融（理财/信贷/保险）、信用（芝麻信用）。</p>
+<p>AI
+价值：支付→风控反欺诈（实时异常交易识别）；理财→个性化投顾；信用→更精准评估（行为数据补充传统征信）；保险→智能核保理赔+个性化推荐。</p>
+<p>最大 AI 价值点：蚂蚁有用户最完整的金融 Context，这是做 AI
+金融产品的最强原料。</p>
+<h3 id="q3-智能理财助手怎么设计核心功能和差异化">Q3:
+智能理财助手怎么设计？核心功能和差异化</h3>
+<p>三步：①对话了解需求（不是填问卷，几轮对话比问卷精准）②推 2-3
+个附理由（不是给列表）③持续跟踪提醒（市场大跌时主动说”按你的计划这是正常波动”）。</p>
+<p>差异化：蚂蚁已有完整金融画像，不需要用户从零告诉 AI
+自己的财务情况。别的平台做不到。</p>
+<h3 id="q4-创新-vs-合规怎么平衡">Q4: 创新 vs 合规怎么平衡</h3>
+<p>合规是地板不是天花板。在地板之上自由创新。</p>
+<p>具体：硬合规用规则引擎（适当性管理、风险提示写死在代码里，AI
+绕不过去）；软体验用 AI
+优化（怎么用人话解释风险、什么时机推什么产品）。</p>
+<h3 id="q5-ai-怎么帮用户理解和选择保险">Q5: AI
+怎么帮用户理解和选择保险</h3>
+<p>保险最大痛点是用户看不懂。AI
+三个环节：①用人话解释条款（“骑电动车摔了赔不赔”直接回答）②场景化推荐（问家庭结构推组合方案，不问”你要什么保险”）③理赔辅助（拍照上传→预判能不能赔→告诉需要什么材料）。</p>
+<p>蚂蚁优势：已有健康数据、消费数据、家庭结构推断。</p>
+<h3 id="q6-金融-ai-最大的风险怎么控制">Q6: 金融 AI
+最大的风险？怎么控制</h3>
+<p>三层：合规风险（硬编码规则）、误导风险（措辞必须严谨，过合规模板）、操作风险（查询全自动，交易必须用户确认，大额加二次验证）。</p>
+<p>核心原则：金融 Agent
+的角色是顾问不是操盘手。分析、建议、提醒可以，最终下单按钮由用户按。</p>
+<h3 id="q7-b-端-vs-c-端-ai-pm-区别你偏向哪个">Q7: B 端 vs C 端 AI PM
+区别？你偏向哪个</h3>
+<p>最大区别是谁做决策。C 端用户自己决定用不用（要直觉好用），B
+端采购和使用分离（要说清 ROI）。AI 产品额外区别：C
+端容忍不准确（推错划走就行），B
+端要求极高（风控漏一笔就是真金白银）。</p>
+<p>我两边都有经验：情报系统偏 B 端（准确率第一），intern-clawd 偏 C
+端（体验第一）。倾向 B 端，因为经济学背景擅长算
+ROI，技术背景跟工程师沟通顺畅。</p>
+<h3 id="q8-医疗-ai-幻觉怎么防">Q8: 医疗 AI 幻觉怎么防</h3>
+<p>核心原则：永远不让 AI
+成为唯一信息来源。四层防护：①来源溯源（必须附出处，没出处就说”建议咨询医生”）②分级响应（低风险直接答，高风险拒绝并引导就医）③交叉验证（两个来源矛盾就不输出，转人工）④用户反馈闭环（标记有问题→人工审核→进
+bad case 库）。</p>
+<h3 id="q9-给支付宝加-ai-板块怎么加怎么评估">Q9: 给支付宝加 AI
+板块怎么加？怎么评估</h3>
+<p>做成贯穿所有场景的统一 AI 对话入口，不是跟理财保险并列的独立
+tab。用户说话后根据意图路由到不同场景——“上个月花了多少”走账单，“帮我推荐理财”走理财，“牙疼赔不赔”走保险。</p>
+<p>评估：功能维度（点击率/对话完成率/推荐转化率）、业务维度（通过 AI
+产生的理财 GMV）、体验维度（满意度/次月留存）。AB
+测试对比。注意不能只看使用率——使用率高但理财没涨说明在”玩”不是在”用”。</p>
+<h3 id="q10-prompt-调优技巧">Q10: Prompt 调优技巧</h3>
+<p>五条方法论：①角色定义要精准（越具体 LLM 越知道该用什么视角）②给
+few-shot 示例比给规则有效 ③复杂任务拆步骤（筛选和分析分两步 prompt）④用
+bad case 驱动迭代不凭感觉改 ⑤温度和参数最后调（prompt
+文本影响远大于参数）。</p>
+<h3 id="q11-常用的-ai-产品分析claude-code">Q11: 常用的 AI
+产品分析（Claude Code）</h3>
+<p>做得好：模型能力天花板高（Opus 4.6
+顶级）、扩展点设计精妙（hooks/CLAUDE.md/MCP）、工具调用可靠。</p>
+<p>需改进：跨 session 失忆（我做 intern-clawd
+的出发点）、没有主动能力（我用 cron + 飞书补了）、多模态弱（我用 IM
+桥接绕过）。</p>
+<p>启示：好平台不需要什么都做到，扩展点设计好用户会自己补。对支付宝也适用。</p>
+<h3 id="q12-职业规划-为什么不继续做战略">Q12: 职业规划 /
+为什么不继续做战略</h3>
+<p>战略偏分析和建议，最终落不落地不由你决定。我最兴奋的时刻不是报告写完而是产品被用起来。战略告诉别人”应该做什么”，PM
+是自己把它做出来。我想离落地更近一步。</p>
+<p>做战略的经历对 PM
+是加分的——理解行业全景、会竞品分析、能站高管视角想问题。只是不想停在”分析”，想往”定义+落地+迭代”走。</p>
+<h3 id="q13-为什么选蚂蚁">Q13: 为什么选蚂蚁</h3>
+<p>蚂蚁有最全的金融
+Context——收支（工资流水）、支出（花呗）、信用（芝麻分）、资产（余额宝）。这是做
+AI 金融产品的最强原料。我的经济学背景让我理解金融产品逻辑，AI
+背景让我知道技术能做什么，蚂蚁是两者交叉的最佳落地场景。</p>
+<h3 id="q14-蚂蚁-ai-核心竞争力">Q14: 蚂蚁 AI 核心竞争力</h3>
+<p>场景纵深 ×
+数据闭环。支付宝覆盖支付/信贷/保险/理财全场景，风控合规要求极高；用户金融
+Context 最全（其他平台只有片段）；场景、技术、数据形成正向飞轮。</p>
+<h3 id="q15-经济学视角看-ai-对金融行业影响">Q15: 经济学视角看 AI
+对金融行业影响</h3>
+<p>最大影响是降低信息不对称。以前普通人做理财决策信息获取能力远不如专业投资者，AI
+理财顾问把专业分析能力普惠化了。</p>
+<p>但所有人都用 AI 做投资决策时，信息差收益消失。最终竞争力回到
+Context——谁的 AI 更了解你的财务状况。蚂蚁最大优势就是已有最深的金融
+Context。</p>
+<hr />
+<h2 id="三反问建议挑-2-个">三、反问建议（挑 2 个）</h2>
+<ol type="1">
+<li>“蚂蚁目前在 AI
+产品方向最大的挑战是什么？是合规还是技术还是用户接受度？”</li>
+<li>“这个岗位入职后前三个月，你期望实习生能交付什么？”</li>
+</ol>
+<hr />
+<h2 id="四面试核心记忆点">四、面试核心记忆点</h2>
+<ol type="1">
+<li><strong>蚂蚁最大优势 = 金融 Context 最全</strong></li>
+<li><strong>金融 Agent 是顾问不是操盘手</strong></li>
+<li><strong>合规是地板不是天花板</strong></li>
+<li><strong>你的独特组合 = 经济学 + AI 实践</strong></li>
+</ol>
+</body></html>
