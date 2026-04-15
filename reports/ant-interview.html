@@ -418,6 +418,50 @@ Agent API 做得最好、数据最开放，谁就是其他 Agent 优先调用的
 的优先级。</p>
 </blockquote>
 <hr />
+<h3 id="q16-intern-clawd-技术实现怎么用-claude.md-hooks-搭的">Q16:
+intern-clawd 技术实现——怎么用 CLAUDE.md + Hooks 搭的</h3>
+<p><strong>思考框架：两个扩展点各解决什么问题。</strong></p>
+<blockquote>
+<p>Claude Code 有两个关键扩展点：</p>
+<p><strong>CLAUDE.md = Agent 的灵魂</strong> - 项目级指令文件，Claude
+Code 每次启动自动读取 - 我在里面写了秘书的人格定义、行为规则、红线约束 -
+比如”你是 boss 的私人秘书，偏好建议性表达”、“写 wiki 前必须确认” -
+不管开多少 session，角色和准则始终一致</p>
+<p><strong>Hooks = 自动化的行为触发器</strong> - SessionStart
+hook：每次新 session 启动，自动把 wiki index + 最近 log 注入。解决跨
+session 失忆——Claude 一醒来就先”读笔记” - PostWrite
+hook：每次写完文件自动跑
+wiki-lint，检查格式和交叉引用。自动化质量兜底</p>
+<p><strong>关键设计原则：没改 Claude Code 一行源码。</strong>
+完全用原生扩展点在外面叠了一层记忆和仪式。就像给手机装壳——功能增强但手机本身没变。这也是跟
+OpenClaw 的本质区别——OpenClaw 自己造新手机，我给已有手机装壳。</p>
+</blockquote>
+<h3 id="q17-ai-native-金融支付产品竞品认知">Q17: AI-native
+金融/支付产品竞品认知</h3>
+<p><strong>思考框架：按金融场景分类，每个对标蚂蚁的哪块业务。</strong></p>
+<blockquote>
+<p>全球范围内跟蚂蚁业务重合的 AI-native 金融产品：</p>
+<p><strong>1. Stripe Radar（支付风控）</strong> - 全球支付领域最成熟的
+AI 反欺诈，ML 实时判断每笔交易 - 对标蚂蚁风控。区别：Stripe 主要 B
+端，蚂蚁同时覆盖 C 端</p>
+<p><strong>2. Klarna AI 客服（信贷客服）</strong> - 瑞典先买后付公司，AI
+客服替代 700 人工座席，处理 2/3 咨询 -
+对标蚂蚁花呗/借呗客服。全球最早大规模落地 AI 客服的金融公司之一</p>
+<p><strong>3. Wealthfront / Betterment（智能投顾）</strong> -
+用户输入目标和风险偏好，AI 自动配置组合并持续调仓 -
+对标蚂蚁理财助手。区别：美国市场，中国监管和用户习惯不同</p>
+<p><strong>4. 众安保险（AI 核保理赔）</strong> - 国内最 AI-native
+的保险公司。AI 做健康告知审核、智能核保、理赔照片识别 -
+跟蚂蚁保直接竞争。众安深耕保险，蚂蚁胜在用户基数和数据广度</p>
+<p><strong>5. 蚂蚁自己的支小宝</strong> - 蚂蚁自研 AI
+理财顾问，已在支付宝上线，做基金分析和投资建议</p>
+<p><strong>总结：</strong> 金融 AI
+最成熟的三个场景是风控、客服、投顾。Stripe 只做支付、Klarna
+只做信贷、Wealthfront
+只做投资。蚂蚁的差异化在于<strong>一个支付宝全包了</strong>——数据越全，AI
+能做的事越多。</p>
+</blockquote>
+<hr />
 <h2 id="三jd-对照你的经历">三、JD 对照你的经历</h2>
 <table>
 <colgroup>
