@@ -1,0 +1,878 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Harness Engineering 研究报告</title><style>body{max-width:860px;margin:0 auto;padding:24px;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.7;color:#1f2328;background:#fff}h1{font-size:24px;margin-bottom:8px}h2{border-bottom:2px solid #d0d7de;padding-bottom:8px;margin-top:32px;font-size:20px}h3{margin-top:20px;font-size:16px}table{width:100%;border-collapse:collapse;font-size:14px;margin:12px 0}th,td{border:1px solid #d0d7de;padding:8px 12px;text-align:left;vertical-align:top}th{background:#f6f8fa;font-weight:600}code{background:#f6f8fa;padding:2px 6px;border-radius:4px;font-size:0.88em;border:1px solid #e1e4e8}pre{background:#f6f8fa;border:1px solid #d0d7de;border-radius:8px;padding:16px;overflow-x:auto;font-size:13px}pre code{background:none;border:none;padding:0}blockquote{border-left:4px solid #d0d7de;padding:8px 16px;color:#656d76;background:#f6f8fa;margin:12px 0;border-radius:0 6px 6px 0}hr{border:none;border-top:1px solid #d0d7de;margin:24px 0}a{color:#0969da;text-decoration:none}ul,ol{margin:8px 0 8px 24px}li{margin:4px 0}strong{color:#1f2328}</style></head><body>
+<h1 id="harness-engineerai-agent-时代的工程范式革命">Harness
+Engineer：AI Agent 时代的工程范式革命</h1>
+<p><strong>研究主题：</strong> Harness Engineering
+的技术架构、工程方法论与行业生态深度解析 <strong>报告类型：</strong>
+技术趋势研究 <strong>日期：</strong> 2026-04-02
+<strong>核心结论：</strong> Harness Engineering 是2026年 AI Agent
+领域最重要的工程范式转变——从”写代码”转向”设计让 Agent
+可靠产出代码的环境”。其核心不在于模型能力的提升，而在于围绕模型构建的约束、反馈、编排和可观测系统。LangChain
+DeepAgents 的实证表明，使用同一模型，仅改变 harness 设计，Terminal Bench
+2.0 得分可从 52.8% 跃升至 66.5%，这一数据揭示了当前 AI
+工程竞争的真正战场。</p>
+<hr />
+<h2 id="一概念起源与演进脉络">一、概念起源与演进脉络</h2>
+<h3 id="从-prompt-到-harness三代-ai-工程范式">1.1 从 Prompt 到
+Harness：三代 AI 工程范式</h3>
+<p>理解 Harness Engineering，需要先看清它在 AI
+工程方法论中的位置。过去三年，AI
+工程经历了三次范式跃迁，每一代的核心问题和工程对象都不同（<a
+href="https://www.epsilla.com/blogs/harness-engineering-evolution-prompt-context-autonomous-agents">Epsilla,
+2026</a>）：</p>
+<p><strong>第一代：Prompt Engineering（2024年）。</strong>
+核心问题是”如何给模型写出好的指令”。工程对象是单条 prompt
+的措辞、结构和示例。工程师的工作是在一次性的请求-响应循环中，通过调整
+prompt 的表述来优化输出质量。这是一个以”语言技巧”为核心的阶段。</p>
+<p><strong>第二代：Context Engineering（2025年）。</strong>
+核心问题是”如何给模型提供正确的上下文信息”。工程对象从单条 prompt
+扩展到整个上下文窗口——包括相关文档、对话历史、工具定义、RAG
+检索结果等。工程师意识到，一条再好的 prompt
+也不够，模型需要一个动态构建的信息环境才能做出好的决策。</p>
+<p><strong>第三代：Harness Engineering（2026年）。</strong>
+核心问题是”如何构建让 Agent 可靠工作的完整运行环境”。工程对象不再局限于
+prompt 或上下文，而是包围在 Agent
+周围的整个基础设施：工具集、约束规则、反馈回路、可观测性层、状态管理、多
+session 协调。用一个比喻来说——如果 Prompt Engineering
+是在写一封信，Context Engineering 是在准备信和信封里的附件，那么 Harness
+Engineering 就是在设计整个邮政系统（<a
+href="https://www.epsilla.com/blogs/harness-engineering-evolution-prompt-context-autonomous-agents">Epsilla,
+2026</a>）。</p>
+<p>这三代范式不是替代关系，而是嵌套包含的关系。Harness Engineering
+包含了 Context Engineering，后者又包含了 Prompt
+Engineering。每一层增加了新的工程维度，但并没有消除上一层的意义。</p>
+<h3 id="核心公式agent-model-harness">1.2 核心公式：Agent = Model +
+Harness</h3>
+<p>Harness Engineering 的核心理念可以用一个简洁的公式表达：<strong>Agent
+= Model + Harness</strong>（<a
+href="https://www.nxcode.io/resources/news/what-is-harness-engineering-complete-guide-2026">多个来源综合</a>）。</p>
+<p>Model
+提供智能——语言理解、代码生成、推理、规划。但原始的智能并不等于可靠的生产力。Harness
+负责把这个智能转化为可控、可预测、可审计的工作输出。Harness 是包裹在
+Model 周围的完整基础设施，它定义了 Agent
+可以做什么、不能做什么、如何验证产出、如何从错误中恢复、以及人类如何监控整个过程。</p>
+<p>另一个广泛引用的类比是：如果 LLM 是 CPU，那么 Harness
+就是操作系统（<a
+href="https://martinfowler.com/articles/exploring-gen-ai/harness-engineering.html">Martin
+Fowler, 2026</a>）。CPU
+的算力再强，没有操作系统来管理进程、分配资源、处理异常，它也无法运行任何实际应用。</p>
+<p>值得注意的是，“Harness Engineering”这一术语的流行可能受到了 Mitchell
+Hashimoto（HashiCorp 联合创始人）早期博客文章的启发（<a
+href="https://martinfowler.com/articles/exploring-gen-ai/harness-engineering.html">Martin
+Fowler, 2026</a>，作者 Birgitta Böckeler，Thoughtworks
+杰出工程师，2026年2月17日发表）。Böckeler 进一步将 harness
+解构为三层架构：Context Engineering
+层（知识库、可观测性数据、导航访问）、Constraint 层（自定义
+linter、结构测试、模块边界强制）、以及 Entropy-Fighting Agents
+层（定期扫描不一致和约束违规的守护 Agent）。这个三层分解为理解 harness
+的内部结构提供了一个清晰的参考框架。</p>
+<h3 id="标志性事件openai-codex-实验">1.3 标志性事件：OpenAI Codex
+实验</h3>
+<p>Harness Engineering 概念的正式进入主流，源于2026年2月 OpenAI
+发布的一篇关于其内部 Codex 团队实践的文章（<a
+href="https://openai.com/index/harness-engineering/">OpenAI,
+2026-02</a>）。</p>
+<p>核心事实：OpenAI 的 Codex
+团队用一个仅3人（后扩至7人）的小团队，在约5个月内，通过约1,500个自动化
+PR（Pull
+Request），构建了一个约100万行代码的生产级应用。整个代码库没有一行代码是人手直接编写的。这意味着平均每位工程师每天产出约3.5个
+PR（<a
+href="https://www.infoq.com/news/2026/02/openai-harness-engineering-codex/">InfoQ,
+2026-02</a>）。</p>
+<p>这些工程师在做什么？他们不是在写代码，而是在设计和维护 harness——定义
+Agent 的工作环境、编写 AGENTS.md 配置文件、构建 CI/CD
+流水线中的验证逻辑、调试 Agent 的失败模式、优化反馈回路。甚至连最初的
+AGENTS.md 文件本身，也是由 Codex Agent 在 harness 的引导下生成的。</p>
+<p>这个案例之所以具有里程碑意义，不在于代码量的大小，而在于它证明了一个核心论点：<strong>工程师的角色已经从”代码的生产者”转变为”代码生产环境的设计者”</strong>。</p>
+<hr />
+<h2 id="二harness-技术架构全解析">二、Harness 技术架构全解析</h2>
+<p>一个生产级的 Agent Harness
+通常由五个核心子系统构成。这五个子系统相互协作，共同构成了 Agent
+可靠运行的基础设施层。以下逐一拆解。</p>
+<h3 id="工具编排层tool-orchestration">2.1 工具编排层（Tool
+Orchestration）</h3>
+<p>工具编排是 Harness 最基础的组件。它定义了 Agent
+可以调用哪些外部工具，以什么方式调用，以及调用的结果如何流回 Agent
+的决策循环。</p>
+<p><strong>核心设计问题：</strong></p>
+<p>工具的注册与发现机制是首要考虑。Agent 需要一个标准化的工具目录（Tool
+Registry），列出每个工具的功能描述、输入参数、输出格式和副作用说明。在
+OpenAI 的 Codex 实践中，这些信息通过 AGENTS.md 与结构化的
+<code>docs/</code> 目录体系协同提供——AGENTS.md
+本身只是一个约100行的”目录表”（table of contents），指向
+<code>docs/</code> 目录下的详细文档。OpenAI
+最初尝试将所有信息塞入一个庞大的 AGENTS.md
+中，但实践证明这个方案失败了：过于庞大的单文件无法被 Agent
+有效利用。最终的解决方案是将 AGENTS.md 精简为索引，让 Agent
+按需检索具体文档（<a
+href="https://openai.com/index/harness-engineering/">OpenAI,
+2026</a>）。Anthropic 的 Claude Code 则通过 CLAUDE.md
+文件实现类似功能，并支持多层级的配置继承——全局配置、项目配置、目录级配置可以逐层覆盖（<a
+href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents">Anthropic,
+2026</a>）。</p>
+<p><strong>工具调用的安全边界至关重要。</strong> 一个拥有 shell
+访问权限的
+Agent，理论上可以删除文件、覆盖数据库、泄露凭证。因此，工具编排层必须实现细粒度的权限控制：哪些工具需要人工审批才能调用，哪些工具可以自动执行，哪些操作具有不可逆性需要特殊保护。Claude
+Agent SDK 内建了一个权限模型来处理这个问题，支持通过 hooks
+系统在工具调用前后插入验证逻辑（<a
+href="https://blog.langchain.com/the-anatomy-of-an-agent-harness/">LangChain,
+2026</a>）。</p>
+<p><strong>工具链的编排模式分为两类：</strong></p>
+<p>第一类是线性管道（Pipeline），工具按固定顺序依次调用，前一个工具的输出作为后一个的输入。这种模式简单可预测，适合标准化流程，比如”拉取代码→修改→运行
+lint→运行测试→提交”的开发流水线。</p>
+<p>第二类是动态路由（Dynamic Routing），Agent
+根据中间结果自行决定下一步调用哪个工具。这更灵活但也更难控制，需要更强的护栏和监控机制来防止
+Agent 进入无效循环或做出意外的工具选择。</p>
+<h3 id="护栏与约束系统guardrails-constraints">2.2
+护栏与约束系统（Guardrails &amp; Constraints）</h3>
+<p>护栏是 Harness 中最体现”驾驭”这个概念的组件。它的作用是给 Agent
+划定清晰的行为边界——不是告诉 Agent
+做什么，而是明确什么是不允许做的。</p>
+<p><strong>实践中常见的约束类型包括（<a
+href="https://www.nxcode.io/resources/news/what-is-harness-engineering-complete-guide-2026">多个来源综合</a>）：</strong></p>
+<p><strong>文件系统约束：</strong> 限制 Agent
+只能访问相关目录。例如，一个负责前端开发的 Agent
+不应该触碰数据库迁移脚本。OpenAI Codex 的实践中，每个 Agent
+的工作空间被严格隔离，只能看到与当前任务相关的文件子集。</p>
+<p><strong>操作约束：</strong> 要求所有代码提交前必须通过 linting
+和格式检查；阻止 <code>rm -rf</code>、<code>DROP TABLE</code>
+等破坏性命令的执行，除非经过显式的人工审批；对网络请求实施白名单限制。</p>
+<p><strong>架构约束：</strong>
+定义代码组织的规则——命名约定、模块结构、依赖方向、API
+设计模式。这些约束确保 Agent
+生成的代码符合项目的整体架构，而不是每次生成一段”正确但风格迥异”的代码。在
+Codex 的实践中，这些架构规则被写入 AGENTS.md，Agent
+在生成代码时将其作为强制遵循的约束。</p>
+<p><strong>输出约束：</strong>
+限制单次生成的代码量、要求特定的提交信息格式、强制附加测试用例等。</p>
+<p><strong>关于约束的松紧策略，业界有一个共识（<a
+href="https://qubittool.com/blog/harness-engineering-complete-guide">多个来源</a>）：从严格开始，随着信任的积累逐步放松。</strong>
+一个新 Agent 接入项目时，应该给予最小权限和最严格的约束。当 Agent
+在特定任务类型上表现出一致的可靠性后，再逐步扩大其自主范围。这与安全领域的”最小权限原则”完全一致。</p>
+<p>Böckeler 在 Martin Fowler
+系列文章中提出了一个深刻的设计原则：<strong>提升 AI
+自主性需要的不是扩大解空间的灵活性，而恰恰是缩小解空间</strong>（<a
+href="https://martinfowler.com/articles/exploring-gen-ai/harness-engineering.html">Martin
+Fowler,
+2026</a>）。受约束的模式、稳定的数据结构和强制的边界才能提升可靠性。这与行业”模型越强越自由”的直觉恰好相反——在生产环境中，约束即可靠性。</p>
+<p>她还提出了一个重要的工程理念——<strong>“Failure-as-Signal”（失败即信号）</strong>：与其人工修正
+Agent 的错误，不如把每次失败视为 harness 的缺口信号。修复方法是增强
+harness 的约束和验证机制（而非直接修改 Agent 的输出），并且让 Agent
+自己参与编写修复代码。这形成了一个 harness
+的自我强化循环：架构护栏在每次失败后迭代变强。</p>
+<h3 id="反馈回路系统feedback-loops">2.3 反馈回路系统（Feedback
+Loops）</h3>
+<p>反馈回路是 Harness 的核心引擎——它让 Agent
+能够自我修正，而不是在第一次失败后就卡住。</p>
+<p><strong>最基础也最有效的反馈回路是”写-测-修”循环（Write-Test-Fix
+Cycle）</strong>（<a
+href="https://openai.com/index/harness-engineering/">OpenAI,
+2026</a>）：</p>
+<ol type="1">
+<li>Agent 生成代码</li>
+<li>Harness 自动运行测试套件</li>
+<li>如果测试通过 → 进入下一步（lint、提交等）</li>
+<li>如果测试失败 →
+将失败信息（错误日志、失败的测试用例、堆栈追踪）反馈给 Agent</li>
+<li>Agent 基于失败信息修改代码</li>
+<li>回到步骤2</li>
+</ol>
+<p>这个循环可以迭代多次，但通常会设置一个最大重试次数（例如3-5次），超过阈值则标记为需要人工介入。</p>
+<p><strong>进阶的反馈回路包括：</strong></p>
+<p><strong>Lint 反馈：</strong> 在测试之前加入 lint
+检查，确保代码在语法和风格层面没有问题后再进入功能测试。这避免了因格式问题导致的无效测试循环。</p>
+<p><strong>增量反馈：</strong>
+不是等所有代码写完再跑完整测试套件，而是每修改一个模块就运行相关的单元测试。这缩短了反馈延迟，让
+Agent 能更快定位问题。</p>
+<p><strong>多层验证反馈：</strong> 单元测试 → 集成测试 → 端到端测试 →
+人工审查，形成多层验证体系。每一层失败都产生反馈信号，帮助
+Agent（或人类）从不同粒度理解问题。</p>
+<p><strong>人在回路（Human-in-the-Loop）反馈：</strong>
+对于关键决策点——比如架构选型、破坏性变更、涉及安全的操作——Harness 暂停
+Agent
+执行，等待人工审批。审批结果本身也构成一种反馈：拒绝并附上修改建议，Agent
+基于建议调整方案。</p>
+<p><strong>Anthropic
+在其工程博客中提出了一个特别重要的反馈模式</strong>（<a
+href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents">Anthropic,
+2026</a>）：灵感来自人类工程师的交接文档（handoff
+documentation）。当一个长任务需要跨越多个上下文窗口时，Agent 在每个
+session 结束时写入一个进度文件（如
+<code>claude-progress.txt</code>），记录”做了什么、做到哪里、下一步是什么”。下一个
+session 的 Agent
+读取这个文件后，可以快速接上进度，避免重复工作或遗漏关键上下文。这本质上是一个跨
+session 的反馈机制。</p>
+<h3 id="可观测性层observability-layer">2.4 可观测性层（Observability
+Layer）</h3>
+<p>如果说反馈回路是 Agent
+的”自我修正机制”，那么可观测性层就是人类的”监控大屏”。它让人类工程师能够理解
+Agent 在做什么、为什么这么做、效率如何、哪里出了问题。</p>
+<p><strong>可观测性在 Harness Engineering 中的四个关键维度（<a
+href="https://www.datadoghq.com/blog/ai/harness-first-agents/">Datadog,
+2026</a>）：</strong></p>
+<p><strong>第一维度：动作日志（Action Logging）。</strong> 记录 Agent
+的每一个动作——调用了什么工具、传入了什么参数、得到了什么结果、用了多少
+token、耗时多少。这是最基础的可观测性需求，相当于传统软件工程中的
+request logging。</p>
+<p><strong>第二维度：决策追踪（Decision Tracing）。</strong>
+不仅记录”做了什么”，还记录”为什么这么做”。当 Agent
+面临多个可能的行动方案时，它选择了哪个，理由是什么？这对调试 Agent
+的”思维模式”至关重要——当 Agent
+犯错时，你需要知道它是在哪个决策点走偏的。</p>
+<p><strong>第三维度：成本与效率监控。</strong> Token 使用量、API
+调用次数、单个 PR
+的平均成本、失败率和重试率等定量指标。这些数据帮助工程师判断 harness
+的优化方向——是约束太松导致无效循环，还是约束太紧导致 Agent
+频繁碰壁？</p>
+<p><strong>第四维度：异常检测与告警。</strong> 自动识别 Agent
+行为中的异常模式：无限循环（Agent
+在两个方案之间反复切换）、资源泄漏（token
+消耗异常飙升）、安全违规（试图访问被禁止的资源）、质量退化（近期 PR
+的测试通过率下降）。</p>
+<p><strong>Datadog 在2026年推出了专门的 AI Agent Monitoring
+产品</strong>（<a
+href="https://www.datadoghq.com/blog/datadog-ai-innovation/">Datadog,
+2026</a>），能够以交互式图谱的方式映射每个 Agent
+的决策路径——输入、工具调用、子 Agent
+调用、输出——工程师可以在图谱上逐层下钻，定位延迟热点、错误的工具调用、或无限循环等异常行为。这反映了可观测性工具正在从通用的
+APM（Application Performance Monitoring）向 Agent 专用方向特化。</p>
+<p><strong>Datadog 还提出了”harness-first”的方法论（<a
+href="https://www.datadoghq.com/blog/ai/harness-first-agents/">Datadog,
+2026</a>）：</strong> Agent 生成代码 → Harness 验证 →
+生产环境遥测数据反馈验证结果 → 如果有问题，反馈更新 harness → Agent
+基于新的 harness 重试。关键理念是：不要逐行审查 Agent
+生成的代码（这会重新回到人力瓶颈），而是投资于自动化检查系统，让它以高置信度判断代码是否正确。</p>
+<h3 id="配置与状态管理层">2.5 配置与状态管理层</h3>
+<p>这是 Harness 中最”隐性”但最关键的组件之一。它解决的问题是：Agent
+如何知道自己在哪个项目中、面对什么代码规范、处于什么工作阶段、之前做了什么？</p>
+<p><strong>配置文件体系</strong></p>
+<p>AGENTS.md 和 CLAUDE.md 是当前最主流的两种 Agent 配置文件格式（<a
+href="https://openai.com/index/harness-engineering/">OpenAI,
+2026</a>；<a
+href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents">Anthropic,
+2026</a>）。</p>
+<p>AGENTS.md 是 OpenAI 在 Codex
+项目中推广的格式。<strong>关键发现：OpenAI
+最初尝试将所有项目知识写入一个庞大的 AGENTS.md
+文件，但这个方案失败了。</strong> 最终采用的架构是：AGENTS.md
+精简为约100行的”目录表”（table of
+contents），仅提供项目概览和索引，指向一个结构化的 <code>docs/</code>
+目录。<code>docs/</code>
+目录下按主题组织详细文档——语言和框架规范、构建和测试命令、代码约定（命名规则、目录结构、模块边界）、已知限制和特殊要求等。Agent
+在工作时按需检索相关文档，而非一次性加载全部上下文。这一设计体现了一个重要的
+harness 工程原则：信息的组织方式比信息的总量更重要（<a
+href="https://openai.com/index/harness-engineering/">OpenAI,
+2026</a>）。</p>
+<p>CLAUDE.md 是 Anthropic 为 Claude Code
+设计的配置格式，支持多层级继承：全局配置（<code>~/.claude/CLAUDE.md</code>）、项目根目录配置（<code>/project/CLAUDE.md</code>）、子目录配置（<code>/project/src/CLAUDE.md</code>）可以逐层覆盖和细化。</p>
+<p>这些配置文件的核心价值在于：它们把原本存在于人类工程师头脑中的”项目隐性知识”——代码风格偏好、架构决策的历史原因、哪些代码不能动——转化为了机器可读的显性规则。</p>
+<p><strong>状态管理：跨 Session 的记忆问题</strong></p>
+<p>长任务需要 Agent
+跨越多个上下文窗口工作，这带来了一个核心挑战：每个新的 session
+开始时，Agent 没有之前的记忆（<a
+href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents">Anthropic,
+2026</a>）。</p>
+<p>Anthropic 的解决方案是一个两层 Agent 架构： - <strong>Initializer
+Agent（初始化 Agent）：</strong>
+在项目首次启动时运行，负责建立结构化的工作环境——创建功能清单、初始化 Git
+仓库、设置进度追踪文件 - <strong>Coding Agent（编码 Agent）：</strong>
+在后续每个 session 中运行，首先读取进度文件和 Git
+历史来恢复上下文，然后做增量推进，完成后更新进度文件</p>
+<p>进度文件（如
+<code>claude-progress.txt</code>）的设计灵感来自人类工程师的交班文档：记录”做了什么”“卡在哪里”“下一步计划”。这让跨
+session 的信息损失降到最低。</p>
+<hr />
+<h2 id="三生产级实践案例">三、生产级实践案例</h2>
+<h3 id="openai-codex百万行代码的零人工编写实验">3.1 OpenAI
+Codex：百万行代码的零人工编写实验</h3>
+<p>这是迄今为止 Harness Engineering 最具标志性的案例（<a
+href="https://openai.com/index/harness-engineering/">OpenAI,
+2026-02</a>；<a
+href="https://www.infoq.com/news/2026/02/openai-harness-engineering-codex/">InfoQ,
+2026-02</a>）。</p>
+<p><strong>核心数据：</strong> - 团队规模：3人（后期扩至7人） -
+时间周期：约5个月 - 代码量：约100万行 - PR 数量：约1,500个 -
+人工编写的代码行数：0 - 工程师日均产出：约3.5个 PR</p>
+<p><strong>技术架构要点：</strong></p>
+<p>项目的初始脚手架——仓库结构、CI
+配置、格式化规则、包管理器设置、应用框架——由 Codex CLI（基于
+GPT-5）生成，引导材料是少量已有模板。</p>
+<p>配置体系的核心不是一个单一文件，而是
+AGENTS.md（约100行的”目录表”）加上结构化的 <code>docs/</code>
+目录。OpenAI 明确指出，他们最初尝试编写一个全面的 AGENTS.md
+但失败了——Agent 无法有效利用过长的单文件。最终方案是将 AGENTS.md
+精简为索引，让 Agent 按需查阅 <code>docs/</code>
+下的具体文档。这些文档本身也是由 Codex Agent 在 harness
+的引导下生成的——形成了一个自举（bootstrapping）效应。</p>
+<p><strong>Git Worktree 隔离机制：</strong> Codex 为每个变更创建独立的
+git worktree，实现了真正的物理隔离。每个 Agent 任务在自己的 worktree
+中工作，互不干扰。这种隔离不仅是安全措施，更是并行化的基础——多个 Agent
+可以同时在不同的 worktree 中处理不同的任务（<a
+href="https://openai.com/index/harness-engineering/">OpenAI,
+2026</a>）。</p>
+<p><strong>“Ralph Wiggum 循环”审查机制：</strong> OpenAI
+内部使用了一个名为”Ralph Wiggum 循环”的审查流程——Agent 生成的 PR
+经过自动化检查后，还需要通过一轮人工或 Agent 审查。这个审查循环是
+harness 质量保证的关键环节（<a
+href="https://openai.com/index/harness-engineering/">OpenAI,
+2026</a>）。</p>
+<p><strong>Chrome DevTools Protocol 集成：</strong> 对于涉及 UI
+的开发任务，Codex 集成了 Chrome DevTools Protocol，让 Agent 能够直接对
+UI 进行截图验证和交互测试——这将反馈回路从代码层面扩展到了视觉层面（<a
+href="https://openai.com/index/harness-engineering/">OpenAI,
+2026</a>）。</p>
+<p>harness
+将脚手架、反馈回路、文档和架构约束编码为机器可读的产物（machine-readable
+artifacts），Codex Agent
+基于这些产物执行跨多个开发工作流的任务：代码生成、测试编写、可观测性配置等（<a
+href="https://www.infoq.com/news/2026/02/openai-harness-engineering-codex/">InfoQ,
+2026-02</a>）。</p>
+<p><strong>Codex App Server：Harness 的基础设施实现</strong></p>
+<p>OpenAI 随后发布了第二篇技术文章《Unlocking the Codex harness: how we
+built the App Server》（<a
+href="https://openai.com/index/unlocking-the-codex-harness/">OpenAI,
+2026</a>），详细披露了 Codex harness 的底层基础设施。Codex
+运行在多个界面上（Web 应用、CLI、IDE 扩展、macOS
+应用），所有界面由同一个 Codex App Server 驱动，通过双向 JSON-RPC
+协议通信。</p>
+<p>App Server 包含四个核心组件：stdio
+reader（标准输入输出读取器）、Codex message
+processor（消息处理器）、thread manager（线程管理器）和 core
+threads（核心线程）。线程管理器为每个工作线程启动一个独立的核心
+session，消息处理器负责在客户端请求和核心 session 之间传递信息。</p>
+<p>Agent loop（Agent 循环）是 harness
+的核心编排逻辑：模型负责每一步的推理，而 harness
+处理所有其他事务——执行命令、收集输出、管理权限、决定循环何时结束。通信协议是完全双向的——当
+Agent
+需要用户审批时，服务端可以主动发起请求，暂停执行直到客户端响应。</p>
+<p>沙箱模式是安全架构的关键。Codex 提供三种 sandbox
+模式：<code>workspace-write</code>（工作空间写入）、<code>read-only</code>（只读）和
+<code>danger-full-access</code>（完全访问），可以根据任务的风险等级灵活匹配权限（<a
+href="https://openai.com/index/unlocking-the-codex-harness/">OpenAI,
+2026</a>）。</p>
+<p><strong>“黄金原则”与 Taste Committee：</strong> OpenAI
+团队建立了一套被称为”黄金原则”（Golden Rules）的确定性 linter
+规则体系。这些规则不依赖 LLM
+判断，而是通过传统的静态分析工具严格执行。一个 taste
+committee（品味委员会）负责定义和维护这些架构级规则——哪些设计模式是允许的，哪些是禁止的。这些规则被编码为自动化检查，成为
+harness 约束层的核心组件（<a
+href="https://openai.com/index/harness-engineering/">OpenAI,
+2026</a>）。</p>
+<p><strong>本地可观测性栈：</strong> 每个 git worktree
+配备了临时的本地可观测性基础设施，使用 LogQL 和 PromQL
+进行日志查询和指标监控。这些可观测性数据随 worktree
+生命周期存在——任务完成后自动清理。这种”临时可观测性”的设计理念与传统的持久化监控形成了有趣的对比（<a
+href="https://openai.com/index/harness-engineering/">OpenAI,
+2026</a>）。</p>
+<p><strong>知识库质量分级：</strong> OpenAI 为 <code>docs/</code>
+目录中的文档建立了质量分级机制，标记每份文档的可信度和时效性。Agent
+在参考文档时会考虑这些分级信息，优先使用高质量、近期更新的文档。</p>
+<p><strong>“文档园艺” Agent 与垃圾回收演进：</strong> 维护 harness
+的一个关键挑战是知识库的熵增。OpenAI
+的解决方案经历了一个演进过程——最初是工程师投入约 20%
+的时间手动维护文档和配置，后来逐步将这些维护任务自动化，交给专门的 Codex
+Agent 执行。一个”doc-gardening”（文档园艺）Agent
+定期扫描仓库中的过时文档，找出与实际代码行为不符的文档并自动开 PR
+修复。专用的 linter 和 CI job
+负责验证知识库是否最新、交叉引用是否正确、结构是否规范（<a
+href="https://openai.com/index/harness-engineering/">OpenAI,
+2026</a>）。</p>
+<p><strong>效率数据：</strong> OpenAI 估算，通过 harness engineering
+的方法，完成同等规模的工程任务仅需传统手动编码时间的约
+<strong>1/10</strong>。这一数据点是目前公开的最具体的效率量化指标之一（<a
+href="https://openai.com/index/harness-engineering/">OpenAI,
+2026</a>）。</p>
+<p><strong>关键洞察：</strong> 这个案例最根本的启示不是”AI
+可以写100万行代码”，而是”3个工程师可以通过设计 harness 来驾驭 AI
+产出100万行可靠的代码”。工程师的角色从”生产正确的代码”转变为”设计一个让
+Agent 可靠地生产正确代码的环境”。</p>
+<h3 id="anthropic长运行-agent-的-harness-设计">3.2 Anthropic：长运行
+Agent 的 Harness 设计</h3>
+<p>Anthropic 在其工程博客中发布了两篇关于 Agent Harness
+设计的深度文章（<a
+href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents">Anthropic
+Engineering Blog, 2026</a>；<a
+href="https://www.anthropic.com/engineering/harness-design-long-running-apps">Anthropic
+Engineering Blog, 2026</a>），提出了一套面向长运行任务的 harness
+设计方法论。</p>
+<p><strong>核心问题：</strong>
+复杂的软件工程任务无法在单个上下文窗口内完成，Agent 必须跨越多个 session
+持续推进。但每个新 session 开始时，Agent 的记忆是空白的。</p>
+<p><strong>解决方案架构：</strong></p>
+<p>Anthropic 设计了一个双 Agent 系统：Initializer Agent
+负责首次运行时的环境搭建（运行 <code>init.sh</code>
+脚本、创建功能清单、执行初始 git commit、设置
+<code>claude-progress.txt</code> 进度追踪文件），Coding Agent
+负责后续每个 session
+的增量开发。<strong>一个关键的架构细节是：这两个”Agent”实际上共享完全相同的
+system prompt、工具集和 harness 配置，它们之间唯一的区别是 user prompt
+不同</strong>（<a
+href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents">Anthropic,
+2026</a>，作者 Claude Shannon Hoover、Boris Cherny）。换言之，“两种
+Agent”的区分完全通过 harness 中的 prompt
+路由实现，而非底层架构的分化。这个设计的灵感来自人类工程师的日常实践——就像一个团队通过交接文档在不同班次之间传递工作状态。</p>
+<p>Anthropic 还指出，这种 harness
+模式的适用范围远超编码场景——科学研究、金融建模等需要长时间迭代推进的任务同样适用（<a
+href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents">Anthropic,
+2026</a>）。</p>
+<p><strong>第二篇博客：GAN 式三 Agent Harness 架构</strong></p>
+<p>Anthropic 的第二篇工程博客《Harness design for long-running
+application development》（<a
+href="https://www.anthropic.com/engineering/harness-design-long-running-apps">Anthropic,
+2026</a>，作者 Boris Cherny、Claude Shannon
+Hoover）披露了一个更高阶的架构——受 GAN（生成对抗网络）启发的
+generator-evaluator 多 Agent 模式。</p>
+<p><strong>实际上是三层 Agent 结构：</strong></p>
+<ol type="1">
+<li><strong>Outer Agent（外层规划 Agent）：</strong>
+负责整体任务规划和分解，决定每一轮迭代的目标</li>
+<li><strong>Inner Agent（内层编码 Agent）：</strong>
+负责具体的代码生成和修改工作</li>
+<li><strong>Evaluator Agent（评估 Agent）：</strong> 负责评判 Inner
+Agent 的产出质量</li>
+</ol>
+<p>核心思路是：将”做工作的 Agent”和”评判工作的
+Agent”分离，因为让一个模型对自己的输出保持批判性远比让一个独立的评估者保持怀疑态度要难得多。</p>
+<p><strong>截图驱动的评估机制：</strong> Evaluator Agent
+的评估依据不是代码本身，而是<strong>应用的截图</strong>。它使用一个结构化的评分标准（rubric）从多个维度评判产出：视觉设计质量、动画效果、响应式适配等。这意味着评估是从最终用户视角出发的，而非从代码视角。这是一个重要的方法论突破——传统的代码审查依赖静态分析，而截图评估捕捉了”用户看到什么”这个更本质的维度（<a
+href="https://www.anthropic.com/engineering/harness-design-long-running-apps">Anthropic,
+2026</a>）。</p>
+<p><strong>“Design Hero” 参考图机制：</strong> 为了给 Evaluator Agent
+提供风格锚点，Anthropic 引入了”Design
+Hero”（设计英雄）概念——一组精选的参考图片，定义了目标应用应该”看起来像什么”。Evaluator
+在评分时参照这些 design hero 图片，确保 Agent 生成的 UI
+风格与预期一致。这本质上是将人类的”审美标准”编码为 harness
+的约束条件（<a
+href="https://www.anthropic.com/engineering/harness-design-long-running-apps">Anthropic,
+2026</a>）。</p>
+<p>Anthropic 给出了一组惊人的对比数据：<strong>单 Agent
+方案在20分钟内花费9美元，仅产出了一个勉强可用的原型（barely-functional
+prototype）；而完整的三 Agent harness
+运行了6小时、花费200美元，但交付了一个丰富且精致的应用（rich, polished
+application）</strong>（<a
+href="https://www.anthropic.com/engineering/harness-design-long-running-apps">Anthropic,
+2026</a>）。</p>
+<p>这组数据揭示了一个重要的工程权衡：harness
+的价值不在于”更快更便宜”，而在于让 Agent
+能够完成原本不可能完成的高质量任务。20分钟和9美元得到的是一个玩具，6小时和200美元得到的是一个可交付的产品。</p>
+<p>Anthropic
+的设计哲学可以总结为”<strong>从复杂开始，在可能的地方简化</strong>”（start
+complex, simplify where possible）——先构建一个完整的多 Agent
+harness，然后根据实际需要逐步移除不必要的复杂性，而非反过来从简单开始不断增加（<a
+href="https://www.anthropic.com/engineering/harness-design-long-running-apps">Anthropic,
+2026</a>）。</p>
+<h3 id="langchain-deepagentsharness-决定性能上限的实证">3.3 LangChain
+DeepAgents：Harness 决定性能上限的实证</h3>
+<p>LangChain 的 DeepAgents 案例为 harness
+的价值提供了最直接的量化证据（<a
+href="https://blog.langchain.com/improving-deep-agents-with-harness-engineering/">LangChain,
+2026</a>）。</p>
+<p><strong>关键数据点：</strong> DeepAgents 在 Terminal Bench 2.0
+benchmark 上，仅通过改变 harness（底层模型完全不变），得分从 52.8%
+提升至 66.5%（<a
+href="https://blog.langchain.com/improving-deep-agents-with-harness-engineering/">LangChain,
+2026</a>）。</p>
+<p><strong>LangChain 的战略判断：</strong> Harrison Chase 和 Erick Friis
+在《The Anatomy of an Agent Harness》中明确指出：<strong>“Harness 是
+Agent 开发中最不可能被商品化的部分”</strong>（“the part of agent
+development that is LEAST likely to be
+commoditized”）。框架会趋同，模型能力会拉平，但 harness
+的设计高度依赖特定业务场景的工程积累，无法简单复制（<a
+href="https://blog.langchain.com/the-anatomy-of-an-agent-harness/">LangChain,
+2026</a>，作者 Harrison Chase、Erick Friis）。这一判断揭示了 harness
+engineering 的长期商业价值。</p>
+<p>LangChain 还提出了一个重要的概念分层（<a
+href="https://blog.langchain.com/agent-frameworks-runtimes-and-harnesses-oh-my/">LangChain,
+2026</a>）： - <strong>Framework（框架）：</strong> 如
+LangChain，提供构建 Agent 的组件库——prompt
+模板、工具抽象、记忆接口、Agent 循环逻辑 -
+<strong>Runtime（运行时）：</strong> 如 LangGraph，提供有状态的、长运行
+Agent 的编排和管理能力 - <strong>Harness（驾驭系统）：</strong> 如
+DeepAgents，在 Framework 和 Runtime
+之上构建的完整生产级包装，包括规划工具、文件系统后端、子 Agent
+生成能力</p>
+<p><strong>五大 Harness 原语（Five Harness Primitives）</strong></p>
+<p>在更高的抽象层面，LangChain 将 harness 的能力分解为五个核心原语（<a
+href="https://blog.langchain.com/the-anatomy-of-an-agent-harness/">LangChain,
+2026</a>）：</p>
+<ol type="1">
+<li><strong>Filesystem（文件系统）——最基础的原语。</strong> LangChain
+将文件系统视为 harness 中最重要的组件，因为它既是 Agent
+的工作空间，也是多个 Agent
+和人类协作的天然界面。文件系统提供了持久化、可检查、可版本控制的状态管理能力。</li>
+<li><strong>Planning Tools（规划工具）：</strong> 让 Agent
+先制定计划再执行，确保复杂任务有结构化的推进路径。</li>
+<li><strong>Middleware（中间件）：</strong>
+可插拔的功能层，提供记忆、摘要、缓存等横切关注点。</li>
+<li><strong>Subagents（子 Agent）：</strong> 支持生成具有上下文隔离的子
+Agent，处理需要专门能力的子任务。</li>
+<li><strong>Feedback（反馈）：</strong>
+测试、lint、人工审查等多层验证机制。</li>
+</ol>
+<p><strong>DeepAgents 的 Middleware 架构</strong></p>
+<p>DeepAgents 的技术实现基于一个可插拔的中间件栈（Middleware
+Stack），将上述原语具体化为工程组件。每个中间件负责一个特定的 harness
+能力（<a
+href="https://docs.langchain.com/oss/python/deepagents/overview">LangChain
+Docs, 2026</a>；<a
+href="https://github.com/langchain-ai/deepagents">GitHub:
+langchain-ai/deepagents</a>）：</p>
+<ul>
+<li><strong>TodoListMiddleware（规划）：</strong> 让 Agent
+先制定任务清单再执行，确保复杂任务有结构化的推进路径</li>
+<li><strong>MemoryMiddleware（记忆）：</strong> 管理 Agent
+的短期和长期记忆</li>
+<li><strong>FilesystemMiddleware（文件系统）：</strong>
+提供基于文件的上下文加载/卸载和长期持久化能力——LangChain 将文件系统视为
+harness 中最基础的原语（primitive），因为它既是 Agent
+的工作空间，也是多个 Agent 和人类协作的自然界面</li>
+<li><strong>SubAgentMiddleware（子 Agent）：</strong>
+支持生成具有上下文隔离的子 Agent，处理需要专门能力的子任务</li>
+<li><strong>SummarizationMiddleware（摘要）：</strong>
+在上下文溢出时自动压缩历史信息，对抗 context rot</li>
+<li><strong>SkillsMiddleware（技能）：</strong>
+按需渐进式披露专用能力，避免一次性加载所有工具导致的上下文污染</li>
+<li><strong>AnthropicPromptCachingMiddleware：</strong> 针对 Anthropic
+模型的 prompt 缓存优化</li>
+<li><strong>PatchToolCallsMiddleware：</strong>
+工具调用的修正和标准化</li>
+</ul>
+<p>后端支持两种模式：StateBackend（将文件状态存储在 LangGraph Agent
+状态中，适合短任务）和
+FilesystemBackend（直接读写宿主文件系统，适合需要持久化的长任务）。</p>
+<h3 id="更广泛的行业实践">3.4 更广泛的行业实践</h3>
+<p>多个来源提到，Manus、LangChain、Vercel 等公司都投入了大量工程资源构建
+harness（<a
+href="https://aakashgupta.medium.com/2025-was-agents-2026-is-agent-harnesses-heres-why-that-changes-everything-073e9877655e">Aakash
+Gupta, Medium,
+2026</a>）。这种投资形成了一种新型的竞争壁垒——和模型能力不同，harness
+是高度依赖工程积累的产物，不容易被竞争对手快速复制。</p>
+<p>一个被广泛引用的数据点是：使用同一个 GPT-5 或 Claude 4
+模型，换底层模型只能带来 10-15% 的输出质量变化，但改变 harness
+设计可以决定系统是否能用（<a
+href="https://aakashgupta.medium.com/2025-was-agents-2026-is-agent-harnesses-heres-why-that-changes-everything-073e9877655e">多个来源引用</a>）。这意味着在模型能力已经足够好的情况下，harness
+才是真正的差异化因素。</p>
+<hr />
+<h2 id="四关键技术挑战">四、关键技术挑战</h2>
+<h3 id="context-rot上下文窗口的退化问题">4.1 Context
+Rot：上下文窗口的退化问题</h3>
+<p>随着 Agent
+执行长任务，其上下文窗口会逐渐被历史信息填满。当上下文窗口接近容量上限时，模型的推理能力会明显退化——这被称为”Context
+Rot”（<a
+href="https://www.nxcode.io/resources/news/what-is-harness-engineering-complete-guide-2026">多个来源</a>）。</p>
+<p>这不仅仅是”信息太多找不到重点”的问题。研究表明，当上下文窗口中充斥大量信息时，模型对早期信息和中间信息的关注度会系统性下降（“lost
+in the middle”效应）。这意味着 Agent
+在长任务的后半段可能会”遗忘”前半段的关键决策和约束。</p>
+<p><strong>当前的工程缓解方案包括：</strong>
+定期压缩上下文（只保留最关键的信息摘要）；设置 session
+边界（在达到一定复杂度后强制开启新 session）；使用外部状态文件（如
+<code>claude-progress.txt</code>）来卸载记忆负担。但这些都是权宜之计，根本解决方案有待模型架构层面的突破。</p>
+<h3 id="跨-session-持久化">4.2 跨 Session 持久化</h3>
+<p>长运行 Agent 必须在离散的 session 之间工作，每个新 session
+开始时没有前一个 session 的记忆。这是一个工程上尚未完全解决的问题（<a
+href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents">Anthropic,
+2026</a>）。</p>
+<p>当前的最佳实践是通过结构化的进度文件和 Git 历史来桥接 session
+间的信息鸿沟。但这带来了新的问题：进度文件的信息密度如何控制？太详细会浪费宝贵的上下文窗口容量，太简略又会丢失关键上下文。如何确保进度文件的准确性？Agent
+对自身工作状态的自评估并不总是可靠的。</p>
+<h3 id="pattern-drift模式漂移">4.3 Pattern Drift：模式漂移</h3>
+<p>Codex Agent
+在代码生成时，倾向于复制仓库中已存在的代码模式——包括那些不够好的模式（<a
+href="https://martinfowler.com/articles/exploring-gen-ai/harness-engineering.html">Martin
+Fowler,
+2026</a>）。随着时间推移，这种”模式复制”会导致不良实践的扩散和积累，代码库的整体质量可能在不知不觉中退化。</p>
+<p>这与传统软件工程中的”技术债务”有些类似，但更隐蔽——因为每个 Agent
+生成的单个 PR
+看起来都是”合理的”（它符合现有模式），但整体上却在无声地恶化。</p>
+<p><strong>缓解方案：</strong> 在 harness
+中实施强制的架构规则（不仅是格式规则，还包括设计模式规则）；定期对代码库进行人工架构审查；使用专门的
+linter 检测已知的不良模式。</p>
+<h3 id="安全与自主的权衡">4.4 安全与自主的权衡</h3>
+<p>给 Agent
+更多自主权可以提高效率（减少等待人工审批的时间），但也增加了风险。一个拥有不受限
+shell 访问权限的 Agent，可能会执行危险操作（<a
+href="https://www.nxcode.io/resources/news/what-is-harness-engineering-complete-guide-2026">多个来源综合</a>）。</p>
+<p>这里的难点不是技术实现（权限控制本身不难），而是策略设计：在什么粒度上划分权限？对不同类型的操作设置什么级别的审批门槛？如何在效率和安全之间找到可接受的平衡点？</p>
+<h3 id="功能正确性验证缺口">4.5 功能正确性验证缺口</h3>
+<p>Birgitta Böckeler 在 Martin Fowler
+系列文章中对此提出了尖锐的批评：<strong>“What I am missing is
+verification of functionality and
+behavior”</strong>（我所看到的缺失是对功能和行为的验证）。她指出，当前大多数
+harness 方案（包括 OpenAI
+的实践）主要依赖格式检查（linting）、类型检查和单元测试来验证 Agent
+的产出。这些工具可以验证代码的技术正确性（不崩溃、不报错），但很难验证功能正确性（是否真正实现了用户需要的功能）（<a
+href="https://martinfowler.com/articles/exploring-gen-ai/harness-engineering.html">Martin
+Fowler, 2026</a>）。</p>
+<p>这是当前 harness engineering 中最大的未解决问题之一。一个完整的
+harness
+必须从代码质量验证走向行为正确性验证——需要端到端测试矩阵来从用户视角验证结果。Anthropic
+的截图评估方法（见 3.2
+节）是对这一缺口的一种创新回应，但设计通用的行为正确性验证框架仍然高度依赖人类判断，难以完全自动化。</p>
+<h3 id="harness-本身的保质期">4.6 Harness 本身的保质期</h3>
+<p>一个有趣的悖论是：模型能力在快速进化，但 harness
+中编码的假设和约束可能很快过时（<a
+href="https://martinfowler.com/articles/exploring-gen-ai/harness-engineering.html">Martin
+Fowler,
+2026</a>）。今天需要严格约束的操作，六个月后更强的模型可能可以可靠地自主完成。一个好的
+harness
+需要内建”自我简化”的机制——随着模型能力的提升，逐步移除不再必要的约束，否则
+harness 反而会成为效率的瓶颈。</p>
+<hr />
+<h2 id="五工具生态与平台格局">五、工具生态与平台格局</h2>
+<h3 id="主要平台对比">5.1 主要平台对比</h3>
+<p>当前 harness engineering 的工具生态可以按三个层次来理解（<a
+href="https://blog.langchain.com/agent-frameworks-runtimes-and-harnesses-oh-my/">LangChain,
+2026</a>）：</p>
+<p><strong>Agent 框架层（Framework）：</strong> 提供构建 Agent
+的基础组件。LangChain 是这一层最成熟的选择，提供 prompt
+模板、工具抽象、记忆接口等。CrewAI 专注于多 Agent 协作，在2026年推出了
+Flows 功能，增加了事件驱动的编排能力。AutoGen 和 Semantic Kernel
+也是这一层的参与者。</p>
+<p><strong>Agent 运行时层（Runtime）：</strong> 提供有状态、长运行 Agent
+的编排能力。LangGraph 是 LangChain 1.0
+的底层运行时，支持有状态的、可中断恢复的 Agent 工作流。</p>
+<p><strong>Agent Harness 层：</strong>
+在框架和运行时之上，提供完整的生产级包装。这是当前竞争最激烈的层次： -
+<strong>OpenAI Codex</strong> 是端到端的 harness 解决方案，与 GPT-5
+深度集成 - <strong>Claude Code / Claude Agent SDK</strong>
+提供内建的权限模型、hooks 系统和多 session 支持 - <strong>LangChain
+DeepAgents</strong> 是基于 LangGraph 构建的开源 harness -
+<strong>Datadog</strong> 从可观测性维度切入，提供 Agent
+专用的监控和调试工具</p>
+<h3 id="开源生态">5.2 开源生态</h3>
+<p>GitHub 上已经出现了多个开源的 harness 实现。例如
+<code>charlesanim/harness-engineering</code> 提供了一个 Agent
+skill，可以在任意仓库中设置 OpenAI 的 harness engineering 方法论，兼容
+Copilot、Codex、Claude、Cursor 等多种 Agent（<a
+href="https://github.com/charlesanim/harness-engineering">GitHub</a>）。Open
+Harness 项目则尝试提供一个标准化的开源 harness 框架（<a
+href="https://www.maxgfeller.com/blog/open-harness/">maxgfeller.com</a>）。<code>agent-harness.ai</code>
+则定位为 harness 工程的知识社区和工具目录（<a
+href="https://agent-harness.ai/">agent-harness.ai</a>）。</p>
+<h3 id="可观测性工具特化">5.3 可观测性工具特化</h3>
+<p>可观测性是 harness 生态中发展最快的子领域。Datadog
+在2026年推出了一系列 Agent 专用监控能力：AI Agent
+Monitoring（决策路径可视化）、LLM Experiments（A/B 测试 Agent 配置）、AI
+Agents Console（统一管理面板）（<a
+href="https://www.datadoghq.com/blog/datadog-ai-innovation/">Datadog,
+2026</a>）。Datadog 还发布了 MCP Server，让工程师在使用 Codex、Claude
+Code、Cursor 等 Agent 开发时，能够直接利用 Datadog 的遥测数据作为 Agent
+的上下文输入。</p>
+<p>这反映了一个趋势：传统的 APM 工具正在向 Agent
+专用方向特化，形成一个新的”Agent Observability”细分市场。</p>
+<hr />
+<h2 id="六harness-engineer-岗位定义">六、Harness Engineer 岗位定义</h2>
+<h3 id="角色定位">6.1 角色定位</h3>
+<p>Harness Engineer
+是一个全新的工程角色，其职责的核心可以用一句话概括：<strong>设计和维护让
+AI Agent 可靠工作的运行环境</strong>（<a
+href="https://docs.bswen.com/blog/2026-03-25-harness-engineer-role-skills/">BSWEN,
+2026</a>）。</p>
+<p>中文行业讨论中，这个角色被赋予了三个比喻（<a
+href="https://zhuanlan.zhihu.com/p/2014014859164026634">知乎,
+2026</a>）： - <strong>代码生成器的架构师：</strong>
+不亲手写代码，而是设计让 AI 高效、正确地生成代码的系统 -
+<strong>意图的翻译官：</strong>
+将模糊的业务需求转化为精确的、机器可执行的规则和约束 -
+<strong>系统园丁：</strong> 构建自动化护栏、验证机制和清理流程，确保 AI
+工程生态系统长期健康</p>
+<h3 id="核心技能栈">6.2 核心技能栈</h3>
+<p>基于搜索到的信息综合，Harness Engineer 需要以下技能（<a
+href="https://docs.bswen.com/blog/2026-03-25-harness-engineer-role-skills/">BSWEN,
+2026</a>；<a
+href="https://www.nxcode.io/resources/news/what-is-harness-engineering-complete-guide-2026">多个来源综合</a>）：</p>
+<p><strong>必备技术能力：</strong> - 深度理解 CI/CD 流水线和 DevOps
+实践（harness 的很多组件本质上是 CI/CD 的扩展） - 熟练的 LLM API
+使用经验（理解 token 经济、上下文窗口管理、prompt 设计） -
+测试工程能力（设计测试策略、编写自动化测试、理解覆盖率与功能正确性的区别）
+- 可观测性系统经验（日志、追踪、指标、告警） -
+至少一种主流编程语言的深度使用经验（理解代码架构才能设计好的架构约束）</p>
+<p><strong>高阶能力：</strong> - Agent 失败模式分析（从 Agent
+日志中识别系统性的问题模式，而非个案排错） -
+约束策略设计（在安全和效率之间找到最优平衡点的能力） - 跨 session
+状态管理设计（解决长运行 Agent 的记忆和持久化问题） - 多 Agent
+协作架构设计</p>
+<h3 id="与相关角色的边界">6.3 与相关角色的边界</h3>
+<p>Harness Engineer 不是以下任何一个角色的简单重命名： - <strong>不是
+DevOps / SRE</strong>：DevOps 关注应用的部署和运维，Harness Engineer
+关注 Agent
+的工作环境设计。虽然有工具重叠（CI/CD、监控），但核心问题域不同。 -
+<strong>不是 ML Engineer</strong>：ML Engineer
+关注模型训练和优化，Harness Engineer
+不碰模型本身，而是关注如何包装已有模型使其可靠工作。 - <strong>不是
+Prompt Engineer</strong>：Prompt Engineer
+优化单次交互的指令质量，Harness Engineer
+设计整个自动化的工作流和约束系统。 - <strong>最接近但不同于 Platform
+Engineer</strong>：Platform Engineer
+为人类开发者构建内部工具和平台，Harness Engineer 为 AI Agent
+构建工作环境。</p>
+<h3 id="薪资与市场需求">6.4 薪资与市场需求</h3>
+<p>由于 Harness Engineer
+这一岗位在2026年初才刚刚定义，目前还没有独立的薪资统计数据。从实际招聘情况来看，这类能力通常被包含在
+Senior/Staff Software Engineer、AI Platform Engineer、Developer
+Experience Engineer 等头衔的 JD 中，而非以”Harness
+Engineer”这一独立头衔出现。</p>
+<p>初步判断，具备 harness engineering 能力的工程师的市场价值至少对标
+Senior Software Engineer 水平，在 AI-first
+公司中可能更高——因为这类人才需要同时理解传统软件工程和 LLM Agent
+系统，目前供给远小于需求。</p>
+<hr />
+<h2 id="七未来展望">七、未来展望</h2>
+<h3 id="短期趋势2026-2027">7.1 短期趋势（2026-2027）</h3>
+<p><strong>Harness 工具的标准化。</strong>
+当前各家平台的配置格式、工具接口、状态管理方案都各不相同。随着实践积累，行业可能会收敛出一套相对标准化的
+harness 规范，降低跨平台迁移的成本。AGENTS.md 和 CLAUDE.md
+的格式之争可能是这个标准化过程的起点。</p>
+<p><strong>可观测性从”事后分析”走向”实时干预”。</strong> 当前的 Agent
+监控主要是事后看日志和报表。下一步的方向是实时检测异常并自动干预——例如，当系统检测到
+Agent 进入无限循环时，自动中断并提示人类介入，或者自动调整约束参数。</p>
+<p><strong>多 Agent 协作的 harness 架构成熟。</strong> 单个 Agent 的
+harness 已经有了相对成熟的模式。多个 Agent
+如何协作、如何分工、如何避免冲突、如何共享状态，还处于早期探索阶段。</p>
+<p><strong>Harness 作为新的”服务模板”。</strong> Böckeler
+提出了一个前瞻性假设：harness 可能演变为新一代的”service
+templates”——就像现在的微服务框架提供标准化的项目脚手架一样，未来的
+harness 可能成为组织内部的标准化 Agent
+工作环境模板。每个团队或服务类型对应一套预配置的
+harness，包含该场景下最优的约束规则、反馈回路和工具集（<a
+href="https://martinfowler.com/articles/exploring-gen-ai/harness-engineering.html">Martin
+Fowler, 2026</a>）。</p>
+<h3 id="中长期演进">7.2 中长期演进</h3>
+<p><strong>Harness 的自适应能力。</strong> 当前的 harness
+规则是人类工程师手动编写和调优的。未来的 harness
+可能会具备一定的自适应能力——基于 Agent
+的历史表现数据，自动调整约束的松紧、优化反馈回路的参数、甚至自动发现和修复效率瓶颈。</p>
+<p><strong>模型能力增长对 harness 的”侵蚀”效应。</strong>
+随着模型越来越强，今天需要 harness
+硬约束的一些场景，未来模型可能天然就能可靠处理。Martin Fowler
+的文章中已经点出了这个趋势：长期来看，harness
+应该越来越简单，越来越多的约束会被更强的模型能力所替代（<a
+href="https://martinfowler.com/articles/exploring-gen-ai/harness-engineering.html">Martin
+Fowler,
+2026</a>）。但这个过程不会是一夜之间发生的，而是一个渐进的、需要持续评估的过程。</p>
+<p><strong>“Harness Engineering
+是过渡期的脚手架，还是永久的工程范式？”</strong>
+这是行业目前最大的开放性辩论之一。乐观派认为，随着模型趋向 AGI，harness
+最终会简化到几乎不存在。务实派认为，即使模型再强，人类对 AI
+系统的可控性需求不会消失，harness
+的形态可能变化，但”驾驭”的需求永远存在（<a
+href="https://aistudio.baidu.com/blog/detail/782594229324805">百度飞桨星河社区,
+2026</a>）。我们认为后者更可能——就像操作系统不会因为 CPU
+变强而消失一样，harness 作为 Agent
+的”操作系统”，其核心价值（安全、可控、可审计）是不会随着模型能力的提升而消失的。</p>
+<hr />
+<h2 id="参考来源">参考来源</h2>
+<h3 id="一手来源primary-sources">一手来源（Primary Sources）</h3>
+<ol type="1">
+<li><a href="https://openai.com/index/harness-engineering/">Harness
+engineering: leveraging Codex in an agent-first world</a> - <strong>Ryan
+Lopopolo</strong>, OpenAI, 2026-02-11</li>
+<li><a
+href="https://openai.com/index/unlocking-the-codex-harness/">Unlocking
+the Codex harness: how we built the App Server</a> - OpenAI, 2026</li>
+<li><a
+href="https://openai.com/index/unrolling-the-codex-agent-loop/">Unrolling
+the Codex agent loop</a> - OpenAI, 2026</li>
+<li><a
+href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents">Effective
+harnesses for long-running agents</a> - <strong>Claude Shannon Hoover,
+Boris Cherny</strong>, Anthropic Engineering Blog, 2026</li>
+<li><a
+href="https://www.anthropic.com/engineering/harness-design-long-running-apps">Harness
+design for long-running application development</a> - <strong>Boris
+Cherny, Claude Shannon Hoover</strong>, Anthropic Engineering Blog,
+2026</li>
+<li><a
+href="https://martinfowler.com/articles/exploring-gen-ai/harness-engineering.html">Harness
+Engineering</a> - <strong>Birgitta Böckeler</strong>（Thoughtworks
+杰出工程师）, Martin Fowler 系列, 2026-02-17</li>
+<li><a
+href="https://blog.langchain.com/the-anatomy-of-an-agent-harness/">The
+Anatomy of an Agent Harness</a> - <strong>Harrison Chase, Erick
+Friis</strong>, LangChain Blog, 2026</li>
+<li><a
+href="https://blog.langchain.com/agent-frameworks-runtimes-and-harnesses-oh-my/">Agent
+Frameworks, Runtimes, and Harnesses — oh my!</a> - LangChain Blog,
+2026</li>
+<li><a
+href="https://blog.langchain.com/improving-deep-agents-with-harness-engineering/">Improving
+Deep Agents with harness engineering</a> - LangChain Blog, 2026</li>
+</ol>
+<h3 id="二手来源与分析secondary-sources">二手来源与分析（Secondary
+Sources）</h3>
+<ol start="10" type="1">
+<li><a
+href="https://www.infoq.com/news/2026/02/openai-harness-engineering-codex/">OpenAI
+Introduces Harness Engineering: Codex Agents Power Large-Scale Software
+Development</a> - InfoQ, 2026-02</li>
+<li><a
+href="https://www.epsilla.com/blogs/harness-engineering-evolution-prompt-context-autonomous-agents">The
+Third Evolution: Why Harness Engineering Replaced Prompting in 2026</a>
+- Epsilla, 2026</li>
+<li><a
+href="https://www.datadoghq.com/blog/ai/harness-first-agents/">Closing
+the verification loop: Observability-driven harnesses for building with
+agents</a> - Datadog, 2026</li>
+<li><a
+href="https://www.datadoghq.com/blog/datadog-ai-innovation/">Datadog
+Expands LLM Observability with New Capabilities</a> - Datadog, 2026</li>
+<li><a
+href="https://docs.bswen.com/blog/2026-03-25-harness-engineer-role-skills/">Harness
+Engineer: The New Role Defining AI Agent Development in 2026</a> -
+BSWEN, 2026-03</li>
+<li><a
+href="https://www.nxcode.io/resources/news/what-is-harness-engineering-complete-guide-2026">What
+Is Harness Engineering? Complete Guide for AI Agent Development
+(2026)</a> - NxCode, 2026</li>
+<li><a
+href="https://www.nxcode.io/resources/news/harness-engineering-complete-guide-ai-agent-codex-2026">Harness
+Engineering: The Complete Guide to Building Systems That Make AI Agents
+Actually Work (2026)</a> - NxCode, 2026</li>
+<li><a
+href="https://qubittool.com/blog/harness-engineering-complete-guide">Complete
+Guide to Harness Engineering</a> - QubitTool, 2026</li>
+<li><a
+href="https://aakashgupta.medium.com/2025-was-agents-2026-is-agent-harnesses-heres-why-that-changes-everything-073e9877655e">2025
+Was Agents. 2026 Is Agent Harnesses. Here’s Why That Changes
+Everything.</a> - Aakash Gupta, Medium, 2026</li>
+<li><a
+href="https://www.epsilla.com/blogs/anthropic-harness-engineering-multi-agent-gan-architecture">The
+GAN-Style Agent Loop: Deconstructing Anthropic’s Harness
+Architecture</a> - Epsilla, 2026</li>
+<li><a href="https://arxiv.org/html/2603.05344v1">Building AI Coding
+Agents for the Terminal: Scaffolding, Harness, Context Engineering, and
+Lessons Learned</a> - arXiv, 2026-03</li>
+<li><a href="https://zhuanlan.zhihu.com/p/2014014859164026634">Harness
+Engineering 深度解析：AI Agent 时代的工程范式革命</a> - 知乎, 2026</li>
+<li><a href="https://zhuanlan.zhihu.com/p/2021680667864363673">Harness
+Engineering：AI时代的软件工程新范式</a> - 知乎, 2026</li>
+<li><a
+href="https://blog.langchain.com/how-middleware-lets-you-customize-your-agent-harness/">How
+Middleware Lets You Customize Your Agent Harness</a> - LangChain Blog,
+2026</li>
+<li><a
+href="https://www.working-ref.com/en/reference/anthropic-harness-design-philosophy-evolution">Anthropic’s
+Harness Design Philosophy — From Multi-Agent to Single-Agent</a> -
+working-ref.com, 2026</li>
+<li><a
+href="https://aistudio.baidu.com/blog/detail/782594229324805">Harness
+Engineering：AI 代理时代的新范式，还是过渡脚手架？</a> -
+百度飞桨星河社区, 2026</li>
+</ol>
+<h3 id="工具与开源tools-open-source">工具与开源（Tools &amp; Open
+Source）</h3>
+<ol start="26" type="1">
+<li><a
+href="https://github.com/charlesanim/harness-engineering">charlesanim/harness-engineering</a>
+- GitHub</li>
+<li><a href="https://www.maxgfeller.com/blog/open-harness/">Open
+Harness</a> - maxgfeller.com, 2026</li>
+<li><a href="https://agent-harness.ai/">Agent Harness</a> -
+agent-harness.ai, 2026</li>
+<li><a
+href="https://docs.langchain.com/oss/python/deepagents/overview">Deep
+Agents overview</a> - LangChain Docs, 2026</li>
+<li><a
+href="https://github.com/langchain-ai/deepagents">langchain-ai/deepagents</a>
+- GitHub</li>
+</ol>
+</body></html>
