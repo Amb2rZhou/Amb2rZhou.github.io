@@ -3,177 +3,200 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>暑期实习投递进度</title>
+<title>秋招进度看板 · Amber</title>
 <style>
 body{max-width:960px;margin:0 auto;padding:16px;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:#fff;color:#1f2328}
 h1{font-size:22px;margin-bottom:4px}
 .meta{color:#656d76;font-size:13px;margin-bottom:16px}
+
+.today{background:linear-gradient(135deg,#ffe4e4 0%,#fff4d4 100%);border:2px solid #ff6b6b;border-radius:12px;padding:14px 18px;margin-bottom:16px}
+.today h2{margin:0 0 8px;font-size:15px;color:#cf222e;letter-spacing:0.3px}
+.today .item{display:flex;gap:10px;padding:6px 0;border-bottom:1px dashed #ffb4b4;font-size:13px}
+.today .item:last-child{border:none}
+.today .time{font-weight:700;min-width:92px;color:#cf222e}
+.today .task{flex:1}
+.today .warn{color:#9a6700;font-size:11px;margin-top:4px}
+
 .stats{display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap}
 .stat-card{background:#f6f8fa;border:1px solid #d0d7de;border-radius:8px;padding:12px 16px;flex:1;min-width:100px;text-align:center}
 .stat-card .num{font-size:28px;font-weight:700;color:#1f2328}
 .stat-card .label{font-size:12px;color:#656d76;margin-top:2px}
+.stat-card.hot{background:#dafbe1;border-color:#1a7f37}
+.stat-card.hot .num{color:#1a7f37}
+
 table{width:100%;border-collapse:collapse;font-size:13px;margin-top:12px}
 th{background:#f6f8fa;font-weight:600;text-align:left;padding:8px 10px;border:1px solid #d0d7de;position:sticky;top:0}
 td{padding:8px 10px;border:1px solid #d0d7de;vertical-align:top}
 tr:hover td{background:#f6f8fa}
-.status{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600}
+.status{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600;white-space:nowrap}
 .s-interview{background:#dafbe1;color:#1a7f37}
 .s-waiting{background:#fff8c5;color:#9a6700}
 .s-applied{background:#ddf4ff;color:#0969da}
 .s-todo{background:#f6f8fa;color:#656d76}
 .s-test{background:#fbefff;color:#8250df}
+.s-urgent{background:#ffebe9;color:#cf222e}
 .urgent{color:#cf222e;font-weight:600}
-.section-title{font-size:16px;font-weight:700;margin:20px 0 8px;padding-bottom:6px;border-bottom:2px solid #d0d7de}
+.section-title{font-size:16px;font-weight:700;margin:22px 0 8px;padding-bottom:6px;border-bottom:2px solid #d0d7de}
+.legend{font-size:11px;color:#656d76;margin-top:4px}
 </style>
 </head>
 <body>
 
-<h1>暑期实习投递进度</h1>
-<p class="meta">最后更新：2026-04-15</p>
+<h1>秋招进度看板</h1>
+<p class="meta">Amber · 最后更新：2026-04-17 · 每天早晚同步</p>
+
+<div class="today">
+  <h2>🔥 今日日程（2026-04-17）</h2>
+  <div class="item">
+    <div class="time">—15:45 前</div>
+    <div class="task">
+      <b>蚂蚁 · 素质测评</b>（50 min，一次性）
+      <div class="warn">⚠️ 必须在面试前完成，不能跳出页面</div>
+    </div>
+  </div>
+  <div class="item">
+    <div class="time">15:45</div>
+    <div class="task"><b>蚂蚁一面</b> · 国际 AI 产品</div>
+  </div>
+  <div class="item">
+    <div class="time">18:30–19:00</div>
+    <div class="task"><b>阿里淘天三面</b>（30 min）· 天猫超市·AI Agent PM</div>
+  </div>
+  <div class="item">
+    <div class="time">—23:59 前</div>
+    <div class="task">
+      <b>易方达试考</b>（口令 412356）
+      <div class="warn">带摄像头+音频的电脑，https://vip.eztest.org/efunds2604/</div>
+    </div>
+  </div>
+  <div class="item">
+    <div class="time">今天</div>
+    <div class="task">回信 IDG 选面试时间</div>
+  </div>
+</div>
 
 <div class="stats">
-  <div class="stat-card"><div class="num">10</div><div class="label">已投</div></div>
-  <div class="stat-card"><div class="num">1</div><div class="label">面试中</div></div>
-  <div class="stat-card"><div class="num">48</div><div class="label">待投</div></div>
+  <div class="stat-card hot"><div class="num">5</div><div class="label">面试/笔试中</div></div>
+  <div class="stat-card"><div class="num">11</div><div class="label">已投</div></div>
+  <div class="stat-card"><div class="num">47</div><div class="label">待投</div></div>
   <div class="stat-card"><div class="num">58</div><div class="label">总计</div></div>
 </div>
 
-<div class="section-title">已投递 & 进行中</div>
+<div class="section-title">面试/测评/笔试中</div>
 <table>
-<tr><th>公司</th><th>岗位</th><th>状态</th><th>下一步</th><th>备注</th></tr>
+<tr><th>公司</th><th>岗位</th><th>当前环节</th><th>下一步</th></tr>
 <tr>
-  <td>阿里（淘天）</td>
+  <td><b>阿里（淘天）</b></td>
   <td>AI Agent PM</td>
-  <td><span class="status s-interview">二面完成</span></td>
-  <td>等结果</td>
-  <td>天猫超市·搜推广</td>
+  <td><span class="status s-urgent">三面 今日 18:30</span></td>
+  <td>终面准备（职业规划 / 为什么淘天 / 反问）</td>
 </tr>
 <tr>
-  <td>蚂蚁（国际）</td>
-  <td>国际AI产品</td>
-  <td><span class="status s-test">面试 4/17</span></td>
-  <td>准备面试 + 做素质测评</td>
-  <td>蚂蚁国际·Agent PM</td>
+  <td><b>蚂蚁（国际）</b></td>
+  <td>国际 AI 产品</td>
+  <td><span class="status s-urgent">一面 今日 15:45</span></td>
+  <td>面试前完成素质测评</td>
 </tr>
+<tr>
+  <td><b>IDG 资本</b></td>
+  <td>AI Solutions PM</td>
+  <td><span class="status s-interview">一面 4/22 14:00</span></td>
+  <td>回信选时间 → T-3/T-1 准备</td>
+</tr>
+<tr>
+  <td><b>易方达基金</b></td>
+  <td>暑期实习</td>
+  <td><span class="status s-test">笔试 4/18–19（四选一）</span></td>
+  <td>今晚 23:59 前试考</td>
+</tr>
+<tr>
+  <td><b>快手</b></td>
+  <td>平台 PM · 智能平台 · B 端</td>
+  <td><span class="status s-test">测评 4/22 19:00 截止</span></td>
+  <td>开始做测评</td>
+</tr>
+</table>
+
+<div class="section-title">已投 · 等通知</div>
+<table>
+<tr><th>公司</th><th>岗位</th><th>状态</th><th>备注</th></tr>
 <tr>
   <td>腾讯</td>
   <td>产品策划</td>
   <td><span class="status s-waiting">测评完成</span></td>
   <td>等下一轮通知</td>
-  <td></td>
 </tr>
 <tr>
   <td>字节（飞书）</td>
   <td>AI PM</td>
   <td><span class="status s-waiting">简历评估中</span></td>
-  <td>等通知</td>
-  <td></td>
-</tr>
-<tr>
-  <td>易方达</td>
-  <td>暑期实习</td>
-  <td><span class="status s-test">笔试 4/18-19</span></td>
-  <td>选场次 + 试考（4/17 前）</td>
-  <td>行测+英语，90min 70题</td>
+  <td>4/13 官方确认收简历</td>
 </tr>
 <tr>
   <td>美团</td>
-  <td>待确认</td>
-  <td><span class="status s-applied">已投</span></td>
-  <td>等通知</td>
-  <td>4/12 投，无回音</td>
+  <td>AI 产品经理（三志愿）</td>
+  <td><span class="status s-applied">网申成功</span></td>
+  <td>4/12 投，暂无回音</td>
 </tr>
 <tr>
   <td>滴滴</td>
-  <td>PM-国际化英语</td>
+  <td>PM · 国际化英语</td>
   <td><span class="status s-applied">已投</span></td>
-  <td>等通知</td>
-  <td>⚠️ Outlook 邮箱，查垃圾箱</td>
+  <td>⚠️ 绑 Outlook 邮箱，记得查垃圾箱</td>
 </tr>
 <tr>
   <td>携程</td>
   <td>产品经理</td>
   <td><span class="status s-applied">已投</span></td>
-  <td>等通知</td>
   <td>4/14 投</td>
 </tr>
 <tr>
   <td>Shopee</td>
   <td>待确认</td>
   <td><span class="status s-applied">已投</span></td>
-  <td>等通知</td>
   <td>4/14 投</td>
 </tr>
-<tr>
-  <td>IDG</td>
-  <td>AI Solutions PM</td>
-  <td><span class="status s-applied">已投</span></td>
-  <td>等通知</td>
-  <td>4/14 邮件投递</td>
-</tr>
 </table>
 
-<div class="section-title">待投递 — 有截止日期 🔴</div>
+<div class="section-title">待投 · 有截止日期 🔴</div>
 <table>
 <tr><th>公司</th><th>行业</th><th>截止日期</th><th>剩余</th></tr>
-<tr><td>招商银行信用卡</td><td>银行</td><td class="urgent">4/23</td><td>8 天</td></tr>
-<tr><td>南方基金</td><td>基金</td><td>4/26</td><td>11 天</td></tr>
-<tr><td>华夏基金</td><td>基金</td><td>4/26</td><td>11 天</td></tr>
-<tr><td>广发基金</td><td>基金</td><td>4/26</td><td>11 天</td></tr>
-<tr><td>瑞幸咖啡</td><td>快消</td><td>4/30</td><td>15 天</td></tr>
-<tr><td>源乐晟资产</td><td>资管</td><td>4/30</td><td>15 天</td></tr>
-<tr><td>招商银行</td><td>银行</td><td>4/30</td><td>15 天</td></tr>
-<tr><td>国泰海通证券</td><td>券商</td><td>4/30</td><td>15 天</td></tr>
-<tr><td>瑞银集团</td><td>投行</td><td>4/30</td><td>15 天</td></tr>
-<tr><td>半鞦私募基金</td><td>私募</td><td>4/30</td><td>15 天</td></tr>
-<tr><td>中国民生银行</td><td>银行</td><td>5/5</td><td>20 天</td></tr>
-<tr><td>金佰利</td><td>快消</td><td>5/6</td><td>21 天</td></tr>
-<tr><td>华泰证券</td><td>券商</td><td>5/10</td><td>25 天</td></tr>
-<tr><td>海富通基金</td><td>基金</td><td>5/10</td><td>25 天</td></tr>
-<tr><td>汇添富基金</td><td>基金</td><td>5/10</td><td>25 天</td></tr>
-<tr><td>国联民生证券</td><td>券商</td><td>5/17</td><td>32 天</td></tr>
+<tr><td>招商银行信用卡</td><td>银行</td><td class="urgent">4/23</td><td class="urgent">6 天</td></tr>
+<tr><td>南方基金</td><td>基金</td><td>4/26</td><td>9 天</td></tr>
+<tr><td>华夏基金</td><td>基金</td><td>4/26</td><td>9 天</td></tr>
+<tr><td>广发基金</td><td>基金</td><td>4/26</td><td>9 天</td></tr>
+<tr><td>瑞幸咖啡</td><td>快消</td><td>4/30</td><td>13 天</td></tr>
+<tr><td>源乐晟资产</td><td>资管</td><td>4/30</td><td>13 天</td></tr>
+<tr><td>招商银行</td><td>银行</td><td>4/30</td><td>13 天</td></tr>
+<tr><td>国泰海通证券</td><td>券商</td><td>4/30</td><td>13 天</td></tr>
+<tr><td>瑞银集团</td><td>投行</td><td>4/30</td><td>13 天</td></tr>
+<tr><td>半鞦私募基金</td><td>私募</td><td>4/30</td><td>13 天</td></tr>
+<tr><td>中国民生银行</td><td>银行</td><td>5/5</td><td>18 天</td></tr>
+<tr><td>金佰利</td><td>快消</td><td>5/6</td><td>19 天</td></tr>
+<tr><td>华泰证券</td><td>券商</td><td>5/10</td><td>23 天</td></tr>
+<tr><td>海富通基金</td><td>基金</td><td>5/10</td><td>23 天</td></tr>
+<tr><td>汇添富基金</td><td>基金</td><td>5/10</td><td>23 天</td></tr>
+<tr><td>国联民生证券</td><td>券商</td><td>5/17</td><td>30 天</td></tr>
 </table>
 
-<div class="section-title">待投递 — 互联网</div>
+<div class="section-title">待投 · 无明确 DDL（按类型）</div>
 <table>
-<tr><th>公司</th><th>状态</th></tr>
-<tr><td>网易</td><td><span class="status s-todo">待投</span></td></tr>
-<tr><td>百度</td><td><span class="status s-todo">待投</span></td></tr>
-<tr><td>哔哩哔哩</td><td><span class="status s-todo">待投</span></td></tr>
-<tr><td>京东</td><td><span class="status s-todo">待投</span></td></tr>
-<tr><td>小米</td><td><span class="status s-todo">待投</span></td></tr>
-<tr><td>华为</td><td><span class="status s-todo">待投</span></td></tr>
-<tr><td>拼多多</td><td><span class="status s-todo">待投</span></td></tr>
-<tr><td>快手</td><td><span class="status s-todo">待投</span></td></tr>
-<tr><td>小红书</td><td><span class="status s-todo">待投</span></td></tr>
-<tr><td>微博</td><td><span class="status s-todo">待投</span></td></tr>
-<tr><td>360</td><td><span class="status s-todo">待投</span></td></tr>
-<tr><td>腾讯音乐（TME）</td><td><span class="status s-todo">待投</span></td></tr>
-<tr><td>vivo</td><td><span class="status s-todo">待投</span></td></tr>
-<tr><td>OPPO</td><td><span class="status s-todo">待投</span></td></tr>
+<tr><th>类型</th><th>公司</th></tr>
+<tr><td>互联网</td><td>网易 · 百度 · 哔哩哔哩 · 京东 · 小米 · 华为 · 拼多多 · 小红书 · 微博 · 360 · TME · vivo · OPPO · SHEIN</td></tr>
+<tr><td>AI 原生</td><td>商汤 · 旷视 · 智谱 · Kimi · MiniMax · DeepSeek · 零一万物</td></tr>
+<tr><td>金融/投资</td><td>淡马锡（简历+CL 已准备好）· 软银中国资本（AI/机器人投资）</td></tr>
+<tr><td>快消/其他</td><td>巴黎欧莱雅 · 宝洁 · 得物</td></tr>
 </table>
 
-<div class="section-title">待投递 — AI 原生公司</div>
-<table>
-<tr><th>公司</th><th>状态</th></tr>
-<tr><td>商汤</td><td><span class="status s-todo">待投</span></td></tr>
-<tr><td>旷视</td><td><span class="status s-todo">待投</span></td></tr>
-<tr><td>智谱</td><td><span class="status s-todo">待投</span></td></tr>
-<tr><td>月之暗面（Kimi）</td><td><span class="status s-todo">待投</span></td></tr>
-<tr><td>MiniMax</td><td><span class="status s-todo">待投</span></td></tr>
-<tr><td>深度求索（DeepSeek）</td><td><span class="status s-todo">待投</span></td></tr>
-<tr><td>零一万物</td><td><span class="status s-todo">待投</span></td></tr>
-</table>
+<p class="legend">
+<span class="status s-urgent">紧急</span> = 今明处理 ·
+<span class="status s-interview">面试</span> = 已约具体时间 ·
+<span class="status s-test">测评/笔试</span> ·
+<span class="status s-waiting">等反馈</span> ·
+<span class="status s-applied">已投</span> ·
+<span class="status s-todo">待投</span>
+</p>
 
-<div class="section-title">待投递 — 快消/其他</div>
-<table>
-<tr><th>公司</th><th>状态</th></tr>
-<tr><td>淡马锡</td><td><span class="status s-todo">待投（简历CL已准备好）</span></td></tr>
-<tr><td>巴黎欧莱雅</td><td><span class="status s-todo">待投</span></td></tr>
-<tr><td>宝洁</td><td><span class="status s-todo">待投</span></td></tr>
-<tr><td>得物</td><td><span class="status s-todo">待投</span></td></tr>
-</table>
-
-<p style="text-align:center;color:#b0b8c1;font-size:11px;margin-top:24px">Generated by intern-clawd · 2026-04-15</p>
+<p style="text-align:center;color:#b0b8c1;font-size:11px;margin-top:24px">Generated by intern-clawd · amb2rzhou.github.io/reports/internship-tracker.html</p>
 </body>
 </html>
