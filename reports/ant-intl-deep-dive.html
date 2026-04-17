@@ -1,0 +1,268 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>蚂蚁国际 — 补充题</title><style>body{max-width:860px;margin:0 auto;padding:24px;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.7;color:#1f2328;background:#fff}h1{font-size:24px;margin-bottom:8px}h2{border-bottom:2px solid #d0d7de;padding-bottom:8px;margin-top:32px;font-size:20px}h3{margin-top:20px;font-size:16px}table{width:100%;border-collapse:collapse;font-size:14px;margin:12px 0}th,td{border:1px solid #d0d7de;padding:8px 12px;text-align:left;vertical-align:top}th{background:#f6f8fa;font-weight:600}code{background:#f6f8fa;padding:2px 6px;border-radius:4px;font-size:0.88em;border:1px solid #e1e4e8}pre{background:#f6f8fa;border:1px solid #d0d7de;border-radius:8px;padding:16px;overflow-x:auto;font-size:13px}pre code{background:none;border:none;padding:0}blockquote{border-left:4px solid #d0d7de;padding:8px 16px;color:#656d76;background:#f6f8fa;margin:12px 0;border-radius:0 6px 6px 0}hr{border:none;border-top:1px solid #d0d7de;margin:24px 0}a{color:#0969da;text-decoration:none}ul,ol{margin:8px 0 8px 24px}li{margin:4px 0}strong{color:#1f2328}</style></head><body>
+<h1>蚂蚁国际 AI 产品经理 — 补充题（国际业务深水区）</h1>
+<p><strong>补充日期：</strong> 2026-04-17
+<strong>场景：</strong> 蚂蚁国际 一面（15:45）
+<strong>用途：</strong> 原备忘录（<code>蚂蚁面试备忘录.md</code>）国内业务覆盖充分，本文件补国际角度 10 题</p>
+<hr />
+<h2>一、业务理解（3 题）</h2>
+<h3>Q18: 介绍一下 Alipay+ 的商业模式，它的核心竞争壁垒是什么？</h3>
+<p><strong>思考框架</strong>：三方 network — 游客/商家/本地钱包，蚂蚁做连接器</p>
+<blockquote>
+<p>Alipay+ 本质是一个<strong>跨境支付网络 API 层</strong>，连接全球 100+ 电子钱包（GCash / TrueMoney / Kakao Pay / Touch 'n Go）和全球商家 POS 系统。</p>
+<p><strong>商业模式</strong>：
+- 商家侧收手续费（比卡组织 2-3% 低，约 1-2%）
+- 钱包侧收 network fee
+- 外汇和清算赚点差</p>
+<p><strong>三层壁垒</strong>：
+1. <strong>两侧网络效应</strong> — 接入的钱包越多，商家越愿意接；商家越多，钱包越愿意接。冷启动早，后来者很难追
+2. <strong>跨境清算基础设施</strong> — 蚂蚁自己的 AntChain 做实时清算，T+0 结算比传统 SWIFT 快 90%
+3. <strong>中国游客流量</strong> — 中国出境游每年 1.5 亿人次，Alipay+ 是海外商家吃中国游客流量的默认通道</p>
+<p><strong>AI 价值点</strong>：实时汇率预判、反欺诈（不同市场欺诈模式差异大）、商家智能推荐（哪款产品卖中国游客更好）</p>
+</blockquote>
+<p><strong>避坑</strong>：不要把 Alipay+ 说成"Alipay 的国际版"，它是全新网络，本质上是 Mastercard/Visa 的竞争对手</p>
+<hr />
+<h3>Q19: MyBank 的 310 模型（3分钟申请/1秒到账/0人工）在东南亚能复制吗？主要阻碍是什么？</h3>
+<p><strong>思考框架</strong>：拆解 310 依赖什么 → 东南亚缺什么</p>
+<blockquote>
+<p>310 在国内 work 依赖<strong>四块数据基础设施</strong>：
+1. 阿里电商交易流水（商家视角）
+2. 支付宝消费+收入数据（个人视角）
+3. 全国征信系统（行为+履约）
+4. 身份实名验证（身份证+人脸）</p>
+<p><strong>东南亚能复制的</strong>：
+- 新加坡 / 香港：征信系统完善，SME 贷款有成熟风控，可以复制
+- 印尼：OJK 有基础征信但 coverage 低，需要蚂蚁拉电商+钱包数据补位</p>
+<p><strong>东南亚难复制的</strong>：
+- 菲律宾 / 越南：大量 SME 是现金经营，没有数字流水可做风控原料
+- 各国身份验证系统不互通，KYC 成本高
+- 当地中小银行合作博弈：他们不愿意把贷款风控外包给外国公司</p>
+<p><strong>AI 能解决的</strong>：用 LLM 处理<strong>非结构化数据补位</strong>（商户社交媒体、评价、WhatsApp 商家群聊），在征信薄弱市场做替代数据风控。这恰好是我 AFI 的技术栈方向</p>
+</blockquote>
+<p><strong>避坑</strong>：不要说"东南亚落后所以 work"，要说"数据基础设施不同，需要不同数据源"</p>
+<hr />
+<h3>Q20: WorldFirst 跟 Alipay+ 是什么关系？蚂蚁国际的整体产品版图怎么看？</h3>
+<p><strong>思考框架</strong>：C 端 vs B 端 + 收 vs 付 四象限</p>
+<blockquote>
+<p>蚂蚁国际其实是<strong>"支付四象限"的全覆盖</strong>：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>C 端（个人）</th>
+<th>B 端（企业）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>付出去</strong></td>
+<td>Alipay+ / AlipayHK</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>收进来</strong></td>
+<td>Alipay+ 商家端</td>
+<td><strong>WorldFirst</strong>（出海卖家收款）</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Alipay+</strong> = 游客/个人跨境支付</li>
+<li><strong>AlipayHK</strong> = 香港本地 C 端</li>
+<li><strong>WorldFirst</strong> = 出海 B 端卖家（亚马逊 / eBay / Shopee 卖家从海外买家收钱）</li>
+<li><strong>MyBank</strong> 能力输出 = 给东南亚合作银行做 SME 贷款</li>
+<li><strong>AntChain</strong> = 底层清算 / 资产上链</li>
+</ul>
+<p><strong>整体叙事</strong>：蚂蚁国际不是"把 Alipay 卖到国外"，是把<strong>支付 + 信贷 + 清算 + 风控的能力拆成 API，卖给当地金融机构和跨境商家</strong>。从产品形态上类似 Stripe（B 端）+ Wise（跨境汇款）+ Visa（清算）的组合体</p>
+</blockquote>
+<hr />
+<h2>二、市场差异（2 题）</h2>
+<h3>Q21: 东南亚用户 vs 中国用户，在金融 AI 产品上的关键差异是什么？</h3>
+<p><strong>思考框架</strong>：设备 / 信任 / 支付习惯 / 文化 / 监管 五维度</p>
+<blockquote>
+<p><strong>1. 设备差异</strong>
+- 印尼 95% + 手机端，大量低端 Android 机（2GB RAM，4G 网络）
+- → AI 功能必须<strong>轻量化</strong>，不能依赖大模型本地推理，要云端轻 API</p>
+<p><strong>2. 信任模式</strong>
+- 东南亚用户对金融平台信任度低（历史上金融诈骗多）
+- → <strong>透明度权重更高</strong>：AI 推荐必须给出处、给对比、给"为什么是你"
+- 中国用户习惯"小红书/抖音推啥我买啥"，AI 黑盒可接受</p>
+<p><strong>3. 支付习惯</strong>
+- 印尼 / 菲律宾：大量现金交易，钱包是补充不是替代
+- 中国：现金近乎消失
+- → AI 导购场景不同，东南亚要覆盖"线下 + 少量线上"，中国纯线上</p>
+<p><strong>4. 语言 / 文化</strong>
+- 东南亚多语言碎片化（印尼语 / 泰语 / 马来语 / 越南语），每种语言 LLM 语料少
+- → 不能直接翻译中文 prompt，要<strong>按市场重写角色和 few-shot</strong></p>
+<p><strong>5. 监管</strong>
+- 每个国家 KYC/AML 标准不同，印尼有 PP 71 数据主权法
+- → 合规规则引擎<strong>必须 per-market 硬编码</strong>，不能全局一套</p>
+<p><strong>我作为新加坡人</strong>，这些差异我日常能感知到，不是从 report 里读来的</p>
+</blockquote>
+<hr />
+<h3>Q22: 如果你看到 GCash 也在做 AI 理财顾问，你怎么定位 Alipay+ 跟 GCash 的关系？是合作还是竞争？</h3>
+<p><strong>思考框架</strong>：合作 vs 竞争不是二选一，是层级问题</p>
+<blockquote>
+<p>我认为是<strong>"同一市场的合作伙伴，不同层级的潜在竞争"</strong>：</p>
+<p><strong>现在：合作</strong>
+- GCash 是 Alipay+ 的钱包合作伙伴，Alipay+ 帮 GCash 覆盖更多海外商家
+- GCash 的 AI 理财顾问服务菲律宾本地用户，不威胁 Alipay+</p>
+<p><strong>中长期：可能竞争</strong>
+- 如果 GCash 开始做<strong>跨境 API</strong>（菲律宾用户在泰国消费），就进入 Alipay+ 的领地
+- 如果 Alipay+ 开始做<strong>本地钱包</strong>（在菲律宾直接做 C 端），就跟 GCash 对撞</p>
+<p><strong>战略判断</strong>：蚂蚁的聪明选择是<strong>继续做"连接层"不做"钱包层"</strong>，让本地钱包们分散、互相牵制，蚂蚁做唯一的跨境连接器。就像 Stripe 不做银行卡，只做支付基础设施</p>
+<p><strong>对 PM 工作的 implication</strong>：跟本地钱包合作方的产品设计，要避免"让他们感觉在被蚕食"。API 开放度、数据共享规则、收入分成，都要经过 politics sensitivity 过滤</p>
+</blockquote>
+<hr />
+<h2>三、本地化与 AI（2 题）</h2>
+<h3>Q23: 多语言多市场的 AI Agent，跟只做中文的 AI 产品，最大的设计挑战是什么？</h3>
+<p><strong>思考框架</strong>：3 层差异 — prompt / 数据 / 评估</p>
+<blockquote>
+<p><strong>挑战一：Prompt 本地化 ≠ 翻译</strong>
+- 翻译会丢语气和文化 cue
+- "帮我推荐一款保险" 在泰国可能要问"你全家几个小孩"（家庭金融决策权在女性），在印尼要问"你的家庭是穆斯林吗"（Sharia-compliant 金融产品）
+- → 需要<strong>每个市场独立设计 system prompt 和 few-shot</strong>，不能全球一套翻译</p>
+<p><strong>挑战二：训练/评估数据稀缺</strong>
+- 中文金融 QA 数据几十亿 token，印尼语可能只有百万 token
+- LLM 在小语种金融场景上幻觉率显著高
+- → 要用<strong>多语言+领域知识双重 fine-tune</strong>，或者保守策略"不确定就切换到英语回答"</p>
+<p><strong>挑战三：评估体系不能共用</strong>
+- 中国的 "prompt → output → 人工标" 流程在东南亚面临人工成本和语言障碍
+- → 要建<strong>分布式评估网络</strong>，每个市场找本地 PM/合规顾问做 bad case review
+- 我的 AFI 项目里做过类似设计：每条 signal 必须来源可溯，评估人不用读原文也能判准确性</p>
+</blockquote>
+<p><strong>避坑</strong>：不要说"翻译一下就行了"，会被判为没做过国际化</p>
+<hr />
+<h3>Q24: 印尼用户用 2GB 内存的低端手机，你要给他们做一个 AI 理财助手，技术和产品上怎么权衡？</h3>
+<p><strong>思考框架</strong>：技术架构 + 体验降级 + 场景取舍</p>
+<blockquote>
+<p><strong>技术层面</strong>
+- 不能依赖本地大模型，所有推理走云端 API
+- 页面轻量化：不用 React/Vue 重前端，原生 HTML + 少量 JS
+- 图片用 WebP + CDN 边缘节点（CloudFront 东南亚 POP）
+- AI 响应流式输出，让用户 200ms 内看到第一个字</p>
+<p><strong>产品层面</strong>
+- <strong>功能精简</strong>：只做 3 个核心场景（看余额、推荐储蓄产品、记账助手），不堆复杂功能
+- <strong>对话长度限制</strong>：每次对话最多 5 轮（节省 token 成本 + 用户也不习惯长对话）
+- <strong>离线降级</strong>：没网时显示缓存的推荐，"等联网后更新"</p>
+<p><strong>场景取舍</strong>
+- 放弃：复杂投资组合、股票分析（印尼用户不是主力）
+- 保留：储蓄产品推荐、信贷申请、日常消费分析
+- 强化：<strong>账单提醒 + 家庭共享</strong>（东南亚用户家庭资金决策多）</p>
+<p><strong>底层原则</strong>：<strong>东南亚市场是 good enough 胜过 feature-rich</strong>。中国团队容易把功能堆太多，需要 PM 强制做减法</p>
+</blockquote>
+<hr />
+<h2>四、合规与竞品（3 题）</h2>
+<h3>Q25: 数据主权（data sovereignty）在跨境 AI 产品里是个硬问题。印尼 PP 71、越南 Decree 53 都要求本地化存储。你怎么处理？</h3>
+<p><strong>思考框架</strong>：法规硬约束 + 架构设计</p>
+<blockquote>
+<p><strong>核心原则</strong>：用户数据不能跨境，但可以用<strong>蒸馏后的模型参数跨境</strong></p>
+<p><strong>架构设计</strong>：
+1. <strong>数据本地化</strong>：用户原始数据（交易流水、对话记录）存印尼本地 AWS / 阿里云节点，不出境
+2. <strong>推理本地化</strong>：AI 推理跑在本地节点，prompt + response 都不出印尼
+3. <strong>模型训练分层</strong>：
+   - 全球通用模型（金融基础知识、语言理解）→ 中国/全球训练
+   - 本地 fine-tune 用<strong>联邦学习</strong>：只把梯度上传，原始数据不动
+4. <strong>审计日志本地留存</strong>：监管随时可查</p>
+<p><strong>产品 trade-off</strong>：本地化推理延迟比中心化高，功能发布节奏慢。但这是法规硬成本，必须接受</p>
+<p><strong>我的相关经验</strong>：intern-clawd 设计时就遵循"数据留在用户本地"原则 — wiki 存在用户自己的 <code>~/.clawd/</code> 里，不上传云端。这跟跨境合规的 mindset 一致</p>
+</blockquote>
+<hr />
+<h3>Q26: Wise / Revolut / Stripe 对蚂蚁国际构成什么威胁？你怎么看竞争格局？</h3>
+<p><strong>思考框架</strong>：按业务拆 + 差异化优势</p>
+<blockquote>
+<p>不是铁板一块的威胁，是分场景的竞争：</p>
+<p><strong>Wise</strong>（跨境汇款，C 端）
+- 优势：汇率透明、费用低、面向欧美用户强
+- 威胁 Alipay+ 的 C 端跨境支付
+- 蚂蚁反制：<strong>亚太用户规模 + 商家网络</strong> Wise 追不上</p>
+<p><strong>Revolut</strong>（新银行 + 投资 + 跨境）
+- 优势：欧洲用户基数大，金融产品深度
+- 威胁：直接和 Alipay+/MyBank 对标亚太中产
+- 蚂蚁反制：<strong>跟中国游客的强绑定</strong>是 Revolut 的盲区</p>
+<p><strong>Stripe</strong>（B 端支付基础设施）
+- 优势：全球开发者默认支付 API
+- 威胁 WorldFirst 的 B 端跨境收款
+- 蚂蚁反制：<strong>中国出海卖家</strong>是 Stripe 覆盖弱的部分，蚂蚁本土优势明显</p>
+<p><strong>AI 层面的差异化</strong>：
+- Stripe Radar 是业界反欺诈最强，但只做支付风控
+- Wise 没什么 AI 产品
+- Revolut 有 AI 理财助手但只覆盖欧洲
+- <strong>蚂蚁的机会</strong>：把 AI 能力<strong>跨产品打通</strong>（支付→理财→信贷都能用同一个 Context），这是垂直整合的优势</p>
+<p>一句话：<strong>蚂蚁国际的护城河是"亚太 + 华人 + 多产品整合"，不要在欧美市场硬碰 Wise/Revolut</strong></p>
+</blockquote>
+<hr />
+<h3>Q27: 如果让你给 WorldFirst 设计一个 AI 功能服务中国出海卖家，你会做什么？</h3>
+<p><strong>思考框架</strong>：用户画像 → 痛点 → 最小 MVP</p>
+<blockquote>
+<p><strong>用户画像</strong>：
+- 中国中小电商卖家（Shopee / Amazon / TikTok Shop 卖家）
+- 英语不好，海外平台规则看不懂
+- 多平台多币种回款，账目混乱
+- 汇率波动焦虑，不知道何时换汇</p>
+<p><strong>三个痛点对应三个 AI 功能</strong>：</p>
+<p><strong>1. 平台规则 AI 顾问（解决"看不懂英文"）</strong>
+- 输入：Shopee/Amazon 的新规邮件（英文）
+- 输出：中文摘要 + 对你店铺的具体影响 + 需要做什么
+- 价值：省下卖家每天 30 分钟翻译规则的时间</p>
+<p><strong>2. 多账户对账助手（解决"账目混乱"）</strong>
+- 自动汇总 Shopee/Amazon/eBay 各币种回款
+- AI 标注异常（这笔钱和订单对不上）
+- 导出给会计的标准化报表</p>
+<p><strong>3. 智能换汇建议（解决"汇率焦虑"）</strong>
+- 基于历史波动 + 即期新闻 + 你的现金流需求
+- 给"建议现在换 / 再等等"的简单提示
+- 不是预测汇率（合规风险），是<strong>给决策参考</strong></p>
+<p><strong>MVP 选</strong>：先做 <strong>#1 平台规则 AI 顾问</strong>，因为最刚需、合规最安全（只翻译解释，不做投资建议）、冷启动最快（英文→中文翻译是 LLM 强项）</p>
+</blockquote>
+<hr />
+<h2>五、战略与组织（1 题）</h2>
+<h3>Q28: 如果你是蚂蚁国际 AI PM，要同时管 3 个国家（新加坡、印尼、泰国）团队迭代同一个产品，组织上最大的挑战是什么？</h3>
+<p><strong>思考框架</strong>：不是技术问题，是人的问题</p>
+<blockquote>
+<p>三个层次的挑战，难度递增：</p>
+<p><strong>第一层：时区</strong>（相对容易）
+- 三国时差 1-2 小时，还 OK
+- 解决：每周固定时间 all-hands，其他用异步文档同步</p>
+<p><strong>第二层：市场差异导致的需求冲突</strong>（中等）
+- 印尼团队说"要支持穆斯林 Sharia 金融产品"，泰国团队说"没必要"
+- 解决：产品平台抽象 — <strong>配置化</strong>而非硬编码，每个市场自己开关功能</p>
+<p><strong>第三层：文化和决策权博弈</strong>（最难）
+- 中国总部 PM vs 当地 country head 的博弈：总部想统一、本地想差异化
+- 解决思路：
+  - <strong>清晰定义全局 vs 本地边界</strong>：技术架构、合规框架、品牌调性 = 全局；UI 语言、功能取舍、营销活动 = 本地
+  - <strong>把本地 PM 纳入决策链</strong>，而不是"总部定了让本地执行"
+  - <strong>数据说话</strong>：每个 feature 的 A/B test 分国家跑，用数据而非权威来判</p>
+<p><strong>个人认知</strong>：我作为新加坡人跟过这种跨境项目（CUHK 的跨区域经济合作研究），我知道<strong>"平衡"不是妥协到中间，是找到"哪些事必须统一，哪些事必须允许分叉"的分界线</strong></p>
+</blockquote>
+<hr />
+<h2>六、可能的 Curveball（开放题）</h2>
+<h3>Q29: 你觉得蚂蚁国际这个"连接本地钱包"的战略，有什么短板？如果你是战略层，你会建议怎么补？</h3>
+<p><strong>思考框架</strong>：坦诚指出问题 + 给出方向（不卑不亢）</p>
+<blockquote>
+<p><strong>短板</strong>：
+1. <strong>不拥有 C 端用户</strong>，依赖本地钱包的用户关系。本地钱包一旦自己做跨境（GCash 已经开始了），蚂蚁的 value 被稀释
+2. <strong>品牌认知弱</strong>：用户用的是 GCash / TrueMoney，不知道背后是 Alipay+。没法直接做品牌杠杆
+3. <strong>数据碎片</strong>：每个本地钱包只给蚂蚁有限数据，蚂蚁拿不到全量用户行为</p>
+<p><strong>可能的补法</strong>：
+1. <strong>往下做本地钱包</strong>（收购 or 自建）—— 风险大、资本重
+2. <strong>往上做商家生态</strong>（给全球商家做"一站式多钱包 SDK"）—— 深化 B 端锁定
+3. <strong>往旁做 SaaS 赋能</strong>（给本地钱包卖 AI 能力 / 风控 / 合规工具）—— 用 AI 当新的粘性点</p>
+<p>我倾向 <strong>#2 + #3 组合</strong>：不做 C 端直接碰瓷本地伙伴，但通过 B 端和 SaaS 让自己变成基础设施不可替代</p>
+<p><strong>这题的亮点</strong>：坦承战略有弱点，但给的补法不破坏现有合作方关系</p>
+</blockquote>
+<hr />
+<h2>七、面试心态提醒</h2>
+<ol>
+<li><strong>不要装懂你不确定的事</strong>（如果面试官问具体某国法规，不确定就说"这部分我要查一下"）</li>
+<li><strong>多用"我从 X 看到 / X 经历让我判断 Y"句式</strong>（把经验内嵌进答案）</li>
+<li><strong>国际岗面试官大概率英语/中文混用</strong>，你要准备随时切换</li>
+<li><strong>新加坡人身份每个能打的点都打出来</strong>（一手感知 / 语言 / 监管认知 / 文化）</li>
+</ol>
+<hr />
+<h2>八、反问题升级版（国际岗专属）</h2>
+<ol>
+<li>"蚂蚁国际的产品决策里，<strong>全球统一</strong> vs <strong>本地差异化</strong> 的边界是怎么画的？作为 PM 我怎么判断一个功能是在全球层还是本地层做？"</li>
+<li>"如果本地钱包合作方（比如 GCash）开始做跨境，蚂蚁国际战略上怎么应对？PM 层面会有新的产品方向吗？"</li>
+<li>"你们团队里中国同事和东南亚本地同事的比例是多少？跨时区协作最大的痛点你怎么看？"</li>
+</ol>
+</body></html>
