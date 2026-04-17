@@ -1,0 +1,1070 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>蚂蚁面试全集 · Amber</title><style>
+body{max-width:860px;margin:0 auto;padding:24px;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.7;color:#1f2328;background:#fff}
+h1{font-size:24px;margin-bottom:8px}
+h2{border-bottom:2px solid #d0d7de;padding-bottom:8px;margin-top:32px;font-size:20px}
+h3{margin-top:20px;font-size:16px}
+table{width:100%;border-collapse:collapse;font-size:14px;margin:12px 0}
+th,td{border:1px solid #d0d7de;padding:8px 12px;text-align:left;vertical-align:top}
+th{background:#f6f8fa;font-weight:600}
+code{background:#f6f8fa;padding:2px 6px;border-radius:4px;font-size:0.88em;border:1px solid #e1e4e8}
+pre{background:#f6f8fa;border:1px solid #d0d7de;border-radius:8px;padding:16px;overflow-x:auto;font-size:13px}
+pre code{background:none;border:none;padding:0}
+blockquote{border-left:4px solid #d0d7de;padding:8px 16px;color:#656d76;background:#f6f8fa;margin:12px 0;border-radius:0 6px 6px 0}
+hr{border:none;border-top:1px solid #d0d7de;margin:24px 0}
+.section-divider{border-top:3px double #d0d7de;margin:48px 0}
+a{color:#0969da;text-decoration:none}
+ul,ol{margin:8px 0 8px 24px}
+li{margin:4px 0}
+strong{color:#1f2328}
+nav.toc{background:#f6f8fa;border:1px solid #d0d7de;border-radius:8px;padding:16px;margin:16px 0 24px;position:sticky;top:0;z-index:10}
+nav.toc h3{margin:0 0 12px;font-size:14px;color:#656d76;text-transform:uppercase;letter-spacing:.5px}
+nav.toc a{display:inline-block;padding:6px 12px;margin:4px 6px 4px 0;background:#fff;border:1px solid #d0d7de;border-radius:6px;font-size:13px;font-weight:500}
+nav.toc a:hover{background:#0969da;color:#fff;border-color:#0969da}
+.meta{color:#656d76;font-size:13px;margin-bottom:16px}
+section h1{margin-top:40px;color:#0969da}
+</style></head><body>
+
+<h1>🐜 蚂蚁面试全集</h1>
+<p class="meta">Amber · 2026-04-17 一面 · 三个板块合并视图</p>
+
+<nav class="toc">
+  <h3>📑 快速导航</h3>
+  <a href="#part-domestic">① 国内 17 题</a>
+  <a href="#part-intl">② 国际 12 题</a>
+  <a href="#part-english">③ 英文面试</a>
+</nav>
+
+<section id="part-domestic">
+<h1 id="ai">蚂蚁集团面试备忘录 — AI 产品经理</h1>
+<p><strong>面试时间：</strong> 2026-04-15 15:45
+<strong>岗位：</strong> AI Agent 产品经理（2027届转正实习）
+<strong>JD 核心关键词：</strong> Planning/Reflection/Memory、LUI 交互、Human-in-the-loop、Prompt+RAG+Function Calling、Bad Case 复盘+AB 测试</p>
+<hr />
+<h2 id="vs">一、蚂蚁 vs 阿里（天猫超市）的区别</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>阿里（天猫超市）</th>
+<th>蚂蚁</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>核心产品</td>
+<td>电商购物</td>
+<td>支付宝、理财、保险、信用</td>
+</tr>
+<tr>
+<td>Agent 场景</td>
+<td>导购、补货、客服</td>
+<td>智能理财顾问、保险推荐、信用评估、B 端客服 Agent</td>
+</tr>
+<tr>
+<td>用户心智</td>
+<td>买东西</td>
+<td>管钱</td>
+</tr>
+<tr>
+<td>风险敏感度</td>
+<td>中（买错退就行）</td>
+<td><strong>极高</strong>（推错理财=资金损失）</td>
+</tr>
+<tr>
+<td>蚂蚁最大优势</td>
+<td>—</td>
+<td>最全的金融 Context（收支/信用/资产/保险）</td>
+</tr>
+<tr>
+<td>JD 侧重</td>
+<td>搜推广</td>
+<td><strong>Agent 架构设计</strong>（Planning/Memory/Reflection）</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="mock">二、Mock 题目 &amp; 参考回答</h2>
+<h3 id="q1">Q1: 自我介绍</h3>
+<blockquote>
+<p>我叫 Amber Zhou，西北大学应用经济学硕士在读，本科香港中文大学。目前在小红书财务与战略部门做 AI 技术战略实习生。</p>
+<p>我的背景有三个层次：</p>
+<p><strong>第一，AI 产品实践。</strong> 我独立搭建了一套 AI 前沿情报系统，从需求定义到架构设计到上线运营全程负责，日均采集 200+ 条多源信息，稳定服务内部技术高管。Prompt 经过 4 轮调优，每轮都基于 bad case 驱动迭代。</p>
+<p><strong>第二，Agent 系统架构。</strong> 我把 Claude Code 改造成了有跨 session 记忆的个人 AI Agent，实现了完整的 Memory（三层 wiki）、Reflection（周会复盘）、Planning（任务自动拆解）能力，已开源到 GitHub。同时深度研究了 OpenClaw、Hermes Agent 等框架，写过多篇架构研报。</p>
+<p><strong>第三，经济学背景。</strong> 硕士方向是量化计量，对金融产品的风险定价逻辑有系统理解。同时在实习中把部门研究流程（会议纪要、研报撰写）抽象成了标准化 AI Skill，提升了团队效率。</p>
+<p>对蚂蚁感兴趣，是因为蚂蚁有最完整的用户金融 Context——收支、信用、资产、保险全覆盖。加上你们 JD 里写的 Planning/Memory/Reflection，这些我都在自己的 Agent 系统里实践过，不是纸上谈兵。</p>
+</blockquote>
+<hr />
+<h3 id="q2-ai">Q2: 蚂蚁核心业务 + AI 在哪些环节创造价值</h3>
+<p><strong>思考框架：按业务线拆，每条线找 AI 的价值点。</strong></p>
+<blockquote>
+<p>蚂蚁核心是四块业务：</p>
+<p><strong>1. 支付（支付宝）</strong>
+- AI 价值：实时风控反欺诈。每秒处理海量交易，AI 识别异常模式（异地登录、非常规金额、设备指纹异常），毫秒级拦截。这是 AI 最成熟的金融应用。</p>
+<p><strong>2. 数字金融（理财/信贷）</strong>
+- AI 价值：个性化投顾。不是按收益率排列表，而是根据用户的风险承受能力、资金使用计划、家庭结构给出个性化方案。把"专业投资顾问"的能力普惠化。</p>
+<p><strong>3. 信用（芝麻信用/花呗/借呗）</strong>
+- AI 价值：更精准的信用评估。传统征信只看收入和还款记录，AI 可以加入行为数据（消费稳定性、社交图谱、还款主动性），覆盖传统征信覆盖不到的人群。</p>
+<p><strong>4. 保险（蚂蚁保）</strong>
+- AI 价值：智能核保（降本）+ 个性化推荐（增收）+ 理赔辅助（提升体验）。今天我体验了蚂蚁保的 AI 推荐，它会预填年龄、常住地、收入——说明已经在用支付宝的数据做个性化了。</p>
+<p><strong>贯穿四条线的最大 AI 价值：蚂蚁拥有用户最完整的金融 Context。</strong> 收入看得到（工资流水）、支出看得到（花呗/账单）、信用看得到（芝麻分）、资产看得到（余额宝/基金持仓）。其他任何平台只有片段，蚂蚁有全景。这是做 AI 金融产品最强的原料。</p>
+</blockquote>
+<hr />
+<h3 id="q3">Q3: 智能理财助手怎么设计？核心功能和差异化</h3>
+<p><strong>思考框架：用户旅程拆解——了解需求→给建议→持续服务。</strong></p>
+<blockquote>
+<p>我会分三个阶段设计：</p>
+<p><strong>阶段一：了解用户（需求采集）</strong>
+- 不让用户填风险测评问卷——大家都乱填，数据不真实
+- 改为对话式采集：问"你这笔钱什么时候用？"、"能接受最大亏多少？"、"有没有房贷在还？"
+- 几轮对话比一张问卷精准得多，而且用户感受是"有人在关心我"而不是"在填表"
+- <strong>蚂蚁的独特优势</strong>：很多信息不用问——收入看工资流水就知道了，支出看账单就知道了，AI 只需要确认和补充，不需要从零收集</p>
+<p><strong>阶段二：给建议（推荐+解释）</strong>
+- 不推 20 个产品让用户自己选。推 2-3 个，每个附上推荐理由
+- 比如："推荐这款短期理财，因为你说了半年后要用钱，它 6 个月到期，年化 3.2%，风险等级低"
+- 关键是<strong>说清楚为什么</strong>，不是给一个排行榜
+- 如果用户说"太保守了"，AI 要能调整策略再推一版</p>
+<p><strong>阶段三：持续跟踪（动态陪伴）</strong>
+- 买了不是结束，是开始
+- 市场大跌时主动推送："你的持仓跌了 5%，但按你的投资计划这是正常波动，不建议卖。历史上类似跌幅 3 个月内回本的概率是 78%"
+- 产品到期前提醒："你的 XX 理财下周到期，要续还是取出？"
+- 这是传统推荐做不到的——传统推荐是一次性的，Agent 是<strong>持续关系</strong></p>
+<p><strong>差异化总结：</strong> 别的平台做理财推荐，用户要从零告诉 AI 自己的情况。蚂蚁不用——你的收入、支出、信用、资产它已经知道了。这不是技术差异，是<strong>数据壁垒</strong>。</p>
+</blockquote>
+<hr />
+<h3 id="q4-vs">Q4: 创新 vs 合规怎么平衡</h3>
+<p><strong>思考框架：分层处理——硬约束用规则，软体验用 AI。</strong></p>
+<blockquote>
+<p>很多人觉得合规和创新是矛盾的，我不这么看。<strong>合规是地板不是天花板——在地板之上可以自由创新。</strong></p>
+<p>具体分三层：</p>
+<p><strong>第一层：硬合规用规则引擎（绝对不能触碰的底线）</strong>
+- 适当性管理：不能给不合格投资者推高风险产品——这个规则硬编码在系统里，AI 绕不过去，prompt 再怎么写也不可能违反
+- 风险提示：法规要求的提示语必须展示，不是 AI 决定要不要说，是必须说
+- 数据隐私：哪些用户数据可以用于推荐、哪些不行，在数据层就做好隔离</p>
+<p><strong>第二层：软体验用 AI 优化（在合规框架内做到最好）</strong>
+- 怎么用用户听得懂的话解释风险——同样是风险提示，"本产品风险等级 R3"和"这个产品可能亏损本金的 10-20%，适合能承受短期波动的人"效果完全不同
+- 什么时机推什么产品——用户刚发了工资 vs 刚还了房贷，推荐策略应该不同</p>
+<p><strong>第三层：建立合规审计追踪</strong>
+- AI 的每一次推荐决策都记录日志：推了什么、为什么推、用户的风险等级是多少
+- 这既是监管要求，也是产品迭代的数据源——回头看哪些推荐转化了、哪些被拒绝了</p>
+</blockquote>
+<hr />
+<h3 id="q5-ai">Q5: AI 怎么帮用户理解和选择保险</h3>
+<p><strong>思考框架：用户痛点拆解——看不懂、选不了、理赔难。</strong></p>
+<blockquote>
+<p>保险最大的痛点是<strong>用户看不懂</strong>。一份保险合同几十页，保什么不保什么、免赔额怎么算、等待期多久，普通用户根本搞不清。AI 可以在三个环节帮忙：</p>
+<p><strong>1. 用人话解释条款（解决"看不懂"）</strong>
+- 用户问"我骑电动车摔了这个意外险赔不赔"，AI 直接回答，不用翻 20 页合同
+- 用户问"免赔额 1 万是什么意思"，AI 举例："就是你自己先出 1 万，超过的部分保险公司才管"
+- 核心是<strong>把 B 端的专业术语翻译成 C 端的生活语言</strong></p>
+<p><strong>2. 场景化推荐（解决"选不了"）</strong>
+- 不问"你要什么保险"——用户不知道自己需要什么
+- 改为问生活场景："你家几口人？有没有小孩？开不开车？有没有房贷？"
+- 然后推一个组合方案："建议医疗险+意外险+定期寿险，总共每月 XX 元"
+- <strong>蚂蚁的优势</strong>：很多信息支付宝已经知道了。今天我体验蚂蚁保的 AI 推荐，年龄、常住地、收入都是预填的——不需要用户重新输入</p>
+<p><strong>3. 理赔辅助（解决"理赔难"）</strong>
+- 出险时用户最慌。AI 可以做：拍照上传 → 预判能不能赔 → 告诉你需要什么材料 → 追踪理赔进度
+- 把理赔从"跑三趟柜台"变成"手机上搞定"
+- 这是降低保险"买了用不上、用的时候很麻烦"的核心痛点</p>
+</blockquote>
+<hr />
+<h3 id="q6-ai">Q6: 金融 AI 最大的风险？怎么控制</h3>
+<p><strong>思考框架：按风险类型分层，每层对应不同控制手段。</strong></p>
+<blockquote>
+<p>三个层面的风险，严重程度递增：</p>
+<p><strong>1. 合规风险（法律层面）</strong>
+- 金融产品推荐有法规要求（适当性管理），AI 不能给不合格投资者推高风险产品
+- 控制手段：在 Agent 里硬编码合规规则，不是靠 prompt 软约束。Prompt 可以被绕过，规则引擎不会</p>
+<p><strong>2. 误导风险（信任层面）</strong>
+- AI 说"这个产品收益不错"，用户可能理解为"保证赚钱"
+- 控制手段：金融场景的措辞必须经过合规审核模板。每句话都要区分"事实陈述"和"投资建议"
+- 反面案例：如果 AI 产生幻觉说了一个不存在的收益率，用户据此投资亏了钱，这是重大事故</p>
+<p><strong>3. 操作风险（资金层面）</strong>
+- Agent 如果能直接帮用户买卖，一旦出 bug 或被攻击，影响是真金白银
+- 控制手段：<strong>三级权限设计</strong>
+  - 低风险：查余额、看持仓、查费率 → 全自动
+  - 中风险：买理财、配保险 → Agent 给方案，用户确认才执行
+  - 高风险：大额转账、贷款申请 → 必须跳转原有流程+二次验证</p>
+<p><strong>核心原则：金融 Agent 的角色是顾问，不是操盘手。</strong> 它可以分析、建议、提醒，但最终下单的按钮必须由用户自己按。这跟我做 intern-clawd 的设计原则一致——"宁可多问一步，不可自作主张"。</p>
+</blockquote>
+<hr />
+<h3 id="q7-b-vs-c-ai-pm">Q7: B 端 vs C 端 AI PM 区别？你偏向哪个</h3>
+<p><strong>思考框架：从决策者、核心指标、容错度三个维度对比。</strong></p>
+<blockquote>
+<p>最大的区别不是产品形态，是<strong>谁做决策、怎么衡量成功</strong>：</p>
+<p><strong>1. 决策者不同</strong>
+- C 端：用户自己决定用不用。产品要<strong>直觉好用</strong>，用户没耐心看说明书
+- B 端：采购决策和使用者分离。老板决定买不买（要看 ROI），员工决定用不用（要好用）。PM 要同时说服两个人</p>
+<p><strong>2. 核心指标不同</strong>
+- C 端：DAU、留存、转化率、NPS
+- B 端：客户续约率、使用深度、降本金额、ROI</p>
+<p><strong>3. 容错度不同</strong>
+- C 端可以容忍一定的不准确——AI 推荐错了用户划走就行
+- B 端对准确率要求极高——AI 风控漏了一笔欺诈交易就是真金白银的损失；AI 客服回答错了一个保险条款可能引发法律纠纷</p>
+<p><strong>我的经历两边都有</strong>：
+- 情报系统偏 B 端思维——服务高管团队，准确率和可信度是第一位的。输出要有来源、要经过验证
+- intern-clawd 偏 C 端思维——开源面向个人用户，上手门槛和体验是第一位的。三分钟装好，装了不满意一键卸载</p>
+<p>如果要选，我更倾向 <strong>B 端 AI</strong>。因为我的经济学背景让我擅长算清楚 ROI（"这个 AI 客服能帮你每天省多少钱"），技术背景让我跟工程师沟通顺畅。这两个能力在 B 端比 C 端更值钱。</p>
+</blockquote>
+<hr />
+<h3 id="q8-ai">Q8: 医疗 AI 幻觉怎么防</h3>
+<p><strong>思考框架：从产品机制设计角度，建四层防护。</strong></p>
+<blockquote>
+<p>医疗 AI 幻觉的后果是：用户按照错误建议吃了不该吃的药，可能出人命。所以产品设计的核心原则是<strong>永远不让 AI 成为唯一的信息来源</strong>。</p>
+<p><strong>第一层：来源溯源</strong>
+- AI 给出任何健康建议，必须附上出处："根据 XX 临床指南第 X 条"
+- 用户能点进去看原文
+- 没有出处的话 AI 不允许给建议，直接说"我不确定，建议咨询医生"
+- 这跟我做情报系统的溯源规则一致——每条 signal 必须追溯到原始来源</p>
+<p><strong>第二层：分级响应</strong>
+- 低风险：AI 直接回答（"感冒多喝水多休息"）
+- 中风险：AI 给建议但加 disclaimer（"以下仅供参考，请以医嘱为准"）
+- 高风险：直接拒绝回答并引导就医（"你描述的症状建议立刻去急诊"）
+- 分级标准可以用规则引擎 + LLM 双重判断</p>
+<p><strong>第三层：交叉验证</strong>
+- 关键信息用第二个模型或权威知识库交叉检查
+- 如果两个来源矛盾，不输出结果，转人工
+- 宁可不回答也不回答错</p>
+<p><strong>第四层：用户反馈闭环</strong>
+- 用户可以标记"这个回答有问题"，立刻触发人工审核
+- 这条 case 进入 bad case 库用于模型改进
+- 同时追踪：有没有用户按照 AI 建议行动后出了问题？这是最严重的信号</p>
+<p>跟我做 intern-clawd 的思路一致——<strong>宁可坦诚说不知道，不可自信地说错。</strong> 这个原则在医疗/金融这种高风险场景要贯彻到极致。</p>
+</blockquote>
+<hr />
+<h3 id="q9-ai">Q9: 给支付宝加 AI 板块怎么加？怎么评估</h3>
+<p><strong>思考框架：产品定位→具体功能→评估体系。</strong></p>
+<blockquote>
+<p><strong>产品定位：</strong> 不做一个独立的"AI 板块"跟理财保险并列，而是做一个<strong>贯穿所有场景的统一 AI 对话入口</strong>。用户点进去之后，根据他说的话路由到不同场景——说"上个月花了多少"走账单，说"帮我推荐理财"走理财，说"牙疼赔不赔"走保险。</p>
+<p>这样做的好处是：用户不需要知道自己的需求属于哪个板块，说一句话就行。随着用户用得越多，这个 AI 入口积累的 Context 越深，体验越好，慢慢就会变成用户打开支付宝的默认入口。</p>
+<p><strong>具体功能（按优先级）：</strong>
+1. <strong>智能搜索/导航</strong> — "怎么退款""花呗怎么还"，解决用户在 app 里找不到功能的问题
+2. <strong>消费洞察</strong> — "我上个月花了多少外卖"，AI 直接说人话，不用用户自己看图表
+3. <strong>理财助手</strong> — "我有 5 万闲钱怎么放"，给个性化建议
+4. <strong>保险顾问</strong> — "我需要什么保险"，场景化推荐</p>
+<p><strong>评估体系（三层指标）：</strong></p>
+<table>
+<thead>
+<tr>
+<th>层级</th>
+<th>指标</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>功能维度</td>
+<td>AI 入口点击率、对话完成率、意图识别准确率</td>
+<td>AI 本身好不好用</td>
+</tr>
+<tr>
+<td>业务维度</td>
+<td>通过 AI 产生的理财购买 GMV、保险转化率</td>
+<td>AI 有没有带来业务增量</td>
+</tr>
+<tr>
+<td>体验维度</td>
+<td>用户满意度评分、次月留存变化</td>
+<td>用户愿不愿意回来用</td>
+</tr>
+</tbody>
+</table>
+<p><strong>AB 测试设计：</strong> 有 AI 入口 vs 没有的用户对比。注意不能只看 AI 使用率——使用率高但理财购买没涨，说明用户在"玩"AI 而不是在"用"AI。要看<strong>穿透到业务的指标</strong>。</p>
+</blockquote>
+<hr />
+<h3 id="q10-prompt">Q10: Prompt 调优技巧</h3>
+<p><strong>思考框架：方法论分层，从最重要到最不重要。</strong></p>
+<blockquote>
+<p>我总结了五条实战中最有用的技巧，按重要性排：</p>
+<p><strong>1. 角色定义要精准（最重要）</strong>
+- "你是一个 AI 助手"效果很差
+- "你是一个服务于蚂蚁保用户的保险顾问，用户大多是 25-35 岁、第一次买保险、对条款不熟悉"效果好得多
+- 角色越具体，LLM 越知道该用什么视角、什么语气、什么深度
+- 我的情报系统一开始角色定义太泛，改成"从 8 个核心视角提取 signal 的 AI 战略分析师"后产出质量明显提升</p>
+<p><strong>2. 给 few-shot 示例比给规则有效</strong>
+- 写一大段"不要用主观语气、不要超过 50 字、不要用专业术语"，LLM 经常违反
+- 直接给 2-3 个好的输出样例，LLM 模仿示例比理解规则准确得多
+- 这是 few-shot learning 的核心价值——show don't tell</p>
+<p><strong>3. 复杂任务拆步骤</strong>
+- 一个 prompt 同时做"筛选 200 条 + 提取 10 条 + 生成 insight"效果很差
+- 拆成两步：第一步只做 signal 提取，第二步拿 signal 生成 insight
+- 每步目标单一，质量可控，出错了也知道是哪一步的问题</p>
+<p><strong>4. 用 bad case 驱动迭代，不凭感觉改</strong>
+- 每轮攒 10-20 个 bad case，分析共性问题
+- 比如我发现连续几天都漏了中国大厂动态 → 分析后发现是视角定义里没强调"含中国大厂" → 加上后马上好了
+- Prompt 调优不是灵感驱动，是数据驱动</p>
+<p><strong>5. 温度和参数是最后调的（最不重要）</strong>
+- 很多人一上来调温度、调 top_p，其实 prompt 文本的影响力远大于参数
+- Prompt 没写好，温度调到 0 也没用
+- 参数只有在 prompt 已经足够好、需要微调输出多样性的时候才有意义</p>
+</blockquote>
+<hr />
+<h3 id="q11-ai-claude-code">Q11: 常用的 AI 产品分析（Claude Code）</h3>
+<p><strong>思考框架：做得好的 + 需改进的 + 对蚂蚁的启示。</strong></p>
+<blockquote>
+<p>我讲 Claude Code，因为我每天深度使用，还在它基础上搭了一套 Agent 系统。</p>
+<p><strong>做得好的：</strong>
+1. <strong>模型能力天花板高</strong> — Opus 4.6 的推理和代码能力目前是顶级的，复杂任务一次成功率很高
+2. <strong>扩展点设计精妙</strong> — hooks、CLAUDE.md、MCP 这些扩展机制让用户可以在不改源码的情况下深度定制行为。我就是靠这些扩展点把它改造成了秘书
+3. <strong>工具调用可靠</strong> — 文件读写、命令执行这些基础工具的稳定性很好，几乎不出错</p>
+<p><strong>需要改进的：</strong>
+1. <strong>跨 session 失忆</strong> — 每次新对话从零开始，不记得之前聊过什么。这是我做 intern-clawd 的出发点——给它装一套外挂 Memory
+2. <strong>没有主动能力</strong> — 只能被动响应，不能主动提醒、主动执行定时任务。我通过 cron + 飞书 bot 补了这块
+3. <strong>多模态交互弱</strong> — 不支持语音输入输出，移动端体验差</p>
+<p><strong>对蚂蚁的启示：</strong> 一个好的平台不需要什么都做到，只要<strong>扩展点设计得好</strong>，用户/开发者会自己补。对支付宝做 AI 也适用——与其做一个大而全的 AI 功能，不如把 AI 能力开放成 API 和 Agent 可调用的接口，让生态来补场景。</p>
+</blockquote>
+<hr />
+<h3 id="q12">Q12: 职业规划 / 为什么不继续做战略</h3>
+<p><strong>思考框架：战略 vs PM 的本质区别 + 你的真实动机。</strong></p>
+<blockquote>
+<p><strong>为什么不继续做战略：</strong></p>
+<p>战略偏分析和建议，<strong>最终落不落地不由你决定</strong>。我写过多篇研报、做过竞品分析，但发现我最兴奋的时刻不是报告写完的时候，而是我自己的情报系统被用起来的时候。</p>
+<p>战略告诉别人"应该做什么"，产品经理是<strong>自己把它做出来</strong>。我想离落地更近一步。</p>
+<p>而且做战略的经历对做 PM 是加分的——我理解行业全景、会做竞品分析、能站在高管视角想问题。只是不想停在"分析"这一步，想往"定义+落地+迭代"走。</p>
+<p><strong>职业规划：</strong></p>
+<p>短期想在蚂蚁这样的平台上，把 AI Agent 真正落地到金融场景里——不是做 demo，是做能承受几亿用户的产品。中期希望独立负责一条 Agent 产品线。长期对 AI + 金融方向的创业有兴趣，在蚂蚁先积累对金融场景的深度理解。</p>
+</blockquote>
+<hr />
+<h3 id="q13">Q13: 为什么选蚂蚁</h3>
+<blockquote>
+<p>三个原因：</p>
+<p><strong>1. 数据壁垒最深。</strong> 蚂蚁有最全的金融 Context——收入（工资流水）、支出（花呗/账单）、信用（芝麻分）、资产（余额宝/基金）。其他平台只有片段，蚂蚁有全景。做 AI 金融产品，数据决定了上限。</p>
+<p><strong>2. JD 和我的经历高度匹配。</strong> Planning、Memory、Reflection、Human-in-the-loop、Prompt+RAG、Bad Case 复盘——JD 写的每一条我都有实践经验，不是纸上谈兵。</p>
+<p><strong>3. 我的背景是经济学 + AI 的交叉。</strong> 蚂蚁是金融 + AI 的交叉。这个重叠度在其他公司找不到。</p>
+</blockquote>
+<hr />
+<h3 id="q14-ai">Q14: 蚂蚁 AI 核心竞争力</h3>
+<blockquote>
+<p><strong>场景纵深 × 数据闭环 × 合规壁垒。</strong></p>
+<ol>
+<li><strong>场景纵深</strong>：支付宝覆盖支付/信贷/保险/理财全场景，每个场景对 AI 的准确性、安全性要求极高。这个门槛把大部分竞争者挡在外面</li>
+<li><strong>数据闭环</strong>：用户在蚂蚁的行为数据越多 → AI 推荐越准 → 用户越依赖 → 产生更多数据。这是正向飞轮</li>
+<li><strong>合规壁垒</strong>：金融 AI 的合规要求比电商 AI 高一个数量级。蚂蚁在隐私计算、合规框架上的积累本身就是护城河</li>
+</ol>
+<p>一句话：<strong>高门槛场景 + 最全数据 + 合规能力 = 别人想做也做不了。</strong></p>
+</blockquote>
+<hr />
+<h3 id="q15-agent-to-agent">Q15: Agent-to-Agent 的未来（⭐主动抛出的亮点观点）</h3>
+<blockquote>
+<p>我体验完蚂蚁保和天猫超市的 AI 之后有一个感受——现在的 AI 是<strong>散落在每个 app 里的</strong>，每个 app 都有自己的 AI 助手，但互相不通。</p>
+<p>我认为终局是<strong>每个人有一个自己的 Agent</strong>，它有你最全的 Context，代表你去跟各个平台的 Agent 交互。你要买保险，不是你打开支付宝跟蚂蚁的 AI 聊，而是你的 Agent 拿着你的健康数据、家庭结构、财务状况，去跟蚂蚁的 Agent 谈。</p>
+<p>这对蚂蚁既是威胁也是机会——威胁是用户不直接打开支付宝了；机会是谁的 Agent API 做得最好、数据最开放，谁就是其他 Agent 优先调用的服务商。</p>
+<p>未来互联网公司的竞争不再是抢用户的眼球，而是抢用户 Agent 的优先级。</p>
+</blockquote>
+<hr />
+<h3 id="q16-intern-clawd-claudemd-hooks">Q16: intern-clawd 技术实现——怎么用 CLAUDE.md + Hooks 搭的</h3>
+<p><strong>思考框架：两个扩展点各解决什么问题。</strong></p>
+<blockquote>
+<p>Claude Code 有两个关键扩展点：</p>
+<p><strong>CLAUDE.md = Agent 的灵魂</strong>
+- 项目级指令文件，Claude Code 每次启动自动读取
+- 我在里面写了秘书的人格定义、行为规则、红线约束
+- 比如"你是 boss 的私人秘书，偏好建议性表达"、"写 wiki 前必须确认"
+- 不管开多少 session，角色和准则始终一致</p>
+<p><strong>Hooks = 自动化的行为触发器</strong>
+- SessionStart hook：每次新 session 启动，自动把 wiki index + 最近 log 注入。解决跨 session 失忆——Claude 一醒来就先"读笔记"
+- PostWrite hook：每次写完文件自动跑 wiki-lint，检查格式和交叉引用。自动化质量兜底</p>
+<p><strong>关键设计原则：没改 Claude Code 一行源码。</strong> 完全用原生扩展点在外面叠了一层记忆和仪式。就像给手机装壳——功能增强但手机本身没变。这也是跟 OpenClaw 的本质区别——OpenClaw 自己造新手机，我给已有手机装壳。</p>
+</blockquote>
+<h3 id="q17-ai-native">Q17: AI-native 金融/支付产品竞品认知</h3>
+<p><strong>思考框架：按金融场景分类，每个对标蚂蚁的哪块业务。</strong></p>
+<blockquote>
+<p>全球范围内跟蚂蚁业务重合的 AI-native 金融产品：</p>
+<p><strong>1. Stripe Radar（支付风控）</strong>
+- 全球支付领域最成熟的 AI 反欺诈，ML 实时判断每笔交易
+- 对标蚂蚁风控。区别：Stripe 主要 B 端，蚂蚁同时覆盖 C 端</p>
+<p><strong>2. Klarna AI 客服（信贷客服）</strong>
+- 瑞典先买后付公司，AI 客服替代 700 人工座席，处理 2/3 咨询
+- 对标蚂蚁花呗/借呗客服。全球最早大规模落地 AI 客服的金融公司之一</p>
+<p><strong>3. Wealthfront / Betterment（智能投顾）</strong>
+- 用户输入目标和风险偏好，AI 自动配置组合并持续调仓
+- 对标蚂蚁理财助手。区别：美国市场，中国监管和用户习惯不同</p>
+<p><strong>4. 众安保险（AI 核保理赔）</strong>
+- 国内最 AI-native 的保险公司。AI 做健康告知审核、智能核保、理赔照片识别
+- 跟蚂蚁保直接竞争。众安深耕保险，蚂蚁胜在用户基数和数据广度</p>
+<p><strong>5. 蚂蚁自己的支小宝</strong>
+- 蚂蚁自研 AI 理财顾问，已在支付宝上线，做基金分析和投资建议</p>
+<p><strong>总结：</strong> 金融 AI 最成熟的三个场景是风控、客服、投顾。Stripe 只做支付、Klarna 只做信贷、Wealthfront 只做投资。蚂蚁的差异化在于<strong>一个支付宝全包了</strong>——数据越全，AI 能做的事越多。</p>
+</blockquote>
+<hr />
+<h2 id="jd">三、JD 对照你的经历</h2>
+<table>
+<thead>
+<tr>
+<th>JD 要求</th>
+<th>你的经历</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Planning/Reflection/Memory</td>
+<td>intern-clawd 三层 wiki = Memory，周会 = Reflection，任务自动拆解 = Planning</td>
+</tr>
+<tr>
+<td>LUI 交互</td>
+<td>数字分身网站的对话式交互</td>
+</tr>
+<tr>
+<td>Human-in-the-loop</td>
+<td>intern-clawd 核心原则："写前确认，不自作主张"</td>
+</tr>
+<tr>
+<td>Prompt + RAG + Function Calling</td>
+<td>AFI（Prompt 4 轮调优）+ 数字分身（RAG）+ Claude Code（Function Calling）</td>
+</tr>
+<tr>
+<td>Bad Case 复盘 + AB 测试</td>
+<td>mock 面试中准备过完整方法论</td>
+</tr>
+<tr>
+<td>ReAct/CoT/Multi-Agent</td>
+<td>Hermes Agent 研报深度分析过 ReAct Loop</td>
+</tr>
+<tr>
+<td>极客精神/24h 冲浪</td>
+<td>AFI 每天跑 5 大数据源采集 200+ 条</td>
+</tr>
+<tr>
+<td>LangChain/Dify/Coze</td>
+<td>实习中用过 Coze（扣子）</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="_1">四、今日产品体验素材</h2>
+<p><strong>蚂蚁保 AI 推荐：</strong> 进去先填年龄/常住地/收入，这些都是预填的——说明用了支付宝已有数据（Context 优势）。但走了几步就报服务异常。</p>
+<p><strong>天猫超市 AI 导购：</strong> 三个功能（查同款低价/推荐商品/查找功能导航）。3 个 bad case：①推了下架商品 ②重复推荐被拒绝的 ③多轮对话触发反爬。</p>
+<hr />
+<h2 id="2">五、反问建议（挑 2 个）</h2>
+<ol>
+<li>"蚂蚁目前在 Agent 落地上最大的挑战是合规、技术还是用户接受度？"</li>
+<li>"这个岗位入职后前三个月，你期望实习生能交付什么？"</li>
+</ol>
+<hr />
+<h2 id="_2">六、面试核心记忆点</h2>
+<ol>
+<li><strong>蚂蚁最大优势 = 金融 Context 最全</strong></li>
+<li><strong>金融 Agent 是顾问不是操盘手</strong></li>
+<li><strong>合规是地板不是天花板</strong></li>
+<li><strong>你的独特组合 = 经济学 + AI 实践 + JD 每条都做过</strong></li>
+<li><strong>终局观点 = Agent-to-Agent，竞争从抢眼球变成抢 Agent 优先级</strong></li>
+</ol>
+</section>
+<hr class="section-divider">
+<section id="part-intl">
+<h1 id="ai">蚂蚁国际 AI 产品经理 — 补充题（国际业务深水区）</h1>
+<p><strong>补充日期：</strong> 2026-04-17
+<strong>场景：</strong> 蚂蚁国际 一面（15:45）
+<strong>用途：</strong> 原备忘录（<code>蚂蚁面试备忘录.md</code>）国内业务覆盖充分，本文件补国际角度 10 题</p>
+<hr />
+<h2 id="3">一、业务理解（3 题）</h2>
+<h3 id="q18-alipay">Q18: 介绍一下 Alipay+ 的商业模式，它的核心竞争壁垒是什么？</h3>
+<p><strong>思考框架</strong>：三方 network — 游客/商家/本地钱包，蚂蚁做连接器</p>
+<blockquote>
+<p>Alipay+ 本质是一个<strong>跨境支付网络 API 层</strong>，连接全球 100+ 电子钱包（GCash / TrueMoney / Kakao Pay / Touch 'n Go）和全球商家 POS 系统。</p>
+<p><strong>商业模式</strong>：
+- 商家侧收手续费（比卡组织 2-3% 低，约 1-2%）
+- 钱包侧收 network fee
+- 外汇和清算赚点差</p>
+<p><strong>三层壁垒</strong>：
+1. <strong>两侧网络效应</strong> — 接入的钱包越多，商家越愿意接；商家越多，钱包越愿意接。冷启动早，后来者很难追
+2. <strong>跨境清算基础设施</strong> — 蚂蚁自己的 AntChain 做实时清算，T+0 结算比传统 SWIFT 快 90%
+3. <strong>中国游客流量</strong> — 中国出境游每年 1.5 亿人次，Alipay+ 是海外商家吃中国游客流量的默认通道</p>
+<p><strong>AI 价值点</strong>：实时汇率预判、反欺诈（不同市场欺诈模式差异大）、商家智能推荐（哪款产品卖中国游客更好）</p>
+</blockquote>
+<p><strong>避坑</strong>：不要把 Alipay+ 说成"Alipay 的国际版"，它是全新网络，本质上是 Mastercard/Visa 的竞争对手</p>
+<hr />
+<h3 id="q19-mybank-310-310">Q19: MyBank 的 310 模型（3分钟申请/1秒到账/0人工）在东南亚能复制吗？主要阻碍是什么？</h3>
+<p><strong>思考框架</strong>：拆解 310 依赖什么 → 东南亚缺什么</p>
+<blockquote>
+<p>310 在国内 work 依赖<strong>四块数据基础设施</strong>：
+1. 阿里电商交易流水（商家视角）
+2. 支付宝消费+收入数据（个人视角）
+3. 全国征信系统（行为+履约）
+4. 身份实名验证（身份证+人脸）</p>
+<p><strong>东南亚能复制的</strong>：
+- 新加坡 / 香港：征信系统完善，SME 贷款有成熟风控，可以复制
+- 印尼：OJK 有基础征信但 coverage 低，需要蚂蚁拉电商+钱包数据补位</p>
+<p><strong>东南亚难复制的</strong>：
+- 菲律宾 / 越南：大量 SME 是现金经营，没有数字流水可做风控原料
+- 各国身份验证系统不互通，KYC 成本高
+- 当地中小银行合作博弈：他们不愿意把贷款风控外包给外国公司</p>
+<p><strong>AI 能解决的</strong>：用 LLM 处理<strong>非结构化数据补位</strong>（商户社交媒体、评价、WhatsApp 商家群聊），在征信薄弱市场做替代数据风控。这恰好是我 AFI 的技术栈方向</p>
+</blockquote>
+<p><strong>避坑</strong>：不要说"东南亚落后所以 work"，要说"数据基础设施不同，需要不同数据源"</p>
+<hr />
+<h3 id="q20-worldfirst-alipay">Q20: WorldFirst 跟 Alipay+ 是什么关系？蚂蚁国际的整体产品版图怎么看？</h3>
+<p><strong>思考框架</strong>：C 端 vs B 端 + 收 vs 付 四象限</p>
+<blockquote>
+<p>蚂蚁国际其实是<strong>"支付四象限"的全覆盖</strong>：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>C 端（个人）</th>
+<th>B 端（企业）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>付出去</strong></td>
+<td>Alipay+ / AlipayHK</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>收进来</strong></td>
+<td>Alipay+ 商家端</td>
+<td><strong>WorldFirst</strong>（出海卖家收款）</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Alipay+</strong> = 游客/个人跨境支付</li>
+<li><strong>AlipayHK</strong> = 香港本地 C 端</li>
+<li><strong>WorldFirst</strong> = 出海 B 端卖家（亚马逊 / eBay / Shopee 卖家从海外买家收钱）</li>
+<li><strong>MyBank</strong> 能力输出 = 给东南亚合作银行做 SME 贷款</li>
+<li><strong>AntChain</strong> = 底层清算 / 资产上链</li>
+</ul>
+<p><strong>整体叙事</strong>：蚂蚁国际不是"把 Alipay 卖到国外"，是把<strong>支付 + 信贷 + 清算 + 风控的能力拆成 API，卖给当地金融机构和跨境商家</strong>。从产品形态上类似 Stripe（B 端）+ Wise（跨境汇款）+ Visa（清算）的组合体</p>
+</blockquote>
+<hr />
+<h2 id="2">二、市场差异（2 题）</h2>
+<h3 id="q21-vs-ai">Q21: 东南亚用户 vs 中国用户，在金融 AI 产品上的关键差异是什么？</h3>
+<p><strong>思考框架</strong>：设备 / 信任 / 支付习惯 / 文化 / 监管 五维度</p>
+<blockquote>
+<p><strong>1. 设备差异</strong>
+- 印尼 95% + 手机端，大量低端 Android 机（2GB RAM，4G 网络）
+- → AI 功能必须<strong>轻量化</strong>，不能依赖大模型本地推理，要云端轻 API</p>
+<p><strong>2. 信任模式</strong>
+- 东南亚用户对金融平台信任度低（历史上金融诈骗多）
+- → <strong>透明度权重更高</strong>：AI 推荐必须给出处、给对比、给"为什么是你"
+- 中国用户习惯"小红书/抖音推啥我买啥"，AI 黑盒可接受</p>
+<p><strong>3. 支付习惯</strong>
+- 印尼 / 菲律宾：大量现金交易，钱包是补充不是替代
+- 中国：现金近乎消失
+- → AI 导购场景不同，东南亚要覆盖"线下 + 少量线上"，中国纯线上</p>
+<p><strong>4. 语言 / 文化</strong>
+- 东南亚多语言碎片化（印尼语 / 泰语 / 马来语 / 越南语），每种语言 LLM 语料少
+- → 不能直接翻译中文 prompt，要<strong>按市场重写角色和 few-shot</strong></p>
+<p><strong>5. 监管</strong>
+- 每个国家 KYC/AML 标准不同，印尼有 PP 71 数据主权法
+- → 合规规则引擎<strong>必须 per-market 硬编码</strong>，不能全局一套</p>
+<p><strong>我作为新加坡人</strong>，这些差异我日常能感知到，不是从 report 里读来的</p>
+</blockquote>
+<hr />
+<h3 id="q22-gcash-ai-alipay-gcash">Q22: 如果你看到 GCash 也在做 AI 理财顾问，你怎么定位 Alipay+ 跟 GCash 的关系？是合作还是竞争？</h3>
+<p><strong>思考框架</strong>：合作 vs 竞争不是二选一，是层级问题</p>
+<blockquote>
+<p>我认为是<strong>"同一市场的合作伙伴，不同层级的潜在竞争"</strong>：</p>
+<p><strong>现在：合作</strong>
+- GCash 是 Alipay+ 的钱包合作伙伴，Alipay+ 帮 GCash 覆盖更多海外商家
+- GCash 的 AI 理财顾问服务菲律宾本地用户，不威胁 Alipay+</p>
+<p><strong>中长期：可能竞争</strong>
+- 如果 GCash 开始做<strong>跨境 API</strong>（菲律宾用户在泰国消费），就进入 Alipay+ 的领地
+- 如果 Alipay+ 开始做<strong>本地钱包</strong>（在菲律宾直接做 C 端），就跟 GCash 对撞</p>
+<p><strong>战略判断</strong>：蚂蚁的聪明选择是<strong>继续做"连接层"不做"钱包层"</strong>，让本地钱包们分散、互相牵制，蚂蚁做唯一的跨境连接器。就像 Stripe 不做银行卡，只做支付基础设施</p>
+<p><strong>对 PM 工作的 implication</strong>：跟本地钱包合作方的产品设计，要避免"让他们感觉在被蚕食"。API 开放度、数据共享规则、收入分成，都要经过 politics sensitivity 过滤</p>
+</blockquote>
+<hr />
+<h2 id="ai2">三、本地化与 AI（2 题）</h2>
+<h3 id="q23-ai-agent-ai">Q23: 多语言多市场的 AI Agent，跟只做中文的 AI 产品，最大的设计挑战是什么？</h3>
+<p><strong>思考框架</strong>：3 层差异 — prompt / 数据 / 评估</p>
+<blockquote>
+<p><strong>挑战一：Prompt 本地化 ≠ 翻译</strong>
+- 翻译会丢语气和文化 cue
+- "帮我推荐一款保险" 在泰国可能要问"你全家几个小孩"（家庭金融决策权在女性），在印尼要问"你的家庭是穆斯林吗"（Sharia-compliant 金融产品）
+- → 需要<strong>每个市场独立设计 system prompt 和 few-shot</strong>，不能全球一套翻译</p>
+<p><strong>挑战二：训练/评估数据稀缺</strong>
+- 中文金融 QA 数据几十亿 token，印尼语可能只有百万 token
+- LLM 在小语种金融场景上幻觉率显著高
+- → 要用<strong>多语言+领域知识双重 fine-tune</strong>，或者保守策略"不确定就切换到英语回答"</p>
+<p><strong>挑战三：评估体系不能共用</strong>
+- 中国的 "prompt → output → 人工标" 流程在东南亚面临人工成本和语言障碍
+- → 要建<strong>分布式评估网络</strong>，每个市场找本地 PM/合规顾问做 bad case review
+- 我的 AFI 项目里做过类似设计：每条 signal 必须来源可溯，评估人不用读原文也能判准确性</p>
+</blockquote>
+<p><strong>避坑</strong>：不要说"翻译一下就行了"，会被判为没做过国际化</p>
+<hr />
+<h3 id="q24-2gb-ai">Q24: 印尼用户用 2GB 内存的低端手机，你要给他们做一个 AI 理财助手，技术和产品上怎么权衡？</h3>
+<p><strong>思考框架</strong>：技术架构 + 体验降级 + 场景取舍</p>
+<blockquote>
+<p><strong>技术层面</strong>
+- 不能依赖本地大模型，所有推理走云端 API
+- 页面轻量化：不用 React/Vue 重前端，原生 HTML + 少量 JS
+- 图片用 WebP + CDN 边缘节点（CloudFront 东南亚 POP）
+- AI 响应流式输出，让用户 200ms 内看到第一个字</p>
+<p><strong>产品层面</strong>
+- <strong>功能精简</strong>：只做 3 个核心场景（看余额、推荐储蓄产品、记账助手），不堆复杂功能
+- <strong>对话长度限制</strong>：每次对话最多 5 轮（节省 token 成本 + 用户也不习惯长对话）
+- <strong>离线降级</strong>：没网时显示缓存的推荐，"等联网后更新"</p>
+<p><strong>场景取舍</strong>
+- 放弃：复杂投资组合、股票分析（印尼用户不是主力）
+- 保留：储蓄产品推荐、信贷申请、日常消费分析
+- 强化：<strong>账单提醒 + 家庭共享</strong>（东南亚用户家庭资金决策多）</p>
+<p><strong>底层原则</strong>：<strong>东南亚市场是 good enough 胜过 feature-rich</strong>。中国团队容易把功能堆太多，需要 PM 强制做减法</p>
+</blockquote>
+<hr />
+<h2 id="3_1">四、合规与竞品（3 题）</h2>
+<h3 id="q25-data-sovereignty-ai-pp-71-decree-53">Q25: 数据主权（data sovereignty）在跨境 AI 产品里是个硬问题。印尼 PP 71、越南 Decree 53 都要求本地化存储。你怎么处理？</h3>
+<p><strong>思考框架</strong>：法规硬约束 + 架构设计</p>
+<blockquote>
+<p><strong>核心原则</strong>：用户数据不能跨境，但可以用<strong>蒸馏后的模型参数跨境</strong></p>
+<p><strong>架构设计</strong>：
+1. <strong>数据本地化</strong>：用户原始数据（交易流水、对话记录）存印尼本地 AWS / 阿里云节点，不出境
+2. <strong>推理本地化</strong>：AI 推理跑在本地节点，prompt + response 都不出印尼
+3. <strong>模型训练分层</strong>：
+   - 全球通用模型（金融基础知识、语言理解）→ 中国/全球训练
+   - 本地 fine-tune 用<strong>联邦学习</strong>：只把梯度上传，原始数据不动
+4. <strong>审计日志本地留存</strong>：监管随时可查</p>
+<p><strong>产品 trade-off</strong>：本地化推理延迟比中心化高，功能发布节奏慢。但这是法规硬成本，必须接受</p>
+<p><strong>我的相关经验</strong>：intern-clawd 设计时就遵循"数据留在用户本地"原则 — wiki 存在用户自己的 <code>~/.clawd/</code> 里，不上传云端。这跟跨境合规的 mindset 一致</p>
+</blockquote>
+<hr />
+<h3 id="q26-wise-revolut-stripe">Q26: Wise / Revolut / Stripe 对蚂蚁国际构成什么威胁？你怎么看竞争格局？</h3>
+<p><strong>思考框架</strong>：按业务拆 + 差异化优势</p>
+<blockquote>
+<p>不是铁板一块的威胁，是分场景的竞争：</p>
+<p><strong>Wise</strong>（跨境汇款，C 端）
+- 优势：汇率透明、费用低、面向欧美用户强
+- 威胁 Alipay+ 的 C 端跨境支付
+- 蚂蚁反制：<strong>亚太用户规模 + 商家网络</strong> Wise 追不上</p>
+<p><strong>Revolut</strong>（新银行 + 投资 + 跨境）
+- 优势：欧洲用户基数大，金融产品深度
+- 威胁：直接和 Alipay+/MyBank 对标亚太中产
+- 蚂蚁反制：<strong>跟中国游客的强绑定</strong>是 Revolut 的盲区</p>
+<p><strong>Stripe</strong>（B 端支付基础设施）
+- 优势：全球开发者默认支付 API
+- 威胁 WorldFirst 的 B 端跨境收款
+- 蚂蚁反制：<strong>中国出海卖家</strong>是 Stripe 覆盖弱的部分，蚂蚁本土优势明显</p>
+<p><strong>AI 层面的差异化</strong>：
+- Stripe Radar 是业界反欺诈最强，但只做支付风控
+- Wise 没什么 AI 产品
+- Revolut 有 AI 理财助手但只覆盖欧洲
+- <strong>蚂蚁的机会</strong>：把 AI 能力<strong>跨产品打通</strong>（支付→理财→信贷都能用同一个 Context），这是垂直整合的优势</p>
+<p>一句话：<strong>蚂蚁国际的护城河是"亚太 + 华人 + 多产品整合"，不要在欧美市场硬碰 Wise/Revolut</strong></p>
+</blockquote>
+<hr />
+<h3 id="q27-worldfirst-ai">Q27: 如果让你给 WorldFirst 设计一个 AI 功能服务中国出海卖家，你会做什么？</h3>
+<p><strong>思考框架</strong>：用户画像 → 痛点 → 最小 MVP</p>
+<blockquote>
+<p><strong>用户画像</strong>：
+- 中国中小电商卖家（Shopee / Amazon / TikTok Shop 卖家）
+- 英语不好，海外平台规则看不懂
+- 多平台多币种回款，账目混乱
+- 汇率波动焦虑，不知道何时换汇</p>
+<p><strong>三个痛点对应三个 AI 功能</strong>：</p>
+<p><strong>1. 平台规则 AI 顾问（解决"看不懂英文"）</strong>
+- 输入：Shopee/Amazon 的新规邮件（英文）
+- 输出：中文摘要 + 对你店铺的具体影响 + 需要做什么
+- 价值：省下卖家每天 30 分钟翻译规则的时间</p>
+<p><strong>2. 多账户对账助手（解决"账目混乱"）</strong>
+- 自动汇总 Shopee/Amazon/eBay 各币种回款
+- AI 标注异常（这笔钱和订单对不上）
+- 导出给会计的标准化报表</p>
+<p><strong>3. 智能换汇建议（解决"汇率焦虑"）</strong>
+- 基于历史波动 + 即期新闻 + 你的现金流需求
+- 给"建议现在换 / 再等等"的简单提示
+- 不是预测汇率（合规风险），是<strong>给决策参考</strong></p>
+<p><strong>MVP 选</strong>：先做 <strong>#1 平台规则 AI 顾问</strong>，因为最刚需、合规最安全（只翻译解释，不做投资建议）、冷启动最快（英文→中文翻译是 LLM 强项）</p>
+</blockquote>
+<hr />
+<h2 id="1">五、战略与组织（1 题）</h2>
+<h3 id="q28-ai-pm-3">Q28: 如果你是蚂蚁国际 AI PM，要同时管 3 个国家（新加坡、印尼、泰国）团队迭代同一个产品，组织上最大的挑战是什么？</h3>
+<p><strong>思考框架</strong>：不是技术问题，是人的问题</p>
+<blockquote>
+<p>三个层次的挑战，难度递增：</p>
+<p><strong>第一层：时区</strong>（相对容易）
+- 三国时差 1-2 小时，还 OK
+- 解决：每周固定时间 all-hands，其他用异步文档同步</p>
+<p><strong>第二层：市场差异导致的需求冲突</strong>（中等）
+- 印尼团队说"要支持穆斯林 Sharia 金融产品"，泰国团队说"没必要"
+- 解决：产品平台抽象 — <strong>配置化</strong>而非硬编码，每个市场自己开关功能</p>
+<p><strong>第三层：文化和决策权博弈</strong>（最难）
+- 中国总部 PM vs 当地 country head 的博弈：总部想统一、本地想差异化
+- 解决思路：
+  - <strong>清晰定义全局 vs 本地边界</strong>：技术架构、合规框架、品牌调性 = 全局；UI 语言、功能取舍、营销活动 = 本地
+  - <strong>把本地 PM 纳入决策链</strong>，而不是"总部定了让本地执行"
+  - <strong>数据说话</strong>：每个 feature 的 A/B test 分国家跑，用数据而非权威来判</p>
+<p><strong>个人认知</strong>：我作为新加坡人跟过这种跨境项目（CUHK 的跨区域经济合作研究），我知道<strong>"平衡"不是妥协到中间，是找到"哪些事必须统一，哪些事必须允许分叉"的分界线</strong></p>
+</blockquote>
+<hr />
+<h2 id="curveball">六、可能的 Curveball（开放题）</h2>
+<h3 id="q29">Q29: 你觉得蚂蚁国际这个"连接本地钱包"的战略，有什么短板？如果你是战略层，你会建议怎么补？</h3>
+<p><strong>思考框架</strong>：坦诚指出问题 + 给出方向（不卑不亢）</p>
+<blockquote>
+<p><strong>短板</strong>：
+1. <strong>不拥有 C 端用户</strong>，依赖本地钱包的用户关系。本地钱包一旦自己做跨境（GCash 已经开始了），蚂蚁的 value 被稀释
+2. <strong>品牌认知弱</strong>：用户用的是 GCash / TrueMoney，不知道背后是 Alipay+。没法直接做品牌杠杆
+3. <strong>数据碎片</strong>：每个本地钱包只给蚂蚁有限数据，蚂蚁拿不到全量用户行为</p>
+<p><strong>可能的补法</strong>：
+1. <strong>往下做本地钱包</strong>（收购 or 自建）—— 风险大、资本重
+2. <strong>往上做商家生态</strong>（给全球商家做"一站式多钱包 SDK"）—— 深化 B 端锁定
+3. <strong>往旁做 SaaS 赋能</strong>（给本地钱包卖 AI 能力 / 风控 / 合规工具）—— 用 AI 当新的粘性点</p>
+<p>我倾向 <strong>#2 + #3 组合</strong>：不做 C 端直接碰瓷本地伙伴，但通过 B 端和 SaaS 让自己变成基础设施不可替代</p>
+<p><strong>这题的亮点</strong>：坦承战略有弱点，但给的补法不破坏现有合作方关系</p>
+</blockquote>
+<hr />
+<h2 id="_1">七、面试心态提醒</h2>
+<ol>
+<li><strong>不要装懂你不确定的事</strong>（如果面试官问具体某国法规，不确定就说"这部分我要查一下"）</li>
+<li><strong>多用"我从 X 看到 / X 经历让我判断 Y"句式</strong>（把经验内嵌进答案）</li>
+<li><strong>国际岗面试官大概率英语/中文混用</strong>，你要准备随时切换</li>
+<li><strong>新加坡人身份每个能打的点都打出来</strong>（一手感知 / 语言 / 监管认知 / 文化）</li>
+</ol>
+<hr />
+<h2 id="_2">八、反问题升级版（国际岗专属）</h2>
+<ol>
+<li>"蚂蚁国际的产品决策里，<strong>全球统一</strong> vs <strong>本地差异化</strong> 的边界是怎么画的？作为 PM 我怎么判断一个功能是在全球层还是本地层做？"</li>
+<li>"如果本地钱包合作方（比如 GCash）开始做跨境，蚂蚁国际战略上怎么应对？PM 层面会有新的产品方向吗？"</li>
+<li>"你们团队里中国同事和东南亚本地同事的比例是多少？跨时区协作最大的痛点你怎么看？"</li>
+</ol>
+</section>
+<hr class="section-divider">
+<section id="part-english">
+<h1 id="_1">蚂蚁国际 — 英文面试准备</h1>
+<p><strong>为什么要准备</strong>：国际岗 10-15min 英文环节基本必考。面试官可能直接说 "Let's switch to English for a bit"。作为新加坡人你英语是底子，但<strong>PM 术语 + 金融黑话 + 结构化表达</strong>要练，别在熟悉的东西上翻车。</p>
+<hr />
+<h2 id="90s">一、英文版自我介绍（90s，核心）</h2>
+<blockquote>
+<p>Hi Kevin, thanks for having me. I'm Zhile Zhou, but you can call me Amber. I'm a Singaporean, currently doing my Master's in Applied Economics at Northwestern University, with my undergrad at The Chinese University of Hong Kong.</p>
+<p>I'm currently interning at Xiaohongshu on the Finance &amp; Strategy team as an AI tech-strategy intern — essentially, my job is to turn strategic questions into AI-powered workflows that scale.</p>
+<p>Three threads in my background that I think are relevant here:</p>
+<p><strong>First, hands-on AI product experience.</strong> I built an AI frontier intelligence system end-to-end — from requirement definition to architecture to production. It pulls from 200+ sources daily, uses LLMs for signal extraction and insight generation, and delivers daily briefs to senior tech leadership. Prompts went through four rounds of bad-case-driven iteration.</p>
+<p><strong>Second, agent system architecture.</strong> I built a cross-session memory layer on top of Claude Code — turned it into a personal AI secretary with Planning, Reflection, and Memory capabilities. Open-sourced it, got 50-plus stars on GitHub.</p>
+<p><strong>Third, my background is Economics meets AI.</strong> My quantitative methods training gives me a systematic understanding of financial product risk-pricing. I'm also Singaporean, which I think is especially relevant for Ant International — I have firsthand perspective on Southeast Asian financial infrastructure differences (GCash, TrueMoney, Alipay+) that I don't think is easy to replicate from a textbook.</p>
+<p>That's me — happy to go deeper on any of these.</p>
+</blockquote>
+<p><strong>节奏建议</strong>：
+- <strong>慢</strong> — 不要飙英文证明自己好，控制在 90-120 秒
+- <strong>每个 thread 一个 beat</strong>（停顿 0.5 秒，让面试官消化）
+- <strong>Singaporean 这张牌最后打</strong>，让它成为 memorable closing</p>
+<hr />
+<h2 id="5-kernel">二、高概率英文问题（5 题 kernel）</h2>
+<h3 id="q-e1-walk-me-through-your-most-recent-project-in-detail">Q-E1: Walk me through your most recent project in detail.</h3>
+<p><strong>Framework</strong>: Problem → Solution → Impact → Learning (STAR-like)</p>
+<blockquote>
+<p>The one I'm proudest of is the <strong>AI Frontier Insight system</strong>. The problem was that our tech leadership at Xiaohongshu was drowning in AI news — TechCrunch, arXiv, Twitter, GitHub trending, Hugging Face — and nobody had time to synthesize it into something actionable.</p>
+<p>So I built a pipeline with three stages: <strong>collection</strong> (parallel RSS plus Twitter List plus GitHub plus arXiv plus HF), <strong>signal extraction</strong> using DeepSeek to distill 200 raw items into 10 signals, and <strong>insight generation</strong> to turn those signals into strategic implications for our business.</p>
+<p>The interesting part wasn't the tech — it was the prompt engineering. I did four iteration cycles, each driven by bad cases. For example, early versions kept missing China's domestic AI landscape. I dug into the bad cases and realized my role definition was too Western-skewed. Once I rewrote the system prompt to explicitly include "China's major AI labs", coverage fixed itself in one day.</p>
+<p>Impact: it's been running daily for about three months now, and several of our VPs have quoted insights from it in their weekly meetings. That's probably the strongest validation.</p>
+</blockquote>
+<p><strong>Vocabulary to nail</strong>:
+- "distill" (蒸馏) — better than "extract" for prompt context
+- "bad case driven iteration" — 中文"bad case 驱动迭代"的英文对应
+- "role definition" — prompt engineering term
+- "strategic implications" — 战略 implications</p>
+<hr />
+<h3 id="q-e2-why-ant-international-specifically-why-not-somewhere-else">Q-E2: Why Ant International specifically? Why not somewhere else?</h3>
+<p><strong>Framework</strong>: Personal fit + Unique value</p>
+<blockquote>
+<p>Three reasons, and they stack:</p>
+<p><strong>First, the problem space excites me.</strong> Cross-border fintech in Asia is one of the few places where you're genuinely solving hard problems — regulatory fragmentation, infrastructure gaps, cultural localization — not just iterating on existing UX patterns. That's meaningful work.</p>
+<p><strong>Second, my background is uniquely suited.</strong> I'm Singaporean — I grew up with DBS, GrabPay, and Alipay HK in the same wallet. I studied in Hong Kong and Chicago, so I'm comfortable operating across Chinese and English professional contexts. Most candidates can offer one of these; few can offer both.</p>
+<p><strong>Third, the team profile matches how I work.</strong> From what I've read about Ant International's AI team, the focus is on building production systems that serve real users at scale, not shipping demos. My projects have always been production-oriented — that's where I learn most.</p>
+<p>Candidly, I've looked at Grab Financial, Revolut, and Wise — but none have the combination of Asia-first focus, multi-product depth, and AI maturity that Ant has.</p>
+</blockquote>
+<p><strong>注意</strong>: 提 Grab / Revolut / Wise 展示你做过竞品功课，是加分点</p>
+<hr />
+<h3 id="q-e3-whats-the-hardest-technical-challenge-in-building-ai-for-multi-market-financial-products">Q-E3: What's the hardest technical challenge in building AI for multi-market financial products?</h3>
+<p><strong>Framework</strong>: 3 layers — data / model / evaluation</p>
+<blockquote>
+<p>I'd say it's evaluation, counterintuitively. Everyone talks about prompt engineering and model fine-tuning, but in a multi-market financial context, the real bottleneck is: how do you know your AI is actually behaving correctly in Indonesian, Thai, and Vietnamese?</p>
+<p><strong>Data layer</strong>: Non-English financial QA datasets are orders of magnitude smaller than Chinese or English. Your model just knows less.</p>
+<p><strong>Model layer</strong>: Even if you have a great model, hallucinations in low-resource languages are systematically higher — and in finance, a hallucinated recommendation is a real liability.</p>
+<p><strong>Evaluation layer</strong>: You can't just translate your English eval set. A question like "is this insurance Sharia-compliant" doesn't exist in your English dataset at all. You need <strong>localized evaluation networks</strong> — real PMs and compliance experts in each market who can flag bad cases in their language.</p>
+<p>I actually faced a mini version of this in my intelligence system project. My early evaluation was "do I think this signal is good" — totally insufficient. I ended up building a rubric with seven explicit criteria, so anyone could grade consistently. That same rigor has to scale across markets.</p>
+</blockquote>
+<hr />
+<h3 id="q-e4-tell-me-about-a-time-you-had-to-push-back-on-a-stakeholder">Q-E4: Tell me about a time you had to push back on a stakeholder.</h3>
+<p><strong>Framework</strong>: STAR (Situation, Task, Action, Result)</p>
+<blockquote>
+<p>At Xiaohongshu, my manager asked me to generate a weekly AI trends report for our executive team. The initial ask was: "write a summary of what's happening in AI this week."</p>
+<p>I pushed back, not on the output, but on the framing. I said: "If we just summarize news, we're creating noise. What our VPs actually need is to know which trends affect <em>our</em> business and what we should do about it."</p>
+<p>So instead of a generic report, I built a two-layer output: a <strong>daily signal feed</strong> that's informational, and a <strong>weekly strategic insight</strong> that's actionable — each signal explicitly mapped to which of our business lines it affects.</p>
+<p>The result: our CTO started quoting the weekly insights in all-hands meetings. That wouldn't have happened with a generic summary.</p>
+<p>The learning for me: <strong>pushing back on framing is often more valuable than pushing back on execution.</strong> It's harder because it requires you to propose a better alternative, not just flag a problem.</p>
+</blockquote>
+<hr />
+<h3 id="q-e5-whats-a-product-decision-you-would-make-differently-if-you-could-go-back">Q-E5: What's a product decision you would make differently if you could go back?</h3>
+<p><strong>Framework</strong>: Genuine regret + what you learned</p>
+<blockquote>
+<p>Early in the intelligence system, I optimized for coverage — I wanted to pull from every possible source: 10+ RSS feeds, three Twitter lists, arXiv, GitHub, Hugging Face, benchmarks. More sources equals more signal, right?</p>
+<p>Wrong. What I got was <strong>noise, not signal</strong>. The quality of my daily brief got <em>worse</em> as I added sources, because my LLM had to filter more low-signal-to-noise content.</p>
+<p>What I should have done: <strong>start with three high-quality sources</strong> (Twitter from top researchers, one curated newsletter, arXiv abstracts), nail the pipeline, then add sources only when there was a clear coverage gap.</p>
+<p>The lesson: <strong>breadth is a vanity metric.</strong> In product, I'd rather do 3 things excellently than 10 things adequately. That's something I'd bring to whatever I build here.</p>
+</blockquote>
+<p><strong>Why this works</strong>: Shows self-awareness, shows you can kill your darlings, and ties back to good product instinct</p>
+<hr />
+<h2 id="_2">三、关键中英术语对照（面试常用）</h2>
+<h3 id="ai-tech-terms">AI / Tech Terms</h3>
+<table>
+<thead>
+<tr>
+<th>中文</th>
+<th>English</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>信号提取</td>
+<td>signal extraction</td>
+</tr>
+<tr>
+<td>洞察生成</td>
+<td>insight generation</td>
+</tr>
+<tr>
+<td>幻觉</td>
+<td>hallucination</td>
+</tr>
+<tr>
+<td>幻觉防护</td>
+<td>hallucination mitigation</td>
+</tr>
+<tr>
+<td>角色定义</td>
+<td>role definition / persona</td>
+</tr>
+<tr>
+<td>上下文</td>
+<td>context</td>
+</tr>
+<tr>
+<td>少样本学习</td>
+<td>few-shot learning</td>
+</tr>
+<tr>
+<td>工具调用</td>
+<td>function calling / tool use</td>
+</tr>
+<tr>
+<td>检索增强生成</td>
+<td>retrieval-augmented generation (RAG)</td>
+</tr>
+<tr>
+<td>智能体</td>
+<td>agent</td>
+</tr>
+<tr>
+<td>Bad case 复盘</td>
+<td>bad case retrospective / post-mortem</td>
+</tr>
+<tr>
+<td>温度参数</td>
+<td>temperature</td>
+</tr>
+<tr>
+<td>评估体系</td>
+<td>evaluation framework</td>
+</tr>
+</tbody>
+</table>
+<h3 id="product-business-terms">Product / Business Terms</h3>
+<table>
+<thead>
+<tr>
+<th>中文</th>
+<th>English</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>产品-市场契合</td>
+<td>product-market fit (PMF)</td>
+</tr>
+<tr>
+<td>差异化</td>
+<td>differentiation</td>
+</tr>
+<tr>
+<td>护城河</td>
+<td>moat / defensibility</td>
+</tr>
+<tr>
+<td>数据飞轮</td>
+<td>data flywheel</td>
+</tr>
+<tr>
+<td>转化率</td>
+<td>conversion rate</td>
+</tr>
+<tr>
+<td>留存</td>
+<td>retention</td>
+</tr>
+<tr>
+<td>次月留存</td>
+<td>month-2 retention</td>
+</tr>
+<tr>
+<td>用户旅程</td>
+<td>user journey</td>
+</tr>
+<tr>
+<td>北极星指标</td>
+<td>North Star metric</td>
+</tr>
+<tr>
+<td>用户画像</td>
+<td>user persona</td>
+</tr>
+<tr>
+<td>场景化推荐</td>
+<td>context-aware recommendation</td>
+</tr>
+<tr>
+<td>本地化</td>
+<td>localization</td>
+</tr>
+<tr>
+<td>跨境</td>
+<td>cross-border</td>
+</tr>
+</tbody>
+</table>
+<h3 id="finance-terms">Finance Terms</h3>
+<table>
+<thead>
+<tr>
+<th>中文</th>
+<th>English</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>反欺诈</td>
+<td>fraud detection / anti-fraud</td>
+</tr>
+<tr>
+<td>风控</td>
+<td>risk management / risk control</td>
+</tr>
+<tr>
+<td>合规</td>
+<td>compliance</td>
+</tr>
+<tr>
+<td>适当性管理</td>
+<td>suitability assessment</td>
+</tr>
+<tr>
+<td>尽职调查</td>
+<td>due diligence</td>
+</tr>
+<tr>
+<td>跨境支付</td>
+<td>cross-border payment</td>
+</tr>
+<tr>
+<td>外汇</td>
+<td>foreign exchange (FX)</td>
+</tr>
+<tr>
+<td>清算</td>
+<td>settlement / clearing</td>
+</tr>
+<tr>
+<td>小微企业</td>
+<td>SMEs (small and medium enterprises)</td>
+</tr>
+<tr>
+<td>征信</td>
+<td>credit bureau / credit scoring</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="_3">四、中英切换短语</h2>
+<p><strong>Switching to English</strong>:</p>
+<blockquote>
+<p>"Sure, let me switch to English."
+"Happy to — my English is probably fresher than my financial Mandarin actually." (自嘲幽默加分)</p>
+</blockquote>
+<p><strong>Asking to switch back</strong>:</p>
+<blockquote>
+<p>"I might switch back to Chinese for this one — it's easier for me to get nuance in my native context."
+"Can I answer this one in Chinese? The concepts are easier to express."</p>
+</blockquote>
+<p><strong>When you need to think</strong>:</p>
+<blockquote>
+<p>"Let me think for a moment."
+"That's a great question — let me structure my thoughts."
+"Interesting. The way I'd break this down is..." (比 "Let me think" 更主动)</p>
+</blockquote>
+<p><strong>When unsure of a term</strong>:</p>
+<blockquote>
+<p>"I'm not sure of the exact English term — in Chinese we say X — maybe it's 'Y' in English?"
+(面试官会帮你补，比装懂好)</p>
+</blockquote>
+<hr />
+<h2 id="_4">五、新加坡身份英文话术升级</h2>
+<p><strong>Don't just say "I'm from Singapore"</strong>. Connect it to the job:</p>
+<p><strong>For East Asia understanding</strong>:</p>
+<blockquote>
+<p>"Growing up in Singapore means I've been context-switching between Chinese, English, and sometimes Malay since I was a kid. That skill translates directly — our users across Southeast Asia operate in multiple languages, and product decisions have to reflect that."</p>
+</blockquote>
+<p><strong>For financial infrastructure</strong>:</p>
+<blockquote>
+<p>"In Singapore I grew up with DBS PayNow, GrabPay, and even my Malaysian relatives' Touch 'n Go — multiple wallets, multiple currencies, across a porous border. I have a gut-level understanding of cross-border UX friction that most candidates don't."</p>
+</blockquote>
+<p><strong>For regulatory nuance</strong>:</p>
+<blockquote>
+<p>"Singapore's MAS is very different from Hong Kong's HKMA, which is different from Indonesia's OJK. I've had to navigate that cognitive map since I started caring about fintech. It's not an abstraction for me."</p>
+</blockquote>
+<p><strong>For Sharia finance / Muslim markets</strong>:</p>
+<blockquote>
+<p>"Singapore has a significant Muslim population and we have mature Sharia-compliant financial products alongside conventional ones. When we talk about serving Indonesia or Malaysia, I already have the cultural baseline."</p>
+</blockquote>
+<hr />
+<h2 id="_5">六、常见陷阱 + 应对</h2>
+<h3 id="trap-1-answering-too-fast-in-english">Trap 1: Answering too fast in English</h3>
+<ul>
+<li><strong>Why</strong>: 想证明自己英文好，反而显得紧张</li>
+<li><strong>Fix</strong>: 每句话后<strong>主动停顿 0.5 秒</strong>，让面试官跟上</li>
+</ul>
+<h3 id="trap-2-translating-chinese-sentence-structure-literally">Trap 2: Translating Chinese sentence structure literally</h3>
+<ul>
+<li><strong>"我认为这个产品的价值主要体现在..." → "I think the value of this product mainly is reflected in..."</strong> ❌</li>
+<li><strong>Better</strong>: "The core value is..."</li>
+<li><strong>Fix</strong>: 用英文句子起头重写，不要翻译</li>
+</ul>
+<h3 id="trap-3-over-using-very-and-really">Trap 3: Over-using "very" and "really"</h3>
+<ul>
+<li><strong>"It's very interesting"</strong> ❌ weak</li>
+<li><strong>"It's a fascinating problem"</strong> or <strong>"That's exactly the kind of question I enjoy"</strong> ✅</li>
+<li>美式面试偏好<strong>具体形容词</strong>，少用程度副词</li>
+</ul>
+<h3 id="trap-4-actually-as-filler">Trap 4: "Actually" as filler</h3>
+<ul>
+<li>"Actually, I think... Actually we did... Actually..."</li>
+<li>每句开头 actually 会显得 defensive</li>
+<li><strong>Fix</strong>: 只在真的要反驳时用 actually</li>
+</ul>
+<h3 id="trap-5-drop-into-chinese-mid-sentence">Trap 5: Drop into Chinese mid-sentence</h3>
+<ul>
+<li>"The 核心价值 is that it solves..." ❌</li>
+<li>即使英文单词不记得，也用<strong>描述 + 英文解释</strong>而不是直接切换</li>
+<li><strong>Good</strong>: "The core value proposition — what we'd call 核心价值 in Chinese — is..."</li>
+</ul>
+<h3 id="trap-6-cant-describe-afi-intern-clawd-in-english">Trap 6: Can't describe AFI / intern-clawd in English</h3>
+<ul>
+<li>练一次 <strong>30 秒 elevator pitch</strong> 用英文描述每个核心项目</li>
+<li>提前准备好核心数据的英文表达："200 items daily", "four iteration cycles", "50-plus GitHub stars"</li>
+</ul>
+<hr />
+<h2 id="_6">七、如果面试官英文一般（中国面试官居多）</h2>
+<p>有可能面试官英文水平不高，但又要 test 你。策略：
+1. <strong>你的英文放慢 20%</strong>，措辞偏简单，不用长从句
+2. <strong>复杂概念用中文辅助解释</strong>："In Chinese we'd say 护城河, which in English is 'moat' or 'defensibility'"
+3. <strong>别让他感到自己英文差</strong>（他可能因此给你低分）</p>
+<hr />
+<h2 id="5-3">八、最后 5 分钟念一遍的 3 句话</h2>
+<p>进面试前，英文 self-intro 念 3 遍。重点这三句定调：</p>
+<ol>
+<li><strong>Opening</strong>: "Hi Kevin, I'm Amber, Singaporean..." (温度 + 身份卡)</li>
+<li><strong>Hook</strong>: "I built [AFI] end-to-end, from requirement to production..." (主动性 + 结果导向)</li>
+<li><strong>Closing</strong>: "...especially for Ant International, where firsthand Southeast Asian perspective is rare." (点到为止，把加分点钉上)</li>
+</ol>
+<p>这三句念熟了，英文环节开场稳住，后面即使磕巴也不慌。</p>
+</section>
+
+</body></html>
