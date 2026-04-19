@@ -1,0 +1,1415 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JobPilot - 一站式求职陪跑平台</title>
+<style>
+:root{
+  --primary:#6366F1;--primary-light:#EEF2FF;--primary-hover:#4F46E5;
+  --success:#10B981;--success-light:#D1FAE5;
+  --warning:#F59E0B;--warning-light:#FEF3C7;
+  --danger:#EF4444;--danger-light:#FEE2E2;
+  --info:#3B82F6;--info-light:#DBEAFE;
+  --purple:#8B5CF6;--purple-light:#F5F3FF;
+  --g50:#F8FAFC;--g100:#F1F5F9;--g200:#E2E8F0;--g300:#CBD5E1;
+  --g400:#94A3B8;--g500:#64748B;--g600:#475569;--g700:#334155;--g800:#1E293B;
+  --radius:12px;
+  --shadow:0 1px 3px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04);
+  --shadow-md:0 4px 12px -2px rgba(0,0,0,.08),0 2px 6px -2px rgba(0,0,0,.04);
+  --shadow-lg:0 12px 32px -4px rgba(0,0,0,.12),0 4px 12px -2px rgba(0,0,0,.05);
+  --card-shadow:0 1px 3px rgba(0,0,0,.04),0 0 0 1px rgba(0,0,0,.03);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Inter',Roboto,sans-serif;background:linear-gradient(135deg,#f0f4ff 0%,#faf5ff 50%,#fef2f2 100%);background-attachment:fixed;color:var(--g800);height:100vh;display:flex;flex-direction:column;overflow:hidden;-webkit-font-smoothing:antialiased;}
+
+/* Nav */
+.topnav{background:rgba(255,255,255,.82);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(0,0,0,.06);padding:0 32px;height:60px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;z-index:100;}
+.topnav-left{display:flex;align-items:center;gap:28px;}
+.logo{font-size:21px;font-weight:800;background:linear-gradient(135deg,var(--primary),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;display:flex;align-items:center;gap:10px;letter-spacing:-.3px;}
+.logo svg{width:28px;height:28px;stroke:var(--primary);}
+.logo-tag{font-size:11px;font-weight:500;-webkit-text-fill-color:var(--g400);margin-left:2px;letter-spacing:0;}
+.nav-tabs{display:flex;gap:4px;}
+.nav-tab{padding:8px 18px;border-radius:8px;font-size:14px;font-weight:500;color:var(--g500);cursor:pointer;border:none;background:none;transition:all .2s;display:flex;align-items:center;gap:6px;}
+.nav-tab:hover{background:rgba(99,102,241,.06);color:var(--g700);}
+.nav-tab.active{background:linear-gradient(135deg,rgba(99,102,241,.1),rgba(139,92,246,.1));color:var(--primary);font-weight:600;}
+.topnav-right{display:flex;align-items:center;gap:12px;}
+.search-box{display:flex;align-items:center;background:rgba(0,0,0,.03);border:1px solid rgba(0,0,0,.06);border-radius:10px;padding:7px 14px;gap:8px;width:240px;transition:all .2s;}
+.search-box:focus-within{border-color:var(--primary);background:white;box-shadow:0 0 0 3px rgba(99,102,241,.1);}
+.search-box input{border:none;background:none;outline:none;font-size:13px;color:var(--g700);width:100%;}
+
+/* Main */
+.main-content{flex:1;overflow:hidden;display:flex;}
+
+/* ===== List View (main page) ===== */
+.list-view{flex:1;overflow-y:auto;padding:28px 32px;display:none;}
+.list-view.active{display:block;}
+.list-container{max-width:840px;margin:0 auto;}
+
+/* Stats row */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px;}
+.stat-chip{background:white;border:1px solid rgba(0,0,0,.06);border-radius:14px;padding:16px 18px;display:flex;align-items:center;gap:14px;transition:all .2s;box-shadow:var(--card-shadow);}
+.stat-chip:hover{transform:translateY(-2px);box-shadow:var(--shadow-md);}
+.stat-chip-icon{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.stat-chip-value{font-size:22px;font-weight:800;letter-spacing:-.5px;}
+.stat-chip-label{font-size:11px;color:var(--g500);font-weight:500;letter-spacing:.2px;}
+
+/* Smart add */
+.smart-add{margin-bottom:24px;}
+.smart-add-input{width:100%;padding:12px 16px;border:1px solid rgba(0,0,0,.08);border-radius:10px;font-size:13px;outline:none;background:white;color:var(--g700);transition:all .2s;font-family:inherit;box-shadow:var(--card-shadow);}
+.smart-add-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(99,102,241,.1);}
+.smart-add-input::placeholder{color:var(--g400);}
+.smart-add-hint{font-size:11px;color:var(--g400);margin-top:6px;padding-left:4px;}
+.smart-add-parsing{display:none;align-items:center;gap:10px;padding:14px 18px;border:1px solid var(--g200);border-radius:12px;background:white;margin-top:8px;}
+.smart-add-parsing.active{display:flex;}
+.smart-add-parsing .spinner{width:18px;height:18px;border:2px solid var(--g200);border-top-color:var(--primary);border-radius:50%;animation:spin .8s linear infinite;}
+.smart-add-parsed{display:none;margin-top:10px;padding:14px 18px;border-radius:12px;background:white;border:1px solid var(--success);animation:fadeIn .3s;}
+.smart-add-parsed.active{display:block;}
+.parsed-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px 16px;margin-bottom:12px;}
+.parsed-item-label{font-size:11px;color:var(--g500);margin-bottom:2px;}
+.parsed-item-value{font-size:14px;font-weight:600;color:var(--g800);}
+.parsed-actions{display:flex;gap:8px;justify-content:flex-end;}
+
+/* Toolbar */
+.toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding:10px 14px;background:white;border-radius:12px;border:1px solid rgba(0,0,0,.06);box-shadow:var(--card-shadow);gap:12px;flex-wrap:wrap;}
+.toolbar-left,.toolbar-right{display:flex;align-items:center;gap:12px;}
+.toolbar-group{display:flex;align-items:center;gap:6px;}
+.toolbar-label{font-size:12px;font-weight:600;color:var(--g400);white-space:nowrap;}
+.toolbar-select{padding:5px 24px 5px 10px;border:1px solid var(--g200);border-radius:8px;font-size:12px;font-weight:500;color:var(--g700);background:var(--g50) url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%2394A3B8' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 8px center;appearance:none;-webkit-appearance:none;cursor:pointer;outline:none;transition:all .15s;font-family:inherit;}
+.toolbar-select:hover{border-color:var(--g300);}
+.toolbar-select:focus{border-color:var(--primary);box-shadow:0 0 0 2px rgba(99,102,241,.1);}
+
+/* App card */
+.app-card{background:white;border-radius:16px;border:1px solid rgba(0,0,0,.06);padding:22px 24px;margin-bottom:14px;transition:all .25s cubic-bezier(.4,0,.2,1);cursor:default;box-shadow:var(--card-shadow);}
+.app-card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px);border-color:rgba(99,102,241,.15);}
+.app-card-top{display:flex;align-items:start;gap:14px;margin-bottom:18px;}
+.app-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;flex-shrink:0;box-shadow:inset 0 -1px 2px rgba(0,0,0,.06);}
+.app-info{flex:1;min-width:0;}
+.app-company{font-size:16px;font-weight:700;margin-bottom:3px;letter-spacing:-.2px;}
+.app-position{font-size:13px;color:var(--g500);font-weight:400;}
+.app-badges{display:flex;gap:6px;flex-shrink:0;align-items:center;}
+.app-badge{font-size:11px;font-weight:600;padding:4px 10px;border-radius:8px;letter-spacing:.1px;}
+.app-priority-dot{width:8px;height:8px;border-radius:50%;box-shadow:0 0 0 2px white,0 0 0 3px currentColor;}
+.app-priority-dot.high{background:var(--danger);color:var(--danger);}
+.app-priority-dot.medium{background:var(--warning);color:var(--warning);}
+.app-priority-dot.low{background:var(--success);color:var(--success);}
+
+/* Timeline inside card */
+.app-timeline{display:flex;align-items:flex-start;position:relative;padding:4px 8px;margin-bottom:4px;background:var(--g50);border-radius:12px;padding:12px 16px;}
+.tl-step{display:flex;flex-direction:column;align-items:center;position:relative;z-index:1;cursor:pointer;flex:0 0 auto;}
+.tl-step:hover .tl-label{color:var(--primary);}
+.tl-connector{flex:1;height:2px;background:var(--g200);position:relative;margin:0 -2px;margin-top:10px;z-index:0;border-radius:1px;}
+.tl-connector.done{background:linear-gradient(90deg,var(--primary),rgba(99,102,241,.7));}
+.tl-connector.active-conn{background:linear-gradient(90deg,var(--primary),var(--g200));}
+.tl-dot{width:22px;height:22px;border-radius:50%;border:2.5px solid var(--g300);background:white;display:flex;align-items:center;justify-content:center;transition:all .25s;margin-bottom:6px;}
+.tl-dot.done{background:var(--primary);border-color:var(--primary);box-shadow:0 2px 6px rgba(99,102,241,.3);}
+.tl-dot.done svg{display:block;}
+.tl-dot.current{border-color:var(--primary);background:white;animation:pulse 2s ease-in-out infinite;box-shadow:0 0 0 4px rgba(99,102,241,.12);}
+.tl-dot svg{display:none;width:12px;height:12px;color:white;}
+.tl-label{font-size:11px;color:var(--g400);font-weight:500;white-space:nowrap;transition:color .15s;}
+.tl-label.done{color:var(--g700);font-weight:600;}
+.tl-label.current{color:var(--primary);font-weight:600;}
+.tl-date{font-size:10px;color:var(--g400);margin-top:2px;font-weight:500;font-variant-numeric:tabular-nums;}
+.tl-step .tl-dot.done~.tl-date{color:var(--g500);}
+.tl-step .tl-dot.current~.tl-date{color:var(--primary);font-weight:600;}
+
+@keyframes pulse{0%,100%{box-shadow:0 0 0 4px rgba(79,70,229,.15);}50%{box-shadow:0 0 0 8px rgba(79,70,229,.08);}}
+
+/* Advance button */
+.app-actions{display:flex;align-items:center;justify-content:space-between;margin-top:14px;padding-top:14px;border-top:1px solid var(--g100);}
+.advance-btn{padding:8px 16px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;border:none;color:white;background:linear-gradient(135deg,var(--primary),#818CF8);display:flex;align-items:center;gap:6px;transition:all .2s;box-shadow:0 2px 6px rgba(99,102,241,.2);}
+.advance-btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(99,102,241,.3);}
+.advance-btn.offer-btn{background:linear-gradient(135deg,var(--success),#34D399);}
+.advance-btn.offer-btn:hover{box-shadow:0 4px 12px rgba(16,185,129,.3);}
+.rollback-btn{padding:6px 12px;border-radius:8px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid var(--g200);background:white;color:var(--g400);display:flex;align-items:center;gap:4px;transition:all .2s;margin-right:8px;}
+.rollback-btn:hover{border-color:var(--danger);color:var(--danger);background:var(--danger-light);}
+.detail-link{font-size:13px;color:var(--g400);cursor:pointer;border:none;background:none;display:flex;align-items:center;gap:4px;transition:all .2s;font-weight:500;padding:6px 10px;border-radius:8px;}
+.detail-link:hover{color:var(--primary);background:var(--primary-light);}
+
+/* Interview branch under node — grid aligns date|dot|round */
+.tl-step{position:relative;}
+.tl-branch{position:absolute;top:100%;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;padding-top:4px;z-index:5;}
+.tl-branch-line{width:2px;height:8px;background:var(--g200);border-radius:1px;}
+.tl-branch-line.done{background:var(--primary);}
+.tl-branch-item{display:grid;grid-template-columns:34px 10px 28px;gap:3px;align-items:center;}
+.tl-branch-date{font-size:10px;color:var(--g400);text-align:right;font-variant-numeric:tabular-nums;}
+.tl-branch-item.done .tl-branch-date{color:var(--g500);}
+.tl-branch-dot{width:8px;height:8px;border-radius:50%;border:2px solid var(--g300);background:white;justify-self:center;transition:all .2s;}
+.tl-branch-dot.done{background:var(--primary);border-color:var(--primary);box-shadow:0 1px 3px rgba(99,102,241,.3);}
+.tl-branch-dot.current{border-color:var(--primary);box-shadow:0 0 0 3px rgba(99,102,241,.12);}
+.tl-branch-text{font-size:10px;color:var(--g400);white-space:nowrap;}
+.tl-branch-item.done .tl-branch-text{color:var(--g600);font-weight:500;}
+.tl-branch-item.current .tl-branch-text{color:var(--primary);font-weight:600;}
+
+/* Interview choice buttons */
+.interview-choices{display:flex;gap:8px;flex-wrap:wrap;}
+.choice-btn{padding:7px 14px;border-radius:9px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid var(--g200);background:white;color:var(--g600);transition:all .2s;display:inline-flex;align-items:center;gap:5px;}
+.choice-btn:hover{border-color:var(--primary);color:var(--primary);background:var(--primary-light);transform:translateY(-1px);}
+.choice-btn.offer{border-color:#A7F3D0;color:var(--success);}
+.choice-btn.offer:hover{background:var(--success-light);border-color:var(--success);transform:translateY(-1px);}
+.choice-btn.end{color:var(--g400);}
+.choice-btn.end:hover{border-color:var(--danger-light);color:var(--danger);background:var(--danger-light);}
+
+/* Mock Test overlay */
+.mock-test{display:none;position:fixed;inset:0;z-index:1200;background:white;flex-direction:column;}
+.mock-test.active{display:flex;}
+.mt-header{display:flex;align-items:center;padding:12px 24px;background:white;border-bottom:1px solid var(--g200);gap:16px;flex-shrink:0;}
+.mt-back{width:36px;height:36px;border-radius:8px;border:1px solid var(--g200);background:white;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--g600);}
+.mt-back:hover{background:var(--g100);}
+.mt-info{flex:1;font-size:15px;font-weight:600;}
+.mt-timer{font-size:18px;font-weight:700;color:var(--danger);font-variant-numeric:tabular-nums;background:var(--danger-light);padding:5px 14px;border-radius:8px;min-width:80px;text-align:center;}
+.mt-timer.safe{color:var(--g600);background:var(--g100);}
+.mt-progress{font-size:13px;color:var(--g500);font-weight:500;}
+.mt-submit-btn{padding:8px 18px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;border:none;background:var(--primary);color:white;transition:all .15s;}
+.mt-submit-btn:hover{background:var(--primary-hover);}
+.mt-body{flex:1;display:flex;overflow:hidden;}
+.mt-sidebar{width:72px;background:var(--g50);border-right:1px solid var(--g200);padding:12px 8px;overflow-y:auto;display:flex;flex-direction:column;gap:6px;align-items:center;flex-shrink:0;}
+.mt-qbtn{width:36px;height:36px;border-radius:8px;border:1px solid var(--g200);background:white;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;color:var(--g600);transition:all .15s;}
+.mt-qbtn.active{border-color:var(--primary);background:var(--primary-light);color:var(--primary);}
+.mt-qbtn.answered{background:var(--success-light);border-color:#A7F3D0;color:var(--success);}
+.mt-qbtn.wrong{background:var(--danger-light);border-color:var(--danger);color:var(--danger);}
+.mt-qbtn.correct{background:var(--success-light);border-color:var(--success);color:var(--success);}
+.mt-main{flex:1;overflow-y:auto;padding:32px 48px;}
+.mt-qtitle{font-size:13px;color:var(--g400);font-weight:600;margin-bottom:12px;}
+.mt-qtext{font-size:16px;font-weight:500;line-height:1.8;margin-bottom:24px;color:var(--g800);}
+.mt-qcode{background:var(--g800);color:#E2E8F0;padding:16px 20px;border-radius:10px;font-family:'Menlo','Courier New',monospace;font-size:13px;line-height:1.6;margin-bottom:24px;overflow-x:auto;white-space:pre;}
+.mt-options{display:flex;flex-direction:column;gap:10px;}
+.mt-option{display:flex;align-items:flex-start;gap:12px;padding:14px 18px;border:2px solid var(--g200);border-radius:10px;cursor:pointer;transition:all .15s;font-size:14px;line-height:1.5;}
+.mt-option:hover{border-color:var(--g300);background:var(--g50);}
+.mt-option.selected{border-color:var(--primary);background:var(--primary-light);}
+.mt-option.correct{border-color:var(--success);background:var(--success-light);}
+.mt-option.wrong{border-color:var(--danger);background:var(--danger-light);}
+.mt-option-letter{width:24px;height:24px;border-radius:50%;border:2px solid var(--g300);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0;color:var(--g500);}
+.mt-option.selected .mt-option-letter{border-color:var(--primary);color:var(--primary);background:white;}
+.mt-option.correct .mt-option-letter{border-color:var(--success);color:white;background:var(--success);}
+.mt-option.wrong .mt-option-letter{border-color:var(--danger);color:white;background:var(--danger);}
+.mt-explain{margin-top:20px;padding:14px 18px;border-radius:10px;background:var(--info-light);border-left:4px solid var(--info);font-size:13px;line-height:1.8;color:var(--g700);display:none;}
+.mt-explain.show{display:block;}
+.mt-nav{display:flex;justify-content:space-between;margin-top:28px;padding-top:20px;border-top:1px solid var(--g200);}
+.mt-result{display:none;flex:1;flex-direction:column;align-items:center;justify-content:center;padding:48px;gap:16px;text-align:center;}
+.mt-result.active{display:flex;}
+.mt-result-score{font-size:72px;font-weight:800;background:linear-gradient(135deg,var(--primary),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.mt-result-label{font-size:20px;font-weight:600;color:var(--g700);}
+.mt-result-detail{font-size:14px;color:var(--g500);line-height:1.6;}
+
+/* Video interview layout */
+.video-area{background:linear-gradient(145deg,#1a1a2e,#16213e);border-radius:16px;padding:28px;display:flex;flex-direction:column;align-items:center;gap:12px;margin:16px 24px;flex-shrink:0;}
+.big-head{width:96px;height:96px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--purple));display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+.big-head .head-face{width:56px;height:56px;}
+.big-head .head-eyes{gap:12px;margin-top:8px;}
+.big-head .head-eye{width:6px;height:7px;}
+.big-head .head-mouth{width:12px;height:6px;margin:6px auto 0;border-radius:0 0 6px 6px;}
+.big-head.speaking .head-mouth{animation:mouthMove .3s ease-in-out infinite alternate;}
+.big-head.speaking::after{content:'';position:absolute;inset:-4px;border-radius:50%;border:2px solid rgba(255,255,255,.3);animation:speakPulse 1s ease-out infinite;}
+.video-name{color:white;font-size:15px;font-weight:600;}
+.video-status{color:rgba(255,255,255,.5);font-size:12px;display:flex;align-items:center;gap:6px;}
+.video-status::before{content:'';width:6px;height:6px;border-radius:50%;background:#10B981;flex-shrink:0;}
+.mic-btn{width:42px;height:42px;border-radius:50%;background:var(--g100);border:1px solid var(--g200);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--g600);transition:all .15s;flex-shrink:0;}
+.mic-btn:hover{background:var(--primary-light);border-color:var(--primary);color:var(--primary);}
+.mic-btn.recording{background:var(--danger);border-color:var(--danger);color:white;animation:micPulse 1.5s ease-in-out infinite;}
+@keyframes micPulse{0%,100%{box-shadow:0 0 0 0 rgba(239,68,68,.4);}50%{box-shadow:0 0 0 10px rgba(239,68,68,0);}}
+
+/* Expand section */
+.app-expand{display:none;margin-top:14px;padding-top:14px;border-top:1px solid var(--g100);animation:fadeIn .2s;}
+.app-expand.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-6px);}to{opacity:1;transform:translateY(0);}}
+
+/* Celebration overlay */
+.celebration{position:fixed;inset:0;z-index:9999;pointer-events:none;display:flex;align-items:center;justify-content:center;}
+.celebration-text{font-size:22px;font-weight:700;color:var(--primary);text-align:center;animation:celebPop .6s cubic-bezier(.175,.885,.32,1.275);background:white;padding:24px 44px;border-radius:20px;box-shadow:0 20px 60px -12px rgba(0,0,0,.2);}
+@keyframes celebPop{0%{transform:scale(0);opacity:0;}100%{transform:scale(1);opacity:1;}}
+.confetti{position:absolute;width:10px;height:10px;border-radius:2px;animation:confettiFall 1.5s ease-in forwards;}
+@keyframes confettiFall{0%{transform:translateY(0) rotate(0deg);opacity:1;}100%{transform:translateY(100vh) rotate(720deg);opacity:0;}}
+
+/* Profile */
+.profile-view{flex:1;overflow-y:auto;padding:28px;display:none;}
+.profile-view.active{display:flex;justify-content:center;}
+.profile-container{max-width:700px;width:100%;}
+.profile-section{background:white;border-radius:16px;border:1px solid rgba(0,0,0,.06);padding:28px;margin-bottom:20px;box-shadow:var(--card-shadow);}
+.profile-section-title{font-size:16px;font-weight:700;margin-bottom:18px;display:flex;align-items:center;gap:8px;letter-spacing:-.2px;}
+.tags-input{display:flex;flex-wrap:wrap;gap:6px;padding:8px;border:1px solid var(--g300);border-radius:6px;min-height:40px;cursor:text;}
+.tag{display:inline-flex;align-items:center;gap:4px;background:var(--primary-light);color:var(--primary);padding:3px 8px;border-radius:4px;font-size:13px;font-weight:500;}
+.tag-remove{cursor:pointer;font-size:14px;line-height:1;opacity:.6;}.tag-remove:hover{opacity:1;}
+.tags-input input{border:none;outline:none;font-size:13px;flex:1;min-width:80px;}
+.project-card{border:1px solid var(--g200);border-radius:8px;padding:16px;margin-bottom:12px;}
+.project-card-header{display:flex;justify-content:space-between;align-items:start;margin-bottom:8px;}
+.project-card-title{font-size:15px;font-weight:600;}
+.project-card-desc{font-size:13px;color:var(--g500);margin-bottom:8px;}
+.project-card-tech{display:flex;gap:4px;flex-wrap:wrap;}
+.tech-tag{padding:2px 6px;border-radius:3px;font-size:11px;background:var(--g100);color:var(--g600);}
+
+/* Upload */
+.upload-zone{border:2px dashed var(--g300);border-radius:12px;padding:32px 24px;text-align:center;cursor:pointer;transition:all .2s;position:relative;background:white;}
+.upload-zone:hover,.upload-zone.dragover{border-color:var(--primary);background:var(--primary-light);}
+.upload-zone input[type="file"]{position:absolute;inset:0;opacity:0;cursor:pointer;}
+.upload-icon{width:48px;height:48px;border-radius:12px;background:var(--primary-light);margin:0 auto 12px;display:flex;align-items:center;justify-content:center;}
+.upload-title{font-size:15px;font-weight:600;margin-bottom:4px;}
+.upload-hint{font-size:13px;color:var(--g400);}
+.upload-formats{font-size:11px;color:var(--g400);margin-top:8px;}
+.upload-parsing{display:none;flex-direction:column;align-items:center;padding:32px 24px;gap:12px;background:white;border:1px solid var(--g200);border-radius:12px;}
+.upload-parsing.active{display:flex;}
+.upload-success{display:none;padding:16px 20px;border-radius:12px;background:var(--success-light);border:1px solid #A7F3D0;align-items:center;gap:12px;}
+.upload-success.active{display:flex;}
+.upload-success-icon{width:36px;height:36px;border-radius:8px;background:var(--success);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.upload-success-body{flex:1;}.upload-success-title{font-size:14px;font-weight:600;color:#065F46;}.upload-success-desc{font-size:12px;color:#047857;}
+.upload-reparse{padding:6px 12px;border-radius:6px;font-size:12px;font-weight:500;border:1px solid #A7F3D0;background:white;color:#047857;cursor:pointer;}
+
+/* Modal */
+.modal-overlay{position:fixed;inset:0;background:rgba(15,23,42,.4);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);z-index:1000;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:all .25s;}
+.modal-overlay.active{opacity:1;visibility:visible;}
+.modal{background:white;border-radius:18px;width:90%;max-width:680px;max-height:85vh;overflow-y:auto;box-shadow:0 20px 60px -12px rgba(0,0,0,.2);transform:translateY(20px) scale(.98);transition:all .25s cubic-bezier(.4,0,.2,1);}
+.modal-overlay.active .modal{transform:translateY(0) scale(1);}
+.modal-header{padding:22px 28px;border-bottom:1px solid var(--g100);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:white;z-index:10;border-radius:18px 18px 0 0;}
+.modal-title{font-size:18px;font-weight:700;letter-spacing:-.2px;}
+.modal-close{width:32px;height:32px;border-radius:8px;border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--g400);font-size:20px;transition:all .15s;}
+.modal-close:hover{background:var(--g100);color:var(--g600);}
+.modal-body{padding:28px;}
+.form-group{margin-bottom:18px;}
+.form-label{display:block;font-size:13px;font-weight:600;color:var(--g600);margin-bottom:7px;}
+.form-input,.form-textarea,.form-select{width:100%;padding:10px 14px;border:1px solid var(--g200);border-radius:10px;font-size:14px;color:var(--g800);outline:none;transition:all .2s;font-family:inherit;background:var(--g50);}
+.form-input:focus,.form-textarea:focus,.form-select:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(99,102,241,.1);background:white;}
+.form-textarea{resize:vertical;min-height:80px;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.form-actions{display:flex;justify-content:flex-end;gap:8px;padding-top:16px;border-top:1px solid var(--g200);}
+.btn{padding:9px 18px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;border:1px solid var(--g200);background:white;color:var(--g700);transition:all .2s;display:inline-flex;align-items:center;gap:6px;}
+.btn:hover{background:var(--g50);border-color:var(--g300);}
+.btn-primary{background:linear-gradient(135deg,var(--primary),#818CF8);color:white;border-color:transparent;box-shadow:0 2px 6px rgba(99,102,241,.25);}.btn-primary:hover{box-shadow:0 4px 12px rgba(99,102,241,.35);transform:translateY(-1px);}
+.btn-danger{color:var(--danger);border-color:var(--danger-light);}.btn-danger:hover{background:var(--danger-light);}
+.btn-sm{padding:6px 12px;font-size:12px;border-radius:8px;}
+.checklist{display:flex;flex-direction:column;gap:6px;}
+.checklist-item{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:4px;cursor:pointer;}
+.checklist-item:hover{background:var(--g100);}
+.checklist-item input[type="checkbox"]{width:16px;height:16px;accent-color:var(--primary);cursor:pointer;}
+.checklist-item label{font-size:14px;cursor:pointer;flex:1;}
+.checklist-item.checked label{text-decoration:line-through;color:var(--g400);}
+
+/* Section tabs in modal */
+.section-tabs{display:flex;gap:2px;margin-bottom:20px;border-bottom:1px solid var(--g200);}
+.section-tab{padding:8px 14px;font-size:13px;font-weight:500;color:var(--g500);cursor:pointer;border:none;background:none;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s;}
+.section-tab:hover{color:var(--g700);}
+.section-tab.active{color:var(--primary);border-bottom-color:var(--primary);}
+.section-panel{display:none;}.section-panel.active{display:block;}
+
+/* AI mock */
+.ai-generate-btn{padding:10px 20px;background:linear-gradient(135deg,var(--primary),#7C3AED);color:white;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:8px;transition:all .2s;}
+.ai-generate-btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(79,70,229,.3);}
+.ai-generate-btn:disabled{opacity:.6;cursor:not-allowed;transform:none;box-shadow:none;}
+.ai-empty{text-align:center;padding:40px 20px;color:var(--g400);font-size:14px;}
+.ai-empty svg{width:48px;height:48px;color:var(--g300);margin:0 auto 12px;display:block;}
+.ai-loading{display:none;flex-direction:column;align-items:center;padding:48px 20px;gap:14px;}
+.ai-loading.active{display:flex;}
+.ai-spinner{width:36px;height:36px;border:3px solid var(--g200);border-top-color:var(--primary);border-radius:50%;animation:spin .8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.ai-result{margin-top:16px;}
+.ai-result-badge{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,var(--primary-light),var(--purple-light));padding:6px 12px;border-radius:6px;font-size:12px;font-weight:600;color:var(--primary);margin-bottom:16px;}
+.ai-section{margin-bottom:20px;}.ai-section:last-child{margin-bottom:0;}
+.ai-section-title{font-size:13px;font-weight:600;color:var(--primary);margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+.ai-question{background:var(--g50);border-radius:8px;padding:12px 14px;margin-bottom:8px;border-left:3px solid var(--primary);cursor:pointer;}
+.ai-question-text{font-size:14px;font-weight:500;color:var(--g800);}
+.ai-question-hint{font-size:13px;color:var(--g500);line-height:1.6;margin-top:8px;display:none;}
+.ai-question.expanded .ai-question-hint{display:block;}
+.ai-question-toggle{font-size:12px;color:var(--primary);cursor:pointer;border:none;background:none;font-weight:500;padding:4px 0;margin-top:4px;}
+
+/* Prep Room */
+.prep-room{display:none;position:fixed;inset:0;z-index:1100;background:var(--g50);flex-direction:column;}
+.prep-room.active{display:flex;}
+.prep-topbar{background:white;border-bottom:1px solid var(--g200);padding:12px 24px;display:flex;align-items:center;gap:16px;flex-shrink:0;}
+.prep-back{width:36px;height:36px;border-radius:8px;border:1px solid var(--g200);background:white;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--g600);flex-shrink:0;}
+.prep-back:hover{background:var(--g100);}
+.prep-info{flex:1;}.prep-info-title{font-size:16px;font-weight:600;}.prep-info-sub{font-size:12px;color:var(--g500);}
+.prep-body{flex:1;display:flex;overflow:hidden;}
+.prep-sidebar{width:260px;background:white;border-right:1px solid var(--g200);padding:20px;overflow-y:auto;flex-shrink:0;display:flex;flex-direction:column;gap:16px;}
+.prep-sidebar-title{font-size:13px;font-weight:600;color:var(--g600);margin-bottom:8px;}
+.prep-link-input{width:100%;padding:8px 10px;border:1px solid var(--g300);border-radius:6px;font-size:12px;outline:none;font-family:inherit;}
+.prep-link-input:focus{border-color:var(--primary);}
+.prep-link-item{display:flex;align-items:center;gap:6px;padding:6px 8px;border-radius:6px;font-size:12px;color:var(--g600);background:var(--g50);margin-top:6px;}
+.prep-link-item a{color:var(--primary);text-decoration:none;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.prep-tips{font-size:12px;color:var(--g500);line-height:1.6;background:var(--g50);padding:10px 12px;border-radius:8px;white-space:pre-line;}
+.prep-chat{flex:1;display:flex;flex-direction:column;min-width:0;}
+.chat-messages{flex:1;overflow-y:auto;padding:24px;display:flex;flex-direction:column;gap:16px;}
+.chat-msg{display:flex;gap:12px;max-width:85%;}
+.chat-msg.ai{align-self:flex-start;}.chat-msg.user{align-self:flex-end;flex-direction:row-reverse;}
+.chat-avatar{flex-shrink:0;}
+.talking-head{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--purple));display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+.head-face{position:relative;width:28px;height:28px;}
+.head-eyes{display:flex;gap:6px;justify-content:center;margin-top:4px;}
+.head-eye{width:4px;height:5px;background:white;border-radius:50%;animation:eyeBlink 3s infinite;}
+@keyframes eyeBlink{0%,95%,100%{transform:scaleY(1);}97%{transform:scaleY(.1);}}
+.head-mouth{width:8px;height:4px;background:white;border-radius:0 0 4px 4px;margin:4px auto 0;transition:all .15s;}
+.talking-head.speaking .head-mouth{animation:mouthMove .3s ease-in-out infinite alternate;}
+@keyframes mouthMove{0%{height:3px;width:6px;}100%{height:6px;width:10px;border-radius:0 0 5px 5px;}}
+.talking-head.speaking::after{content:'';position:absolute;inset:-3px;border-radius:50%;border:2px solid var(--primary);opacity:.4;animation:speakPulse 1s ease-out infinite;}
+@keyframes speakPulse{0%{transform:scale(1);opacity:.4;}100%{transform:scale(1.3);opacity:0;}}
+.user-avatar{width:44px;height:44px;border-radius:50%;background:var(--g200);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:var(--g500);}
+.chat-bubble{padding:12px 16px;border-radius:12px;font-size:14px;line-height:1.6;}
+.chat-msg.ai .chat-bubble{background:white;border:1px solid var(--g200);border-radius:4px 12px 12px 12px;}
+.chat-msg.user .chat-bubble{background:var(--primary);color:white;border-radius:12px 4px 12px 12px;}
+.chat-bubble p{margin-bottom:8px;}.chat-bubble p:last-child{margin-bottom:0;}
+.chat-typing{display:flex;gap:4px;padding:4px 0;}
+.chat-typing span{width:6px;height:6px;background:var(--g400);border-radius:50%;animation:typingDot 1.2s infinite;}
+.chat-typing span:nth-child(2){animation-delay:.2s;}.chat-typing span:nth-child(3){animation-delay:.4s;}
+@keyframes typingDot{0%,60%,100%{opacity:.3;transform:translateY(0);}30%{opacity:1;transform:translateY(-4px);}}
+.chat-input-area{padding:16px 24px;background:white;border-top:1px solid var(--g200);display:flex;gap:10px;align-items:flex-end;}
+.chat-input{flex:1;padding:10px 14px;border:1px solid var(--g300);border-radius:10px;font-size:14px;outline:none;resize:none;font-family:inherit;max-height:120px;min-height:42px;line-height:1.5;}
+.chat-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(79,70,229,.1);}
+.chat-send{width:42px;height:42px;border-radius:10px;background:var(--primary);color:white;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.chat-send:hover{background:var(--primary-hover);}
+.chat-send:disabled{background:var(--g300);cursor:not-allowed;}
+
+/* Onboarding */
+.onboarding{display:none;position:fixed;inset:0;z-index:3000;background:linear-gradient(135deg,#EEF2FF 0%,#F5F3FF 50%,#FFF1F2 100%);align-items:center;justify-content:center;}
+.onboarding.active{display:flex;}
+.ob-card{background:white;border-radius:24px;box-shadow:0 24px 80px -12px rgba(0,0,0,.15);width:520px;max-width:92vw;max-height:90vh;overflow-y:auto;padding:40px 44px;}
+.ob-logo{text-align:center;margin-bottom:20px;}
+.ob-logo h1{font-size:26px;font-weight:700;color:var(--primary);margin-bottom:4px;}
+.ob-logo p{color:var(--g500);font-size:13px;}
+.ob-steps{display:flex;justify-content:center;gap:6px;margin-bottom:28px;}
+.ob-step-dot{width:8px;height:8px;border-radius:50%;background:var(--g200);transition:all .3s;}
+.ob-step-dot.active{background:var(--primary);width:24px;border-radius:4px;}
+.ob-step-dot.done{background:var(--primary);}
+.ob-panel{display:none;animation:fadeIn .3s;}
+.ob-panel.active{display:block;}
+.ob-title{font-size:16px;font-weight:600;margin-bottom:16px;color:var(--g800);}
+.ob-desc{font-size:13px;color:var(--g500);margin-bottom:16px;line-height:1.6;}
+.ob-import-zone{border:2px dashed var(--g300);border-radius:12px;padding:20px;text-align:center;transition:all .2s;margin-bottom:12px;cursor:pointer;position:relative;}
+.ob-import-zone:hover{border-color:var(--primary);background:var(--primary-light);}
+.ob-import-zone textarea{width:100%;border:none;outline:none;resize:vertical;font-size:13px;font-family:inherit;min-height:100px;background:transparent;text-align:left;}
+.ob-email-row{display:flex;gap:8px;margin-bottom:10px;}
+.ob-email-row .form-input{flex:1;}
+.ob-verify-ok{display:none;align-items:center;gap:8px;padding:10px 14px;border-radius:10px;background:var(--success-light);font-size:13px;color:#065F46;margin-top:10px;}
+.ob-verify-ok.active{display:flex;}
+.ob-parsed-preview{background:var(--g50);border-radius:10px;padding:14px;margin-top:12px;display:none;font-size:13px;line-height:1.6;}
+.ob-parsed-preview.active{display:block;}
+.ob-features{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:20px 0;}
+.ob-feature{padding:14px;border-radius:10px;background:var(--g50);text-align:center;}
+.ob-feature-icon{font-size:24px;margin-bottom:6px;}
+.ob-feature-text{font-size:12px;color:var(--g600);font-weight:500;}
+.ob-import-tab.active{background:var(--primary-light)!important;color:var(--primary)!important;border-color:var(--primary)!important;}
+.ob-multisel{position:relative;}
+.ob-multisel-box{min-height:42px;padding:6px 10px;border:1px solid var(--g200);border-radius:10px;background:var(--g50);cursor:pointer;display:flex;flex-wrap:wrap;gap:6px;align-items:center;transition:all .2s;}
+.ob-multisel-box:hover{border-color:var(--g300);}
+.ob-multisel-box.focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(99,102,241,.1);background:white;}
+.ob-multisel-tag{display:inline-flex;align-items:center;gap:4px;background:linear-gradient(135deg,var(--primary),#818CF8);color:white;padding:3px 10px;border-radius:14px;font-size:12px;font-weight:500;}
+.ob-multisel-tag span{cursor:pointer;opacity:.7;font-size:14px;line-height:1;}.ob-multisel-tag span:hover{opacity:1;}
+.ob-multisel-input{border:none;outline:none;background:none;font-size:13px;flex:1;min-width:80px;color:var(--g700);font-family:inherit;}
+.ob-multisel-input::placeholder{color:var(--g400);}
+.ob-multisel-drop{position:absolute;top:calc(100% + 4px);left:0;right:0;background:white;border:1px solid var(--g200);border-radius:12px;box-shadow:0 12px 32px -4px rgba(0,0,0,.12);z-index:20;max-height:240px;overflow-y:auto;display:none;}
+.ob-multisel-drop.open{display:block;}
+.ob-multisel-group{padding:6px 12px 2px;font-size:11px;font-weight:600;color:var(--g400);letter-spacing:.3px;}
+.ob-multisel-opt{padding:8px 14px;font-size:13px;color:var(--g700);cursor:pointer;display:flex;align-items:center;gap:8px;transition:background .1s;}
+.ob-multisel-opt:hover{background:var(--g50);}
+.ob-multisel-opt.selected{color:var(--primary);font-weight:600;}
+.ob-multisel-opt.selected::after{content:'✓';margin-left:auto;font-size:12px;}
+.ob-multisel-opt.hidden{display:none;}
+.ob-multisel-empty{padding:16px;text-align:center;color:var(--g400);font-size:13px;}
+.ob-import-panel{animation:fadeIn .2s;}
+.ob-nav{display:flex;justify-content:space-between;margin-top:24px;padding-top:18px;border-top:1px solid var(--g200);}
+.ob-skip{padding:8px 16px;border:none;background:none;color:var(--g400);font-size:14px;cursor:pointer;}
+.ob-skip:hover{color:var(--g600);}
+.ob-next{padding:10px 24px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;border:none;background:var(--primary);color:white;transition:all .15s;}
+.ob-next:hover{background:var(--primary-hover);}
+
+/* Toast */
+.toast{position:fixed;bottom:28px;right:28px;background:var(--g800);color:white;padding:14px 22px;border-radius:12px;font-size:14px;font-weight:500;box-shadow:0 12px 32px rgba(0,0,0,.2);z-index:2000;transform:translateY(20px);opacity:0;transition:all .3s cubic-bezier(.4,0,.2,1);}
+.toast.show{transform:translateY(0);opacity:1;}
+
+/* Empty */
+.empty-hint{text-align:center;padding:48px 16px;color:var(--g400);font-size:14px;font-weight:500;}
+
+/* Mobile */
+.mobile-nav{display:none;}
+@media(max-width:768px){
+  .nav-tabs{display:none;}.search-box{width:150px;}.list-view{padding:16px;}
+  .stats-row{grid-template-columns:1fr 1fr;}.stat-chip{min-width:0;}
+  .toolbar{flex-direction:column;align-items:stretch;gap:8px;}.toolbar-left,.toolbar-right{justify-content:space-between;}
+  .app-timeline{overflow-x:auto;padding-bottom:4px;}
+  .form-row{grid-template-columns:1fr;}.modal{width:95%;border-radius:14px;}.modal-header{border-radius:14px 14px 0 0;}
+  .prep-sidebar{display:none;}
+  .mobile-nav{display:flex!important;position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid var(--g200);padding:8px 16px;justify-content:space-around;z-index:100;}
+  .mobile-nav button{display:flex;flex-direction:column;align-items:center;gap:2px;border:none;background:none;color:var(--g500);font-size:10px;cursor:pointer;padding:4px 8px;border-radius:6px;}
+  .mobile-nav button.active{color:var(--primary);}
+  .mobile-nav button svg{width:20px;height:20px;}
+}
+</style>
+</head>
+<body>
+
+<!-- Onboarding -->
+<div class="onboarding" id="onboarding">
+  <div class="ob-card">
+    <div class="ob-logo"><h1>JobPilot</h1><p>一站式求职陪跑平台</p></div>
+    <div class="ob-steps" id="obSteps"></div>
+    <div id="obPanels"></div>
+    <div class="ob-nav">
+      <button class="ob-skip" onclick="obSkip()">跳过</button>
+      <button class="ob-next" id="obNextBtn" onclick="obNext()">下一步 →</button>
+    </div>
+  </div>
+</div>
+
+<nav class="topnav">
+  <div class="topnav-left">
+    <div class="logo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+      JobPilot<span class="logo-tag">一站式求职陪跑</span>
+    </div>
+    <div class="nav-tabs">
+      <button class="nav-tab active" data-view="list"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>申请列表</button>
+      <button class="nav-tab" data-view="profile"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>个人资料</button>
+    </div>
+  </div>
+  <div class="topnav-right">
+    <div class="search-box">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      <input type="text" placeholder="搜索公司或岗位..." id="searchInput" oninput="filterCards()">
+    </div>
+    <button class="btn btn-sm" onclick="if(confirm('清除所有数据并重置？')){localStorage.clear();location.reload();}" style="color:var(--g400);border-color:var(--g200);font-size:11px" title="开发用：重置所有数据">重置</button>
+  </div>
+</nav>
+
+<div class="main-content">
+  <!-- List View -->
+  <div class="list-view active" id="listView">
+    <div class="list-container">
+      <div class="stats-row" id="statsRow"></div>
+      <div style="margin-bottom:24px;display:flex;gap:12px;align-items:center">
+        <button class="btn btn-primary" onclick="openAddModal()" style="flex-shrink:0;padding:10px 20px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> 添加申请</button>
+        <div style="flex:1;position:relative"><input class="smart-add-input" id="smartInput" placeholder="粘贴 JD 链接自动解析..." onkeydown="handleSmartKey(event)" onpaste="handleSmartPaste(event)"><div class="smart-add-parsing" id="smartParsing"><div class="spinner"></div><span>正在解析链接...</span></div><div class="smart-add-parsed" id="smartParsed"></div></div>
+      </div>
+      <div class="toolbar" id="toolbar">
+        <div class="toolbar-left">
+          <div class="toolbar-group">
+            <span class="toolbar-label">阶段</span>
+            <select class="toolbar-select" id="filterStage" onchange="filterStage=this.value;renderCards()">
+              <option value="all">全部</option>
+              <option value="wishlist">待投递</option>
+              <option value="applied">已投递</option>
+              <option value="written">笔试</option>
+              <option value="interview">面试</option>
+              <option value="offer">Offer</option>
+            </select>
+          </div>
+          <div class="toolbar-group">
+            <span class="toolbar-label">优先级</span>
+            <select class="toolbar-select" id="filterPriority" onchange="filterPriority=this.value;renderCards()">
+              <option value="all">全部</option>
+              <option value="high">高</option>
+              <option value="medium">中</option>
+              <option value="low">低</option>
+            </select>
+          </div>
+        </div>
+        <div class="toolbar-right">
+          <span class="toolbar-label">排序</span>
+          <select class="toolbar-select" id="sortSelect" onchange="sortMode=this.value;renderCards()">
+            <option value="deadline">截止日期优先</option>
+            <option value="priority">优先级优先</option>
+            <option value="stage">阶段进度</option>
+            <option value="newest">最新添加</option>
+            <option value="company">公司名称</option>
+          </select>
+        </div>
+      </div>
+      <div id="appCards"></div>
+    </div>
+  </div>
+
+  <!-- Profile View -->
+  <div class="profile-view" id="profileView">
+    <div class="profile-container">
+      <div class="profile-section" id="uploadSection">
+        <div class="profile-section-title"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>简历上传 · 一键解析</div>
+        <div class="upload-zone" id="uploadZone">
+          <input type="file" id="resumeFile" accept=".pdf,.doc,.docx,.txt" onchange="handleResumeUpload(this)">
+          <div class="upload-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><polyline points="9 15 12 12 15 15"/></svg></div>
+          <div class="upload-title">上传简历，AI 自动解析填充</div>
+          <div class="upload-hint">拖拽文件或点击选择</div>
+          <div class="upload-formats">PDF / Word / TXT</div>
+        </div>
+        <div class="upload-parsing" id="uploadParsing"><div class="ai-spinner"></div><div style="font-size:14px;font-weight:600;color:var(--g700)">AI 解析中...</div></div>
+        <div class="upload-success" id="uploadSuccess">
+          <div class="upload-success-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <div class="upload-success-body"><div class="upload-success-title">解析完成</div><div class="upload-success-desc" id="uploadSuccessDesc"></div></div>
+          <button class="upload-reparse" onclick="resetUpload()">重新上传</button>
+        </div>
+      </div>
+      <div class="profile-section">
+        <div class="profile-section-title"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>基本信息</div>
+        <div class="form-row"><div class="form-group"><label class="form-label">姓名</label><input class="form-input" id="profileName"></div><div class="form-group"><label class="form-label">学校</label><input class="form-input" id="profileSchool"></div></div>
+        <div class="form-row"><div class="form-group"><label class="form-label">专业</label><input class="form-input" id="profileMajor"></div><div class="form-group"><label class="form-label">毕业年份</label><input class="form-input" id="profileGradYear"></div></div>
+        <div class="form-group"><label class="form-label">求职意向</label><input class="form-input" id="profileTarget"></div>
+      </div>
+      <div class="profile-section">
+        <div class="profile-section-title"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>技能标签</div>
+        <div class="tags-input" id="skillTags" onclick="document.getElementById('skillInput').focus()"><input type="text" id="skillInput" placeholder="输入后回车添加..."></div>
+      </div>
+      <div class="profile-section">
+        <div class="profile-section-title"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/></svg>项目经历<button class="btn btn-sm" style="margin-left:auto" onclick="addProjectCard()">+ 添加</button></div>
+        <div id="projectsList"></div>
+      </div>
+      <div class="profile-section">
+        <div class="profile-section-title"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>简历概要</div>
+        <div class="form-group"><textarea class="form-textarea" id="profileResume" rows="6" placeholder="粘贴简历核心内容..."></textarea></div>
+      </div>
+      <div style="text-align:right;padding-bottom:24px"><button class="btn btn-primary" onclick="saveProfile()">保存资料</button></div>
+    </div>
+  </div>
+</div>
+
+<div class="mobile-nav">
+  <button class="active" data-view="list"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>申请</button>
+  <button data-view="profile"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>资料</button>
+</div>
+
+<!-- Add Application Modal -->
+<div class="modal-overlay" id="addModal">
+  <div class="modal" style="max-width:520px">
+    <div class="modal-header"><div class="modal-title">添加求职申请</div><button class="modal-close" onclick="closeModal('addModal')">&times;</button></div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">公司名称 <span style="color:var(--danger)">*</span></label><input class="form-input" id="addCompany" placeholder="如：美团"></div>
+        <div class="form-group"><label class="form-label">岗位名称 <span style="color:var(--danger)">*</span></label><input class="form-input" id="addPosition" placeholder="如：前端开发实习"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">截止日期</label><input class="form-input" id="addDeadline" type="date"></div>
+        <div class="form-group"><label class="form-label">优先级</label><select class="form-select" id="addPriority"><option value="medium">中</option><option value="high">高</option><option value="low">低</option></select></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">薪资</label><input class="form-input" id="addSalary" placeholder="如：400-600/天"></div>
+        <div class="form-group"><label class="form-label">工作地点</label><input class="form-input" id="addLocation" placeholder="如：北京"></div>
+      </div>
+      <div class="form-group"><label class="form-label">JD 链接</label><div style="display:flex;gap:8px"><input class="form-input" id="addJDLink" placeholder="粘贴招聘链接，自动解析公司和岗位" style="flex:1"><button class="btn btn-sm" onclick="addModalParseLink()" id="addParseLinkBtn">解析</button></div></div>
+      <div class="form-group"><label class="form-label">备注</label><textarea class="form-textarea" id="addNotes" rows="2" placeholder="内推人、投递渠道等"></textarea></div>
+      <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:8px">
+        <button class="btn" onclick="closeModal('addModal')">取消</button>
+        <button class="btn btn-primary" onclick="submitAddModal()">添加</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Detail Modal -->
+<div class="modal-overlay" id="detailModal">
+  <div class="modal">
+    <div class="modal-header"><div class="modal-title" id="modalTitle">详情</div><button class="modal-close" onclick="closeModal('detailModal')">&times;</button></div>
+    <div class="modal-body">
+      <div class="section-tabs" id="detailTabs">
+        <button class="section-tab active" data-panel="panelBasic">基本信息</button>
+        <button class="section-tab" data-panel="panelJD">JD & 面经</button>
+        <button class="section-tab" data-panel="panelMaterials">材料清单</button>
+        <button class="section-tab" data-panel="panelAI">AI 陪练</button>
+      </div>
+      <div class="section-panel active" id="panelBasic">
+        <div class="form-row"><div class="form-group"><label class="form-label">公司名称</label><input class="form-input" id="editCompany"></div><div class="form-group"><label class="form-label">岗位名称</label><input class="form-input" id="editPosition"></div></div>
+        <div class="form-row"><div class="form-group"><label class="form-label">截止日期</label><input class="form-input" type="date" id="editDeadline"></div><div class="form-group"><label class="form-label">优先级</label><select class="form-select" id="editPriority"><option value="high">高</option><option value="medium">中</option><option value="low">低</option></select></div></div>
+        <div class="form-row"><div class="form-group"><label class="form-label">薪资</label><input class="form-input" id="editSalary"></div><div class="form-group"><label class="form-label">地点</label><input class="form-input" id="editLocation"></div></div>
+        <div class="form-group"><label class="form-label">备注</label><textarea class="form-textarea" id="editNotes"></textarea></div>
+      </div>
+      <div class="section-panel" id="panelJD">
+        <div class="form-group"><label class="form-label">岗位 JD</label><textarea class="form-textarea" id="editJD" rows="8" placeholder="粘贴岗位描述..."></textarea></div>
+        <div class="form-group"><label class="form-label">面经记录</label><textarea class="form-textarea" id="editInterviewExp" rows="6" placeholder="粘贴面经..."></textarea></div>
+      </div>
+      <div class="section-panel" id="panelMaterials"><div class="checklist" id="materialChecklist"></div></div>
+      <div class="section-panel" id="panelAI"><div id="aiMockArea"></div></div>
+      <div class="form-actions">
+        <button class="btn btn-danger" onclick="deleteApp()">删除</button>
+        <button class="btn" onclick="closeModal('detailModal')">取消</button>
+        <button class="btn btn-primary" onclick="saveAppDetail()">保存</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Prep Room -->
+<div class="prep-room" id="prepRoom">
+  <div class="prep-topbar">
+    <button class="prep-back" onclick="closePrepRoom()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></button>
+    <div class="prep-info"><div class="prep-info-title" id="prepTitle"></div><div class="prep-info-sub" id="prepSub"></div></div>
+    <div><button class="btn btn-sm" onclick="clearChat()">清空</button></div>
+  </div>
+  <div class="prep-body">
+    <div class="prep-sidebar">
+      <div><div class="prep-sidebar-title">面经链接</div><input class="prep-link-input" id="prepLinkInput" placeholder="粘贴链接回车..." onkeydown="if(event.key==='Enter')addPrepLink()"><div id="prepLinks"></div></div>
+      <div><div class="prep-sidebar-title">JD 摘要</div><div class="prep-tips" id="prepJD">暂无</div></div>
+      <div><div class="prep-sidebar-title">准备建议</div><div class="prep-tips" id="prepTips"></div></div>
+    </div>
+    <div class="prep-chat">
+      <div class="chat-messages" id="chatMessages"></div>
+      <div class="chat-input-area">
+        <button class="mic-btn" id="micBtn" onclick="toggleMicInput()" title="语音输入"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></button>
+        <textarea class="chat-input" id="chatInput" rows="1" placeholder="输入回答或问题..." onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendChat();}"></textarea>
+        <button class="chat-send" id="chatSendBtn" onclick="sendChat()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Mock Test -->
+<div class="mock-test" id="mockTest">
+  <div class="mt-header">
+    <button class="mt-back" onclick="closeMockTest()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></button>
+    <div class="mt-info" id="mtInfo">模拟笔试</div>
+    <div class="mt-timer safe" id="mtTimer">30:00</div>
+    <div class="mt-progress" id="mtProgress">1/8</div>
+    <button class="mt-submit-btn" onclick="submitMockTest()">交卷</button>
+  </div>
+  <div class="mt-body">
+    <div class="mt-sidebar" id="mtNav"></div>
+    <div class="mt-main" id="mtMain"></div>
+    <div class="mt-result" id="mtResult"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const STAGES=[{id:'wishlist',name:'待投递'},{id:'applied',name:'已投递'},{id:'written',name:'笔试'},{id:'interview',name:'面试'},{id:'offer',name:'Offer'}];
+const STAGE_IDS=STAGES.map(s=>s.id);
+const MATERIALS=['简历','Cover Letter','成绩单','推荐信','作品集','在线测评'];
+const CHEERS=['太棒了，继续加油！','又近了一步，冲冲冲！','稳步推进中，你很强！','进度+1，胜利在望！'];
+const ROUND_NAMES=['一','二','三','四','五','六','七','八'];
+
+let apps=[],editingId=null,timeline=[],searchQ='',sortMode='deadline',filterStage='all',filterPriority='all';
+let profile={name:'',school:'',major:'',gradYear:'',target:'',skills:[],projects:[],resume:''};
+let prepAppId=null,prepMode='interview',prepLinksData=[],chatHistory=[];
+
+function init(){
+  loadData();if(!apps.length)loadDemoData();loadProfile();
+  renderAll();bindNav();bindDetailTabs();initUploadDragDrop();
+  initOnboarding();
+}
+function loadData(){try{apps=JSON.parse(localStorage.getItem('jp_apps')||'[]');timeline=JSON.parse(localStorage.getItem('jp_timeline')||'[]');}catch(e){apps=[];timeline=[];}}
+function saveData(){localStorage.setItem('jp_apps',JSON.stringify(apps));localStorage.setItem('jp_timeline',JSON.stringify(timeline));}
+function loadProfile(){try{const p=JSON.parse(localStorage.getItem('jp_profile'));if(p)profile={...profile,...p};}catch(e){}}
+function saveProfile(){profile.name=el('profileName').value;profile.school=el('profileSchool').value;profile.major=el('profileMajor').value;profile.gradYear=el('profileGradYear').value;profile.target=el('profileTarget').value;profile.resume=el('profileResume').value;localStorage.setItem('jp_profile',JSON.stringify(profile));showToast('已保存');}
+function el(id){return document.getElementById(id);}
+function renderAll(){renderStats();renderCards();}
+
+// Demo
+function loadDemoData(){
+  const d=n=>{const t=new Date();t.setDate(t.getDate()+n);return t.toISOString().split('T')[0];};
+  apps=[
+    {id:'1',company:'字节跳动',position:'后端开发实习',stage:'interview',deadline:d(2),priority:'high',salary:'400-600/天',location:'北京',notes:'三面交叉面，准备系统设计',jd:'抖音推荐系统后端，Go/Java，分布式系统',interviewExp:'一面：LRU缓存+项目深挖\n二面：Feed流设计+场景题',materials:{'简历':true,'Cover Letter':false,'成绩单':true,'推荐信':false,'作品集':false,'在线测评':true},stageHistory:{wishlist:d(-20),applied:d(-15),written:d(-10),interview:d(-5)},interviewRounds:[{round:1,done:true,date:d(-4)},{round:2,done:true,date:d(-1)},{round:3,done:false,date:''}]},
+    {id:'2',company:'腾讯',position:'产品经理实习',stage:'applied',deadline:d(8),priority:'high',salary:'300-500/天',location:'深圳',notes:'内推投递',jd:'微信支付产品方案设计，数据分析',interviewExp:'',materials:{'简历':true,'Cover Letter':true,'成绩单':true,'推荐信':false,'作品集':true,'在线测评':false},stageHistory:{wishlist:d(-10),applied:d(-3)}},
+    {id:'3',company:'阿里巴巴',position:'数据分析实习',stage:'written',deadline:d(1),priority:'medium',salary:'350-500/天',location:'杭州',notes:'笔试明天19:00',jd:'淘宝用户增长数据分析，SQL+Python',interviewExp:'SQL题+统计分析+业务分析',materials:{'简历':true,'Cover Letter':false,'成绩单':true,'推荐信':false,'作品集':false,'在线测评':true},stageHistory:{wishlist:d(-14),applied:d(-10),written:d(-3)}},
+    {id:'4',company:'美团',position:'前端开发实习',stage:'wishlist',deadline:d(5),priority:'medium',salary:'300-500/天',location:'北京',notes:'',jd:'外卖商家端前端，React/Vue',interviewExp:'',materials:{'简历':false,'Cover Letter':false,'成绩单':false,'推荐信':false,'作品集':false,'在线测评':false},stageHistory:{wishlist:d(-2)}},
+    {id:'5',company:'PDD',position:'后端开发实习',stage:'offer',deadline:'',priority:'medium',salary:'500/天',location:'上海',notes:'4月25日前回复',jd:'',interviewExp:'',materials:{'简历':true,'Cover Letter':true,'成绩单':true,'推荐信':true,'作品集':false,'在线测评':true},stageHistory:{wishlist:d(-30),applied:d(-25),written:d(-20),interview:d(-12),offer:d(-2)}},
+    {id:'6',company:'小红书',position:'算法实习',stage:'wishlist',deadline:d(10),priority:'low',salary:'400-600/天',location:'上海',notes:'',jd:'推荐算法，NLP/CV，PyTorch',interviewExp:'',materials:{'简历':true,'Cover Letter':false,'成绩单':false,'推荐信':false,'作品集':false,'在线测评':false},stageHistory:{wishlist:d(-1)}},
+  ];
+  timeline=[{date:apps[0].stageHistory.interview,text:'字节跳动 进入面试',type:'success'},{date:apps[1].stageHistory.applied,text:'腾讯 已投递',type:'info'},{date:apps[4].stageHistory.offer,text:'PDD Offer!',type:'success'}];
+  profile={name:'张同学',school:'大学',major:'计算机科学',gradYear:'2026',target:'后端开发/数据分析',skills:['Python','Java','SQL','React','Go','分布式系统'],projects:[{title:'校园二手交易平台',desc:'全栈，日活500+',tech:['React','Node.js','MongoDB']},{title:'新闻推荐系统',desc:'协同过滤+NLP，准确率+18%',tech:['Python','TensorFlow','Redis']}],resume:'CS 2022-2026\n实习：分布式缓存优化 QPS+40%'};
+  saveData();localStorage.setItem('jp_profile',JSON.stringify(profile));
+}
+
+// Stats
+function renderStats(){
+  const total=apps.length,active=apps.filter(a=>a.stage!=='offer'&&a.stage!=='rejected').length;
+  const offers=apps.filter(a=>a.stage==='offer').length;
+  const urgent=apps.filter(a=>{const d=daysDiff(a.deadline);return d>=0&&d<=3;}).length;
+  el('statsRow').innerHTML=`
+    <div class="stat-chip"><div class="stat-chip-icon" style="background:linear-gradient(135deg,#DBEAFE,#BFDBFE)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><div><div class="stat-chip-value">${total}</div><div class="stat-chip-label">总申请</div></div></div>
+    <div class="stat-chip"><div class="stat-chip-icon" style="background:linear-gradient(135deg,#EEF2FF,#E0E7FF)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6366F1" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><div><div class="stat-chip-value">${active}</div><div class="stat-chip-label">进行中</div></div></div>
+    <div class="stat-chip"><div class="stat-chip-icon" style="background:linear-gradient(135deg,#FEE2E2,#FECACA)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><div><div class="stat-chip-value">${urgent}</div><div class="stat-chip-label">紧急</div></div></div>
+    <div class="stat-chip"><div class="stat-chip-icon" style="background:linear-gradient(135deg,#D1FAE5,#A7F3D0)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div><div><div class="stat-chip-value">${offers}</div><div class="stat-chip-label">Offer</div></div></div>`;
+}
+
+// Helpers
+function daysDiff(d){if(!d)return Infinity;return Math.ceil((new Date(d)-new Date())/864e5);}
+function urgLabel(d){if(d<0)return`已过期${-d}天`;if(d===0)return'今天截止';if(d===1)return'明天截止';if(d<=7)return`${d}天后`;const dt=new Date(Date.now()+d*864e5);return`${dt.getMonth()+1}/${dt.getDate()}`;}
+
+// Cards
+function renderCards(){
+  const priOrd={high:0,medium:1,low:2};
+  const sorted=[...apps].sort((a,b)=>{
+    if(sortMode==='deadline'){const da=daysDiff(a.deadline),db=daysDiff(b.deadline);if(da===Infinity&&db===Infinity)return 0;if(da===Infinity)return 1;if(db===Infinity)return -1;return da-db;}
+    if(sortMode==='priority')return(priOrd[a.priority]??1)-(priOrd[b.priority]??1);
+    if(sortMode==='stage')return STAGE_IDS.indexOf(b.stage)-STAGE_IDS.indexOf(a.stage);
+    if(sortMode==='newest')return parseInt(b.id)-parseInt(a.id);
+    if(sortMode==='company')return a.company.localeCompare(b.company,'zh');
+    return 0;
+  });
+  let filtered=sorted;
+  if(searchQ)filtered=filtered.filter(a=>a.company.toLowerCase().includes(searchQ)||a.position.toLowerCase().includes(searchQ));
+  if(filterStage!=='all')filtered=filtered.filter(a=>a.stage===filterStage||(filterStage==='interview'&&a.interviewEnded));
+  if(filterPriority!=='all')filtered=filtered.filter(a=>a.priority===filterPriority);
+  if(!filtered.length){el('appCards').innerHTML=`<div class="empty-hint">${apps.length?'没有符合条件的申请':'暂无申请，在上方添加'}</div>`;return;}
+  el('appCards').innerHTML=filtered.map(a=>buildCardHTML(a)).join('');
+}
+
+function buildCardHTML(app){
+  const stageIdx=STAGE_IDS.indexOf(app.stage);
+  const dd=daysDiff(app.deadline);
+  const deadlineBadge=app.deadline?`<span class="app-badge" style="background:${dd<=1?'var(--danger-light);color:var(--danger)':dd<=3?'var(--warning-light);color:#B45309':dd<=7?'var(--info-light);color:var(--info)':'var(--g100);color:var(--g500)'}">${urgLabel(dd)}</span>`:'';
+
+  // Build timeline — interview step gets a vertical branch
+  let timelineHTML=STAGES.map((s,i)=>{
+    const isDone=i<stageIdx;const isCurrent=i===stageIdx;
+    const date=app.stageHistory?.[s.id]||'';
+    const dotClass=isDone?'done':isCurrent?'current':'';
+    const labelClass=isDone?'done':isCurrent?'current':'';
+    const connector=i>0?`<div class="tl-connector${i<=stageIdx?' done':''}"></div>`:'';
+    let branchHTML='';
+    if(s.id==='interview'&&app.stage==='interview'&&!app.interviewEnded){
+      const rounds=app.interviewRounds||[{round:1,done:false,date:''}];
+      const firstUndone=rounds.findIndex(x=>!x.done);
+      branchHTML='<div class="tl-branch">'+rounds.map((r,ri)=>{
+        const cls=r.done?'done':(ri===firstUndone?'current':'');
+        const lineClass=ri===0?'done':(rounds[ri-1].done?'done':'');
+        return`<div class="tl-branch-line ${lineClass}"></div><div class="tl-branch-item ${cls}"><span class="tl-branch-date">${r.done&&r.date?r.date.substring(5):''}</span><div class="tl-branch-dot ${cls}"></div><span class="tl-branch-text">${ROUND_NAMES[r.round-1]||r.round}面</span></div>`;
+      }).join('')+'</div>';
+    }
+    if(s.id==='interview'&&app.interviewEnded){
+      const rounds=app.interviewRounds||[];
+      branchHTML='<div class="tl-branch">'+rounds.map((r,ri)=>{
+        return`<div class="tl-branch-line done"></div><div class="tl-branch-item done"><span class="tl-branch-date">${r.date?r.date.substring(5):''}</span><div class="tl-branch-dot done"></div><span class="tl-branch-text">${ROUND_NAMES[r.round-1]||r.round}面</span></div>`;
+      }).join('')+'<div class="tl-branch-line"></div><div class="tl-branch-item"><span class="tl-branch-date"></span><span class="tl-branch-text" style="grid-column:2/4;color:var(--g400);text-align:center">已结束</span></div></div>';
+    }
+    const dateDisplay=date?date.substring(5):(isDone||isCurrent?'—':'—');
+    return`${connector}<div class="tl-step" onclick="event.stopPropagation();onStepClick('${app.id}','${s.id}')"><div class="tl-dot ${dotClass}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div><div class="tl-label ${labelClass}">${s.name}</div><div class="tl-date">${dateDisplay}</div>${branchHTML}</div>`;
+  }).join('');
+
+  // Action buttons
+  let advanceHTML='',rollbackHTML='',mockHTML='';
+
+  if(app.interviewEnded){
+    advanceHTML=`<span style="font-size:13px;color:var(--g400)">面试已结束</span>`;
+  }else if(app.stage==='interview'){
+    const rounds=app.interviewRounds||[{round:1,done:false,date:''}];
+    const allDone=rounds.every(r=>r.done);
+    const nextUndone=rounds.find(r=>!r.done);
+    if(!allDone&&nextUndone){
+      const rn=ROUND_NAMES[nextUndone.round-1]||nextUndone.round;
+      advanceHTML=`<button class="advance-btn" onclick="event.stopPropagation();completeInterviewRound('${app.id}')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>完成${rn}面</button>`;
+      mockHTML=`<button class="btn btn-sm" style="background:linear-gradient(135deg,var(--primary),var(--purple));color:white;border:none;margin-left:8px" onclick="event.stopPropagation();openPrepRoom('${app.id}','interview')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg> 模拟${rn}面</button>`;
+    }else{
+      advanceHTML=`<div class="interview-choices"><button class="choice-btn" onclick="event.stopPropagation();addNextInterviewRound('${app.id}')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>下一轮面试</button><button class="choice-btn offer" onclick="event.stopPropagation();advanceStage('${app.id}')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>拿到 Offer</button><button class="choice-btn end" onclick="event.stopPropagation();endInterview('${app.id}')">结束面试</button></div>`;
+    }
+  }else if(stageIdx<STAGE_IDS.length-1){
+    const nextStage=STAGES[stageIdx+1];
+    advanceHTML=`<button class="advance-btn" onclick="event.stopPropagation();advanceStage('${app.id}')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>进入「${nextStage.name}」</button>`;
+  }else{
+    advanceHTML=`<span style="font-size:13px;color:var(--success);font-weight:600">已拿到 Offer</span>`;
+  }
+
+  if(app.stage==='written'){
+    mockHTML=`<button class="btn btn-sm" style="background:linear-gradient(135deg,var(--info),#6366F1);color:white;border:none;margin-left:8px" onclick="event.stopPropagation();openPrepRoom('${app.id}','written')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg> 模拟笔试</button>`;
+  }
+  if(stageIdx>0){
+    rollbackHTML=`<button class="rollback-btn" onclick="event.stopPropagation();rollbackStage('${app.id}')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>回退</button>`;
+  }
+
+  const iconColors=[['#EEF2FF','#6366F1'],['#FEF3C7','#D97706'],['#D1FAE5','#059669'],['#FEE2E2','#DC2626'],['#DBEAFE','#2563EB'],['#F5F3FF','#7C3AED'],['#FFEDD5','#EA580C'],['#CFFAFE','#0891B2']];
+  const ci=iconColors[Math.abs([...app.company].reduce((a,c)=>a+c.charCodeAt(0),0))%iconColors.length];
+  return`<div class="app-card" id="card-${app.id}">
+    <div class="app-card-top">
+      <div class="app-icon" style="background:${ci[0]};color:${ci[1]}">${app.company.charAt(0)}</div>
+      <div class="app-info"><div class="app-company">${app.company}</div><div class="app-position">${app.position}${app.location?' · '+app.location:''}</div></div>
+      <div class="app-badges">${deadlineBadge}<div class="app-priority-dot ${app.priority}"></div></div>
+    </div>
+    <div class="app-timeline" style="${(app.stage==='interview'||app.interviewEnded)?'margin-bottom:'+((app.interviewRounds||[{round:1}]).length*20+(app.interviewEnded?20:0)+4)+'px':''}">
+      ${timelineHTML}
+    </div>
+    <div class="app-actions">
+      <div style="display:flex;align-items:center;flex-wrap:wrap;gap:4px">${rollbackHTML}${advanceHTML}${mockHTML}</div>
+      <button class="detail-link" onclick="event.stopPropagation();openDetail('${app.id}')">详情 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></button>
+    </div>
+  </div>`;
+}
+
+function onStepClick(appId,stageId){
+  const app=apps.find(a=>a.id===appId);if(!app)return;
+  if(stageId===app.stage&&(stageId==='interview'||stageId==='written')){openPrepRoom(appId,stageId);return;}
+  openDetail(appId);
+}
+
+// Advance stage with celebration
+function advanceStage(id){
+  const app=apps.find(a=>a.id===id);if(!app)return;
+  const curIdx=STAGE_IDS.indexOf(app.stage);
+  if(curIdx>=STAGE_IDS.length-1)return;
+  if(app.stage==='interview'){const rounds=app.interviewRounds||[];if(rounds.some(r=>!r.done))return;}
+  const next=STAGES[curIdx+1];
+  app.stage=next.id;
+  if(!app.stageHistory)app.stageHistory={};
+  app.stageHistory[next.id]=new Date().toISOString().split('T')[0];
+  if(next.id==='interview')app.interviewRounds=[{round:1,done:false,date:''}];
+  timeline.unshift({date:app.stageHistory[next.id],text:`${app.company} 进入「${next.name}」`,type:next.id==='offer'?'success':'info'});
+  saveData();celebrate(app,next);renderAll();
+}
+function completeInterviewRound(id){
+  const app=apps.find(a=>a.id===id);if(!app||app.stage!=='interview')return;
+  const rounds=app.interviewRounds||[{round:1,done:false,date:''}];
+  const nextUndone=rounds.find(r=>!r.done);if(!nextUndone)return;
+  nextUndone.done=true;nextUndone.date=new Date().toISOString().split('T')[0];
+  app.interviewRounds=rounds;
+  const rn=ROUND_NAMES[nextUndone.round-1]||nextUndone.round;
+  timeline.unshift({date:nextUndone.date,text:`${app.company} 完成${rn}面`,type:'info'});
+  saveData();celebrate(app,{id:'interview_round',name:`${rn}面`});renderAll();
+}
+function addNextInterviewRound(id){
+  const app=apps.find(a=>a.id===id);if(!app||app.stage!=='interview')return;
+  if(!app.interviewRounds)app.interviewRounds=[];
+  const maxR=app.interviewRounds.length?Math.max(...app.interviewRounds.map(r=>r.round)):0;
+  app.interviewRounds.push({round:maxR+1,done:false,date:''});
+  saveData();renderAll();showToast(`进入第${ROUND_NAMES[maxR]||maxR+1}轮面试`);
+}
+function endInterview(id){
+  const app=apps.find(a=>a.id===id);if(!app||app.stage!=='interview')return;
+  app.interviewEnded=true;
+  timeline.unshift({date:new Date().toISOString().split('T')[0],text:`${app.company} 面试结束`,type:'info'});
+  saveData();renderAll();showToast('已标记面试结束');
+}
+function rollbackStage(id){
+  const app=apps.find(a=>a.id===id);if(!app)return;
+  if(app.interviewEnded){delete app.interviewEnded;saveData();renderAll();showToast('已撤销结束标记');return;}
+  if(app.stage==='interview'&&app.interviewRounds?.length){
+    const last=app.interviewRounds[app.interviewRounds.length-1];
+    if(last.done){last.done=false;last.date='';saveData();renderAll();showToast('已回退面试轮次');return;}
+    if(app.interviewRounds.length>1){app.interviewRounds.pop();saveData();renderAll();showToast('已移除当前轮次');return;}
+  }
+  const curIdx=STAGE_IDS.indexOf(app.stage);if(curIdx<=0)return;
+  const prev=STAGES[curIdx-1];
+  delete app.stageHistory?.[app.stage];
+  if(app.stage==='interview'){delete app.interviewRounds;delete app.interviewEnded;}
+  app.stage=prev.id;
+  saveData();renderAll();showToast(`已回退至「${prev.name}」`);
+}
+
+function celebrate(app,stage){
+  const overlay=document.createElement('div');
+  overlay.className='celebration';
+  const msg=stage.id==='offer'?`${app.company} Offer 到手！`:`${app.company} → ${stage.name}`;
+  const cheer=CHEERS[Math.floor(Math.random()*CHEERS.length)];
+  overlay.innerHTML=`<div class="celebration-text">${stage.id==='offer'?'🎉 ':''} ${msg}<br><span style="font-size:16px;color:var(--g500);font-weight:400">${cheer}</span></div>`;
+  const colors=['#4F46E5','#7C3AED','#EC4899','#F59E0B','#10B981','#3B82F6'];
+  for(let i=0;i<30;i++){
+    const c=document.createElement('div');c.className='confetti';
+    c.style.cssText=`left:${Math.random()*100}%;top:-10px;background:${colors[i%colors.length]};animation-delay:${Math.random()*.5}s;animation-duration:${1+Math.random()}s;width:${6+Math.random()*8}px;height:${6+Math.random()*8}px;border-radius:${Math.random()>.5?'50%':'2px'};`;
+    overlay.appendChild(c);
+  }
+  document.body.appendChild(overlay);
+  setTimeout(()=>overlay.remove(),2500);
+}
+
+// Smart add
+function handleSmartKey(e){
+  if(e.key!=='Enter')return;
+  const v=el('smartInput').value.trim();if(!v)return;
+  if(v.startsWith('http')){parseLink(v);return;}
+  const parts=v.split(/[-–—\s]+/);
+  const company=parts[0]||v;
+  const position=parts.slice(1).join(' ')||'待确认岗位';
+  addApp(company,position,'wishlist');
+  el('smartInput').value='';
+}
+function handleSmartPaste(e){
+  setTimeout(()=>{
+    const v=el('smartInput').value.trim();
+    if(v.startsWith('http'))parseLink(v);
+  },100);
+}
+function parseLink(url){
+  el('smartParsing').classList.add('active');
+  el('smartParsed').classList.remove('active');
+  setTimeout(()=>{
+    el('smartParsing').classList.remove('active');
+    const parsed=simulateParse(url);
+    el('smartParsed').innerHTML=`
+      <div class="parsed-grid">
+        <div><div class="parsed-item-label">公司</div><div class="parsed-item-value">${parsed.company}</div></div>
+        <div><div class="parsed-item-label">岗位</div><div class="parsed-item-value">${parsed.position}</div></div>
+        <div><div class="parsed-item-label">地点</div><div class="parsed-item-value">${parsed.location}</div></div>
+        <div><div class="parsed-item-label">截止</div><div class="parsed-item-value">${parsed.deadline||'未知'}</div></div>
+      </div>
+      <div class="parsed-actions">
+        <button class="btn btn-sm" onclick="dismissParsed()">取消</button>
+        <button class="btn btn-sm btn-primary" onclick="confirmParsed()">添加到待投递</button>
+      </div>`;
+    el('smartParsed').classList.add('active');
+    el('smartParsed')._data=parsed;
+  },1500);
+}
+function simulateParse(url){
+  const u=url.toLowerCase();
+  const db={
+    'bytedance':{company:'字节跳动',position:'开发实习生',location:'北京'},
+    'tencent':{company:'腾讯',position:'产品实习生',location:'深圳'},
+    'alibaba':{company:'阿里巴巴',position:'算法实习生',location:'杭州'},
+    'meituan':{company:'美团',position:'后端实习生',location:'北京'},
+    'baidu':{company:'百度',position:'开发实习生',location:'北京'},
+    'jd.com':{company:'京东',position:'开发实习生',location:'北京'},
+    'xiaohongshu':{company:'小红书',position:'推荐算法实习',location:'上海'},
+    'boss':{company:'某公司',position:'实习生',location:'待确认'},
+    'nowcoder':{company:'某公司',position:'实习生',location:'待确认'},
+    'shixiseng':{company:'某公司',position:'实习生',location:'待确认'},
+  };
+  for(const[k,v]of Object.entries(db)){if(u.includes(k))return{...v,deadline:''};}
+  return{company:'待确认公司',position:'待确认岗位',location:'',deadline:''};
+}
+function confirmParsed(){
+  const d=el('smartParsed')._data;
+  addApp(d.company,d.position,'wishlist',d.deadline,d.location);
+  dismissParsed();
+}
+function dismissParsed(){el('smartParsed').classList.remove('active');el('smartInput').value='';}
+
+function addApp(company,position,stage,deadline,location){
+  const app={id:Date.now().toString(),company,position,stage:stage||'wishlist',deadline:deadline||'',priority:'medium',salary:'',location:location||'',notes:'',jd:'',interviewExp:'',materials:{},stageHistory:{[stage||'wishlist']:new Date().toISOString().split('T')[0]}};
+  MATERIALS.forEach(m=>app.materials[m]=false);
+  apps.push(app);saveData();renderAll();showToast(`已添加 ${company}`);
+}
+
+function filterCards(){searchQ=el('searchInput').value.toLowerCase().trim();renderCards();}
+
+// Detail Modal
+function bindDetailTabs(){document.querySelectorAll('#detailTabs .section-tab').forEach(t=>{t.addEventListener('click',()=>{const p=t.dataset.panel;document.querySelectorAll('#detailTabs .section-tab').forEach(x=>x.classList.toggle('active',x===t));document.querySelectorAll('#detailModal .section-panel').forEach(x=>x.classList.toggle('active',x.id===p));if(p==='panelAI')renderAIMock();});});}
+function openModal(id){document.getElementById(id).classList.add('active');}
+function closeModal(id){document.getElementById(id).classList.remove('active');}
+function openDetail(id){
+  const a=apps.find(x=>x.id===id);if(!a)return;editingId=id;
+  el('modalTitle').textContent=`${a.company} - ${a.position}`;
+  el('editCompany').value=a.company;el('editPosition').value=a.position;
+  el('editDeadline').value=a.deadline||'';el('editPriority').value=a.priority;
+  el('editSalary').value=a.salary||'';el('editLocation').value=a.location||'';
+  el('editNotes').value=a.notes||'';el('editJD').value=a.jd||'';
+  el('editInterviewExp').value=a.interviewExp||'';
+  document.querySelectorAll('#detailTabs .section-tab').forEach((t,i)=>t.classList.toggle('active',i===0));
+  document.querySelectorAll('#detailModal .section-panel').forEach((p,i)=>p.classList.toggle('active',i===0));
+  renderMaterialChecklist(a);openModal('detailModal');
+}
+function renderMaterialChecklist(a){el('materialChecklist').innerHTML=MATERIALS.map(m=>{const c=a.materials?.[m]||false;return`<div class="checklist-item ${c?'checked':''}"><input type="checkbox" ${c?'checked':''} data-material="${m}" onchange="toggleMat(this)"><label>${m}</label></div>`;}).join('');}
+function toggleMat(cb){const a=apps.find(x=>x.id===editingId);if(!a)return;if(!a.materials)a.materials={};a.materials[cb.dataset.material]=cb.checked;cb.closest('.checklist-item').classList.toggle('checked',cb.checked);saveData();}
+function saveAppDetail(){
+  const a=apps.find(x=>x.id===editingId);if(!a)return;
+  a.company=el('editCompany').value.trim();a.position=el('editPosition').value.trim();
+  a.deadline=el('editDeadline').value;a.priority=el('editPriority').value;
+  a.salary=el('editSalary').value;a.location=el('editLocation').value;
+  a.notes=el('editNotes').value;a.jd=el('editJD').value;a.interviewExp=el('editInterviewExp').value;
+  saveData();renderAll();closeModal('detailModal');showToast('已保存');
+}
+function deleteApp(){if(!confirm('确定删除？'))return;apps=apps.filter(x=>x.id!==editingId);saveData();renderAll();closeModal('detailModal');}
+
+// AI Mock
+function renderAIMock(){
+  const a=apps.find(x=>x.id===editingId);if(!a)return;const area=el('aiMockArea');
+  const jd=el('editJD').value||a.jd||'',exp=el('editInterviewExp').value||a.interviewExp||'';
+  if(!jd&&!exp){area.innerHTML='<div class="ai-empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><div style="font-weight:600;margin-bottom:4px">先录入 JD 或面经</div><div>切换到「JD & 面经」页粘贴后即可生成</div></div>';return;}
+  const cached=localStorage.getItem(`jp_ai_${a.id}`);
+  area.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px"><span style="font-size:13px;color:var(--g500)">基于 JD + 个人资料</span><button class="ai-generate-btn" id="aiGenBtn" onclick="doGenAI()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4"/></svg>${cached?'重新生成':'生成面试题'}</button></div><div class="ai-loading" id="aiLoading"><div class="ai-spinner"></div></div><div id="aiResultArea">${cached||''}</div>`;
+}
+function doGenAI(){
+  const a=apps.find(x=>x.id===editingId);if(!a)return;
+  el('aiLoading').classList.add('active');el('aiResultArea').innerHTML='';el('aiGenBtn').disabled=true;
+  setTimeout(()=>{el('aiLoading').classList.remove('active');el('aiGenBtn').disabled=false;const h=buildAI(a);el('aiResultArea').innerHTML=h;localStorage.setItem(`jp_ai_${a.id}`,h);},2000);
+}
+function buildAI(a){const jd=el('editJD').value||a.jd||'',kw=extractKW(jd),p1=profile.projects?.[0];const secs=[{icon:'💬',title:'行为面试题',items:[{q:`自我介绍，突出与「${a.position}」的匹配度`,h:`学校→经历→为什么${a.company}。匹配${kw.slice(0,3).join('、')||'JD要求'}。`},{q:'团队意见分歧的处理经历',h:`STAR法则。${p1?`可用「${p1.title}」。`:''}`},{q:`为什么选择${a.company}？`,h:'业务认同→规划匹配→独特价值。'}]}];const ti=[];if(kw.some(k=>['分布式','系统设计','高并发'].includes(k)))ti.push({q:'设计短链接服务',h:'哈希→存储→301vs302→缓存。'});if(kw.some(k=>['SQL','数据'].includes(k)))ti.push({q:'SQL计算留存率',h:'留存定义→窗口函数→聚合。'});if(kw.some(k=>['推荐','算法','NLP'].includes(k)))ti.push({q:'协同过滤原理与问题',h:'CF分类→冷启动→稀疏性。'});if(kw.some(k=>['react','vue','前端'].includes(k.toLowerCase())))ti.push({q:'虚拟DOM原理',h:'JS对象→diff→最小操作。'});if(!ti.length)ti.push({q:'最熟悉项目的技术选型',h:'选型→备选→效果。'});secs.push({icon:'🔧',title:'技术题',items:ti});if(profile.projects?.length)secs.push({icon:'🔍',title:'项目深挖',items:profile.projects.slice(0,2).map(p=>({q:`「${p.title}」负责什么？难点？`,h:`(${(p.tech||[]).join('、')}) 背景→角色→难点→成果。`}))});return`<div class="ai-result"><div class="ai-result-badge">AI 已生成 ${secs.reduce((s,x)=>s+x.items.length,0)} 道题</div>${secs.map(s=>`<div class="ai-section"><div class="ai-section-title">${s.icon} ${s.title}</div>${s.items.map(q=>`<div class="ai-question" onclick="this.classList.toggle('expanded')"><div class="ai-question-text">${q.q}</div><button class="ai-question-toggle">参考思路 ▾</button><div class="ai-question-hint">${q.h}</div></div>`).join('')}</div>`).join('')}</div>`;}
+function extractKW(t){return['Python','Java','Go','SQL','Redis','分布式','系统设计','高并发','推荐','算法','NLP','React','Vue','前端','数据','产品'].filter(k=>t.toLowerCase().includes(k.toLowerCase()));}
+
+// Prep Room — interview goes to video chat, written goes to mock test
+function openPrepRoom(id,mode){
+  const a=apps.find(x=>x.id===id);if(!a)return;
+  if(mode==='written'){openMockTest(id);return;}
+  prepAppId=id;prepMode='interview';
+  prepLinksData=JSON.parse(localStorage.getItem(`jp_links_${id}`)||'[]');
+  chatHistory=JSON.parse(localStorage.getItem(`jp_chat_${id}_interview`)||'[]');
+  let roundInfo='';
+  if(a.interviewRounds){const nu=a.interviewRounds.find(r=>!r.done);if(nu)roundInfo=` · 第${ROUND_NAMES[nu.round-1]||nu.round}轮`;}
+  el('prepTitle').textContent=`${a.company} - ${a.position}`;
+  el('prepSub').textContent='模拟面试'+roundInfo;
+  renderPrepLinks();
+  el('prepJD').textContent=a.jd?a.jd.substring(0,200):'暂无JD';
+  el('prepTips').textContent='1. 回顾面经高频题\n2. STAR法准备行为题\n3. 复习JD技术栈\n4. 准备反问';
+  const msgs=el('chatMessages');msgs.innerHTML='';
+  // Add video head at top of chat
+  const videoDiv=document.createElement('div');videoDiv.className='video-area';videoDiv.id='videoArea';
+  videoDiv.innerHTML=`<div class="big-head" id="bigHead"><div class="head-face"><div class="head-eyes"><div class="head-eye"></div><div class="head-eye"></div></div><div class="head-mouth"></div></div></div><div class="video-name">AI 面试官</div><div class="video-status">面试进行中${roundInfo}</div>`;
+  msgs.appendChild(videoDiv);
+  if(!chatHistory.length){
+    const g=`你好，我是${a.company}${a.position}的面试官。\n\n请先做一个简短的自我介绍吧。`;
+    chatHistory.push({role:'ai',text:g});saveChatHistory();
+  }
+  chatHistory.forEach(m=>appendBubble(m.role,m.text,false));
+  el('prepRoom').classList.add('active');scrollChat();
+  if(chatHistory.length===1)speakText(chatHistory[0].text);
+}
+function closePrepRoom(){el('prepRoom').classList.remove('active');renderAll();}
+function renderPrepLinks(){el('prepLinks').innerHTML=prepLinksData.map((l,i)=>`<div class="prep-link-item"><a href="${l}" target="_blank">${l.replace(/^https?:\/\//,'').substring(0,28)}...</a><span style="cursor:pointer;color:var(--g400)" onclick="prepLinksData.splice(${i},1);localStorage.setItem('jp_links_'+prepAppId,JSON.stringify(prepLinksData));renderPrepLinks()">&times;</span></div>`).join('');}
+function addPrepLink(){const v=el('prepLinkInput').value.trim();if(!v)return;prepLinksData.push(v);el('prepLinkInput').value='';localStorage.setItem(`jp_links_${prepAppId}`,JSON.stringify(prepLinksData));renderPrepLinks();}
+function appendBubble(role,text,anim=true){
+  const msgs=el('chatMessages'),div=document.createElement('div');div.className=`chat-msg ${role}`;
+  if(role==='ai'){
+    div.innerHTML=`<div class="chat-avatar"><div class="talking-head ${anim?'speaking':''}"><div class="head-face"><div class="head-eyes"><div class="head-eye"></div><div class="head-eye"></div></div><div class="head-mouth"></div></div></div></div><div class="chat-bubble"><p>${text.replace(/\n/g,'</p><p>')}</p></div>`;
+    const bh=el('bigHead');
+    if(anim&&bh){bh.classList.add('speaking');speakText(text);setTimeout(()=>bh.classList.remove('speaking'),3000);}
+    if(anim)setTimeout(()=>{const h=div.querySelector('.talking-head');if(h)h.classList.remove('speaking');},2000);
+  }else{div.innerHTML=`<div class="chat-bubble"><p>${text.replace(/\n/g,'</p><p>')}</p></div><div class="chat-avatar"><div class="user-avatar">${profile.name?profile.name[0]:'我'}</div></div>`;}
+  msgs.appendChild(div);scrollChat();
+}
+function scrollChat(){const m=el('chatMessages');m.scrollTop=m.scrollHeight;}
+function sendChat(){
+  const text=el('chatInput').value.trim();if(!text)return;el('chatInput').value='';el('chatInput').style.height='42px';
+  chatHistory.push({role:'user',text});appendBubble('user',text);
+  const msgs=el('chatMessages'),t=document.createElement('div');t.className='chat-msg ai';t.id='typingInd';
+  t.innerHTML=`<div class="chat-avatar"><div class="talking-head speaking"><div class="head-face"><div class="head-eyes"><div class="head-eye"></div><div class="head-eye"></div></div><div class="head-mouth"></div></div></div></div><div class="chat-bubble"><div class="chat-typing"><span></span><span></span><span></span></div></div>`;
+  msgs.appendChild(t);scrollChat();el('chatSendBtn').disabled=true;
+  setTimeout(()=>{t.remove();el('chatSendBtn').disabled=false;const r=aiReply(text);chatHistory.push({role:'ai',text:r});saveChatHistory();appendBubble('ai',r);},1500+Math.random()*1500);
+}
+function aiReply(t){
+  const a=apps.find(x=>x.id===prepAppId);if(!a)return'选择一个岗位先。';const lo=t.toLowerCase();
+  if(lo.includes('开始')||lo.includes('准备好')||lo.includes('来吧'))return`好！第一题：\n\n请做一个2分钟自我介绍，重点突出和${a.position}的匹配度。\n\n可以按「学校→经历→为什么${a.company}」来组织。`;
+  if(lo.includes('技术')||lo.includes('编程')||lo.includes('sql'))return`来一道：\n\n实现LRU Cache，get和put均O(1)。\n\n先说数据结构选择，再写代码。`;
+  if(lo.includes('项目')){const p=profile.projects?.[0];return p?`聊聊「${p.title}」：\n1. 背景和要解决的问题？\n2. 你负责哪些？\n3. ${(p.tech||[]).join('、')}选型考虑？`:'讲讲你最有成就感的项目？';}
+  if(lo.includes('下一')||lo.includes('继续')||lo.includes('换')){const qs=[`如果加入${a.company}后工作内容和预期不同，怎么办？`,`技术方案被leader否决但你觉得更好，怎么做？`,`${a.company}产品有哪些可以改进的？`];return qs[Math.floor(Math.random()*qs.length)];}
+  if(t.length>40){const fbs=[`不错！建议：\n1. 开头先给结论\n2. 数据和量化再突出些\n3. 结尾可以主动延伸\n\n继续下一题？`,`方向对了！改进：\n1. 加更多"为什么"选这个方案\n2. 突出你的独特贡献\n3. 控制在2分钟内\n\n再试一次还是下一题？`];return fbs[Math.floor(Math.random()*fbs.length)];}
+  return`收到！追问一下：你提到的这个方案在落地时遇到过什么问题吗？如果重做会有什么不同？`;
+}
+function saveChatHistory(){localStorage.setItem(`jp_chat_${prepAppId}_${prepMode}`,JSON.stringify(chatHistory));}
+function clearChat(){if(!confirm('清空对话？'))return;chatHistory=[];localStorage.removeItem(`jp_chat_${prepAppId}_${prepMode}`);el('chatMessages').innerHTML='';openPrepRoom(prepAppId,prepMode);}
+
+// Resume upload
+function handleResumeUpload(input){const f=input.files[0];if(!f)return;el('uploadZone').style.display='none';el('uploadParsing').classList.add('active');const r=new FileReader();r.onload=e=>{setTimeout(()=>{el('uploadParsing').classList.remove('active');const p=parseResume(e.target.result);applyResume(p);el('uploadSuccessDesc').textContent=`${p.skills.length}项技能`;el('uploadSuccess').classList.add('active');showToast('解析完成');},2000);};r.readAsText(f);}
+function parseResume(t){const r={name:'',school:'',major:'',gradYear:'',target:'',skills:[],resume:t.substring(0,2000)};const nm=t.match(/姓[\s]*名[：:\s]*([^\n\s,]{2,4})/);if(nm)r.name=nm[1];const sm=t.match(/([\u4e00-\u9fa5]{2,8}(?:大学|学院))/);if(sm)r.school=sm[1];const mm=t.match(/(?:专业)[：:\s]*([^\n,]{2,20})/);if(mm)r.major=mm[1].trim();const ym=t.match(/20[2-3]\d/g);if(ym)r.gradYear=ym[ym.length-1];r.skills=['Python','Java','Go','SQL','React','Vue','Node.js','Redis','Docker','Git','TensorFlow','PyTorch','MongoDB','MySQL','CSS','HTML','TypeScript','Kubernetes','Linux','Flask','Django','Spring','机器学习','数据分析','分布式系统'].filter(k=>t.toLowerCase().includes(k.toLowerCase()));if(!r.skills.length)r.skills=['Python','SQL'];return r;}
+function applyResume(p){if(p.name)profile.name=p.name;if(p.school)profile.school=p.school;if(p.major)profile.major=p.major;if(p.gradYear)profile.gradYear=p.gradYear;if(p.skills.length)profile.skills=p.skills;if(p.resume)profile.resume=p.resume;localStorage.setItem('jp_profile',JSON.stringify(profile));renderProfileUI();}
+function resetUpload(){el('uploadZone').style.display='';el('uploadParsing').classList.remove('active');el('uploadSuccess').classList.remove('active');el('resumeFile').value='';}
+function initUploadDragDrop(){const z=el('uploadZone');if(!z)return;z.addEventListener('dragover',e=>{e.preventDefault();z.classList.add('dragover');});z.addEventListener('dragleave',()=>z.classList.remove('dragover'));z.addEventListener('drop',e=>{e.preventDefault();z.classList.remove('dragover');const f=e.dataTransfer.files[0];if(f){const i=el('resumeFile');const dt=new DataTransfer();dt.items.add(f);i.files=dt.files;handleResumeUpload(i);}});}
+
+// Profile
+function renderProfileUI(){el('profileName').value=profile.name||'';el('profileSchool').value=profile.school||'';el('profileMajor').value=profile.major||'';el('profileGradYear').value=profile.gradYear||'';el('profileTarget').value=profile.target||'';el('profileResume').value=profile.resume||'';renderSkillTags();renderProjects();}
+function renderSkillTags(){const c=el('skillTags'),inp=el('skillInput');c.querySelectorAll('.tag').forEach(t=>t.remove());(profile.skills||[]).forEach((s,i)=>{const t=document.createElement('span');t.className='tag';t.innerHTML=`${s}<span class="tag-remove" onclick="profile.skills.splice(${i},1);renderSkillTags()">&times;</span>`;c.insertBefore(t,inp);});inp.onkeydown=e=>{if(e.key==='Enter'&&inp.value.trim()){e.preventDefault();profile.skills=profile.skills||[];profile.skills.push(inp.value.trim());inp.value='';renderSkillTags();}if(e.key==='Backspace'&&!inp.value&&profile.skills?.length){profile.skills.pop();renderSkillTags();}};}
+function renderProjects(){const l=el('projectsList');if(!profile.projects?.length){l.innerHTML='<div class="empty-hint">暂无项目</div>';return;}l.innerHTML=profile.projects.map((p,i)=>`<div class="project-card"><div class="project-card-header"><div class="project-card-title">${p.title}</div><button class="btn btn-sm btn-danger" onclick="profile.projects.splice(${i},1);renderProjects()">删除</button></div><div class="project-card-desc">${p.desc}</div><div class="project-card-tech">${(p.tech||[]).map(t=>`<span class="tech-tag">${t}</span>`).join('')}</div></div>`).join('');}
+function addProjectCard(){const t=prompt('项目名称：');if(!t)return;const d=prompt('简要描述：')||'';const tk=prompt('技术栈（逗号分隔）：')||'';profile.projects=profile.projects||[];profile.projects.push({title:t,desc:d,tech:tk.split(',').map(s=>s.trim()).filter(Boolean)});renderProjects();}
+
+// Nav
+function bindNav(){document.querySelectorAll('.nav-tab,.mobile-nav button').forEach(t=>{t.addEventListener('click',()=>{const v=t.dataset.view;document.querySelectorAll('.nav-tab').forEach(x=>x.classList.toggle('active',x.dataset.view===v));document.querySelectorAll('.mobile-nav button').forEach(x=>x.classList.toggle('active',x.dataset.view===v));el('listView').classList.toggle('active',v==='list');el('profileView').classList.toggle('active',v==='profile');if(v==='list')renderAll();if(v==='profile')renderProfileUI();});});}
+
+function showToast(m){const t=el('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
+document.querySelectorAll('.modal-overlay').forEach(o=>{o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('active');});});
+document.addEventListener('input',e=>{if(e.target.id==='chatInput'){e.target.style.height='42px';e.target.style.height=Math.min(e.target.scrollHeight,120)+'px';}});
+
+// ======== Onboarding ========
+let obStep=0;
+const OB_PANELS=[
+  {title:'基本信息',html:`<div class="ob-title">先来认识你</div><div class="ob-desc">填写基本信息，帮助 AI 更精准地匹配岗位</div><div class="form-row"><div class="form-group"><label class="form-label">姓名</label><input class="form-input" id="obName" placeholder="你的名字"></div><div class="form-group"><label class="form-label">学校</label><input class="form-input" id="obSchool" placeholder="就读院校"></div></div><div class="form-group"><label class="form-label">专业</label><input class="form-input" id="obMajor" placeholder="专业方向"></div><div class="form-group"><label class="form-label">求职方向（可多选）</label><div class="ob-multisel" id="obTargetSel"><div class="ob-multisel-box" onclick="obSelToggle()"><input class="ob-multisel-input" id="obSelInput" placeholder="搜索或选择方向..." oninput="obSelFilter()" onfocus="obSelOpen()"></div><div class="ob-multisel-drop" id="obSelDrop"></div></div></div>`},
+  {title:'简历解析',html:`<div class="ob-title">上传简历，AI 一键解析</div><div class="ob-desc">支持 PDF / Word / TXT，自动提取技能、项目经历等信息</div><div class="ob-import-zone" id="obResumeZone"><div style="margin-bottom:8px"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><polyline points="9 15 12 12 15 15"/></svg></div><div style="font-size:14px;font-weight:600;color:var(--g700)">拖拽或点击上传简历</div><div style="font-size:12px;color:var(--g400);margin-top:4px">PDF / Word / TXT</div><input type="file" accept=".pdf,.doc,.docx,.txt" onchange="obParseResume(this)" style="position:absolute;inset:0;opacity:0;cursor:pointer"></div><div class="ob-parsed-preview" id="obResumeResult"></div>`},
+  {title:'导入数据',html:`<div class="ob-title">导入已有求职数据</div><div class="ob-desc">支持三种方式导入你的求职记录</div><div style="display:flex;gap:6px;margin-bottom:14px"><button class="btn btn-sm ob-import-tab active" data-tab="file" onclick="switchImportTab('file')">📄 上传文件</button><button class="btn btn-sm ob-import-tab" data-tab="link" onclick="switchImportTab('link')">🔗 Notion 链接</button><button class="btn btn-sm ob-import-tab" data-tab="paste" onclick="switchImportTab('paste')">📋 粘贴文本</button></div><div id="importFilePanel" class="ob-import-panel"><div class="ob-import-zone" style="position:relative"><div style="margin-bottom:6px"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><div style="font-size:14px;font-weight:600;color:var(--g700)">上传 Excel / CSV 文件</div><div style="font-size:12px;color:var(--g400);margin-top:4px">.xlsx / .csv / .txt</div><input type="file" accept=".xlsx,.xls,.csv,.txt" onchange="obParseFile(this)" style="position:absolute;inset:0;opacity:0;cursor:pointer"></div></div><div id="importLinkPanel" class="ob-import-panel" style="display:none"><div class="form-group"><label class="form-label">Notion 页面链接</label><div style="display:flex;gap:8px"><input class="form-input" id="obNotionLink" placeholder="https://www.notion.so/..."><button class="btn btn-primary btn-sm" onclick="obParseNotion()">导入</button></div><div style="font-size:11px;color:var(--g400);margin-top:6px">粘贴你的 Notion 求职看板页面链接，需要页面设为公开</div></div></div><div id="importPastePanel" class="ob-import-panel" style="display:none"><div class="ob-import-zone" style="padding:12px"><textarea id="obImportText" placeholder="示例：&#10;字节跳动 后端实习 已投递 4月20日截止&#10;腾讯 产品实习 面试中 一面通过&#10;阿里 数据分析 笔试 4月19号&#10;&#10;或直接粘贴 Notion/Excel 表格内容..." style="min-height:90px"></textarea></div><button class="btn btn-primary btn-sm" onclick="obParseImport()"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4"/></svg> AI 解析</button></div><div class="ob-parsed-preview" id="obImportResult"></div>`},
+  {title:'邮箱绑定',html:`<div class="ob-title">绑定求职邮箱（可选）</div><div class="ob-desc">授权后系统可只读访问你的收件箱，自动识别面试邀请、笔试通知、Offer 等邮件并同步到看板。</div><div id="obEmailAuth"><div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px"><button class="btn" onclick="obOAuthLogin('google')" style="width:100%;justify-content:center;padding:12px;font-size:14px;gap:10px;border-radius:10px"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg> 使用 Google 账号授权</button><button class="btn" onclick="obOAuthLogin('outlook')" style="width:100%;justify-content:center;padding:12px;font-size:14px;gap:10px;border-radius:10px"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M2 5.5V18.5C2 19.33 2.67 20 3.5 20H13V4H3.5C2.67 4 2 4.67 2 5.5Z" fill="#0078D4"/><path d="M13 4H20.5C21.33 4 22 4.67 22 5.5V18.5C22 19.33 21.33 20 20.5 20H13V4Z" fill="#0078D4" opacity=".7"/><path d="M7.5 8.5C8.88 8.5 10 9.62 10 11C10 12.38 8.88 13.5 7.5 13.5C6.12 13.5 5 12.38 5 11C5 9.62 6.12 8.5 7.5 8.5Z" fill="white"/><path d="M4 16C4 14.34 5.79 13 7.5 13C9.21 13 11 14.34 11 16V17H4V16Z" fill="white"/></svg> 使用 Outlook 账号授权</button></div><div style="padding:12px 14px;border-radius:10px;background:var(--g50);margin-bottom:16px"><div style="font-size:12px;font-weight:600;color:var(--g600);margin-bottom:8px">🔒 授权说明</div><div style="font-size:12px;color:var(--g500);line-height:1.7">• 仅申请<b>只读</b>权限，不会发送或修改任何邮件<br>• 仅扫描招聘平台发件人的通知邮件<br>• 邮件内容在本地解析，不上传至服务器<br>• 可随时在设置中取消授权</div></div></div><div class="ob-verify-ok" id="obVerifyOk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><div><div style="font-weight:600">授权成功</div><div style="font-size:12px;color:var(--g500);margin-top:2px" id="obAuthEmail"></div></div></div><div class="ob-features"><div class="ob-feature"><div class="ob-feature-icon">📬</div><div class="ob-feature-text">自动检测面试邀请</div></div><div class="ob-feature"><div class="ob-feature-icon">⏰</div><div class="ob-feature-text">提醒笔试/面试时间</div></div><div class="ob-feature"><div class="ob-feature-icon">📊</div><div class="ob-feature-text">同步状态变更</div></div><div class="ob-feature"><div class="ob-feature-icon">🎯</div><div class="ob-feature-text">Offer DDL 提醒</div></div></div>`},
+];
+function initOnboarding(){
+  if(localStorage.getItem('jp_onboarded'))return;
+  profile={name:'',school:'',major:'',gradYear:'',target:'',skills:[],projects:[],resume:''};
+  obStep=0;renderObSteps();renderObPanel();
+  el('onboarding').classList.add('active');
+}
+function renderObSteps(){
+  el('obSteps').innerHTML=OB_PANELS.map((_,i)=>`<div class="ob-step-dot ${i<obStep?'done':i===obStep?'active':''}"></div>`).join('');
+}
+function renderObPanel(){
+  el('obPanels').innerHTML=OB_PANELS.map((p,i)=>`<div class="ob-panel ${i===obStep?'active':''}">${p.html}</div>`).join('');
+  el('obNextBtn').textContent=obStep===OB_PANELS.length-1?'开始使用':'下一步 →';
+  if(obStep===0)obSelInit();
+}
+const OB_TARGET_GROUPS={
+  '技术-研发':['后端开发','前端开发','全栈开发','客户端/iOS/Android','算法工程师','数据开发','测试开发','运维/DevOps','安全工程师','嵌入式/IoT','游戏开发','音视频开发','区块链开发'],
+  '技术-AI/数据':['机器学习','深度学习/CV/NLP','数据分析','数据挖掘','大数据工程','推荐系统','AI产品'],
+  '产品/设计':['产品经理','产品运营','UI/UX设计','交互设计','用户研究'],
+  '商业/职能':['市场营销','商业分析','战略咨询','投行/金融','财务','人力资源','法务','供应链'],
+  '运营/内容':['用户运营','内容运营','活动运营','社区运营','新媒体运营','增长策略'],
+};
+let obSelVals=[];
+function obSelInit(){
+  obSelVals=[];
+  obSelRender();
+  document.addEventListener('click',e=>{if(!el('obTargetSel')?.contains(e.target))el('obSelDrop')?.classList.remove('open');});
+}
+function obSelRender(){
+  const box=el('obTargetSel')?.querySelector('.ob-multisel-box');if(!box)return;
+  box.querySelectorAll('.ob-multisel-tag').forEach(t=>t.remove());
+  const inp=el('obSelInput');
+  obSelVals.forEach(v=>{const t=document.createElement('span');t.className='ob-multisel-tag';t.innerHTML=`${v}<span onclick="event.stopPropagation();obSelRemove('${v}')">&times;</span>`;box.insertBefore(t,inp);});
+  let html='';
+  for(const[group,items]of Object.entries(OB_TARGET_GROUPS)){
+    html+=`<div class="ob-multisel-group">${group}</div>`;
+    items.forEach(it=>{html+=`<div class="ob-multisel-opt${obSelVals.includes(it)?' selected':''}" data-val="${it}" onclick="obSelToggleItem('${it}')">${it}</div>`;});
+  }
+  el('obSelDrop').innerHTML=html||'<div class="ob-multisel-empty">无匹配项</div>';
+}
+function obSelOpen(){el('obSelDrop').classList.add('open');el('obTargetSel').querySelector('.ob-multisel-box').classList.add('focus');}
+function obSelToggle(){el('obSelDrop').classList.toggle('open');el('obSelInput').focus();}
+function obSelToggleItem(v){
+  const i=obSelVals.indexOf(v);
+  if(i>=0)obSelVals.splice(i,1);else obSelVals.push(v);
+  el('obSelInput').value='';obSelRender();el('obSelInput').focus();
+}
+function obSelRemove(v){obSelVals=obSelVals.filter(x=>x!==v);obSelRender();}
+function obSelFilter(){
+  const q=el('obSelInput').value.trim().toLowerCase();
+  el('obSelDrop').classList.add('open');
+  el('obSelDrop').querySelectorAll('.ob-multisel-opt').forEach(o=>{o.classList.toggle('hidden',q&&!o.dataset.val.toLowerCase().includes(q));});
+  el('obSelDrop').querySelectorAll('.ob-multisel-group').forEach(g=>{const opts=[...g.parentNode.querySelectorAll(`.ob-multisel-opt`)];let sib=g.nextElementSibling,anyVisible=false;while(sib&&!sib.classList.contains('ob-multisel-group')){if(!sib.classList.contains('hidden'))anyVisible=true;sib=sib.nextElementSibling;}g.style.display=anyVisible?'':'none';});
+}
+function obNext(){
+  if(obStep===0){
+    const n=el('obName')?.value?.trim(),s=el('obSchool')?.value?.trim(),m=el('obMajor')?.value?.trim();
+    if(n)profile.name=n;if(s)profile.school=s;if(m)profile.major=m;if(obSelVals.length)profile.target=obSelVals.join('/');
+    localStorage.setItem('jp_profile',JSON.stringify(profile));
+  }
+  if(obStep<OB_PANELS.length-1){obStep++;renderObSteps();renderObPanel();}
+  else{finishOnboarding();}
+}
+function obSkip(){finishOnboarding();}
+function finishOnboarding(){
+  localStorage.setItem('jp_onboarded','1');
+  el('onboarding').classList.remove('active');
+  if(!apps.length)loadDemoData();
+  renderProfileUI();renderAll();
+}
+function obParseResume(input){
+  const f=input.files[0];if(!f)return;
+  const r=new FileReader();r.onload=e=>{
+    const p=parseResume(e.target.result);
+    if(p.name)profile.name=p.name;if(p.school)profile.school=p.school;if(p.major)profile.major=p.major;
+    if(p.skills.length)profile.skills=p.skills;if(p.resume)profile.resume=p.resume;
+    localStorage.setItem('jp_profile',JSON.stringify(profile));
+    el('obResumeResult').classList.add('active');
+    el('obResumeResult').innerHTML=`<div style="color:var(--success);font-weight:600;margin-bottom:8px">✓ 解析完成</div><div><b>姓名:</b> ${p.name||'未识别'} · <b>学校:</b> ${p.school||'未识别'}</div><div><b>技能:</b> ${p.skills.join(', ')||'未识别'}</div>`;
+  };r.readAsText(f);
+}
+function switchImportTab(tab){
+  document.querySelectorAll('.ob-import-tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));
+  ['file','link','paste'].forEach(t=>{const p=el('import'+t.charAt(0).toUpperCase()+t.slice(1)+'Panel');if(p)p.style.display=t===tab?'':'none';});
+}
+function obParseFile(input){
+  const f=input.files[0];if(!f)return;
+  const ext=f.name.split('.').pop().toLowerCase();
+  const r=new FileReader();
+  r.onload=e=>{
+    let text=e.target.result;
+    if(ext==='csv'||ext==='txt'){
+      el('obImportText')||document.createElement('div');
+      parseImportText(text);
+    }else{
+      // xlsx — simulate parsing since we can't parse binary xlsx client-side without a library
+      parseImportText(simulateExcelParse(f.name));
+    }
+  };
+  if(ext==='xlsx'||ext==='xls'){
+    parseImportText(simulateExcelParse(f.name));
+  }else{
+    r.readAsText(f);
+  }
+}
+function simulateExcelParse(filename){
+  return '字节跳动\t后端实习\t已投递\t4月25日\n腾讯\t产品实习\t面试\t5月1日\n阿里\t数据分析\t笔试\t4月20日';
+}
+function obParseNotion(){
+  const link=el('obNotionLink')?.value?.trim();
+  if(!link||!link.includes('notion')){showToast('请输入有效的 Notion 链接');return;}
+  el('obImportResult').classList.add('active');
+  el('obImportResult').innerHTML='<div style="display:flex;align-items:center;gap:8px"><div class="ai-spinner" style="width:16px;height:16px;border-width:2px"></div>正在读取 Notion 页面...</div>';
+  setTimeout(()=>{
+    parseImportText('字节跳动\t后端实习\t已投递\t4月25日\n腾讯\t产品实习\t面试中\t5月1日\n美团\t前端实习\t待投递\t4月30日');
+    showToast('Notion 数据导入成功');
+  },2000);
+}
+function obParseImport(){
+  const text=el('obImportText')?.value?.trim();if(!text){showToast('请先粘贴内容');return;}
+  parseImportText(text);
+}
+function parseImportText(text){
+  if(!text){showToast('请先粘贴内容');return;}
+  const lines=text.split('\n').filter(l=>l.trim());const parsed=[];
+  const stageMap={'投递':'applied','笔试':'written','面试':'interview','offer':'offer','待投':'wishlist'};
+  lines.forEach(line=>{
+    const parts=line.split(/[\t,|，、\s]+/).filter(Boolean);if(parts.length<2)return;
+    const company=parts[0];const position=parts[1]||'待确认岗位';
+    let stage='wishlist';
+    for(const[k,v]of Object.entries(stageMap)){if(line.includes(k)){stage=v;break;}}
+    let deadline='';const dm=line.match(/(\d{1,2})[月/\-.](\d{1,2})/);
+    if(dm)deadline=`2026-${String(dm[1]).padStart(2,'0')}-${String(dm[2]).padStart(2,'0')}`;
+    parsed.push({company,position,stage,deadline});
+  });
+  if(!parsed.length){showToast('未能解析出数据');return;}
+  parsed.forEach(p=>{
+    if(!apps.find(a=>a.company===p.company&&a.position===p.position)){
+      addApp(p.company,p.position,p.stage,p.deadline);
+    }
+  });
+  el('obImportResult').classList.add('active');
+  el('obImportResult').innerHTML=`<div style="color:var(--success);font-weight:600;margin-bottom:6px">✓ 已导入 ${parsed.length} 条申请</div>${parsed.map(p=>`<div>${p.company} · ${p.position} · ${STAGES.find(s=>s.id===p.stage)?.name||''}</div>`).join('')}`;
+}
+function obOAuthLogin(provider){
+  const names={google:'Google',outlook:'Outlook'};
+  const emails={google:'user@gmail.com',outlook:'user@outlook.com'};
+  showToast(`正在跳转 ${names[provider]} 授权页面...`);
+  setTimeout(()=>{
+    el('obEmailAuth').style.display='none';
+    el('obVerifyOk').classList.add('active');
+    el('obAuthEmail').textContent=`已绑定 ${emails[provider]}，将自动同步求职邮件`;
+    showToast(`${names[provider]} 邮箱授权成功`);
+  },1500);
+}
+
+// ======== Mock Test ========
+const TEST_BANK={
+sql:[
+  {text:'以下 SQL 关键字用于去除重复行的是？',options:['UNIQUE','DISTINCT','DIFFERENT','SINGLE'],answer:1,explain:'DISTINCT 用于 SELECT 中去除重复行。'},
+  {text:'聚合函数 COUNT(column) 统计的是？',options:['所有行数','非NULL值数量','NULL值数量','列的种类数'],answer:1,explain:'COUNT(column) 统计该列非NULL值数量，COUNT(*) 统计所有行。'},
+  {text:'HAVING 和 WHERE 的区别是？',options:['没有区别','HAVING 用于聚合后过滤','HAVING 只能用于子查询','WHERE 更快'],answer:1,explain:'WHERE 在 GROUP BY 前过滤行，HAVING 在 GROUP BY 后过滤分组。'},
+  {text:'LEFT JOIN 返回的结果包含？',options:['两表交集','左表全部+右表匹配','右表全部','两表并集'],answer:1,explain:'LEFT JOIN 返回左表所有行，右表无匹配的填NULL。'},
+  {text:'以下哪个不是窗口函数？',options:['ROW_NUMBER()','RANK()','GROUP_CONCAT()','LAG()'],answer:2,explain:'GROUP_CONCAT 是聚合函数。ROW_NUMBER、RANK、LAG 都是窗口函数。'},
+],
+coding:[
+  {text:'平均时间复杂度为 O(n log n) 的排序算法是？',options:['冒泡排序','快速排序','选择排序','插入排序'],answer:1,explain:'快排平均 O(n log n)，冒泡/选择/插入为 O(n²)。'},
+  {text:'实现 LRU 缓存最优的数据结构组合是？',options:['数组+栈','哈希表+双向链表','二叉树+队列','哈希表+数组'],answer:1,explain:'哈希表 O(1) 查找，双向链表 O(1) 删除/移动，两者结合最优。'},
+  {text:'TCP 三次握手的主要目的是？',options:['加密传输数据','确认双方收发能力','分配IP地址','压缩数据包'],answer:1,explain:'三次握手确认客户端/服务端的发送和接收能力，建立可靠连接。'},
+  {text:'Python 中 list 和 tuple 的主要区别？',options:['list 更快','tuple 可以排序','list 可变 tuple 不可变','没有区别'],answer:2,explain:'list 是可变序列，tuple 是不可变序列。tuple 可哈希，能做字典键。'},
+  {text:'哈希冲突的解决方法不包括？',options:['链地址法','开放寻址法','再哈希法','二分查找法'],answer:3,explain:'二分查找法不用于解决哈希冲突。常用方法：链地址法、开放寻址、再哈希。'},
+],
+logic:[
+  {text:'完全二叉树有 15 个节点，高度是？（根为第0层）',options:['3','4','5','15'],answer:0,explain:'完全二叉树 h=floor(log₂15)=3，共4层(0~3)。'},
+  {text:'8个外观相同的球，1个较重，天平最少称几次找出？',options:['1次','2次','3次','4次'],answer:1,explain:'分3-3-2，第一次称3vs3。不平衡取重的3个再分1-1-1，2次找出。'},
+  {text:'斐波那契数列 1,1,2,3,5,?，下一个数是？',options:['6','7','8','9'],answer:2,explain:'斐波那契：每项 = 前两项之和。3+5=8。'},
+],
+data:[
+  {text:'A/B 测试中 p-value < 0.05 意味着？',options:['效果很大','结果统计显著','样本量足够','实验失败'],answer:1,explain:'p<0.05 表示在5%显著性水平下拒绝零假设，结果统计显著。'},
+  {text:'以下哪个指标最适合评估分类模型的不平衡数据？',options:['准确率','F1 Score','均方误差','R²'],answer:1,explain:'不平衡数据中准确率有误导性，F1 Score 综合考虑精确率和召回率。'},
+]
+};
+let mtQuestions=[],mtCurrent=0,mtAnswers={},mtTimerId=null,mtTimeLeft=0,mtSubmitted=false,mtAppId=null;
+
+function openMockTest(appId){
+  const a=apps.find(x=>x.id===appId);if(!a)return;
+  mtAppId=appId;mtSubmitted=false;mtAnswers={};mtCurrent=0;
+  const kw=extractKW(a.jd||'');
+  let pool=[];
+  if(kw.some(k=>['SQL','数据'].includes(k)))pool.push(...TEST_BANK.sql);
+  if(kw.some(k=>['Python','Java','Go','React','Vue','前端','分布式','高并发','系统设计'].includes(k)))pool.push(...TEST_BANK.coding);
+  if(kw.some(k=>['推荐','算法','NLP'].includes(k)))pool.push(...TEST_BANK.data);
+  pool.push(...TEST_BANK.logic);
+  if(pool.length<8)pool.push(...TEST_BANK.sql,...TEST_BANK.coding);
+  pool=pool.sort(()=>Math.random()-.5);
+  mtQuestions=pool.slice(0,8);
+  el('mtInfo').textContent=`模拟笔试 · ${a.company} ${a.position}`;
+  mtTimeLeft=30*60;
+  startMtTimer();
+  renderMtNav();renderMtQuestion();
+  el('mtResult').classList.remove('active');el('mtMain').style.display='';el('mtNav').style.display='';
+  el('mockTest').classList.add('active');
+}
+function closeMockTest(){el('mockTest').classList.remove('active');clearInterval(mtTimerId);}
+function startMtTimer(){
+  clearInterval(mtTimerId);
+  renderMtTimer();
+  mtTimerId=setInterval(()=>{
+    if(mtTimeLeft<=0){clearInterval(mtTimerId);if(!mtSubmitted)submitMockTest();return;}
+    mtTimeLeft--;renderMtTimer();
+  },1000);
+}
+function renderMtTimer(){
+  const m=Math.floor(mtTimeLeft/60),s=mtTimeLeft%60;
+  const te=el('mtTimer');te.textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  te.classList.toggle('safe',mtTimeLeft>300);
+}
+function renderMtNav(){
+  el('mtNav').innerHTML=mtQuestions.map((_,i)=>{
+    let cls='mt-qbtn';
+    if(i===mtCurrent)cls+=' active';
+    if(mtSubmitted){cls+=mtAnswers[i]===mtQuestions[i].answer?' correct':mtAnswers[i]!==undefined?' wrong':'';}
+    else if(mtAnswers[i]!==undefined)cls+=' answered';
+    return`<button class="${cls}" onclick="goMtQ(${i})">${i+1}</button>`;
+  }).join('');
+  el('mtProgress').textContent=`${Object.keys(mtAnswers).length}/${mtQuestions.length}`;
+}
+function renderMtQuestion(){
+  const q=mtQuestions[mtCurrent];if(!q)return;
+  const letters='ABCD';
+  el('mtMain').innerHTML=`
+    <div class="mt-qtitle">第 ${mtCurrent+1} 题 / 共 ${mtQuestions.length} 题</div>
+    <div class="mt-qtext">${q.text}</div>
+    ${q.code?`<div class="mt-qcode">${q.code}</div>`:''}
+    <div class="mt-options">${q.options.map((o,i)=>{
+      let cls='mt-option';
+      if(mtSubmitted){if(i===q.answer)cls+=' correct';else if(mtAnswers[mtCurrent]===i)cls+=' wrong';}
+      else if(mtAnswers[mtCurrent]===i)cls+=' selected';
+      return`<div class="${cls}" onclick="${mtSubmitted?'':`selectMtOption(${i})`}"><div class="mt-option-letter">${letters[i]}</div><div>${o}</div></div>`;
+    }).join('')}</div>
+    <div class="mt-explain ${mtSubmitted?'show':''}">${mtSubmitted?'<b>解析：</b>'+q.explain:''}</div>
+    <div class="mt-nav">
+      <button class="btn" ${mtCurrent===0?'disabled':''} onclick="goMtQ(${mtCurrent-1})">← 上一题</button>
+      <button class="btn btn-primary" ${mtCurrent===mtQuestions.length-1?'disabled':''} onclick="goMtQ(${mtCurrent+1})">下一题 →</button>
+    </div>`;
+}
+function selectMtOption(i){if(mtSubmitted)return;mtAnswers[mtCurrent]=i;renderMtQuestion();renderMtNav();}
+function goMtQ(i){if(i<0||i>=mtQuestions.length)return;mtCurrent=i;renderMtQuestion();renderMtNav();}
+function submitMockTest(){
+  if(!mtSubmitted&&!confirm('确定交卷？'))return;
+  mtSubmitted=true;clearInterval(mtTimerId);
+  let correct=0;mtQuestions.forEach((q,i)=>{if(mtAnswers[i]===q.answer)correct++;});
+  const score=Math.round(correct/mtQuestions.length*100);
+  const used=30*60-mtTimeLeft,um=Math.floor(used/60),us=used%60;
+  el('mtResult').innerHTML=`
+    <div class="mt-result-score">${score}</div>
+    <div class="mt-result-label">${score>=80?'表现优秀！':score>=60?'还不错，继续加油！':'需要加强练习'}</div>
+    <div class="mt-result-detail">答对 ${correct}/${mtQuestions.length} 题 · 用时 ${um}分${us}秒</div>
+    <div style="display:flex;gap:10px;margin-top:12px">
+      <button class="btn" onclick="el('mtResult').classList.remove('active');el('mtMain').style.display='';el('mtNav').style.display='';renderMtNav();renderMtQuestion();">查看解析</button>
+      <button class="btn btn-primary" onclick="closeMockTest()">返回</button>
+    </div>`;
+  el('mtMain').style.display='none';el('mtNav').style.display='none';
+  el('mtResult').classList.add('active');renderMtNav();
+}
+
+// ======== Speech API ========
+function speakText(text){
+  if(!('speechSynthesis' in window))return;
+  speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(text.replace(/<[^>]+>/g,'').replace(/\n/g,' '));
+  u.lang='zh-CN';u.rate=1.05;u.pitch=1;
+  const bh=el('bigHead');
+  if(bh){u.onstart=()=>bh.classList.add('speaking');u.onend=()=>bh.classList.remove('speaking');}
+  speechSynthesis.speak(u);
+}
+let recognition=null,isRecording=false;
+function toggleMicInput(){
+  if(isRecording){stopRecording();return;}
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){showToast('浏览器不支持语音输入，请使用 Chrome');return;}
+  recognition=new SR();recognition.lang='zh-CN';recognition.continuous=false;recognition.interimResults=false;
+  recognition.onresult=e=>{const t=e.results[0][0].transcript;el('chatInput').value=t;stopRecording();sendChat();};
+  recognition.onerror=()=>stopRecording();recognition.onend=()=>stopRecording();
+  recognition.start();isRecording=true;el('micBtn').classList.add('recording');
+}
+function stopRecording(){if(recognition)try{recognition.stop();}catch(e){}isRecording=false;el('micBtn').classList.remove('recording');}
+
+function openAddModal(){
+  ['addCompany','addPosition','addSalary','addLocation','addJDLink','addNotes'].forEach(id=>el(id).value='');
+  el('addDeadline').value='';el('addPriority').value='medium';
+  openModal('addModal');
+  setTimeout(()=>el('addCompany').focus(),100);
+}
+function addModalParseLink(){
+  const url=el('addJDLink').value.trim();if(!url||!url.startsWith('http'))return showToast('请输入有效链接');
+  el('addParseLinkBtn').textContent='解析中...';el('addParseLinkBtn').disabled=true;
+  setTimeout(()=>{
+    const parsed=simulateParse(url);
+    if(parsed.company&&parsed.company!=='待确认公司')el('addCompany').value=parsed.company;
+    if(parsed.position&&parsed.position!=='待确认岗位')el('addPosition').value=parsed.position;
+    if(parsed.location)el('addLocation').value=parsed.location;
+    el('addParseLinkBtn').textContent='解析';el('addParseLinkBtn').disabled=false;
+    showToast('已解析链接信息');
+  },1200);
+}
+function submitAddModal(){
+  const company=el('addCompany').value.trim();
+  const position=el('addPosition').value.trim();
+  if(!company){showToast('请填写公司名称');el('addCompany').focus();return;}
+  if(!position){showToast('请填写岗位名称');el('addPosition').focus();return;}
+  const app={id:Date.now().toString(),company,position,stage:'wishlist',deadline:el('addDeadline').value||'',priority:el('addPriority').value,salary:el('addSalary').value.trim(),location:el('addLocation').value.trim(),notes:el('addNotes').value.trim(),jd:'',interviewExp:'',materials:{},stageHistory:{wishlist:new Date().toISOString().split('T')[0]}};
+  MATERIALS.forEach(m=>app.materials[m]=false);
+  apps.push(app);saveData();renderAll();closeModal('addModal');showToast(`已添加 ${company}`);
+}
+
+init();
+</script>
+</body>
+</html>
