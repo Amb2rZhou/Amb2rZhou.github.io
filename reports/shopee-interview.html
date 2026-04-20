@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shopee 一面备忘录 — AI 搜索策略 PM · Mock 15 题</title>
+<style>
+body{max-width:860px;margin:0 auto;padding:24px;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.7;color:#1f2328;background:#fff}
+h1{font-size:24px;margin-bottom:8px;color:#ee4d2d}
+h2{border-bottom:2px solid #d0d7de;padding-bottom:8px;margin-top:32px;font-size:20px;color:#ee4d2d}
+h3{margin-top:24px;font-size:16px;color:#24292f}
+h4{margin-top:16px;font-size:14px;color:#57606a}
+table{width:100%;border-collapse:collapse;font-size:14px;margin:12px 0}
+th,td{border:1px solid #d0d7de;padding:8px 12px;text-align:left;vertical-align:top}
+th{background:#f6f8fa;font-weight:600}
+code{background:#f6f8fa;padding:2px 6px;border-radius:4px;font-size:0.88em;border:1px solid #e1e4e8}
+pre{background:#f6f8fa;border:1px solid #d0d7de;border-radius:8px;padding:16px;overflow-x:auto;font-size:13px}
+pre code{background:none;border:none;padding:0}
+blockquote{border-left:4px solid #ee4d2d;padding:8px 16px;color:#656d76;background:#fff5f0;margin:12px 0;border-radius:0 6px 6px 0}
+hr{border:none;border-top:1px solid #d0d7de;margin:24px 0}
+a{color:#0969da;text-decoration:none}
+ul,ol{margin:8px 0 8px 24px}
+li{margin:4px 0}
+strong{color:#1f2328}
+.question{background:#fff5f0;border-left:4px solid #ee4d2d;padding:12px 16px;margin:16px 0;border-radius:0 8px 8px 0}
+.question-title{font-weight:600;color:#ee4d2d;margin-bottom:8px;font-size:15px}
+.tip{background:#fff8e1;border-left:4px solid #f9a825;padding:8px 12px;margin:8px 0;border-radius:0 6px 6px 0;font-size:14px}
+.key{background:#e8f5e9;border-left:4px solid #43a047;padding:8px 12px;margin:8px 0;border-radius:0 6px 6px 0;font-size:14px}
+.meta{color:#656d76;font-size:14px;margin-bottom:24px}
+</style>
+</head>
+<body>
+
+<h1>Shopee 一面备忘录 — AI 搜索策略 PM · Mock 15 题</h1>
+
+<div class="meta">
+<strong>面试时间：</strong>2026-04-21（周二）11:00-11:30（30 分钟）<br>
+<strong>岗位：</strong>AI 搜索策略产品经理 · Shopee（虾皮，东南亚跨境电商）<br>
+<strong>准备：</strong>Amber · 2026-04-20
+</div>
+
+<h2>🎯 核心叙事（30 秒自我介绍要挂上）</h2>
+
+<blockquote>
+<strong>AFI = 做"多源召回 + 相关性打分 + 结果呈现"</strong>，底层逻辑和电商搜索完全一致。<br>
+<strong>intern-clawd = 用长期记忆消除每次交互的冷启动</strong>，对应电商的"用户画像驱动搜索"。<br>
+这两个项目让我从"AI 产品能力"直接挂钩"搜索策略 PM 的技术栈"。
+</blockquote>
+
+<h2>一、行为面 / 动机题（2 题）</h2>
+
+<div class="question">
+<div class="question-title">Q1. 自我介绍 3 分钟版</div>
+
+<p><strong>答题公式</strong>：身份 → 关键项目（选最匹配搜索的）→ 为什么是这个岗位</p>
+
+<p><strong>你的版本</strong>：</p>
+<ul>
+<li>"我是 Amber，Northwestern 大学，本科在小红书做过内容产品实习。"</li>
+<li>"最近半年主力做 <strong>AFI（AI 前沿情报系统）</strong>——把 RSS / GitHub / ArXiv / HuggingFace 多源信息做召回、用 LLM 做相关性打分、生成分层洞察。本质上就是'非商品品类的搜索策略'。"</li>
+<li>"我对 Shopee 这个岗位感兴趣是因为：东南亚电商是 AI 落地最好的试验场——多语言、长尾品类、用户意图复杂，全是经典搜索问题，而且是跨境+多语言的升级版。"</li>
+</ul>
+
+<div class="key"><strong>关键词</strong>：小红书内容产品 / AFI 多源召回 / 相关性打分 / 东南亚 AI 落地</div>
+</div>
+
+<div class="question">
+<div class="question-title">Q2. 为什么是 Shopee，不是淘天 / 拼多多 / TikTok Shop？</div>
+
+<p><strong>答题思路</strong>：跨境 × 多语言 × AI 落地窗口</p>
+
+<ul>
+<li>"三点：<br>
+（1）东南亚处于 AI 能力爆发 × 电商增长交叉窗口，搜索策略从 0-1 的机会多；<br>
+（2）多语言跨境是更难也更有价值的搜索问题，国内大厂做的是优化，这里是重构；<br>
+（3）Shopee 是跨境电商里技术积累最成熟的之一，既有规模又有创新空间。"</li>
+</ul>
+</div>
+
+<h2>二、搜索 PM 基础（出现概率最高的 4 题）</h2>
+
+<div class="question">
+<div class="question-title">Q3. 召回（recall）和排序（ranking）的区别？协同逻辑？</div>
+
+<table>
+<tr><th>阶段</th><th>输入</th><th>输出</th><th>关键指标</th></tr>
+<tr><td><strong>召回</strong></td><td>query</td><td>~1000 候选</td><td>recall 高 / 延迟低</td></tr>
+<tr><td><strong>排序</strong></td><td>候选集</td><td>~20-30 展示</td><td>精排 / 多目标</td></tr>
+</table>
+
+<p><strong>协同</strong>：召回决定"能不能搜到"，排序决定"看得到什么"。召回漏了排序救不回来，排序错了召回再好也白搭。</p>
+
+<p><strong>电商特有</strong>：</p>
+<ul>
+<li>召回侧平衡 exact match（倒排）和 semantic match（embedding 召回）</li>
+<li>排序侧平衡 relevance / CTR / GMV / 多样性 / 商家公平性</li>
+</ul>
+
+<div class="tip"><strong>加分项</strong>："我会特别关注召回和排序两阶段的<strong>目标对齐</strong>——如果召回模型和排序模型优化的不是同一个北极星，会有 online/offline gap，这是搜索系统常见的坑。"</div>
+</div>
+
+<div class="question">
+<div class="question-title">Q4. 如果让你负责"零结果率"，你会怎么拆解？</div>
+
+<p><strong>答题公式</strong>：漏斗拆解 → 归因 → ROI 优先级</p>
+
+<p><strong>可能原因（四层）</strong>：</p>
+<ol>
+<li><strong>query 侧</strong>：拼写错误、生僻词、超长 query、非母语混用</li>
+<li><strong>商品侧</strong>：商品库覆盖不全、属性不完整、标题质量低</li>
+<li><strong>召回侧</strong>：倒排不命中、向量召回阈值过严</li>
+<li><strong>策略侧</strong>：过滤规则过严（价格 / 发货地 / 库存）</li>
+</ol>
+
+<p><strong>优先级判断</strong>：</p>
+<ul>
+<li>先量化：零结果 query 的频次分布 top 10</li>
+<li>再算成本：query 改写（LLM 短期快）→ 商品属性补全（中长期）→ 向量召回升级（基建投入）</li>
+</ul>
+
+<div class="key"><strong>关键词</strong>：漏斗拆解 / 归因 / ROI / LLM 改写抢救零结果</div>
+</div>
+
+<div class="question">
+<div class="question-title">Q5. 相关性和转化率指标冲突怎么办？（经典搜索 PM 题 🔥）</div>
+
+<p><strong>答题思路</strong>：不选边站，讲"场景化加权"</p>
+
+<ul>
+<li><strong>承认冲突</strong>：相关性高 ≠ 转化率高（高价品 / 新品 / 小众品）</li>
+<li><strong>多目标 LTR</strong>：看用户所处阶段
+<ul>
+<li>明确需求（搜具体商品）：相关性权重高</li>
+<li>探索阶段（搜类目 / 场景词）：多样性 + 转化率权重高</li>
+</ul>
+</li>
+<li><strong>指标不看单点看组合</strong>：搜索 CVR + 用户停留 + 次日回搜率 + 跨 session 留存</li>
+</ul>
+
+<div class="tip"><strong>加分项</strong>："有时候相关性低但转化高，反映的是意图澄清不充分——应该做<strong>意图识别前置</strong>，而不是让排序去 cover。这是产品思维和算法思维的区别。"</div>
+</div>
+
+<div class="question">
+<div class="question-title">Q6. 你会怎么用 LLM 改写 query？落地顺序？</div>
+
+<p><strong>答题思路</strong>：按 ROI 优先级，从低风险高收益开始</p>
+
+<ol>
+<li><strong>拼写纠错</strong>（零风险 / 高覆盖）</li>
+<li><strong>同义词扩展</strong>（抢救零结果）</li>
+<li><strong>长 query 结构化</strong>："适合户外徒步的防水鞋" → <code>{类目:鞋, 场景:户外徒步, 属性:防水}</code></li>
+<li><strong>多语言翻译 + 改写</strong>（东南亚特有）</li>
+<li><strong>多轮意图澄清</strong>（最复杂，对话式搜索）</li>
+</ol>
+
+<div class="key"><strong>关键词</strong>：分级落地 / 零结果抢救先行 / 对话式搜索作为终极形态</div>
+</div>
+
+<h2>三、电商搜索深挖（3 题）</h2>
+
+<div class="question">
+<div class="question-title">Q7. 用户搜"手机壳"，怎么判断真实意图？</div>
+
+<p><strong>显性 vs 隐性</strong>：</p>
+<ul>
+<li>显性：想买手机壳</li>
+<li>隐性：什么手机型号？什么风格？什么价位？</li>
+</ul>
+
+<p><strong>消歧策略（三层）</strong>：</p>
+<ul>
+<li><strong>看历史</strong>：搜过 / 买过的手机型号</li>
+<li><strong>看画像</strong>：性别 / 年龄 / 消费能力 / 所在国家</li>
+<li><strong>看当下</strong>：本次 session 浏览了什么</li>
+<li><strong>不确定时</strong>：搜索结果页顶部做<strong>意图澄清 chip</strong>（"您的手机是？iPhone / Samsung / Xiaomi / 其他"）</li>
+</ul>
+
+<div class="tip"><strong>东南亚特有</strong>：不同国家手机型号分布差异大（印尼多 Samsung，菲律宾多 Xiaomi），<strong>region-aware 默认排序</strong>。</div>
+</div>
+
+<div class="question">
+<div class="question-title">Q8. 东南亚多语言搜索的难点？</div>
+
+<ul>
+<li><strong>语种多</strong>：英、泰、越、印尼、马来、繁中、简中，<strong>同一市场多语混用</strong></li>
+<li><strong>切词难</strong>：泰语没空格 / 越南语有声调</li>
+<li><strong>商品侧不对齐</strong>：商品标题往往只一种语言</li>
+<li><strong>跨语言召回</strong>：embedding 需要多语言对齐</li>
+<li><strong>意图歧义</strong>："baju" 在印尼是"衣服"，在其他市场可能是别的含义</li>
+</ul>
+
+<div class="key"><strong>你的挂钩</strong>："AFI 处理多源信息时碰到过中英混合的 signal normalization 问题——电商搜索里这个问题只会更复杂，因为还涉及商品侧和用户侧的语言匹配。"</div>
+</div>
+
+<div class="question">
+<div class="question-title">Q9. 怎么处理长尾 query？</div>
+
+<p><strong>先量化</strong>：长尾 query 频次分布 + 长尾占总搜索的比例</p>
+
+<p><strong>召回端</strong>：</p>
+<ul>
+<li>向量召回兜底</li>
+<li>LLM 改写成结构化 query</li>
+<li>相关商品推荐（"没找到 X，看看类似的"）</li>
+</ul>
+
+<p><strong>体验端</strong>：</p>
+<ul>
+<li>搜索建议 / 自动补全 降低长尾 query 产生</li>
+<li>Empty State 做得更好（意图澄清 / 跳类目搜索 / 相关推荐）</li>
+</ul>
+
+<p><strong>数据端</strong>：</p>
+<ul>
+<li>长尾 query 单独监控，别被高频覆盖（头部 20% query 可能占流量 80%，改好头部不等于搜索体验好）</li>
+</ul>
+</div>
+
+<h2>四、AFI / intern-clawd 挂钩题（2 题，高概率会问 1 题）</h2>
+
+<div class="question">
+<div class="question-title">Q10. AFI 项目和电商搜索的关系？</div>
+
+<p><strong>答题公式</strong>：三层类比</p>
+
+<table>
+<tr><th>AFI</th><th>电商搜索</th></tr>
+<tr><td>多源采集（RSS / GitHub / ArXiv / HF）</td><td>多源召回（倒排 / 向量 / 人工运营）</td></tr>
+<tr><td>信号提取（LLM 打分 + 筛选）</td><td>相关性打分 + 排序</td></tr>
+<tr><td>三层输出（Raw → Signal → Insight）</td><td>分层结果（精准 + 关联 + 导购）</td></tr>
+<tr><td>Implication 层（决策辅助）</td><td>购买决策辅助 / 导购 Agent</td></tr>
+</table>
+
+<div class="key">
+<strong>核心经验（必讲）</strong>：<br>
+"做 AFI 最大的体会是——<strong>相关性不是算法问题，是产品问题</strong>。什么叫'高信号'要看用户场景。我们一开始用通用打分，发现不行，后来按'分析师 / 决策者'两类用户做 topic_mode 分流。这个经验直接对应电商的<strong>用户分层召回</strong>。"
+</div>
+</div>
+
+<div class="question">
+<div class="question-title">Q11. intern-clawd 能迁移到 Shopee 搜索的是什么？</div>
+
+<p><strong>不讲技术，讲产品哲学</strong>：</p>
+
+<ul>
+<li><strong>核心思想</strong>：Claude Code 默认无记忆 → 每次交互重新解释 context；intern-clawd 加 wiki 做长期记忆 → 用户少说废话</li>
+<li><strong>迁移到搜索</strong>：
+<ul>
+<li>用户搜索也有"失忆问题"：每次都是冷启动</li>
+<li>长期记忆 = 用户画像 + 搜索历史 + 场景偏好</li>
+<li>"下次搜'手机壳'直接知道是 iPhone 15 的，你喜欢极简风格，预算 50 马币以下"</li>
+</ul>
+</li>
+<li><strong>产品价值</strong>：减少澄清成本 + 提升首屏精准度 + 提高回搜率</li>
+</ul>
+</div>
+
+<h2>五、开放题 / 战略题（3 题，面试官可能挑 1 题压轴）</h2>
+
+<div class="question">
+<div class="question-title">Q12. AI Agent 会取代搜索吗？</div>
+
+<p><strong>不是 yes/no，分层回答</strong>：</p>
+
+<ul>
+<li><strong>短期（1-2 年）</strong>：搜索 + Agent 并存。Agent 用于复杂需求 / 长尾 / 决策辅助；搜索用于明确意图 / 高频。</li>
+<li><strong>中期（3-5 年）</strong>：搜索会"Agent 化"——搜索结果页嵌入 Agent（类似阿里"AI 帮我挑"）。</li>
+<li><strong>长期</strong>：用户入口可能从搜索框转对话框，但底层<strong>召回 + 排序还在</strong>，只是界面变了。</li>
+</ul>
+
+<div class="key"><strong>电商特有优势</strong>：交易闭环让 Agent 天花板高——从推荐到对比到下单完整链路，比通用 Agent 更容易变现。这也是电商是 AI Agent 最佳应用场景的原因。</div>
+</div>
+
+<div class="question">
+<div class="question-title">Q13. 设计一个"场景搜索"（例："户外徒步"返回完整清单）</div>
+
+<p><strong>答题公式</strong>：用户 → 价值 → 方案 → MVP → 风险</p>
+
+<ol>
+<li><strong>目标用户</strong>：购物决策困难者（新手 / 节日礼物 / 大件置办）</li>
+<li><strong>核心价值</strong>：从"找单品"到"找解决方案"，降低跨品类搜索成本</li>
+<li><strong>技术方案</strong>：
+<ul>
+<li>LLM 做场景分解："户外徒步" → {鞋、背包、水壶、防晒、...}</li>
+<li>跨品类召回 + 相互匹配（不能推不兼容的）</li>
+<li>结果页：清单式 + 一键加购 + 替换选项</li>
+</ul>
+</li>
+<li><strong>MVP 验证</strong>：
+<ul>
+<li>先做 3-5 个高频场景（露营 / 新生宿舍 / 宝宝用品）</li>
+<li>测 GMV 增量 + 停留时长 + 清单完成率</li>
+</ul>
+</li>
+<li><strong>风险</strong>：
+<ul>
+<li>商家公平性（推荐品选择）</li>
+<li>清单准确性（LLM hallucination）</li>
+<li>体验复杂度（vs 简单搜索框，不能过度设计）</li>
+</ul>
+</li>
+</ol>
+</div>
+
+<div class="question">
+<div class="question-title">Q14. 东南亚跨境未来 3 年最值得做的 1 个搜索策略产品？</div>
+
+<p><strong>推荐选：多模态搜索（拍立搜 + 语音搜）</strong></p>
+
+<p><strong>理由</strong>：</p>
+<ul>
+<li>东南亚用户智能机普及率高但<strong>打字门槛高</strong>（语言多 / 方言 / 拼写不规范）</li>
+<li>语音输入避开打字摩擦，拍立搜避开语言描述困难</li>
+<li>LLM + 多模态模型成本在下降，技术窗口打开</li>
+<li>商家侧获益：长尾商品被发现的概率上升</li>
+</ul>
+
+<p><strong>落地路径</strong>：</p>
+<ol>
+<li>拍立搜（商品识别）→ 先做家居 / 服饰这种视觉强品类</li>
+<li>语音搜（query 输入）→ 先做高频短 query</li>
+<li>多模态融合（图 + 文描述）→ 长尾澄清</li>
+</ol>
+
+<p><strong>备选（如果面试官对拍立搜不感兴趣）</strong>：多轮意图澄清 Agent / 跨境 vs 本地智能分流 / LLM 生成商品描述补全</p>
+</div>
+
+<h2>六、反向提问（面试最后 2-3 分钟，必问）</h2>
+
+<div class="question">
+<div class="question-title">Q15. 三个反向提问候选</div>
+
+<ol>
+<li><strong>团队位置</strong>："搜索策略团队在 Shopee 内部的组织位置和资源投入情况？" <em>（判断团队地位和资源）</em></li>
+<li><strong>战略定位</strong>："AI 改造搜索在 Shopee 是未来 1-2 年的攻坚窗口，还是长期持续战略？" <em>（判断岗位稳定性）</em></li>
+<li><strong>协作模式</strong>："搜索策略 PM 和算法团队的协作模式是怎样的？PM 的决策权覆盖到哪个层次？" <em>（判断 PM 是决策者还是执行者）</em></li>
+</ol>
+
+<div class="tip">三选二问即可，别把时间都花在提问上。第三个问题最能反映你的产品思维成熟度。</div>
+</div>
+
+<h2>🧠 必备概念 30 秒复习</h2>
+
+<table>
+<tr><th>概念</th><th>一句话解释</th></tr>
+<tr><td><strong>倒排索引</strong></td><td>词 → 文档列表的映射，让关键词查找变成 O(1)</td></tr>
+<tr><td><strong>BM25</strong></td><td>基于词频 + 文档频率的经典相关性打分，倒排召回的主流打分函数</td></tr>
+<tr><td><strong>Embedding 召回</strong></td><td>把 query 和 doc 都映射到向量空间，做 ANN（近似最近邻）检索，解决语义匹配</td></tr>
+<tr><td><strong>Learning to Rank (LTR)</strong></td><td>机器学习优化排序，主要三种：pointwise / pairwise / listwise</td></tr>
+<tr><td><strong>Recall vs Precision</strong></td><td>查全率（漏了多少相关的）vs 查准率（推的都对吗）</td></tr>
+<tr><td><strong>NDCG</strong></td><td>Normalized Discounted Cumulative Gain，排序质量的标准指标，考虑位置衰减</td></tr>
+<tr><td><strong>CTR / CVR</strong></td><td>点击率 / 转化率，电商搜索最核心的两个业务指标</td></tr>
+<tr><td><strong>零结果率</strong></td><td>搜索无结果的比例，反映召回+商品覆盖的短板</td></tr>
+<tr><td><strong>回搜率</strong></td><td>用户搜完再搜的比例，反映搜索体验的反面指标</td></tr>
+</table>
+
+<h2>⏰ 30 分钟时间分配预估</h2>
+
+<table>
+<tr><th>时段</th><th>内容</th><th>对应 Q</th></tr>
+<tr><td>0-3 min</td><td>自我介绍</td><td>Q1</td></tr>
+<tr><td>3-8 min</td><td>行为面 / 动机</td><td>Q2</td></tr>
+<tr><td>8-18 min</td><td>搜索 PM 基础</td><td>Q3 / Q4 / Q5 / Q6（抽 2-3 题）</td></tr>
+<tr><td>18-25 min</td><td>项目深挖</td><td>Q10 / Q11</td></tr>
+<tr><td>25-28 min</td><td>开放题</td><td>Q12 / Q13 / Q14 任一</td></tr>
+<tr><td>28-30 min</td><td>反向提问</td><td>Q15</td></tr>
+</table>
+
+<h2>🔑 记住这 5 句话，面试不会翻车</h2>
+
+<ol>
+<li>"相关性不是算法问题，是产品问题。"</li>
+<li>"召回决定能不能搜到，排序决定看得到什么，两阶段目标必须对齐。"</li>
+<li>"指标冲突时不选边站，而是做场景化加权。"</li>
+<li>"LLM 改写 query 要分级落地，从零结果抢救开始 ROI 最高。"</li>
+<li>"AFI 的多源召回 + 相关性打分 pipeline，和电商搜索底层逻辑是同一个。"</li>
+</ol>
+
+<hr>
+
+<div class="meta" style="text-align:center">
+Amber · 2026-04-20 准备 · 明天 11:00 上场<br>
+<em>面试后回来复盘，wiki 里留位。</em>
+</div>
+
+</body>
+</html>
