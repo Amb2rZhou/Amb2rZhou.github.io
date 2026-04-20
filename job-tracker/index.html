@@ -80,29 +80,32 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Inter',Roboto,sans
 .toolbar-select:focus{border-color:var(--primary);box-shadow:0 0 0 2px rgba(99,102,241,.1);}
 
 /* App card */
-.app-card{background:white;border-radius:16px;border:1px solid rgba(0,0,0,.06);padding:22px 24px;margin-bottom:14px;transition:all .25s cubic-bezier(.4,0,.2,1);cursor:default;box-shadow:var(--card-shadow);}
-.app-card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px);border-color:rgba(99,102,241,.15);}
-.app-card-top{display:flex;align-items:start;gap:14px;margin-bottom:18px;}
-.app-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;flex-shrink:0;box-shadow:inset 0 -1px 2px rgba(0,0,0,.06);}
+.app-card{background:white;border-radius:16px;border:1px solid rgba(0,0,0,.05);padding:22px 24px;margin-bottom:14px;transition:all .3s cubic-bezier(.4,0,.2,1);cursor:default;box-shadow:0 1px 2px rgba(0,0,0,.04);position:relative;overflow:hidden;}
+.app-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;border-radius:3px 0 0 3px;background:var(--g200);transition:background .3s;}
+.app-card:hover{box-shadow:0 8px 24px -4px rgba(0,0,0,.08);transform:translateY(-2px);}
+.app-card:hover::before{background:linear-gradient(180deg,var(--primary),var(--purple));}
+.app-card-top{display:flex;align-items:center;gap:14px;margin-bottom:18px;}
+.app-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;flex-shrink:0;}
+.app-icon-img{box-shadow:0 1px 3px rgba(0,0,0,.08);}
 .app-info{flex:1;min-width:0;}
-.app-company{font-size:16px;font-weight:700;margin-bottom:3px;letter-spacing:-.2px;}
+.app-company{font-size:16px;font-weight:700;margin-bottom:2px;letter-spacing:-.2px;}
 .app-position{font-size:13px;color:var(--g500);font-weight:400;}
-.app-badges{display:flex;gap:6px;flex-shrink:0;align-items:center;}
-.app-badge{font-size:11px;font-weight:600;padding:4px 10px;border-radius:8px;letter-spacing:.1px;}
+.app-badges{display:flex;gap:8px;flex-shrink:0;align-items:center;}
+.app-badge{font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;letter-spacing:.1px;}
 .app-priority-dot{width:8px;height:8px;border-radius:50%;box-shadow:0 0 0 2px white,0 0 0 3px currentColor;}
 .app-priority-dot.high{background:var(--danger);color:var(--danger);}
 .app-priority-dot.medium{background:var(--warning);color:var(--warning);}
 .app-priority-dot.low{background:var(--success);color:var(--success);}
 
 /* Timeline inside card */
-.app-timeline{display:flex;align-items:flex-start;position:relative;padding:4px 8px;margin-bottom:4px;background:var(--g50);border-radius:12px;padding:12px 16px;}
+.app-timeline{display:flex;align-items:flex-start;position:relative;margin-bottom:4px;background:linear-gradient(135deg,#FAFBFF,#F8F9FE);border-radius:12px;padding:14px 20px;border:1px solid rgba(99,102,241,.04);}
 .tl-step{display:flex;flex-direction:column;align-items:center;position:relative;z-index:1;cursor:pointer;flex:0 0 auto;}
 .tl-step:hover .tl-label{color:var(--primary);}
 .tl-connector{flex:1;height:2px;background:var(--g200);position:relative;margin:0 -2px;margin-top:10px;z-index:0;border-radius:1px;}
-.tl-connector.done{background:linear-gradient(90deg,var(--primary),rgba(99,102,241,.7));}
+.tl-connector.done{background:linear-gradient(90deg,var(--primary),#818CF8);}
 .tl-connector.active-conn{background:linear-gradient(90deg,var(--primary),var(--g200));}
 .tl-dot{width:22px;height:22px;border-radius:50%;border:2.5px solid var(--g300);background:white;display:flex;align-items:center;justify-content:center;transition:all .25s;margin-bottom:6px;}
-.tl-dot.done{background:var(--primary);border-color:var(--primary);box-shadow:0 2px 6px rgba(99,102,241,.3);}
+.tl-dot.done{background:linear-gradient(135deg,var(--primary),#818CF8);border-color:transparent;box-shadow:0 2px 8px rgba(99,102,241,.3);}
 .tl-dot.done svg{display:block;}
 .tl-dot.current{border-color:var(--primary);background:white;animation:pulse 2s ease-in-out infinite;box-shadow:0 0 0 4px rgba(99,102,241,.12);}
 .tl-dot svg{display:none;width:12px;height:12px;color:white;}
@@ -629,9 +632,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Inter',Roboto,sans
   </div>
   <div class="prep-body">
     <div class="prep-sidebar">
-      <div><div class="prep-sidebar-title">面经链接</div><input class="prep-link-input" id="prepLinkInput" placeholder="粘贴链接回车..." onkeydown="if(event.key==='Enter')addPrepLink()"><div id="prepLinks"></div></div>
+      <div><div class="prep-sidebar-title">面经题目 <span style="font-weight:400;color:var(--g400);font-size:11px">粘贴面经自动提取</span></div><textarea class="prep-link-input" id="prepExpInput" rows="3" placeholder="粘贴面经内容，自动提取题目..." oninput="parsePrepExp()" style="resize:vertical;min-height:56px;font-family:inherit;line-height:1.5"></textarea><div id="prepExpQuestions" style="margin-top:8px"></div></div>
       <div><div class="prep-sidebar-title">JD 摘要</div><div class="prep-tips" id="prepJD">暂无</div></div>
-      <div><div class="prep-sidebar-title">准备建议</div><div class="prep-tips" id="prepTips"></div></div>
+      <div><div class="prep-sidebar-title">面经链接</div><input class="prep-link-input" id="prepLinkInput" placeholder="粘贴链接回车..." onkeydown="if(event.key==='Enter')addPrepLink()"><div id="prepLinks"></div></div>
+      <div style="margin-top:auto;padding-top:12px;border-top:1px solid var(--g200)"><button class="btn btn-sm" style="width:100%;justify-content:center;background:linear-gradient(135deg,#059669,#10B981);color:white;border:none" onclick="endMockInterview()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> 结束面试 · 生成复盘</button></div>
     </div>
     <div class="prep-chat">
       <div class="chat-messages" id="chatMessages"></div>
@@ -717,6 +721,52 @@ function renderStats(){
 function daysDiff(d){if(!d)return Infinity;return Math.ceil((new Date(d)-new Date())/864e5);}
 function urgLabel(d){if(d<0)return`已过期${-d}天`;if(d===0)return'今天截止';if(d===1)return'明天截止';if(d<=7)return`${d}天后`;const dt=new Date(Date.now()+d*864e5);return`${dt.getMonth()+1}/${dt.getDate()}`;}
 
+// Company logos
+const COMPANY_LOGOS={
+  '字节跳动':{domain:'bytedance.com',bg:'#F0F0F0',fg:'#1E293B'},
+  '抖音':{domain:'bytedance.com',bg:'#F0F0F0',fg:'#1E293B'},
+  '腾讯':{domain:'tencent.com',bg:'#E8F4FD',fg:'#0052D9'},
+  '阿里巴巴':{domain:'alibaba.com',bg:'#FFF2E8',fg:'#FF6A00'},
+  '阿里':{domain:'alibaba.com',bg:'#FFF2E8',fg:'#FF6A00'},
+  '蚂蚁':{domain:'antgroup.com',bg:'#E6F7FF',fg:'#1677FF'},
+  '美团':{domain:'meituan.com',bg:'#FFF7E0',fg:'#FFCD00'},
+  '拼多多':{domain:'pinduoduo.com',bg:'#FEE2E2',fg:'#E02E24'},
+  'PDD':{domain:'pinduoduo.com',bg:'#FEE2E2',fg:'#E02E24'},
+  '小红书':{domain:'xiaohongshu.com',bg:'#FEE2E2',fg:'#FF2442'},
+  '百度':{domain:'baidu.com',bg:'#E8F0FE',fg:'#2932E1'},
+  '京东':{domain:'jd.com',bg:'#FEE2E2',fg:'#E2231A'},
+  '网易':{domain:'netease.com',bg:'#FEE2E2',fg:'#D43C33'},
+  '华为':{domain:'huawei.com',bg:'#FEE2E2',fg:'#CF0A2C'},
+  '快手':{domain:'kuaishou.com',bg:'#FFF2E8',fg:'#FF5000'},
+  '滴滴':{domain:'didiglobal.com',bg:'#FFF2E8',fg:'#FF7A45'},
+  '携程':{domain:'trip.com',bg:'#E6F7FF',fg:'#0086F9'},
+  '小米':{domain:'mi.com',bg:'#FFF2E8',fg:'#FF6900'},
+  'OPPO':{domain:'oppo.com',bg:'#E8F8F0',fg:'#1AAD19'},
+  '微软':{domain:'microsoft.com',bg:'#F0F0F0',fg:'#737373'},
+  'Google':{domain:'google.com',bg:'#E8F0FE',fg:'#4285F4'},
+  '谷歌':{domain:'google.com',bg:'#E8F0FE',fg:'#4285F4'},
+  'Apple':{domain:'apple.com',bg:'#F5F5F7',fg:'#1D1D1F'},
+  '苹果':{domain:'apple.com',bg:'#F5F5F7',fg:'#1D1D1F'},
+  'Amazon':{domain:'amazon.com',bg:'#FFF2E8',fg:'#FF9900'},
+  'Meta':{domain:'meta.com',bg:'#E8F0FE',fg:'#0668E1'},
+  '理想':{domain:'lixiang.com',bg:'#E6F7FF',fg:'#00B4D8'},
+  '蔚来':{domain:'nio.com',bg:'#E8F0FE',fg:'#004BFF'},
+  '比亚迪':{domain:'byd.com',bg:'#E2E8F0',fg:'#1E3A5F'},
+  '大疆':{domain:'dji.com',bg:'#F0F0F0',fg:'#1A1A1A'},
+  'B站':{domain:'bilibili.com',bg:'#EDE9FE',fg:'#00A1D6'},
+  '哔哩哔哩':{domain:'bilibili.com',bg:'#EDE9FE',fg:'#00A1D6'},
+  '商汤':{domain:'sensetime.com',bg:'#EDE9FE',fg:'#6D28D9'},
+  'SHEIN':{domain:'shein.com',bg:'#F0F0F0',fg:'#222'},
+  '米哈游':{domain:'mihoyo.com',bg:'#E6F7FF',fg:'#00BCD4'},
+};
+function getCompanyLogo(name){
+  const info=COMPANY_LOGOS[name];
+  if(info)return{logo:`https://logo.clearbit.com/${info.domain}`,bg:info.bg,fg:info.fg};
+  const iconColors=[['#EEF2FF','#6366F1'],['#FEF3C7','#D97706'],['#D1FAE5','#059669'],['#FEE2E2','#DC2626'],['#DBEAFE','#2563EB'],['#F5F3FF','#7C3AED'],['#FFEDD5','#EA580C'],['#CFFAFE','#0891B2']];
+  const ci=iconColors[Math.abs([...name].reduce((a,c)=>a+c.charCodeAt(0),0))%iconColors.length];
+  return{logo:null,bg:ci[0],fg:ci[1]};
+}
+
 // Cards
 function renderCards(){
   const priOrd={high:0,medium:1,low:2};
@@ -798,11 +848,13 @@ function buildCardHTML(app){
     rollbackHTML=`<button class="rollback-btn" onclick="event.stopPropagation();rollbackStage('${app.id}')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>回退</button>`;
   }
 
-  const iconColors=[['#EEF2FF','#6366F1'],['#FEF3C7','#D97706'],['#D1FAE5','#059669'],['#FEE2E2','#DC2626'],['#DBEAFE','#2563EB'],['#F5F3FF','#7C3AED'],['#FFEDD5','#EA580C'],['#CFFAFE','#0891B2']];
-  const ci=iconColors[Math.abs([...app.company].reduce((a,c)=>a+c.charCodeAt(0),0))%iconColors.length];
+  const logoInfo=getCompanyLogo(app.company);
+  const iconHTML=logoInfo.logo
+    ?`<img class="app-icon-img" src="${logoInfo.logo}" alt="${app.company}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" style="width:44px;height:44px;border-radius:12px;object-fit:contain;flex-shrink:0;background:${logoInfo.bg};padding:6px"><div class="app-icon" style="background:${logoInfo.bg};color:${logoInfo.fg};display:none">${app.company.charAt(0)}</div>`
+    :`<div class="app-icon" style="background:${logoInfo.bg};color:${logoInfo.fg}">${app.company.charAt(0)}</div>`;
   return`<div class="app-card" id="card-${app.id}">
     <div class="app-card-top">
-      <div class="app-icon" style="background:${ci[0]};color:${ci[1]}">${app.company.charAt(0)}</div>
+      ${iconHTML}
       <div class="app-info"><div class="app-company">${app.company}</div><div class="app-position">${app.position}${app.location?' · '+app.location:''}</div></div>
       <div class="app-badges">${deadlineBadge}<div class="app-priority-dot ${app.priority}"></div></div>
     </div>
@@ -1016,9 +1068,9 @@ function openPrepRoom(id,mode){
   if(a.interviewRounds){const nu=a.interviewRounds.find(r=>!r.done);if(nu)roundInfo=` · 第${ROUND_NAMES[nu.round-1]||nu.round}轮`;}
   el('prepTitle').textContent=`${a.company} - ${a.position}`;
   el('prepSub').textContent='模拟面试'+roundInfo;
-  renderPrepLinks();
+  renderPrepLinks();mockQIdx=0;
+  el('prepExpInput').value=a.interviewExp||'';parsePrepExp();
   el('prepJD').textContent=a.jd?a.jd.substring(0,200):'暂无JD';
-  el('prepTips').textContent='1. 回顾面经高频题\n2. STAR法准备行为题\n3. 复习JD技术栈\n4. 准备反问';
   const msgs=el('chatMessages');msgs.innerHTML='';
   // Add video head at top of chat
   const videoDiv=document.createElement('div');videoDiv.className='video-area';videoDiv.id='videoArea';
@@ -1059,12 +1111,92 @@ function aiReply(t){
   if(lo.includes('开始')||lo.includes('准备好')||lo.includes('来吧'))return`好！第一题：\n\n请做一个2分钟自我介绍，重点突出和${a.position}的匹配度。\n\n可以按「学校→经历→为什么${a.company}」来组织。`;
   if(lo.includes('技术')||lo.includes('编程')||lo.includes('sql'))return`来一道：\n\n实现LRU Cache，get和put均O(1)。\n\n先说数据结构选择，再写代码。`;
   if(lo.includes('项目')){const p=profile.projects?.[0];return p?`聊聊「${p.title}」：\n1. 背景和要解决的问题？\n2. 你负责哪些？\n3. ${(p.tech||[]).join('、')}选型考虑？`:'讲讲你最有成就感的项目？';}
-  if(lo.includes('下一')||lo.includes('继续')||lo.includes('换')){const qs=[`如果加入${a.company}后工作内容和预期不同，怎么办？`,`技术方案被leader否决但你觉得更好，怎么做？`,`${a.company}产品有哪些可以改进的？`];return qs[Math.floor(Math.random()*qs.length)];}
-  if(t.length>40){const fbs=[`不错！建议：\n1. 开头先给结论\n2. 数据和量化再突出些\n3. 结尾可以主动延伸\n\n继续下一题？`,`方向对了！改进：\n1. 加更多"为什么"选这个方案\n2. 突出你的独特贡献\n3. 控制在2分钟内\n\n再试一次还是下一题？`];return fbs[Math.floor(Math.random()*fbs.length)];}
+  if(lo.includes('下一')||lo.includes('继续')||lo.includes('换')){
+    if(prepParsedQs.length){
+      const q=prepParsedQs[mockQIdx%prepParsedQs.length];mockQIdx++;
+      return`好，面经第 ${mockQIdx} 题：\n\n${q}`;
+    }
+    const qs=[`如果加入${a.company}后工作内容和预期不同，怎么办？`,`技术方案被leader否决但你觉得更好，怎么做？`,`${a.company}产品有哪些可以改进的？`,`描述一个你遇到的技术难题，怎么解决的？`,`你对${a.jd?a.jd.substring(0,20):'这个方向'}的理解是什么？`];return qs[Math.floor(Math.random()*qs.length)];
+  }
+  if(t.length>40){
+    let fb=Math.random()>.5?`不错！建议：\n1. 开头先给结论\n2. 数据和量化再突出些\n3. 结尾可以主动延伸`:`方向对了！改进：\n1. 加更多"为什么"选这个方案\n2. 突出你的独特贡献\n3. 控制在2分钟内`;
+    if(prepParsedQs.length&&mockQIdx<prepParsedQs.length){
+      const nq=prepParsedQs[mockQIdx%prepParsedQs.length];mockQIdx++;
+      fb+=`\n\n下一题（面经）：\n${nq}`;
+    }else{fb+=`\n\n继续下一题？`;}
+    return fb;
+  }
   return`收到！追问一下：你提到的这个方案在落地时遇到过什么问题吗？如果重做会有什么不同？`;
 }
 function saveChatHistory(){localStorage.setItem(`jp_chat_${prepAppId}_${prepMode}`,JSON.stringify(chatHistory));}
 function clearChat(){if(!confirm('清空对话？'))return;chatHistory=[];localStorage.removeItem(`jp_chat_${prepAppId}_${prepMode}`);el('chatMessages').innerHTML='';openPrepRoom(prepAppId,prepMode);}
+let prepParsedQs=[];
+function parsePrepExp(){
+  const text=el('prepExpInput').value;
+  const a=apps.find(x=>x.id===prepAppId);
+  if(a){a.interviewExp=text;saveData();}
+  const lines=text.split(/\n/).filter(l=>l.trim());
+  prepParsedQs=[];
+  lines.forEach(l=>{
+    const t=l.replace(/^\d+[\.\、\)\]\s]+/,'').replace(/^[-·•]\s*/,'').replace(/^[Q q][:：]\s*/i,'').trim();
+    if(!t||t.length<4)return;
+    if(/[？?]/.test(t)||/^(如何|怎么|什么|为什么|请|谈谈|介绍|说说|讲讲|描述|分析|设计|实现|解释|比较|区别|优化|举例)/.test(t)||t.length>8){
+      prepParsedQs.push(t);
+    }
+  });
+  renderPrepQuestions();
+}
+function renderPrepQuestions(){
+  const c=el('prepExpQuestions');
+  if(!prepParsedQs.length){c.innerHTML='';return;}
+  c.innerHTML=`<div style="font-size:11px;color:var(--g400);margin-bottom:6px">已提取 ${prepParsedQs.length} 道题目</div>`+prepParsedQs.map((q,i)=>`<div style="font-size:12px;color:var(--g700);padding:6px 8px;background:var(--g50);border-radius:6px;margin-bottom:4px;cursor:default;border-left:2px solid var(--primary)">${i+1}. ${q}</div>`).join('');
+}
+let mockQIdx=0;
+function endMockInterview(){
+  const a=apps.find(x=>x.id===prepAppId);if(!a)return;
+  const userAnswers=chatHistory.filter(m=>m.role==='user');
+  if(userAnswers.length<2){showToast('至少回答几个问题再结束');return;}
+  const aiQuestions=chatHistory.filter(m=>m.role==='ai').map(m=>m.text);
+  let review=`\n━━━ 模拟面试复盘报告 ━━━\n\n📋 ${a.company} · ${a.position}\n回答了 ${userAnswers.length} 个问题\n\n`;
+  const pairs=[];
+  for(let i=0;i<chatHistory.length;i++){
+    if(chatHistory[i].role==='ai'&&i+1<chatHistory.length&&chatHistory[i+1].role==='user'){
+      pairs.push({q:chatHistory[i].text,a:chatHistory[i+1].text});
+    }
+  }
+  pairs.forEach((p,i)=>{
+    const qShort=p.q.replace(/\n/g,' ').substring(0,60);
+    review+=`\n───── 问题 ${i+1} ─────\n📌 ${qShort}${p.q.length>60?'...':''}\n\n`;
+    review+=`✍️ 你的回答（${p.a.length}字）\n${p.a.substring(0,120)}${p.a.length>120?'...':''}\n\n`;
+    review+=`💡 参考答案：\n${genRefAnswer(a,p.q)}\n`;
+  });
+  review+=`\n━━━ 总体建议 ━━━\n`;
+  review+=genOverallFeedback(a,userAnswers);
+  chatHistory.push({role:'ai',text:review});saveChatHistory();appendBubble('ai',review);
+}
+function genRefAnswer(app,q){
+  const ql=q.toLowerCase();
+  if(ql.includes('自我介绍'))return`建议结构：「校+专+实习/项目+为什么${app.company}」\n示例：${profile.school||'XX大学'}${profile.major||'计算机'}专业，${profile.projects?.[0]?`做过「${profile.projects[0].title}」项目，`:''} 对${app.position}方向有浓厚兴趣。关注到${app.company}在${app.jd?app.jd.substring(0,30):'该领域'}的布局，希望能参与其中。控制在 90 秒内。`;
+  if(ql.includes('项目')){const p=profile.projects?.[0];return p?`用 STAR 法：\nS - ${p.desc||'项目背景'}\nT - 你负责的具体模块\nA - 技术选型（${(p.tech||[]).join('、')}）和实现难点\nR - 量化成果（性能提升/用户增长/效率提高百分比）\n\n注意结合${app.company}业务场景说明可迁移性。`:'按 STAR 法组织，突出量化成果和技术选型。';}
+  if(ql.includes('sql')||ql.includes('数据'))return`结合 JD「${(app.jd||'').substring(0,40)}」，建议从业务场景出发：\n1. 先明确数据表结构假设\n2. 分步写 SQL，先写子查询再组合\n3. 说出复杂度和优化思路（索引、分区）\n4. 主动提到在${app.company}场景下的数据量级考虑`;
+  if(ql.includes('设计')||ql.includes('系统'))return`系统设计回答框架：\n1. 需求澄清 — 问清规模、核心功能\n2. 方案概述 — 画架构图、核心模块\n3. 数据模型 — 表结构、缓存策略\n4. 细节深入 — 高并发/一致性/容灾\n5. 结合${app.company}实际业务场景举例`;
+  if(ql.includes('为什么')||ql.includes('加入'))return`回答框架：\n1. 行业认同 — ${app.company}在行业中的位置和优势\n2. 业务兴趣 — 对${app.jd?app.jd.substring(0,20):'该业务线'}的理解和兴趣\n3. 成长匹配 — 自身${profile.target||'技术方向'}与岗位的契合\n4. 具体期待 — 希望参与的项目或学习的技术`;
+  return`建议回答思路：\n1. 先给结论/观点\n2. 结合${app.company}「${(app.jd||'').substring(0,30)}」的业务场景\n3. 举自己经历中的实例佐证\n4. 总结收获和可迁移能力\n\n融入对${app.company}产品和技术栈的了解会加分。`;
+}
+function genOverallFeedback(app,answers){
+  const avgLen=Math.round(answers.reduce((s,a)=>s+a.text.length,0)/answers.length);
+  let fb=`\n📊 回答平均长度：${avgLen} 字`;
+  if(avgLen<30)fb+=`（偏短，建议展开到 80-150 字）`;
+  else if(avgLen>200)fb+=`（偏长，注意控制在 2 分钟内）`;
+  else fb+=`（长度适中）`;
+  fb+=`\n\n🎯 针对 ${app.company} · ${app.position} 的建议：\n`;
+  fb+=`1. 多结合${app.company}的业务场景（${app.jd?app.jd.substring(0,30):'了解公司产品'}）\n`;
+  fb+=`2. 回答时先给结论再展开，用 STAR 法组织经历\n`;
+  fb+=`3. 技术题注意说出复杂度和优化方向\n`;
+  fb+=`4. 准备 2-3 个有深度的反问（团队技术栈、业务规划等）\n`;
+  if(prepParsedQs.length)fb+=`\n📝 面经中还有 ${prepParsedQs.length} 道题可以继续练习`;
+  return fb;
+}
 
 // Resume upload
 function handleResumeUpload(input){const f=input.files[0];if(!f)return;el('uploadZone').style.display='none';el('uploadParsing').classList.add('active');const r=new FileReader();r.onload=e=>{setTimeout(()=>{el('uploadParsing').classList.remove('active');const p=parseResume(e.target.result);applyResume(p);el('uploadSuccessDesc').textContent=`${p.skills.length}项技能`;el('uploadSuccess').classList.add('active');showToast('解析完成');},2000);};r.readAsText(f);}
