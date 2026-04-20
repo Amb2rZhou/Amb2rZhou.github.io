@@ -953,7 +953,7 @@ const COMPANY_LOGOS={
 };
 function getCompanyLogo(name){
   const info=COMPANY_LOGOS[name];
-  if(info)return{logo:`https://logo.clearbit.com/${info.domain}`,bg:info.bg,fg:info.fg};
+  if(info)return{logo:`https://favicon.im/${info.domain}`,bg:info.bg,fg:info.fg};
   const iconColors=[['#EEF2FF','#6366F1'],['#FEF3C7','#D97706'],['#D1FAE5','#059669'],['#FEE2E2','#DC2626'],['#DBEAFE','#2563EB'],['#F5F3FF','#7C3AED'],['#FFEDD5','#EA580C'],['#CFFAFE','#0891B2']];
   const ci=iconColors[Math.abs([...name].reduce((a,c)=>a+c.charCodeAt(0),0))%iconColors.length];
   return{logo:null,bg:ci[0],fg:ci[1]};
@@ -1042,7 +1042,7 @@ function buildCardHTML(app){
 
   const logoInfo=getCompanyLogo(app.company);
   const iconHTML=logoInfo.logo
-    ?`<img class="app-icon-img" src="${logoInfo.logo}" alt="${app.company}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" style="width:36px;height:36px;border-radius:4px;object-fit:contain;flex-shrink:0;background:${logoInfo.bg};padding:4px"><div class="app-icon" style="background:${logoInfo.bg};color:${logoInfo.fg};display:none">${app.company.charAt(0)}</div>`
+    ?`<img class="app-icon-img" src="${logoInfo.logo}" alt="${app.company}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" style="width:36px;height:36px;border-radius:4px;object-fit:contain;flex-shrink:0;background:${logoInfo.bg};padding:6px;image-rendering:auto"><div class="app-icon" style="background:${logoInfo.bg};color:${logoInfo.fg};display:none">${app.company.charAt(0)}</div>`
     :`<div class="app-icon" style="background:${logoInfo.bg};color:${logoInfo.fg}">${app.company.charAt(0)}</div>`;
   return`<div class="app-card" id="card-${app.id}">
     <div class="app-card-top">
