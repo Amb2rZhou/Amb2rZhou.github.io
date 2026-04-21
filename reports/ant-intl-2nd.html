@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>蚂蚁国际二面 · 备忘录增量版</title>
+<style>
+body{max-width:860px;margin:0 auto;padding:24px;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.7;color:#1f2328;background:#fff}
+h1{font-size:24px;margin-bottom:8px;color:#1677ff}
+h2{border-bottom:2px solid #d0d7de;padding-bottom:8px;margin-top:32px;font-size:20px;color:#1677ff}
+h3{margin-top:24px;font-size:16px;color:#24292f}
+h4{margin-top:16px;font-size:14px;color:#57606a}
+table{width:100%;border-collapse:collapse;font-size:14px;margin:12px 0}
+th,td{border:1px solid #d0d7de;padding:8px 12px;text-align:left;vertical-align:top}
+th{background:#f6f8fa;font-weight:600}
+code{background:#f6f8fa;padding:2px 6px;border-radius:4px;font-size:0.88em;border:1px solid #e1e4e8}
+pre{background:#f6f8fa;border:1px solid #d0d7de;border-radius:8px;padding:16px;overflow-x:auto;font-size:13px}
+blockquote{border-left:4px solid #1677ff;padding:8px 16px;color:#656d76;background:#f0f7ff;margin:12px 0;border-radius:0 6px 6px 0}
+hr{border:none;border-top:1px solid #d0d7de;margin:24px 0}
+a{color:#1677ff;text-decoration:none}
+ul,ol{margin:8px 0 8px 24px}
+li{margin:4px 0}
+strong{color:#1f2328}
+.trump{background:#fff5f0;border-left:4px solid #ee4d2d;padding:16px;margin:16px 0;border-radius:0 8px 8px 0}
+.trump-title{font-weight:600;color:#ee4d2d;margin-bottom:8px;font-size:15px}
+.intel{background:#fff8e1;border-left:4px solid #f9a825;padding:12px 16px;margin:12px 0;border-radius:0 6px 6px 0}
+.intel-title{font-weight:600;color:#f9a825;margin-bottom:8px;font-size:14px}
+.key{background:#e8f5e9;border-left:4px solid #43a047;padding:12px 16px;margin:12px 0;border-radius:0 6px 6px 0;font-size:14px}
+.path{background:#f0f7ff;border-left:4px solid #1677ff;padding:12px 16px;margin:12px 0;border-radius:0 6px 6px 0}
+.meta{color:#656d76;font-size:14px;margin-bottom:24px}
+.checklist{background:#fafafa;border:1px solid #d0d7de;padding:16px;margin:16px 0;border-radius:8px}
+</style>
+</head>
+<body>
+
+<h1>蚂蚁国际二面 · 备忘录增量版</h1>
+
+<div class="meta">
+<strong>面试时间：</strong>2026-04-21（周二）15:00<br>
+<strong>岗位：</strong>蚂蚁国际 · 国际 AI 产品 · 2027 届转正实习<br>
+<strong>一面已完成：</strong>2026-04-17 · Shopee 一面同日上午：2026-04-21 11:00 ✅<br>
+<strong>本文定位：</strong>基于一面反馈 + 今晨 Shopee 情报的<strong>二面增量</strong>。不重复 <a href="https://amb2rzhou.github.io/reports/ant-all.html">ant-all.html</a>（一面前已准备的通用+国际+英文三合一）
+</div>
+
+<h2>🔥 一、王牌开场（上场 3 分钟内讲完，建议背下来）</h2>
+
+<div class="trump">
+<div class="trump-title">开场话术（Shopee 情报 → 反问蚂蚁）</div>
+<p>"我今天上午刚面完 Shopee 的 AI 搜索策略 PM，刚好了解了他们的 AI 业务结构—— 三层职能：</p>
+<ul>
+<li>① 站内 C 端 AI 导购（toC）</li>
+<li>② 内部员工 AI Copilot（给品类运营、客户经理、客服用的提效工具）</li>
+<li>③ <strong>通过 MCP 对接 ChatGPT</strong>（用户在 ChatGPT 里 @shop 就能让 Shopee 返商品）</li>
+</ul>
+<p>这三层几乎完全对应你们一面介绍的四层 landscape——MaaS、类 OpenClaude 提效、类 Dify 平台、toC 产品。</p>
+<p><strong>更有意思的是 Shopee 已经在做 ChatGPT MCP 集成</strong>，这印证了我之前的一个战略判断：<strong>搜推系统正在从"给人看"变成"给 Agent 调用"</strong>，平台竞争从 UI 体验变成 API 开放度。</p>
+<p>我想请教，蚂蚁国际在这个方向怎么思考？是准备把 MaaS 层、Alipay+ 等做成可被外部 Agent 调用的接口，还是继续以自有 App 承载？"</p>
+</div>
+
+<p><strong>这段做对了 3 件事</strong>：</p>
+<ol>
+<li>显示<strong>跨公司视野</strong>（不是只盯蚂蚁）</li>
+<li>显示<strong>战略判断</strong>（搜推 → Agent 调用）</li>
+<li>反向把球抛给面试官，让他愿意展开</li>
+</ol>
+
+<h2>📡 二、今晨 Shopee 一面拿到的热情报</h2>
+
+<div class="intel">
+<div class="intel-title">情报 1：Shopee 搜索 AI PM 的三层职能</div>
+<table>
+<tr><th>层</th><th>谁用</th><th>做什么</th></tr>
+<tr><td><strong>① 站内 AI 导购</strong></td><td>终端消费者</td><td>搜商品、帮我挑、推荐</td></tr>
+<tr><td><strong>② 内部员工 AI 导购</strong></td><td>Shopee 品类运营/商家服务/客服</td><td>内部 Copilot——帮员工分析数据、给商家建议、快速回复工单（白话：内部 OpenClaude）</td></tr>
+<tr><td><strong>③ ChatGPT MCP 集成</strong></td><td>ChatGPT 用户</td><td>用户在 ChatGPT 里 @shop → Shopee 通过 MCP 返商品</td></tr>
+</table>
+</div>
+
+<div class="intel">
+<div class="intel-title">情报 2：东南亚 AI 搜索的三个特有约束（极重要）</div>
+<p>除了语言多样性（英/印尼/泰/越/马来/繁中），面试官透露还有三个关键约束：</p>
+
+<h4>约束 1：东南亚语种大模型能力弱</h4>
+<ul>
+<li>印尼、泰、越的训练语料比中英少一个量级</li>
+<li>直接用 GPT-4 / Claude 效果掉一档</li>
+<li><strong>产品含义</strong>：不能假设"上 LLM 就完事"，要 fine-tune 或蒸馏本地化模型；benchmark 要自建</li>
+</ul>
+
+<h4>约束 2：用户 AI 素养普遍较低</h4>
+<ul>
+<li>没被 ChatGPT / 豆包教育过</li>
+<li>不会"精心组织 prompt"，也不理解"AI 会出错"</li>
+<li><strong>产品含义</strong>：交互要更 hand-hold（意图澄清 chip 比搜索框重要）；教育成本高，但谁先教育谁先占位</li>
+</ul>
+
+<h4>约束 3：Query 质量普遍偏低</h4>
+<ul>
+<li>拼写错、语法乱、极短极模糊、跨语言混用</li>
+<li><strong>产品含义</strong>：LLM 改写 query 在东南亚 ROI 是国内的好几倍；零结果率高 → 要强兜底</li>
+</ul>
+
+<div class="key">
+<strong>综合推论</strong>：东南亚是"低垂果实"——谁先解决"本地语言 × 低 AI 素养 × 低 query 质量"的组合问题，谁先占位。这三个约束<strong>在蚂蚁国际的支付 / 理财 / 跨境汇款场景同样成立，甚至更严重</strong>（金融术语 + 合规压力 + 用户信任成本高）。
+</div>
+</div>
+
+<h2>🪞 三、一面复盘 · 上场前自问 6 题</h2>
+
+<blockquote>
+一面面试官介绍了业务 4 层 landscape 后，其他细节你还没回忆过。<strong>二面的准备方向 100% 取决于一面发生了什么</strong>。上场前花 10 分钟回答这 6 题，写在纸上。
+</blockquote>
+
+<ol>
+<li><strong>一面面试官是哪个团队的？</strong>——介绍 4 层时哪一层明显更用心讲？他自己大概率就在那层</li>
+<li><strong>面试官风格</strong>：偏业务 / 偏技术 / 偏聊天 / 偏压力？</li>
+<li><strong>他问过你哪些问题？</strong>——尽可能全回忆，哪怕一句话</li>
+<li><strong>哪些问题你答得磕巴？</strong>——二面大概率会重问类似的</li>
+<li><strong>哪些答案他表现出兴趣？</strong>（眼睛亮 / 追问 / 记笔记）——二面的切入点</li>
+<li><strong>他有没有透露二面是谁、什么方向？</strong></li>
+</ol>
+
+<h2>🧭 四、二面三条可能路径 + 应对</h2>
+
+<div class="path">
+<h3>路径 A：深挖四层 landscape 中的某一层（最可能 · 60%）</h3>
+<p>"一面我介绍了业务 4 层，你觉得我们最应该做哪一层？为什么？"——这类问题概率高。</p>
+
+<h4>推荐主攻 Layer 1 MaaS 或 Layer 4 toC</h4>
+<p>一个前台一个基座，都好讲，见下面第五章「四层深化」。</p>
+
+<h4>应对公式（无论选哪层）</h4>
+<blockquote>
+为什么做这层（业务价值）→ 这层的关键指标 → 这层现在卡在哪 → 我会怎么拆解 → MVP 第一步是什么
+</blockquote>
+</div>
+
+<div class="path">
+<h3>路径 B：你的项目怎么落到蚂蚁国际（可能 · 25%）</h3>
+
+<table>
+<tr><th>你的项目</th><th>对应蚂蚁层</th><th>怎么落地</th></tr>
+<tr><td>AFI（多源召回 + 相关性打分）</td><td>Layer 3 平台 / Layer 1 MaaS</td><td>把 AFI 做成蚂蚁内部"信息产品搭建平台"的模板，让各 BU 都能用这套 pipeline 构建自己的信息聚合工具</td></tr>
+<tr><td>intern-clawd（个人 Copilot + wiki 记忆）</td><td>Layer 2 提效</td><td>蚂蚁国际员工跨语言、跨国协同压力大——intern-clawd 的 "五层入口 + 长期记忆" 思路可以做成内部 Copilot 规范</td></tr>
+<tr><td>digital-twin（交互式 AI 自我展示）</td><td>Layer 4 toC</td><td>Alipay+ 的 "AI 理财顾问 / AI 客服" 可以借鉴 digital-twin 的对话式交互 + Context 积累范式</td></tr>
+</table>
+</div>
+
+<div class="path">
+<h3>路径 C：跨境 / 多语言 / 合规深挖（可能 · 15%）</h3>
+<p>如果面试官往这里走，<strong>你今天上午 Shopee 面试学到的三大约束直接搬</strong>——别 hide，大方说"我今早刚在 Shopee 面试听到这点"。</p>
+<p>面试官会觉得你：（1）正在 actively 研究行业；（2）会把第一手情报用到自己的思考里；（3）说话可信（不是编的）。</p>
+</div>
+
+<h2>🎁 五、四层 Landscape 深化（每层 3 条产品判断 + 蚂蚁国际的机会）</h2>
+
+<h3>Layer 1：MaaS 中台（对应蚂蚁百灵）</h3>
+<ol>
+<li><strong>东南亚语种模型 fine-tune</strong> = 差异化护城河。阿里云通义、字节火山方舟都在做通用大模型，但没人深做东南亚。蚂蚁国际深耕东南亚金融 → 语料积累有优势。</li>
+<li><strong>金融垂域微调</strong>：通用 LLM 对金融合规、风控、反洗钱等场景能力弱 → 蚂蚁百灵可以做金融场景的行业大模型。</li>
+<li><strong>关键指标</strong>：API 调用量、跨 BU 复用率、东南亚语种任务的 MMLU / benchmark 得分（自建）。</li>
+</ol>
+
+<h3>Layer 2：类 OpenClaude（研发 / 办公提效）</h3>
+<ol>
+<li><strong>跨语言代码注释 + code review</strong>：蚂蚁国际研发团队跨国，代码注释里有中英印尼越多语混用——这是普通 OpenClaude 搞不定的特殊场景。</li>
+<li><strong>合规 code review</strong>：金融代码对风控规则、合规接口调用有强要求，AI 可以做静态合规检查。</li>
+<li><strong>给非技术员工</strong>：运营、商家服务、客服的 Copilot——对应 Shopee 的第二层。</li>
+</ol>
+
+<h3>Layer 3：类 Dify（AI 应用搭建平台 · for 内部）</h3>
+<ol>
+<li><strong>多语言配置模板</strong>：让各 BU 搭 AI 应用时，语言 / 合规模板一键切换，不用每国重新开发。</li>
+<li><strong>跨 BU 能力复用</strong>：平台沉淀 "风控检查"、"身份核验"、"汇率换算" 等金融原子能力，AI 应用直接调用。</li>
+<li><strong>关键指标</strong>：平台上搭建的应用数 / 跨 BU 复用率 / 非技术人员自建应用比例。</li>
+</ol>
+
+<h3>Layer 4：toC 产品（Alipay+ · 跨境汇款 · 理财顾问 · AI 客服）</h3>
+<ol>
+<li><strong>多模态入口</strong>：东南亚用户打字门槛高（语言多 + 拼写差），语音搜 + 拍立搜 ROI 比搜索框高得多。</li>
+<li><strong>意图澄清优先</strong>：query 质量低 → 不能直接搜，要多轮对话澄清（尤其金融场景，搞错代价大）。</li>
+<li><strong>Context 积累</strong>：用户在 Alipay+ 的历史 transaction / 偏好 / 汇款目的都是独家资产——Agent 在这里表现最好，迁移成本最高。</li>
+</ol>
+
+<h2>💎 六、可以主动抛的三个亮点观点</h2>
+
+<div class="trump">
+<div class="trump-title">亮点 1：搜推从前台产品退到后台引擎（来自阿里 Q25）</div>
+<p>"现在的搜推靠 UI 设计、标题党、图片来影响用户——这些是为'人类注意力'设计的。但如果用户的 Agent 替他们看，<strong>Agent 不吃标题党，它看的是结构化数据</strong>。平台搜推会从'给人看'变成'给 Agent 调用'。"</p>
+</div>
+
+<div class="trump">
+<div class="trump-title">亮点 2：MCP 让平台变成 Agent 数据入口（来自阿里 Q33）</div>
+<p>"MCP 让 Agent 标准化连接外部服务，类比 USB-C。用户 Agent 可以同时调蚂蚁、Shopee、Lazada 接口做跨平台比价、跨境汇款。平台竞争会从 app 体验变成 MCP 接口开放度 + API 稳定性。Shopee 已经在做了，蚂蚁国际如果动作慢，会错过 Agent 时代的入口位置。"</p>
+</div>
+
+<div class="trump">
+<div class="trump-title">亮点 3：东南亚是"低垂果实"（来自今早 Shopee 情报）</div>
+<p>"东南亚 AI 搜索有三个特有约束——模型能力弱（语料少）、用户 AI 素养低、query 质量差。这三个约束在蚂蚁国际的金融场景更严重。但反过来——<strong>谁先解决这三个约束的组合问题，谁就占位了整个东南亚 AI 金融的基础设施层</strong>。蚂蚁国际深耕东南亚十年，数据资产和关系网络都有优势，是最有条件吃这块果的玩家。"</p>
+</div>
+
+<h2>🙋 七、反向提问升级版（5 个候选，挑 2 个最贴切的）</h2>
+
+<ol>
+<li><strong>面向 Agent 战略</strong>："蚂蚁国际在'面向 Agent 的搜推 / 支付接口化' 这个方向上有没有具体规划？类似 Shopee 做 ChatGPT MCP 那种的。"</li>
+<li><strong>四层优先级</strong>："四层业务中，未来 1-2 年蚂蚁国际最想攻坚哪一层？资源倾斜情况？"</li>
+<li><strong>东南亚语种投入</strong>："蚂蚁百灵在东南亚语种上的投入优先级？是自研还是引入开源再微调？"</li>
+<li><strong>组织形态</strong>："国际 AI 团队是中心化（一个大团队服务所有 BU）还是嵌入式（每个 BU 自己的 AI 小组）？"</li>
+<li><strong>岗位期望</strong>："这个实习岗入职前 3 个月，你期望我能交付什么？更偏调研还是能参与实际产品定义？"</li>
+</ol>
+
+<div class="key">
+<strong>反问策略</strong>：1 问战略、1 问组织/岗位实际，展示既有高度又有落地感。
+</div>
+
+<h2>⏰ 八、14:00-14:45 上场前 45 分钟 Checklist</h2>
+
+<div class="checklist">
+<ol>
+<li>□ 14:00-14:15 &nbsp;回忆一面 6 问，写在纸上（不超过 15 分钟）</li>
+<li>□ 14:15-14:30 &nbsp;读完本页的「王牌开场」+「四层深化」+「三个亮点观点」</li>
+<li>□ 14:30-14:40 &nbsp;念一遍 3 个亮点观点，熟悉口述节奏</li>
+<li>□ 14:40-14:45 &nbsp;选定今天的反问 2 个（不要 5 个都背）</li>
+<li>□ 14:45 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 打开飞书 / 测试摄像头麦克风</li>
+<li>□ 14:55 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 深呼吸 3 次 / 喝口水 / 进会议室</li>
+</ol>
+</div>
+
+<h2>🔑 九、5 句话，面试不翻车</h2>
+
+<ol>
+<li>"蚂蚁国际业务处于早期 × 业务多样，这是空间也是挑战——我想参与的是帮团队把方向<strong>从多样变成聚焦</strong>的过程。"</li>
+<li>"我不只是 AI 产品的设计者，也是深度用户和构建者——搭过 Agent 体系、写过架构研报、每天在用在踩坑在迭代。"</li>
+<li>"搜推 + Agent 不是替代关系，是分层共存，最终搜推会退到后台成为 Agent 调用的工具集。"</li>
+<li>"东南亚 AI 搜索的三个约束（模型弱 / 用户素养低 / query 差）在金融场景只会更严重——这是蚂蚁国际的机会也是责任。"</li>
+<li>"MCP 时代的护城河不是 SKU 和物流，是<strong>你对用户理解有多深</strong>——Context 积累是唯一不可迁移的资产。"</li>
+</ol>
+
+<hr>
+
+<div class="meta" style="text-align:center">
+Amber · 2026-04-21 12:00 准备<br>
+下午 15:00 上场 · 面完回来复盘，wiki 留位<br>
+<em>配套阅读：<a href="https://amb2rzhou.github.io/reports/ant-all.html">ant-all.html</a>（一面前的通用+国际深水+英文备忘录）</em>
+</div>
+
+</body>
+</html>
