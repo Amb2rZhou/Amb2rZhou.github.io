@@ -7,54 +7,26 @@
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
-    background: #0d1117;
-    color: #c9d1d9;
+    background: #0d1117; color: #c9d1d9;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    overflow: hidden;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
+    overflow: hidden; height: 100vh; display: flex; flex-direction: column;
   }
-  header {
-    padding: 12px 20px;
-    background: #161b22;
-    border-bottom: 1px solid #30363d;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    z-index: 10;
-  }
+  header { padding: 12px 20px; background: #161b22; border-bottom: 1px solid #30363d;
+    display: flex; justify-content: space-between; align-items: center; z-index: 10; }
   header h1 { font-size: 16px; font-weight: 600; color: #f0f6fc; }
   header .meta { font-size: 11px; color: #8b949e; }
-  .legend {
-    display: flex;
-    gap: 16px;
-    padding: 8px 20px;
-    background: #161b22;
-    border-bottom: 1px solid #30363d;
-    font-size: 12px;
-    z-index: 10;
-    flex-wrap: wrap;
-  }
-  .legend-item { display: flex; align-items: center; gap: 5px; cursor: pointer; opacity: 1; transition: opacity .2s; }
+  .legend { display: flex; gap: 16px; padding: 8px 20px; background: #161b22;
+    border-bottom: 1px solid #30363d; font-size: 12px; z-index: 10; flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: 5px; cursor: pointer;
+    opacity: 1; transition: opacity .2s; }
   .legend-item.dimmed { opacity: 0.3; }
   .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
   #canvas { flex: 1; cursor: grab; }
   #canvas:active { cursor: grabbing; }
-  #tooltip {
-    position: fixed;
-    background: #1c2333;
-    border: 1px solid #30363d;
-    border-radius: 8px;
-    padding: 10px 14px;
-    font-size: 12px;
-    line-height: 1.5;
-    pointer-events: none;
-    display: none;
-    z-index: 100;
-    max-width: 260px;
-    box-shadow: 0 4px 20px rgba(0,0,0,.5);
-  }
+  #tooltip { position: fixed; background: #1c2333; border: 1px solid #30363d;
+    border-radius: 8px; padding: 10px 14px; font-size: 12px; line-height: 1.5;
+    pointer-events: none; display: none; z-index: 100; max-width: 260px;
+    box-shadow: 0 4px 20px rgba(0,0,0,.5); }
   #tooltip .tt-title { font-weight: 600; color: #f0f6fc; font-size: 13px; margin-bottom: 4px; }
   #tooltip .tt-domain { font-size: 11px; color: #8b949e; }
   #tooltip .tt-desc { color: #c9d1d9; margin-top: 4px; }
@@ -69,9 +41,7 @@
 </header>
 
 <div class="legend" id="legend"></div>
-
 <canvas id="canvas"></canvas>
-
 <div id="tooltip">
   <div class="tt-title"></div>
   <div class="tt-domain"></div>
@@ -80,143 +50,661 @@
 </div>
 
 <script>
-// ═══════════════════════════════════════
-// DATA
-// ═══════════════════════════════════════
 const GROUPS = {
-  work:     { label: 'Work Projects',  color: '#4A90D9', glow: '#4A90D933' },
-  life:     { label: 'Life Projects',  color: '#7BC67E', glow: '#7BC67E33' },
-  shared:   { label: 'Shared',         color: '#F5A623', glow: '#F5A62333' },
-  pattern:  { label: 'Patterns',       color: '#B8A9C9', glow: '#B8A9C933' },
-  topic:    { label: 'Topics',         color: '#F7DC6F', glow: '#F7DC6F33' },
-  archived: { label: 'Archived',       color: '#666666', glow: '#66666633' },
-  decision: { label: 'Decisions',      color: '#58a6ff', glow: '#58a6ff33' },
+  shared: { label: "Shared", color: "#F5A623", glow: "#F5A62333" },
+  work: { label: "Work Projects", color: "#4A90D9", glow: "#4A90D933" },
+  life: { label: "Life Projects", color: "#7BC67E", glow: "#7BC67E33" },
+  pattern: { label: "Patterns", color: "#B8A9C9", glow: "#B8A9C933" },
+  topic: { label: "Topics", color: "#F7DC6F", glow: "#F7DC6F33" },
+  decision: { label: "Decisions", color: "#58a6ff", glow: "#58a6ff33" },
+  archived: { label: "Archived", color: "#666666", glow: "#66666633" },
+  jd: { label: "JD", color: "#5ED3F0", glow: "#5ED3F033" },
+  people: { label: "People", color: "#FF8C94", glow: "#FF8C9433" },
+  reflect: { label: "Reflections", color: "#D4A5A5", glow: "#D4A5A533" },
 };
 
 const nodes = [
-  // Shared
-  { id: 'boss-profile',     label: 'boss-profile',         group: 'shared',   desc: '能力图谱·偏好·背景', size: 18 },
-  { id: 'coding-style',     label: 'coding-style',         group: 'shared',   desc: '编码风格与技术偏好', size: 10 },
-  { id: 'growth-tracker',   label: 'growth-tracker',       group: 'shared',   desc: '成长目标与进展', size: 10 },
-  // Work
-  { id: 'afi',   label: 'ai-frontier-insight', group: 'work', desc: '100+源 多源采集+日报+周报', size: 16 },
-  { id: 'dnd',   label: 'daily-news-digest',   group: 'work', desc: 'GitHub Actions 全自动新闻摘要', size: 13 },
-  { id: 'xm',    label: 'x-monitor',           group: 'work', desc: 'X/Twitter List 监控 → 已合并到 AFI', size: 11 },
-  { id: 'ids',   label: 'interview-digest',    group: 'work', desc: '访谈链接 → 结构化摘要', size: 10 },
-  { id: 'tw',    label: 'transcript-writer',   group: 'work', desc: '会议录音 → 文字纪要', size: 10 },
-  { id: 'and',   label: 'ai-news-daily',       group: 'archived', desc: '已被 daily-news-digest 替代', size: 8 },
-  { id: 'pt',    label: 'prompt-tuning',       group: 'decision', desc: 'signal/insight prompt 调优历史', size: 11 },
-  // Life
-  { id: 'ias',   label: 'intern-agent-system', group: 'life', desc: 'Mr.Krabs + wiki + 飞书/微信接入', size: 17 },
-  { id: 'ic',    label: 'intern-clawd',        group: 'life', desc: '公开版·影响力载体·3 营销叙事', size: 13 },
-  { id: 'sh',    label: 'skillhub',            group: 'life', desc: 'Agent Skill 平台 (PRD 阶段)', size: 12 },
-  { id: 'dt',    label: 'digital-twin',        group: 'life', desc: '数字分身网站·脱敏 context', size: 12 },
-  { id: 'si',    label: 'summer-internship',   group: 'life', desc: '暑期实习投递 · 已投5家 待投25家', size: 11 },
-  { id: 'pb',    label: 'personal-brand',     group: 'life', desc: '个人影响力计划 · GH 100★ 小红书 100赞', size: 13 },
-  // Topic
-  { id: 'acd',   label: 'context-dividend',    group: 'topic', desc: 'AI 是 Gen Z 时代红利，Context 护城河', size: 12 },
-  // Patterns
-  { id: 'p1', label: '安全约束分层',       group: 'pattern', desc: 'Agent 安全约束分层设计', size: 8 },
-  { id: 'p2', label: 'Hook PATH 陷阱',    group: 'pattern', desc: '非交互式 shell PATH 问题', size: 8 },
-  { id: 'p3', label: '写入前确认',         group: 'pattern', desc: 'Wiki 写入前必须获权限确认', size: 8 },
-  { id: 'p4', label: 'System Card 提取',  group: 'pattern', desc: '从 System Card 提取安全架构约束', size: 7 },
-  { id: 'p5', label: 'daemon 诊断',       group: 'pattern', desc: '多组件 daemon 链路端到端诊断法', size: 8 },
-  { id: 'p6', label: '概念-实践图谱',     group: 'pattern', desc: '概念-实践知识图谱法', size: 7 },
-  { id: 'p7', label: '复盘转素材',         group: 'pattern', desc: '个人项目复盘转面试素材', size: 8 },
-  { id: 'p8', label: 'Patch 降级',        group: 'pattern', desc: '权限受阻时的完整 Patch 降级方案', size: 7 },
-  { id: 'p9', label: '信号 Landscape',    group: 'pattern', desc: '信号 Landscape 展示法', size: 8 },
+  {
+    "id": "coding-style",
+    "label": "Coding Style",
+    "group": "shared",
+    "desc": "- 未指定时默认 Python",
+    "size": 11
+  },
+  {
+    "id": "growth-tracker",
+    "label": "Growth Tracker",
+    "group": "shared",
+    "desc": "- ✅ Karpathy LLM Wiki 模式落地，三层架构（Raw → Wiki → Schema）",
+    "size": 11
+  },
+  {
+    "id": "boss-profile",
+    "label": "Boss Profile",
+    "group": "shared",
+    "desc": "- 新加坡人，目前在上海出差",
+    "size": 12
+  },
+  {
+    "id": "daily-news-digest",
+    "label": "daily-news-digest",
+    "group": "work",
+    "desc": "每日 AI/科技新闻摘要系统：RSS 多源采集 → Claude AI 分类/摘要 → 多频道推送。",
+    "size": 14
+  },
+  {
+    "id": "ai-news-daily",
+    "label": "ai-news-daily",
+    "group": "archived",
+    "desc": "每日 AI 新闻自动推送，daily-news-digest 的前身/早期版本。",
+    "size": 9
+  },
+  {
+    "id": "transcript-writer",
+    "label": "transcript-writer",
+    "group": "work",
+    "desc": "会议录音转文字工具，把音频文件转成结构化的会议纪要。",
+    "size": 11
+  },
+  {
+    "id": "ai-frontier-insight",
+    "label": "ai-frontier-insight",
+    "group": "work",
+    "desc": "AI 前沿情报系统：多源采集 → Signal → Insight → Implication，每日前沿信号 + 每周深度洞察。",
+    "size": 14
+  },
+  {
+    "id": "x-monitor",
+    "label": "x-monitor",
+    "group": "work",
+    "desc": "X/Twitter List 监控系统，通过 Playwright 拦截 GraphQL API 响应抓取推文。已合并到 ai-frontier-insigh…",
+    "size": 12
+  },
+  {
+    "id": "interview-digest-skill",
+    "label": "interview-digest-skill",
+    "group": "work",
+    "desc": "Claude Code skill：提供链接即可把 YouTube、苹果播客、小宇宙、bilibili 等平台上的访谈转化为结构化文字摘要。支持批量添加链接。",
+    "size": 11
+  },
+  {
+    "id": "prompt-tuning",
+    "label": "Prompt 调优记录",
+    "group": "decision",
+    "desc": "ai-frontier-insight 的 signal extraction 和 insight generation prompt 迭代历史。",
+    "size": 10
+  },
+  {
+    "id": "个人项目复盘转面试素材",
+    "label": "个人项目复盘转面试素材",
+    "group": "pattern",
+    "desc": "- 类型：method",
+    "size": 9
+  },
+  {
+    "id": "gotcha_避坑_Hook_脚本里_node_找不到_非交互式_sh",
+    "label": "避坑 - Hook/子进程中 node 找不到（非交互式 shell PATH 问题）",
+    "group": "pattern",
+    "desc": "- 类型：gotcha",
+    "size": 8
+  },
+  {
+    "id": "Agent_安全约束分层设计",
+    "label": "Agent 安全约束分层设计",
+    "group": "pattern",
+    "desc": "- 类型： method",
+    "size": 8
+  },
+  {
+    "id": "gotcha_避坑_Wiki_写入前必须先获权限确认",
+    "label": "避坑 - Wiki 写入前必须先获权限确认",
+    "group": "pattern",
+    "desc": "- 类型：gotcha",
+    "size": 8
+  },
+  {
+    "id": "概念_实践知识图谱法",
+    "label": "概念-实践知识图谱法",
+    "group": "pattern",
+    "desc": "- 类型：method",
+    "size": 8
+  },
+  {
+    "id": "多组件_daemon_链路端到端诊断法",
+    "label": "多组件 daemon 链路端到端诊断法",
+    "group": "pattern",
+    "desc": "- 类型：method",
+    "size": 8
+  },
+  {
+    "id": "权限受阻时的完整_Patch_降级方案",
+    "label": "权限受阻时的完整 Patch 降级方案",
+    "group": "pattern",
+    "desc": "- 类型：gotcha",
+    "size": 8
+  },
+  {
+    "id": "从_System_Card_提取_Agent_安全架构约束",
+    "label": "从 System Card 提取 Agent 安全架构约束",
+    "group": "pattern",
+    "desc": "- 类型：gotcha",
+    "size": 8
+  },
+  {
+    "id": "信号_Landscape_展示法",
+    "label": "信号 Landscape 展示法",
+    "group": "pattern",
+    "desc": "- 类型：method",
+    "size": 8
+  },
+  {
+    "id": "summer-internship",
+    "label": "暑期实习投递",
+    "group": "life",
+    "desc": "本页是投递状态的 唯一 source of truth。维护规则：",
+    "size": 18
+  },
+  {
+    "id": "intern-clawd",
+    "label": "intern-clawd（公开版）",
+    "group": "life",
+    "desc": "intern-agent-system 的脱敏公开模板版本，发布到 GitHub public，作为对外影响力载体。",
+    "size": 15
+  },
+  {
+    "id": "skillhub",
+    "label": "SkillHub",
+    "group": "life",
+    "desc": "创业副业项目，PRD 在 ~/SkillHub-PRD.md，生态研究在 ~/personal-context/agent-skill-ecosystem-r…",
+    "size": 13
+  },
+  {
+    "id": "summer-internship-backlog",
+    "label": "暑期实习投递 Backlog（已按目标方向精简）",
+    "group": "life",
+    "desc": "目标方向：①互联网 PM ②投资机构 ③战略咨询 ④实体企业管培",
+    "size": 11
+  },
+  {
+    "id": "personal-brand",
+    "label": "个人影响力计划",
+    "group": "life",
+    "desc": "这个时代很难脱颖而出：",
+    "size": 14
+  },
+  {
+    "id": "intern-agent-system",
+    "label": "intern-agent-system",
+    "group": "life",
+    "desc": "个人 agent 体系，非公司项目。脱敏对外版本见 [[intern-clawd]]（2026-04-10 发布到 GitHub public）。",
+    "size": 14
+  },
+  {
+    "id": "digital-twin",
+    "label": "digital-twin",
+    "group": "life",
+    "desc": "求职导向的个人网站。wiki 是全量 context 的私有源头，本站是面向求职场景的公开子集。",
+    "size": 15
+  },
+  {
+    "id": "中欧瑞博-暑期实习",
+    "label": "中欧瑞博 2026 暑期实习生",
+    "group": "jd",
+    "desc": "⚠️ 不是中欧基金（公募） — 是中欧瑞博（Rabbit Fund），深圳阳光私募基金。",
+    "size": 9
+  },
+  {
+    "id": "IDG-一面邀约-2026-04-22",
+    "label": "IDG Capital 一面邀约（2026-04-22 改期版）",
+    "group": "jd",
+    "desc": "> 归档来源：2026-04-17 收到的 IDG HR 邮件原文",
+    "size": 9
+  },
+  {
+    "id": "易方达-一面邀约-2026-04-23",
+    "label": "易方达 一面邀约（2026-04-23 · 智能应用研究员）",
+    "group": "jd",
+    "desc": "> 归档来源：2026-04-21 17:06 收到邮件",
+    "size": 9
+  },
+  {
+    "id": "淡马锡-AI赋能投资",
+    "label": "淡马锡 项目实习生 · 人工智能赋能投资",
+    "group": "jd",
+    "desc": "Tier 级投递目标：⭐⭐⭐⭐⭐ — JD 几乎为 Boss 的 AFI / intern-clawd 量身定做",
+    "size": 9
+  },
+  {
+    "id": "IDG-AI-Solutions-PM-岗位描述",
+    "label": "IDG 资本 · AI Solutions 产品经理（岗位描述）",
+    "group": "jd",
+    "desc": "> 来源：Boss 2026-04-21 提供的原招聘信息",
+    "size": 9
+  },
+  {
+    "id": "易方达-智能应用研究员-岗位描述",
+    "label": "易方达基金 · 智能应用研究员（岗位描述）",
+    "group": "jd",
+    "desc": "> ⚠️ 来源说明：本页原为从公开渠道（浙大就业系统）检索到的校招版 JD。2026-04-21 Boss 提供了社招版 JD 原文（更详细、更能反映真实职责…",
+    "size": 10
+  },
+  {
+    "id": "蚂蚁-三面邀约-2026-04-23",
+    "label": "蚂蚁集团 三面邀约（2026-04-23 · 【转正实习】AI 产品经理）",
+    "group": "jd",
+    "desc": "> 归档来源：2026-04-21 晚收到蚂蚁官方邮件",
+    "size": 9
+  },
+  {
+    "id": "Shopee-AI搜索策略PM-岗位描述",
+    "label": "Shopee AI 搜索策略产品经理 · 岗位描述",
+    "group": "jd",
+    "desc": "> 归档来源：2026-04-20 收到的一面邀约，附岗位 JD",
+    "size": 9
+  },
+  {
+    "id": "Shopee-二面邀约-2026-04-22",
+    "label": "Shopee 二面邀约（2026-04-22 · 实习产品经理-搜索策略-SH）",
+    "group": "jd",
+    "desc": "> 归档来源：2026-04-21 收到的 Shopee Moka 系统邮件",
+    "size": 9
+  },
+  {
+    "id": "美团-2026春招产品运营笔试邀请",
+    "label": "美团 2026 年春招第五场笔试邀请（综合能力测试-产品&运营方向·转正实习）",
+    "group": "jd",
+    "desc": "> 归档来源：2026-04-17 收到的笔试通知邮件正文（完整原文）",
+    "size": 9
+  },
+  {
+    "id": "ai-era-context-dividend",
+    "label": "AI 时代的 Context 红利",
+    "group": "topic",
+    "desc": "Boss 的核心论点：AI 不是威胁，是属于 Gen Z 的时代红利。抓住红利的方式不是学技术，是用起来、积累 Context。",
+    "size": 10
+  },
+  {
+    "id": "大厂AI产品布局模式",
+    "label": "大厂 AI 产品布局模式",
+    "group": "topic",
+    "desc": "> 从面试/行业观察中提炼，用于面大厂 AI PM 岗时快速定位对方业务象限、准备针对性问题与案例。",
+    "size": 9
+  }
 ];
 
 const edges = [
-  // Work 域内
-  { from: 'afi', to: 'dnd', label: '互补' },
-  { from: 'dnd', to: 'afi', label: '互补' },
-  { from: 'xm',  to: 'afi', label: '数据源' },
-  { from: 'afi', to: 'pt',  label: '调优' },
-  { from: 'dnd', to: 'pt',  label: '调优' },
-  { from: 'and', to: 'dnd', label: '已替代' },
-  { from: 'ids', to: 'tw',  label: '相关' },
-  { from: 'tw',  to: 'ids', label: '相关' },
-  { from: 'ids', to: 'dnd', label: '引用' },
-  // Life 域内
-  { from: 'ic',  to: 'ias', label: '公开版' },
-  { from: 'ic',  to: 'dt',  label: '展示' },
-  { from: 'ic',  to: 'acd', label: '理论' },
-  { from: 'dt',  to: 'ias', label: '关联' },
-  { from: 'dt',  to: 'sh',  label: '关联' },
-  // 跨域
-  { from: 'boss-profile', to: 'afi', label: '工作' },
-  { from: 'boss-profile', to: 'dnd', label: '工作' },
-  { from: 'boss-profile', to: 'xm',  label: '工作' },
-  { from: 'boss-profile', to: 'ias', label: '个人' },
-  { from: 'boss-profile', to: 'ic',  label: '个人' },
-  { from: 'boss-profile', to: 'dt',  label: '个人' },
-  { from: 'boss-profile', to: 'sh',  label: '个人' },
-  { from: 'boss-profile', to: 'si',  label: '个人' },
-  { from: 'boss-profile', to: 'pb',  label: '个人' },
-  // personal-brand 关联
-  { from: 'pb',  to: 'ic',  label: '推广载体' },
-  { from: 'pb',  to: 'dt',  label: '展示窗口' },
-  { from: 'pb',  to: 'si',  label: '变现场景' },
-  { from: 'pb',  to: 'sh',  label: 'skill 下载' },
-  { from: 'pb',  to: 'acd', label: '理论基础' },
-  // Patterns → Projects
-  { from: 'p1', to: 'ias', label: '设计于' },
-  { from: 'p2', to: 'ias', label: '踩坑于' },
-  { from: 'p3', to: 'ias', label: '踩坑于' },
-  { from: 'p5', to: 'ias', label: '踩坑于' },
-  { from: 'p9', to: 'afi', label: '用于' },
-  { from: 'p7', to: 'si',  label: '服务于' },
+  {
+    "from": "boss-profile",
+    "to": "coding-style",
+    "label": "引用"
+  },
+  {
+    "from": "boss-profile",
+    "to": "growth-tracker",
+    "label": "引用"
+  },
+  {
+    "from": "growth-tracker",
+    "to": "intern-clawd",
+    "label": "→"
+  },
+  {
+    "from": "growth-tracker",
+    "to": "personal-brand",
+    "label": "→"
+  },
+  {
+    "from": "growth-tracker",
+    "to": "boss-profile",
+    "label": "引用"
+  },
+  {
+    "from": "coding-style",
+    "to": "boss-profile",
+    "label": "引用"
+  },
+  {
+    "from": "boss-profile",
+    "to": "daily-news-digest",
+    "label": "→"
+  },
+  {
+    "from": "boss-profile",
+    "to": "ai-frontier-insight",
+    "label": "→"
+  },
+  {
+    "from": "boss-profile",
+    "to": "x-monitor",
+    "label": "→"
+  },
+  {
+    "from": "boss-profile",
+    "to": "intern-agent-system",
+    "label": "→"
+  },
+  {
+    "from": "boss-profile",
+    "to": "intern-clawd",
+    "label": "→"
+  },
+  {
+    "from": "boss-profile",
+    "to": "digital-twin",
+    "label": "→"
+  },
+  {
+    "from": "boss-profile",
+    "to": "skillhub",
+    "label": "→"
+  },
+  {
+    "from": "boss-profile",
+    "to": "summer-internship",
+    "label": "→"
+  },
+  {
+    "from": "ai-frontier-insight",
+    "to": "daily-news-digest",
+    "label": "引用"
+  },
+  {
+    "from": "ai-news-daily",
+    "to": "daily-news-digest",
+    "label": "引用"
+  },
+  {
+    "from": "interview-digest-skill",
+    "to": "daily-news-digest",
+    "label": "引用"
+  },
+  {
+    "from": "daily-news-digest",
+    "to": "ai-frontier-insight",
+    "label": "→"
+  },
+  {
+    "from": "daily-news-digest",
+    "to": "prompt-tuning",
+    "label": "→"
+  },
+  {
+    "from": "daily-news-digest",
+    "to": "ai-news-daily",
+    "label": "引用"
+  },
+  {
+    "from": "interview-digest-skill",
+    "to": "transcript-writer",
+    "label": "引用"
+  },
+  {
+    "from": "transcript-writer",
+    "to": "interview-digest-skill",
+    "label": "→"
+  },
+  {
+    "from": "x-monitor",
+    "to": "ai-frontier-insight",
+    "label": "引用"
+  },
+  {
+    "from": "prompt-tuning",
+    "to": "ai-frontier-insight",
+    "label": "引用"
+  },
+  {
+    "from": "ai-frontier-insight",
+    "to": "x-monitor",
+    "label": "→"
+  },
+  {
+    "from": "ai-frontier-insight",
+    "to": "prompt-tuning",
+    "label": "→"
+  },
+  {
+    "from": "summer-internship",
+    "to": "美团-2026春招产品运营笔试邀请",
+    "label": "→"
+  },
+  {
+    "from": "summer-internship",
+    "to": "蚂蚁-三面邀约-2026-04-23",
+    "label": "→"
+  },
+  {
+    "from": "summer-internship",
+    "to": "大厂AI产品布局模式",
+    "label": "→"
+  },
+  {
+    "from": "summer-internship",
+    "to": "易方达-一面邀约-2026-04-23",
+    "label": "→"
+  },
+  {
+    "from": "summer-internship",
+    "to": "易方达-智能应用研究员-岗位描述",
+    "label": "→"
+  },
+  {
+    "from": "summer-internship",
+    "to": "IDG-一面邀约-2026-04-22",
+    "label": "→"
+  },
+  {
+    "from": "summer-internship",
+    "to": "Shopee-二面邀约-2026-04-22",
+    "label": "→"
+  },
+  {
+    "from": "summer-internship",
+    "to": "Shopee-AI搜索策略PM-岗位描述",
+    "label": "→"
+  },
+  {
+    "from": "summer-internship",
+    "to": "summer-internship-backlog",
+    "label": "→"
+  },
+  {
+    "from": "summer-internship",
+    "to": "淡马锡-AI赋能投资",
+    "label": "→"
+  },
+  {
+    "from": "summer-internship",
+    "to": "中欧瑞博-暑期实习",
+    "label": "→"
+  },
+  {
+    "from": "intern-agent-system",
+    "to": "intern-clawd",
+    "label": "引用"
+  },
+  {
+    "from": "ai-era-context-dividend",
+    "to": "intern-clawd",
+    "label": "引用"
+  },
+  {
+    "from": "intern-clawd",
+    "to": "digital-twin",
+    "label": "→"
+  },
+  {
+    "from": "intern-clawd",
+    "to": "ai-era-context-dividend",
+    "label": "→"
+  },
+  {
+    "from": "intern-clawd",
+    "to": "intern-agent-system",
+    "label": "→"
+  },
+  {
+    "from": "digital-twin",
+    "to": "skillhub",
+    "label": "引用"
+  },
+  {
+    "from": "summer-internship-backlog",
+    "to": "summer-internship",
+    "label": "→"
+  },
+  {
+    "from": "intern-clawd",
+    "to": "personal-brand",
+    "label": "引用"
+  },
+  {
+    "from": "skillhub",
+    "to": "personal-brand",
+    "label": "引用"
+  },
+  {
+    "from": "summer-internship",
+    "to": "personal-brand",
+    "label": "引用"
+  },
+  {
+    "from": "personal-brand",
+    "to": "intern-clawd",
+    "label": "→"
+  },
+  {
+    "from": "personal-brand",
+    "to": "skillhub",
+    "label": "→"
+  },
+  {
+    "from": "personal-brand",
+    "to": "ai-era-context-dividend",
+    "label": "→"
+  },
+  {
+    "from": "personal-brand",
+    "to": "digital-twin",
+    "label": "→"
+  },
+  {
+    "from": "personal-brand",
+    "to": "summer-internship",
+    "label": "→"
+  },
+  {
+    "from": "digital-twin",
+    "to": "intern-agent-system",
+    "label": "引用"
+  },
+  {
+    "from": "intern-agent-system",
+    "to": "digital-twin",
+    "label": "引用"
+  },
+  {
+    "from": "IDG-一面邀约-2026-04-22",
+    "to": "summer-internship",
+    "label": "→"
+  },
+  {
+    "from": "易方达-一面邀约-2026-04-23",
+    "to": "summer-internship",
+    "label": "→"
+  },
+  {
+    "from": "易方达-一面邀约-2026-04-23",
+    "to": "易方达-智能应用研究员-岗位描述",
+    "label": "→"
+  },
+  {
+    "from": "summer-internship",
+    "to": "IDG-AI-Solutions-PM-岗位描述",
+    "label": "引用"
+  },
+  {
+    "from": "IDG-AI-Solutions-PM-岗位描述",
+    "to": "summer-internship",
+    "label": "→"
+  },
+  {
+    "from": "易方达-智能应用研究员-岗位描述",
+    "to": "summer-internship",
+    "label": "→"
+  },
+  {
+    "from": "蚂蚁-三面邀约-2026-04-23",
+    "to": "summer-internship",
+    "label": "→"
+  },
+  {
+    "from": "Shopee-AI搜索策略PM-岗位描述",
+    "to": "summer-internship",
+    "label": "→"
+  },
+  {
+    "from": "Shopee-二面邀约-2026-04-22",
+    "to": "summer-internship",
+    "label": "→"
+  },
+  {
+    "from": "美团-2026春招产品运营笔试邀请",
+    "to": "summer-internship",
+    "label": "→"
+  },
+  {
+    "from": "ai-era-context-dividend",
+    "to": "digital-twin",
+    "label": "→"
+  },
+  {
+    "from": "ai-era-context-dividend",
+    "to": "intern-agent-system",
+    "label": "→"
+  },
+  {
+    "from": "大厂AI产品布局模式",
+    "to": "summer-internship",
+    "label": "→"
+  },
+  {
+    "from": "大厂AI产品布局模式",
+    "to": "个人项目复盘转面试素材",
+    "label": "→"
+  }
 ];
 
-// ═══════════════════════════════════════
-// PHYSICS SIMULATION
-// ═══════════════════════════════════════
+
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
-let W, H;
-
-function resize() {
-  W = canvas.width = canvas.clientWidth * devicePixelRatio;
-  H = canvas.height = canvas.clientHeight * devicePixelRatio;
-  ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
-}
-resize();
-window.addEventListener('resize', resize);
-
-// Init positions in a circle
-const cx = canvas.clientWidth / 2, cy = canvas.clientHeight / 2;
-nodes.forEach((n, i) => {
-  const angle = (i / nodes.length) * Math.PI * 2;
-  const r = 180 + Math.random() * 60;
-  n.x = cx + Math.cos(angle) * r;
-  n.y = cy + Math.sin(angle) * r;
-  n.vx = 0;
-  n.vy = 0;
-});
+let W = 0, H = 0;
+function resize() { W = canvas.width = canvas.offsetWidth; H = canvas.height = canvas.offsetHeight; }
+window.addEventListener('resize', resize); resize();
 
 const nodeMap = {};
-nodes.forEach(n => nodeMap[n.id] = n);
+nodes.forEach(n => {
+  n.x = W/2 + (Math.random()-0.5) * W * 0.6;
+  n.y = H/2 + (Math.random()-0.5) * H * 0.6;
+  n.vx = 0; n.vy = 0;
+  nodeMap[n.id] = n;
+});
 
-// Pan & zoom state
-let panX = 0, panY = 0, zoom = 1;
+const cx = W/2, cy = H/2;
+let zoom = 1, panX = 0, panY = 0;
 let dragging = null, dragOffX = 0, dragOffY = 0;
 let isPanning = false, panStartX = 0, panStartY = 0, panStartPX = 0, panStartPY = 0;
 let hoveredNode = null;
-
-// Legend filter
 const hiddenGroups = new Set();
 
-function screenToWorld(sx, sy) {
-  return { x: (sx - panX) / zoom, y: (sy - panY) / zoom };
-}
-
+function screenToWorld(sx, sy) { return { x: (sx - panX) / zoom, y: (sy - panY) / zoom }; }
 function findNode(sx, sy) {
-  const { x, y } = screenToWorld(sx, sy);
+  const w = screenToWorld(sx, sy);
   for (let i = nodes.length - 1; i >= 0; i--) {
     const n = nodes[i];
-    const r = n.size + 4;
-    if ((n.x - x) ** 2 + (n.y - y) ** 2 < (r * 1.5) ** 2) return n;
+    if (hiddenGroups.has(n.group)) continue;
+    const dx = n.x - w.x, dy = n.y - w.y;
+    if (dx*dx + dy*dy <= (n.size+4)*(n.size+4)) return n;
   }
   return null;
 }
@@ -226,23 +714,18 @@ canvas.addEventListener('mousedown', e => {
   if (n) {
     dragging = n;
     const w = screenToWorld(e.offsetX, e.offsetY);
-    dragOffX = n.x - w.x;
-    dragOffY = n.y - w.y;
-    n.fx = n.x; n.fy = n.y;
+    dragOffX = n.x - w.x; dragOffY = n.y - w.y;
   } else {
     isPanning = true;
     panStartX = e.offsetX; panStartY = e.offsetY;
     panStartPX = panX; panStartPY = panY;
   }
 });
-
 canvas.addEventListener('mousemove', e => {
   if (dragging) {
     const w = screenToWorld(e.offsetX, e.offsetY);
-    dragging.fx = w.x + dragOffX;
-    dragging.fy = w.y + dragOffY;
-    dragging.x = dragging.fx;
-    dragging.y = dragging.fy;
+    dragging.fx = w.x + dragOffX; dragging.fy = w.y + dragOffY;
+    dragging.x = dragging.fx; dragging.y = dragging.fy;
   } else if (isPanning) {
     panX = panStartPX + (e.offsetX - panStartX);
     panY = panStartPY + (e.offsetY - panStartY);
@@ -250,36 +733,27 @@ canvas.addEventListener('mousemove', e => {
     const n = findNode(e.offsetX, e.offsetY);
     hoveredNode = n;
     canvas.style.cursor = n ? 'pointer' : 'grab';
-
     const tt = document.getElementById('tooltip');
     if (n) {
       const g = GROUPS[n.group];
       tt.querySelector('.tt-title').textContent = n.label;
       tt.querySelector('.tt-domain').textContent = g.label;
       tt.querySelector('.tt-domain').style.color = g.color;
-      tt.querySelector('.tt-desc').textContent = n.desc;
-      // Find connections
+      tt.querySelector('.tt-desc').textContent = n.desc || '';
       const conns = edges.filter(e => e.from === n.id || e.to === n.id)
-        .map(e => {
-          const other = e.from === n.id ? e.to : e.from;
-          return `${e.label} → ${nodeMap[other]?.label || other}`;
-        });
+        .map(e => { const other = e.from === n.id ? e.to : e.from;
+          return `${e.label} → ${nodeMap[other]?.label || other}`; });
       tt.querySelector('.tt-links').textContent = conns.length ? '🔗 ' + conns.join('  ·  ') : '';
       tt.style.display = 'block';
       tt.style.left = Math.min(e.clientX + 14, window.innerWidth - 280) + 'px';
       tt.style.top = (e.clientY + 14) + 'px';
-    } else {
-      tt.style.display = 'none';
-    }
+    } else { tt.style.display = 'none'; }
   }
 });
-
 canvas.addEventListener('mouseup', () => {
   if (dragging) { delete dragging.fx; delete dragging.fy; }
-  dragging = null;
-  isPanning = false;
+  dragging = null; isPanning = false;
 });
-
 canvas.addEventListener('wheel', e => {
   e.preventDefault();
   const oldZoom = zoom;
@@ -289,9 +763,6 @@ canvas.addEventListener('wheel', e => {
   panY = e.offsetY - (e.offsetY - panY) * (zoom / oldZoom);
 }, { passive: false });
 
-// ═══════════════════════════════════════
-// LEGEND
-// ═══════════════════════════════════════
 const legendEl = document.getElementById('legend');
 Object.entries(GROUPS).forEach(([key, g]) => {
   const count = nodes.filter(n => n.group === key).length;
@@ -306,162 +777,72 @@ Object.entries(GROUPS).forEach(([key, g]) => {
   legendEl.appendChild(item);
 });
 
-// ═══════════════════════════════════════
-// SIMULATION TICK
-// ═══════════════════════════════════════
 function tick() {
   const alpha = 0.3;
-
-  // Center gravity
   nodes.forEach(n => {
     n.vx += (cx - n.x) * 0.0005;
     n.vy += (cy - n.y) * 0.0005;
   });
-
-  // Repulsion (all pairs)
   for (let i = 0; i < nodes.length; i++) {
-    for (let j = i + 1; j < nodes.length; j++) {
+    for (let j = i+1; j < nodes.length; j++) {
       const a = nodes[i], b = nodes[j];
-      let dx = b.x - a.x, dy = b.y - a.y;
-      let dist = Math.sqrt(dx * dx + dy * dy) || 1;
-      const force = 1200 / (dist * dist);
-      const fx = dx / dist * force;
-      const fy = dy / dist * force;
-      a.vx -= fx; a.vy -= fy;
-      b.vx += fx; b.vy += fy;
+      const dx = b.x - a.x, dy = b.y - a.y;
+      const d = Math.sqrt(dx*dx + dy*dy) || 1;
+      const f = 800 / (d*d);
+      const fx = dx/d * f, fy = dy/d * f;
+      a.vx -= fx; a.vy -= fy; b.vx += fx; b.vy += fy;
     }
   }
-
-  // Spring (edges)
   edges.forEach(e => {
     const a = nodeMap[e.from], b = nodeMap[e.to];
     if (!a || !b) return;
-    let dx = b.x - a.x, dy = b.y - a.y;
-    let dist = Math.sqrt(dx * dx + dy * dy) || 1;
-    const target = 120;
-    const force = (dist - target) * 0.006;
-    const fx = dx / dist * force;
-    const fy = dy / dist * force;
-    a.vx += fx; a.vy += fy;
-    b.vx -= fx; b.vy -= fy;
-  });
-
-  // Group clustering
-  const groupCenters = {};
-  Object.keys(GROUPS).forEach(g => {
-    const gn = nodes.filter(n => n.group === g);
-    if (!gn.length) return;
-    groupCenters[g] = {
-      x: gn.reduce((s, n) => s + n.x, 0) / gn.length,
-      y: gn.reduce((s, n) => s + n.y, 0) / gn.length,
-    };
+    const dx = b.x - a.x, dy = b.y - a.y;
+    const d = Math.sqrt(dx*dx + dy*dy) || 1;
+    const k = 0.01 * (d - 180);
+    a.vx += dx/d * k; a.vy += dy/d * k;
+    b.vx -= dx/d * k; b.vy -= dy/d * k;
   });
   nodes.forEach(n => {
-    const gc = groupCenters[n.group];
-    if (gc) {
-      n.vx += (gc.x - n.x) * 0.003;
-      n.vy += (gc.y - n.y) * 0.003;
-    }
-  });
-
-  // Velocity damping + update
-  nodes.forEach(n => {
-    if (n.fx !== undefined) { n.x = n.fx; n.y = n.fy; n.vx = 0; n.vy = 0; return; }
-    n.vx *= 0.85;
-    n.vy *= 0.85;
-    n.x += n.vx * alpha;
-    n.y += n.vy * alpha;
+    if (n.fx !== undefined) return;
+    n.vx *= 0.88; n.vy *= 0.88;
+    n.x += n.vx * alpha; n.y += n.vy * alpha;
   });
 }
 
-// ═══════════════════════════════════════
-// RENDER
-// ═══════════════════════════════════════
 function draw() {
-  const cw = canvas.clientWidth, ch = canvas.clientHeight;
-  ctx.clearRect(0, 0, cw, ch);
+  ctx.clearRect(0, 0, W, H);
   ctx.save();
-  ctx.translate(panX, panY);
-  ctx.scale(zoom, zoom);
-
-  const visibleNodes = new Set(nodes.filter(n => !hiddenGroups.has(n.group)).map(n => n.id));
-
-  // Edges
+  ctx.translate(panX, panY); ctx.scale(zoom, zoom);
   edges.forEach(e => {
     const a = nodeMap[e.from], b = nodeMap[e.to];
     if (!a || !b) return;
-    if (!visibleNodes.has(a.id) || !visibleNodes.has(b.id)) return;
-
-    const isHighlight = hoveredNode && (e.from === hoveredNode.id || e.to === hoveredNode.id);
-    ctx.beginPath();
-    ctx.moveTo(a.x, a.y);
-    ctx.lineTo(b.x, b.y);
-    ctx.strokeStyle = isHighlight ? '#58a6ff' : 'rgba(88,166,255,0.12)';
-    ctx.lineWidth = isHighlight ? 1.8 : 0.8;
-    ctx.stroke();
-
-    // Edge label on hover
-    if (isHighlight && e.label) {
-      const mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2;
-      ctx.font = '9px -apple-system, sans-serif';
-      ctx.fillStyle = '#8b949e';
-      ctx.textAlign = 'center';
-      ctx.fillText(e.label, mx, my - 4);
-    }
+    if (hiddenGroups.has(a.group) || hiddenGroups.has(b.group)) return;
+    ctx.strokeStyle = '#30363d'; ctx.lineWidth = 1 / zoom;
+    ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
   });
-
-  // Nodes
   nodes.forEach(n => {
-    if (!visibleNodes.has(n.id)) return;
+    if (hiddenGroups.has(n.group)) return;
     const g = GROUPS[n.group];
-    const isHovered = hoveredNode === n;
-    const isConnected = hoveredNode && edges.some(e =>
-      (e.from === hoveredNode.id && e.to === n.id) ||
-      (e.to === hoveredNode.id && e.from === n.id)
-    );
-    const dimmed = hoveredNode && !isHovered && !isConnected;
-
-    // Glow
-    if (isHovered) {
-      ctx.beginPath();
-      ctx.arc(n.x, n.y, n.size + 10, 0, Math.PI * 2);
-      ctx.fillStyle = g.glow;
-      ctx.fill();
+    ctx.fillStyle = g.glow;
+    ctx.beginPath(); ctx.arc(n.x, n.y, n.size + 8, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = g.color;
+    ctx.beginPath(); ctx.arc(n.x, n.y, n.size, 0, Math.PI*2); ctx.fill();
+    if (n === hoveredNode) {
+      ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 2 / zoom; ctx.stroke();
     }
-
-    // Circle
-    ctx.beginPath();
-    ctx.arc(n.x, n.y, n.size, 0, Math.PI * 2);
-    ctx.fillStyle = dimmed ? g.color + '40' : g.color;
-    ctx.fill();
-    ctx.strokeStyle = isHovered ? '#fff' : (dimmed ? 'transparent' : g.color + '80');
-    ctx.lineWidth = isHovered ? 2 : 1;
-    ctx.stroke();
-
-    // Label
-    ctx.font = `${isHovered ? 'bold ' : ''}${Math.max(10, 11)}px -apple-system, sans-serif`;
+    ctx.fillStyle = '#c9d1d9';
+    ctx.font = `${Math.max(10, 11 / zoom)}px -apple-system, sans-serif`;
     ctx.textAlign = 'center';
-    ctx.textBaseline = 'top';
-    ctx.fillStyle = dimmed ? '#8b949e60' : '#c9d1d9';
-    ctx.fillText(n.label, n.x, n.y + n.size + 5);
+    ctx.fillText(n.label, n.x, n.y + n.size + 14);
   });
-
   ctx.restore();
 }
 
-function loop() {
-  tick();
-  draw();
-  requestAnimationFrame(loop);
-}
+function loop() { tick(); draw(); requestAnimationFrame(loop); }
 loop();
 
 document.getElementById('timestamp').textContent =
-  '更新于 ' + new Date().toLocaleString('zh-CN', {
-    year: 'numeric', month: '2-digit', day: '2-digit',
-    hour: '2-digit', minute: '2-digit'
-  });
+  'Updated: 2026-04-21 21:02 · ' + nodes.length + ' nodes · ' + edges.length + ' edges';
 </script>
-
 </body>
 </html>
