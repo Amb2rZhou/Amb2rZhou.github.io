@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shopee 二面备忘录 · AI 搜索策略 PM · 2026-04-22 16:00</title>
+<style>
+body{max-width:860px;margin:0 auto;padding:24px;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.7;color:#1f2328;background:#fff}
+h1{font-size:24px;margin-bottom:8px;color:#ee4d2d}
+h2{border-bottom:2px solid #d0d7de;padding-bottom:8px;margin-top:32px;font-size:20px;color:#ee4d2d}
+h3{margin-top:24px;font-size:16px;color:#24292f}
+h4{margin-top:16px;font-size:14px;color:#57606a}
+table{width:100%;border-collapse:collapse;font-size:14px;margin:12px 0}
+th,td{border:1px solid #d0d7de;padding:8px 12px;text-align:left;vertical-align:top}
+th{background:#f6f8fa;font-weight:600}
+code{background:#f6f8fa;padding:2px 6px;border-radius:4px;font-size:0.88em;border:1px solid #e1e4e8}
+blockquote{border-left:4px solid #ee4d2d;padding:8px 16px;color:#656d76;background:#fff5f0;margin:12px 0;border-radius:0 6px 6px 0}
+hr{border:none;border-top:1px solid #d0d7de;margin:24px 0}
+a{color:#ee4d2d;text-decoration:none}
+ul,ol{margin:8px 0 8px 24px}
+li{margin:4px 0}
+strong{color:#1f2328}
+.q{background:#fff5f0;border-left:4px solid #ee4d2d;padding:12px 16px;margin:16px 0;border-radius:0 8px 8px 0}
+.q-title{font-weight:600;color:#ee4d2d;margin-bottom:8px;font-size:15px}
+.trump{background:#e3f2fd;border-left:4px solid #1976d2;padding:16px;margin:16px 0;border-radius:0 8px 8px 0}
+.trump-title{font-weight:600;color:#1976d2;margin-bottom:8px;font-size:15px}
+.key{background:#e8f5e9;border-left:4px solid #43a047;padding:12px 16px;margin:12px 0;border-radius:0 6px 6px 0;font-size:14px}
+.warn{background:#fff8e1;border-left:4px solid #f9a825;padding:12px 16px;margin:12px 0;border-radius:0 6px 6px 0;font-size:14px}
+.intel{background:#e3f2fd;border-left:4px solid #1976d2;padding:12px 16px;margin:12px 0;border-radius:0 6px 6px 0;font-size:14px}
+.formula{background:#fff8e1;border-left:3px solid #f9a825;padding:8px 12px;margin:8px 0;border-radius:0 6px 6px 0;font-size:14px}
+.english{background:#f3e5f5;border-left:4px solid #8e24aa;padding:12px 16px;margin:12px 0;border-radius:0 6px 6px 0;font-size:14px}
+.meta{color:#656d76;font-size:14px;margin-bottom:24px}
+.checklist{background:#fafafa;border:1px solid #d0d7de;padding:16px;margin:16px 0;border-radius:8px}
+</style>
+</head>
+<body>
+
+<h1>Shopee 二面备忘录 · AI 搜索策略 PM</h1>
+
+<div class="meta">
+<strong>面试时间：</strong>2026-04-22（周三）16:00 · 38 min 视频面试<br>
+<strong>岗位：</strong>【实习】产品经理 - 搜索策略 - SH<br>
+<strong>一面：</strong>2026-04-21 11:00-11:30 ✅（面试官提供了 3 层职能 + 东南亚 3 约束 + HC 20% 情报）<br>
+<strong>一面 prep 参考：</strong><a href="https://amb2rzhou.github.io/reports/shopee-interview.html">shopee-interview.html</a>（本页是二面增量）
+</div>
+
+<h2>🔴 零、一面复盘 · 决定二面策略</h2>
+
+<div class="key">
+<strong>二面和一面最大的不同</strong>：一面你在<strong>被介绍业务</strong>（面试官给你讲 3 层职能），二面你要<strong>反向论证"我懂这个业务"</strong>——把一面听到的东西消化成自己的判断。
+</div>
+
+<h3>0.1 一面拿到的 3 组情报（二面要用回去）</h3>
+
+<table>
+<tr><th>情报</th><th>二面怎么用</th></tr>
+<tr><td><strong>Shopee 搜索 AI 三层职能</strong>（站内导购 / 内部员工 Copilot / ChatGPT MCP）</td><td>主动提"我注意到你们这三层是有层次的——toC 解决用户/内部员工放大运营效能/MCP 是对外生态"</td></tr>
+<tr><td><strong>东南亚三约束</strong>（语种模型弱 / 用户 AI 素养低 / query 质量差）</td><td>讲自己的具体思考"这三个约束对搜索策略意味着 LLM 改写 query 的 ROI 比国内高 10 倍"</td></tr>
+<tr><td><strong>HC 明确 + 转正率约 20%</strong></td><td>二面不直接提；面后问 HR 追细节</td></tr>
+</table>
+
+<h2>🚨 一、二面面试风格（面经归纳）</h2>
+
+<h3>1.1 核心特征</h3>
+
+<table>
+<tr><th>维度</th><th>一面</th><th>二面</th></tr>
+<tr><td>时长</td><td>30 min</td><td><strong>38 min</strong></td></tr>
+<tr><td>重点</td><td>基本匹配 + 业务介绍</td><td><strong>深挖项目 + 业务场景 + 数据分析</strong></td></tr>
+<tr><td>节奏</td><td>相对轻松</td><td><strong>快节奏追问</strong>（顺着你的答案连续深挖）</td></tr>
+<tr><td>必问</td><td>为什么来虾皮</td><td><strong>英文自我介绍 + 为什么来 + 对虾皮的了解</strong></td></tr>
+<tr><td>面试官</td><td>用人团队</td><td>Senior PM / Team Lead</td></tr>
+</table>
+
+<h3>1.2 二面典型问题清单（出现概率由高到低）</h3>
+
+<ol>
+<li><strong>英文自我介绍</strong>（1-2 分钟）⚠️</li>
+<li>为什么来 Shopee（必问，要有具体功课）</li>
+<li>对 Shopee 的了解程度（市场份额 / AI 能力 / 竞对）</li>
+<li>你实习项目具体怎么做的？怎么测的？遇到哪些问题？</li>
+<li>PM 和运营的区别</li>
+<li>如何理解市场增长</li>
+<li>如何通过客户需求指导项目执行</li>
+<li>产品上线后数据不如预期，怎么分析</li>
+<li>对业务调整的接受度</li>
+<li>你的职业规划 / 为什么做 PM</li>
+</ol>
+
+<h2>🗣 二、英文自我介绍（1-2 分钟，最优先准备）</h2>
+
+<div class="english">
+<strong>⚠️ 二面英文自我介绍是 Shopee 的招牌</strong>——一面可能中文，二面几乎必切英文（Shopee 是跨境公司，客户是东南亚）。
+</div>
+
+<div class="trump">
+<div class="trump-title">1.5 分钟英文口播（建议背下来）</div>
+<p>"Hi, I'm Amber Zhou, currently a student at Northwestern University. Over the past year I've been working on one thing: <strong>building AI-driven information pipelines that reduce noise and surface value for decision makers</strong>.</p>
+<p>My main project is AFI—an AI-powered intelligence system. It pulls from RSS, GitHub, ArXiv, and HuggingFace, uses LLM to score relevance, and outputs three-layer insights: signal / insight / implication. At its core, it's a <strong>recall + ranking + presentation</strong> pipeline—which is exactly what e-commerce search does, just with a different domain.</p>
+<p>I also built intern-clawd, an open-source framework that adds long-term memory to Claude Code. It's published on GitHub as a vibe-coding example of how AI tools can be upgraded through Context accumulation.</p>
+<p>I applied to Shopee because <strong>Southeast Asia is where AI meets real e-commerce problems</strong>: multilingual queries, low query quality, users with varied AI literacy. These are the hardest search problems and the most valuable ones to solve. I'd love to contribute to the three-layer AI search system your team is building."</p>
+</div>
+
+<h3>关键词备忘</h3>
+<ul>
+<li><strong>recall + ranking + presentation</strong>（召回 + 排序 + 呈现）</li>
+<li><strong>Context accumulation</strong>（上下文积累）</li>
+<li><strong>multilingual queries / low query quality / varied AI literacy</strong>（东南亚三约束英文版）</li>
+<li><strong>vibe coding</strong>（AI 辅助编码，呼应你是 Claude Code 深度用户）</li>
+</ul>
+
+<h2>🔥 三、3 个必问题 · 精准回答</h2>
+
+<div class="q">
+<div class="q-title">Q1. 为什么来 Shopee？（必问）</div>
+<div class="formula">公式：具体的 3 个理由，每个带证据</div>
+<ol>
+<li><strong>东南亚是 AI 搜索 hard mode 的试金石</strong>——一面面试官告诉我东南亚有三个特有约束（多语言、低 AI 素养、低 query 质量），这三个问题解决了的产品能力是可迁移的全球资产。国内做优化，Shopee 做破局。</li>
+<li><strong>Shopee 的 AI 策略是整体的，不是孤岛</strong>——我注意到你们做 toC 导购、内部 Copilot、和 ChatGPT MCP 三个层次，这是一个面向 Agent 时代的完整布局。我的 intern-clawd 项目就是个人级的这个思路。</li>
+<li><strong>Q1 2026 GMV 52% 市场份额</strong>说明 Shopee 在东南亚是行业领导者——这种规模的数据和基础设施是做 AI 搜索实验的最佳场景。</li>
+</ol>
+<div class="key"><strong>不要说</strong>：互联网太卷 / 想去东南亚 / 喜欢跨境 —— 这些都太虚。要给具体的"我看到 X"。</div>
+</div>
+
+<div class="q">
+<div class="q-title">Q2. 你对 Shopee 了解多少？（必问）</div>
+<div class="formula">公式：市场 × AI × 竞争 三个维度</div>
+<ul>
+<li><strong>市场</strong>：Q1 2026 668 亿美金 GMV，占东南亚电商 52%；印尼 44%（主战场）/ 泰国 YoY 22% / 马来 YoY 19%；东南亚总市场预计 2026 底 2150-2300 亿美金</li>
+<li><strong>AI 能力</strong>：
+<ul>
+<li>搜索已用 NLP + 深度学习理解语义</li>
+<li>Semantic search + voice + image search</li>
+<li><strong>AI Listing Optimizer</strong>（给商家的 AI 工具，自动生成标题 / 描述 / 标签）</li>
+<li>区域化个性化（Hari Raya in Malaysia, Ramadan in Indonesia 动态分群）</li>
+</ul>
+</li>
+<li><strong>竞争</strong>：
+<ul>
+<li>TikTok Shop 崛起（最大威胁）</li>
+<li>Lazada（传统竞对，市场份额被持续压缩）</li>
+<li>护城河：integrated logistics + fintech (SPayLater)</li>
+</ul>
+</li>
+</ul>
+<div class="key"><strong>讲 3-4 个关键数字 + 一个战略判断</strong>，不要都讲完。让面试官追问你"你觉得 TikTok Shop 是最大威胁吗"之类。</div>
+</div>
+
+<div class="q">
+<div class="q-title">Q3. 一面你从我们这里学到了什么？（可能问）</div>
+<ul>
+<li>"一面最打动我的是你们的三层职能——<strong>不是把 AI 搜索当成一个功能，是把它当成一个生态</strong>"</li>
+<li>"toC 导购服务消费者，内部员工 Copilot 服务运营效率，ChatGPT MCP 对接外部 Agent——<strong>这三层对应了从 'AI in product' 到 'AI as infrastructure' 到 'AI as gateway' 的完整谱系</strong>"</li>
+<li>"我回去查了一下，发现很多大厂（阿里、字节）都在做第一层，<strong>很少有人把三层都跑通的</strong>——这也是我想加入的原因"</li>
+</ul>
+<div class="key"><strong>这题背后的问题</strong>：面试官在测你会不会思考、会不会复盘。标准答案不重要，<strong>展示你吃进去了</strong>才重要。</div>
+</div>
+
+<h2>💼 四、项目深挖（5 分钟深度版）</h2>
+
+<div class="warn">
+<strong>⚠️ 二面面试官最可能连续追问 10 分钟 AFI 的细节</strong>。准备好"问题 → 方案 → 关键决策 → 量化效果 → 踩过的坑"五段式。
+</div>
+
+<div class="q">
+<div class="q-title">AFI 五段式（背这个）</div>
+
+<h4>① 问题</h4>
+<ul>
+<li>实习期间团队每天花 ~2 小时人工刷 AI 行业信息，效率低、覆盖不全、决策层看不到提炼后的 insight</li>
+<li>核心 gap：<strong>信息过载 vs 决策需求</strong> —— 研究员被动消费原始信息，没时间提炼</li>
+</ul>
+
+<h4>② 方案</h4>
+<ul>
+<li>多源采集：RSS / GitHub Trending / ArXiv / HuggingFace（逐步扩展到 55+ 源）</li>
+<li>LLM 相关性打分：DeepSeek V3（成本 vs 能力最优解）</li>
+<li>三层结构化输出：Raw Signal → Insight → Implication</li>
+<li>每日自动推送：GitHub Actions cron</li>
+</ul>
+
+<h4>③ 关键决策（展示 PM 思维）</h4>
+<ul>
+<li><strong>为什么 DeepSeek 不是 GPT-4</strong>：成本差 10x，中文能力对等，我垫 API 费能跑就行</li>
+<li><strong>为什么三层不是一层</strong>：早期给 flat list，用户跳过太多；分层后留存率上升</li>
+<li><strong>为什么做 topic_mode</strong>：用户反馈有两种消费模式（聚焦 vs 广谱），一套方案不能满足，做分流</li>
+</ul>
+
+<h4>④ 效果</h4>
+<ul>
+<li>日均 10+ 频道，500+ 结构化洞察</li>
+<li>发现高价值用户（高管每周看 3-5 次）→ 针对性迭代内容</li>
+<li>覆盖 55+ RSS 源，去重准确率 95%+</li>
+</ul>
+
+<h4>⑤ 踩过的坑</h4>
+<ul>
+<li><strong>幻觉</strong>：LLM 编造未发生的产品发布 → 加 source citation 强制引用</li>
+<li><strong>prompt drift</strong>：调完一批数据，跑新 source 又不行 → bad case 驱动 4 轮迭代</li>
+<li><strong>权限阻塞</strong>：内部文档 API 等 2 周没批 → 绕道用 Lobi 实现替代方案</li>
+</ul>
+</div>
+
+<h3>面试官可能连追的 3 个问题</h3>
+
+<ol>
+<li><strong>"你怎么评估 AFI 的成功？"</strong> → 高管留存 + 用户反馈驱动迭代，不只看调用量</li>
+<li><strong>"如果让你把 AFI 做成 Shopee 搜索的原型，怎么做？"</strong> → 把"信号源"换成"商品池"、"LLM 打分"换成"相关性 + 转化率多目标排序"、"分层输出"换成"分层结果页"</li>
+<li><strong>"你遇到过什么搞不定的问题？"</strong> → prompt drift 早期我试过调 temperature / system prompt，后来发现根因是 bad case 不够系统，改成每轮 collect 20 bad cases 再迭代</li>
+</ol>
+
+<h2>📊 五、业务场景题（准备 2-3 个路径）</h2>
+
+<div class="q">
+<div class="q-title">Q1. 产品上线后数据不如预期，怎么分析？</div>
+<div class="formula">公式：漏斗拆解 → 分层归因 → 假设验证</div>
+<ol>
+<li><strong>先验真</strong>：数据口径变了？是否赶上特殊事件（大促后回落）？埋点 bug？</li>
+<li><strong>漏斗拆解</strong>：CTR 降 / CVR 降 / ARPU 降 —— 定位是哪一环</li>
+<li><strong>维度下钻</strong>：按用户群（新老 / 地区 / 端）、品类（生鲜 / 3C / 服饰）、时间（全天 / 周内周末）</li>
+<li><strong>假设验证</strong>：AB 测、用户访谈、bad case 分析三种手段</li>
+<li><strong>关键原则</strong>：<strong>别急着修</strong>——先诊断再动手。上线急着修是最贵的错误。</li>
+</ol>
+</div>
+
+<div class="q">
+<div class="q-title">Q2. PM 和运营的区别？</div>
+<div class="formula">公式：目标 × 手段 × 周期 三个维度</div>
+<ul>
+<li><strong>PM</strong>：定义 "要做什么"（what）和 "为什么"（why），产出是 PRD / 决策 / 产品形态</li>
+<li><strong>运营</strong>：执行 "怎么让更多人用/买"（how），产出是活动 / 内容 / 增长数据</li>
+<li><strong>周期</strong>：PM 月度 / 季度 sprint，运营每日 / 每周</li>
+<li><strong>关系</strong>：PM 定义价值模型，运营放大价值 —— 不是上下级，是协同</li>
+<li>电商场景更交叉：Shopee 的 "AI Listing Optimizer" 既是产品功能（PM 负责）也是运营工具（运营用来指导商家）</li>
+</ul>
+</div>
+
+<div class="q">
+<div class="q-title">Q3. 如何理解市场增长？</div>
+<ul>
+<li>三个层次：<strong>人（用户规模）× 次（频次）× 钱（客单价）</strong> = GMV</li>
+<li>东南亚电商：新用户增长（从 0-1）+ 老用户复购频次（1-10）+ 消费升级（客单价提升）</li>
+<li>Shopee 现在处在：头部市场（印尼）接近饱和 → 泰国马来增长 → 新兴市场（菲律宾 / 越南）拓展</li>
+<li>AI 在每一层都有作用：个性化找新用户 / 推荐提频 / AI 导购提升客单</li>
+</ul>
+</div>
+
+<div class="q">
+<div class="q-title">Q4. 你通过客户需求怎么指导项目执行？</div>
+<ul>
+<li><strong>结构化需求收集</strong>：不是 "what"，是 "why behind what"（探 underlying 场景）</li>
+<li><strong>优先级框架</strong>：影响面 × 紧急度 × 实现成本（RICE / ICE 都可以讲）</li>
+<li><strong>MVP 思维</strong>：先做最小可验证版本跑数据，不是等完美方案</li>
+<li><strong>AFI 例子</strong>：高管说"想看前沿动态"，我没做 100 源大爬虫，先做 5 源看留存；留存好再扩源</li>
+</ul>
+</div>
+
+<h2>🎯 六、Shopee 2026 战略情报（随口能提）</h2>
+
+<table>
+<tr><th>维度</th><th>数据 / 事实</th></tr>
+<tr><td>Q1 2026 GMV</td><td><strong>668 亿美金</strong>（占东南亚 52%）</td></tr>
+<tr><td>核心市场</td><td>印尼 44% / 泰国 YoY 22% / 马来 YoY 19%</td></tr>
+<tr><td>整体市场规模</td><td>东南亚电商预计 2026 底 2150-2300 亿美金</td></tr>
+<tr><td>AI 对商家的工具</td><td><strong>AI Listing Optimizer</strong>（标题 / 描述 / 标签自动生成）</td></tr>
+<tr><td>AI 对用户</td><td>Semantic search / voice / image / 区域化个性化</td></tr>
+<tr><td>最大竞对</td><td><strong>TikTok Shop</strong>（快速崛起）+ Lazada（传统）</td></tr>
+<tr><td>护城河</td><td>Integrated logistics + fintech (SPayLater)</td></tr>
+</table>
+
+<h2>🙋 七、反向提问（面试最后，3 个选 2 个）</h2>
+
+<ol>
+<li><strong>岗位归属</strong>："这个岗位在搜索策略团队的具体方向是偏 toC 导购、内部员工工具、还是 MCP 对接？占比如何？"（呼应一面学到的三层）</li>
+<li><strong>面对 TikTok Shop</strong>："Shopee 搜索策略团队怎么看 TikTok Shop 的竞争威胁？AI 在这个竞争中扮演什么角色？"（展示你关心竞争格局）</li>
+<li><strong>实习预期</strong>："实习生 3 个月内能交付的最好结果是什么？是参与现有项目还是独立做 pilot？"（定预期）</li>
+<li><strong>HC + 转正（可选）</strong>：已经一面问过了 20% 转正率，二面不一定再问，除非 HR 面才合适问</li>
+</ol>
+
+<h2>⏰ 八、Checklist（面试前 30 分钟）</h2>
+
+<div class="checklist">
+<ol>
+<li>□ 15:15 念一遍英文自我介绍（2 遍），录音回听</li>
+<li>□ 15:25 扫一眼第六章 Shopee 2026 情报表（记住 3-4 个数字）</li>
+<li>□ 15:30 扫一眼第零章（一面 3 组情报 → 二面反向使用）</li>
+<li>□ 15:40 打开 Chrome 测试面试链接 <a href="https://intv.workatsea.cn/intv/candidate/?code=zd29fsE13UusnB80">intv.workatsea.cn</a></li>
+<li>□ 15:45 测摄像头 / 麦克风 / 网络</li>
+<li>□ 15:55 关闭所有 IM / 邮件推送</li>
+<li>□ 16:00 深呼吸 3 次 · 上场</li>
+<li>□ 面试<strong>开场 1 分钟告知</strong>："我 17:00 还有一场面试，如果你们的节奏需要延长，我可以协调"（这是 IDG 一面 17:00 就要开始的防撞条款）</li>
+</ol>
+</div>
+
+<h2>🔑 5 句救命话</h2>
+
+<ol>
+<li>（英文）"AFI is a recall + ranking + presentation pipeline—exactly what e-commerce search does, just with a different domain."</li>
+<li>"东南亚三约束（多语言 + 低 AI 素养 + 低 query 质量）在 Shopee 金融场景同样成立，但解决了就是全球可迁移的资产。"</li>
+<li>"Shopee 三层职能是从 'AI in product' 到 'AI as infrastructure' 到 'AI as gateway' 的完整谱系——很少有人把三层都跑通。"</li>
+<li>"上线数据异常的第一反应应该是诊断，不是修。"</li>
+<li>"PM 定义价值模型，运营放大价值——协同不是上下级。"</li>
+</ol>
+
+<hr>
+
+<div class="meta" style="text-align:center">
+Amber · 2026-04-21 晚准备 · 2026-04-22 16:00 上场<br>
+<em>配套：<a href="https://amb2rzhou.github.io/reports/shopee-interview.html">shopee-interview.html</a>（一面 prep）· <a href="https://amb2rzhou.github.io/reports/idg-interview.html">idg-interview.html</a>（紧挨 17:00 IDG 一面）</em>
+</div>
+
+</body>
+</html>
