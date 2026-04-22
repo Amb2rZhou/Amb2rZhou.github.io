@@ -488,6 +488,245 @@ strong{color:#1f2328}
 <li>"IDG 目前在 AI 赛道最看好的 1-2 个细分方向是什么？为什么？"（显示你对他们投资策略的兴趣，让面试官愿意分享，也让你判断是否契合）</li>
 </ol>
 
+<h2>💎 八、投资场景痛点图谱 × AI 产品设计（🔴 必看 · 面试核心）</h2>
+
+<div class="key">
+<strong>这章是 IDG 面试的主战场</strong>——JD 说"发掘业务痛点 + 转化为 AI 闭环工具"。你需要能清晰说出：
+<br>① VC 工作流有哪些环节
+<br>② 每个环节最痛的点是什么
+<br>③ AI 具体怎么替代 / 增强
+<br>④ 怎么设计成产品
+</div>
+
+<h3>8.1 VC 投资全生命周期 · 12 个环节速查</h3>
+
+<table>
+<tr><th>阶段</th><th>环节</th><th>分析师一天/一周做什么</th></tr>
+<tr><td rowspan="3">🔍 <strong>找项目</strong></td><td>1. Deal Sourcing（项目源头）</td><td>刷朋友圈 / 公众号 / Twitter / YC / GitHub / 参会 / 内推</td></tr>
+<tr><td>2. Initial Screening（初筛）</td><td>查创始人背景 / 产品 demo / 第一判断</td></tr>
+<tr><td>3. First Meeting（初次会面）</td><td>创始人访谈 30-60 分钟</td></tr>
+<tr><td rowspan="4">📊 <strong>深度调研</strong></td><td>4. Market Research（行研）</td><td>赛道地图 / 市场规模 / 竞品分析</td></tr>
+<tr><td>5. Due Diligence（尽调）</td><td>财务 / 法律 / 业务 / 团队全面调查</td></tr>
+<tr><td>6. User Interviews（用户访谈）</td><td>10-20 个目标用户电话/视频</td></tr>
+<tr><td>7. Valuation（估值）</td><td>可比公司 / DCF / 倍数分析</td></tr>
+<tr><td rowspan="2">🤝 <strong>决策 & 交割</strong></td><td>8. IC Preparation（投委会准备）</td><td>Deal memo / Slides / FAQ 预判</td></tr>
+<tr><td>9. Term Sheet / Closing</td><td>条款谈判 / 法律文件</td></tr>
+<tr><td rowspan="3">📈 <strong>投后</strong></td><td>10. Portfolio Monitoring（投后监控）</td><td>CEO 周报 / 竞对追踪 / 异常预警</td></tr>
+<tr><td>11. LP Reporting（基金报告）</td><td>季度报告 / 年度报告 / 定制化 LP 简报</td></tr>
+<tr><td>12. Exit（退出）</td><td>IPO / M&A / Secondary 路径判断</td></tr>
+</table>
+
+<h3>8.2 🔥 Top 5 痛点 × AI 产品设计（按 ROI 排序，面试可讲）</h3>
+
+<div class="q">
+<div class="q-title">💎 Pain #1（ROI 最高）· Deal Sourcing 信息源碎片化</div>
+
+<h4>痛点</h4>
+<ul>
+<li>信息源碎片：朋友圈 / 公众号 / Twitter / YC / GitHub / 36 氪 / 小宇宙 播客</li>
+<li>每个分析师自己刷，<strong>重复劳动</strong></li>
+<li>90% 是噪音，signal 被淹没</li>
+<li>早期信号（GitHub trending / HuggingFace）往往早于媒体报道 2-4 周，但没人系统性追</li>
+</ul>
+
+<h4>AI 解决（产品名：Deal Sourcing Copilot）</h4>
+<ul>
+<li><strong>多源自动采集</strong>：RSS + GitHub + ProductHunt + ArXiv + HuggingFace + Twitter 关键词 + 行业公众号</li>
+<li><strong>LLM 相关性打分</strong>：基于 IDG 基金方向（AI 应用层 / 智能金融 / 硬科技）+ 历史投过的案例</li>
+<li><strong>分层输出</strong>：
+<ul>
+<li>Layer 1: 每日 Top 5 deal candidates（推送合伙人）</li>
+<li>Layer 2: 分析师专属 dashboard（按行业细分）</li>
+<li>Layer 3: 竞争情报（竞对刚投了谁 / 谁获新轮融资）</li>
+</ul>
+</li>
+<li><strong>反馈回路</strong>：合伙人 / 分析师 thumbs up/down → 模型学习该基金偏好</li>
+</ul>
+
+<h4>指标</h4>
+<ul>
+<li>每日 deal candidates 数 + 分析师 follow-up 率</li>
+<li>进入 IC 的 deal 中有多少来自 AI 推荐</li>
+<li>"系统抓到但媒体还没报道"的 deal 数（早期信号的价值）</li>
+</ul>
+
+<h4>为什么你能做</h4>
+<blockquote>"我做 AFI 的时候就在做这件事的 B 端版本——多源召回 + LLM 打分 + 分层输出。把标的从 AI 技术趋势换成 startup deal，pipeline 完全复用，只需要调打分 prompt 的行业关键词。"</blockquote>
+</div>
+
+<div class="q">
+<div class="q-title">💎 Pain #2 · Company Briefing 重复造轮子</div>
+
+<h4>痛点</h4>
+<ul>
+<li>听说一家公司 → 分析师手工查 LinkedIn / 企查查 / 官网 / 新闻</li>
+<li>平均 2 小时整理出一个 "initial screen" 简报</li>
+<li>下一个分析师再做同样的事</li>
+</ul>
+
+<h4>AI 解决（产品名：Company Briefing Agent）</h4>
+<ul>
+<li><strong>输入</strong>：公司名或官网</li>
+<li><strong>Agent 自动并发调用</strong>：
+<ul>
+<li>企查查 API → 工商 / 融资历史</li>
+<li>LinkedIn → 创始人 / 核心团队</li>
+<li>官网 + 爬虫 → 产品描述</li>
+<li>36 氪 / 新闻 RSS → 近期动态</li>
+<li>GitHub → 技术活跃度（如果是技术公司）</li>
+</ul>
+</li>
+<li><strong>LLM 总结</strong>输出标准化 2 页简报</li>
+<li><strong>基金内部对标</strong>：自动匹配 "我们看过的相似项目"</li>
+</ul>
+
+<h4>指标</h4>
+<ul>
+<li>平均从查询到简报完成的时间（目标：5 分钟内）</li>
+<li>分析师采纳率（有多少简报被直接用）</li>
+<li>重复查询避免率（去重减少重复工作）</li>
+</ul>
+</div>
+
+<div class="q">
+<div class="q-title">💎 Pain #3 · Due Diligence 文档处理重</div>
+
+<h4>痛点</h4>
+<ul>
+<li>DD 阶段要处理大量 PDF：财务报表 / 合同 / 商业计划书 / 法律文件</li>
+<li>手工提取数据慢（PDF → Excel 就要半天）</li>
+<li>用户访谈录音整理：2 小时访谈 → 4 小时整理</li>
+<li>合规条款审查：专业度要求高，律师 review 周期长</li>
+</ul>
+
+<h4>AI 解决（产品名：DD Assistant）</h4>
+<ul>
+<li><strong>财报 PDF → 结构化表格</strong>：OCR + 表格识别 + LLM 字段提取</li>
+<li><strong>访谈录音 → 结构化摘要</strong>：ASR + LLM 打标（关键信号高亮：产品痛点 / 商业模式 / 风险）</li>
+<li><strong>合同条款 flagger</strong>：自动识别非标条款（对赌 / 反稀释 / 优先清算顺位）</li>
+<li><strong>竞品对标自动生成</strong>：基于 DD 材料 + 公开信息，自动画竞品矩阵</li>
+</ul>
+
+<h4>指标</h4>
+<ul>
+<li>DD 周期缩短时间（目标从 4 周压到 2 周）</li>
+<li>重大风险 flag 命中率（AI 标记的风险被 IC 采纳的比例）</li>
+</ul>
+</div>
+
+<div class="q">
+<div class="q-title">💎 Pain #4 · Market Research 赛道综述耗时</div>
+
+<h4>痛点</h4>
+<ul>
+<li>合伙人随时会问："XX 赛道怎么样？"</li>
+<li>分析师从 0 开始查，要 1-2 天</li>
+<li>信息散乱：行业报告 / 公众号 / 论坛 / 创业公司官网 / 播客</li>
+</ul>
+
+<h4>AI 解决（产品名：Industry Brief Generator）</h4>
+<ul>
+<li><strong>输入</strong>：赛道名（例如"东南亚 AI 电商"）</li>
+<li><strong>Agent 自动产出</strong>：
+<ul>
+<li>市场规模估算（bottom-up：对标公司 revenue × 数量）</li>
+<li>Top 30 玩家 + 最近 2 年融资情况</li>
+<li>竞争格局图（按商业模式 / 客群分类）</li>
+<li>关键争议与判断</li>
+</ul>
+</li>
+<li><strong>挂基金历史</strong>：这个赛道 IDG 投过谁 / 错过谁 / 当时的讨论</li>
+</ul>
+
+<h4>指标</h4>
+<ul>
+<li>从 request 到交付时间（1-2 天 → 30 分钟）</li>
+<li>合伙人反馈"有用"的比例</li>
+</ul>
+</div>
+
+<div class="q">
+<div class="q-title">💎 Pain #5 · Portfolio Monitoring 被动响应</div>
+
+<h4>痛点</h4>
+<ul>
+<li>被投公司 CEO 不一定及时汇报异常</li>
+<li>关键信号滞后发现：核心团队离职 / 竞对融大钱 / 差评激增</li>
+<li>投后经理精力有限，无法 24/7 盯</li>
+</ul>
+
+<h4>AI 解决（产品名：Portfolio Watchdog）</h4>
+<ul>
+<li><strong>公开信息持续监控</strong>：媒体 / LinkedIn / GitHub / 应用商店评分 / 小红书口碑</li>
+<li><strong>异常 alert</strong>：
+<ul>
+<li>关键人员离职 → 投后经理 24h 内知道</li>
+<li>竞对融资 → 相关投资人群里同步</li>
+<li>用户口碑转负 → 产品团队介入</li>
+</ul>
+</li>
+<li><strong>季度 report 自动生成</strong>：把监控数据结构化后自动出初稿</li>
+</ul>
+
+<h4>指标</h4>
+<ul>
+<li>从"异常发生"到"投后经理知道"的延迟（目标：24h 内）</li>
+<li>被投公司满意度（AI 帮他们发现了问题 vs AI 添乱）</li>
+</ul>
+</div>
+
+<h3>8.3 面试怎么展示这套思考（推荐答题结构）</h3>
+
+<div class="trump">
+<div class="trump-title">面试官问："你觉得 AI 在投资业务里能做什么？"</div>
+<p><strong>答题结构（2 分钟版）</strong>：</p>
+<ol>
+<li><strong>先给框架</strong>（30 秒）："投资全流程我分成 4 段——找项目、深度调研、决策交割、投后管理。每段都有 AI 可以切入的点。"</li>
+<li><strong>挑 1 个最 ROI 的深讲</strong>（60 秒）：推荐 <strong>Deal Sourcing Copilot</strong>——你做 AFI 的直接迁移。讲清楚：痛点 → 我的产品方案 → 指标</li>
+<li><strong>承认 AI 的边界</strong>（15 秒）："但投资决策本身 AI 不能替代——人的判断、合伙人的关系、创始人的直觉，这些是护城河。AI 是把分析师从重复劳动解放出来，让他们有更多时间做判断。"</li>
+<li><strong>反向抛球</strong>（15 秒）："IDG 内部现在在 AI 这块具体是哪个方向？我挺好奇你们把优先级排在 Deal Sourcing 还是 Portfolio Monitoring。"</li>
+</ol>
+</div>
+
+<h3>8.4 面试官可能的压力问题 + 你的答案</h3>
+
+<div class="q">
+<div class="q-title">Q. "你设计这些听起来很美，但投资人真的会用吗？"</div>
+<ul>
+<li>坦诚说："这是 AI 工具最大的坑——技术可行 ≠ 有人用。"</li>
+<li>方法论："先找一个痛得叫出来的点做 MVP，别一开始做大平台。"</li>
+<li>举例："我在 AFI 项目里也是这样——先给一个分析师用，她愿意每天看，再推广到其他人。"</li>
+<li>关键："我不会对着空气设计产品，<strong>我要先确认至少有一个投资人愿意用我做的东西</strong>，再考虑通用化。"</li>
+</ul>
+</div>
+
+<div class="q">
+<div class="q-title">Q. "你列的这些大厂（阿里通义 / 智谱）早就在做了，我们做有什么优势？"</div>
+<ul>
+<li>"这是好问题。通用大模型的竞争确实惨烈，但投资场景的 AI 工具有三个壁垒：
+<ol>
+<li><strong>数据壁垒</strong>：IDG 30 年的历史投资数据、IC 决策记录、DD 档案——通用大模型访问不到</li>
+<li><strong>场景壁垒</strong>：投资工作流高度特定（一级市场不同于二级、VC 不同于 PE），通用工具不贴合</li>
+<li><strong>判断壁垒</strong>：'好 deal 长什么样'这个判断是基金特有的，通用模型没有这个 fine-tune 数据</li>
+</ol>
+</li>
+<li>"所以<strong>我们做的不是替代 ChatGPT，是在 IDG 的 context 上叠一层</strong>——这个 context 是独一无二的。"</li>
+</ul>
+</div>
+
+<div class="q">
+<div class="q-title">Q. "MVP 你打算从哪个痛点开始？"</div>
+<p>首推 <strong>Deal Sourcing Copilot</strong>，理由：</p>
+<ul>
+<li>① <strong>ROI 最高</strong>：每个分析师每天都要做的事，省时间最多</li>
+<li>② <strong>数据易获取</strong>：公开信息源，不涉及 IDG 敏感数据</li>
+<li>③ <strong>迭代闭环快</strong>：每日推送 → thumbs up/down → 模型学习，一周一次迭代</li>
+<li>④ <strong>我有现成原型</strong>：AFI 项目直接改造，两周能跑通 MVP</li>
+<li>⑤ <strong>效果可量化</strong>："多少 deal 是 AI 推荐进入 IC 的" 直观可见</li>
+</ul>
+<div class="key">"这是我如果入职后第一周就会 propose 的项目。"</div>
+</div>
+
 <h2>⏰ 七、上场前 Checklist（4/22 下午）</h2>
 
 <div class="checklist">
