@@ -292,6 +292,89 @@ strong{color:#1f2328}
 <li>✅ 要诚实，但要<strong>有自我定位的诚实</strong>——"我 X 方面强、Y 方面还在补，我来这里是要做 X 同时补 Y"</li>
 </ul>
 
+<h2>🎯 六·b、补充弹药：蚂蚁 AI 产品经理真题（第二轮深挖新增）</h2>
+
+<div class="intel">
+<strong>来源</strong>：CSDN 2024 蚂蚁集团 60K 高薪 AI 产品岗直属领导面真题（一面）+ 人人都是产品经理面经归纳。这些是一面/二面常问的<strong>AI 专业深度题</strong>，如果三面面试官来自基础模型团队或数据质量团队，可能重访。
+</div>
+
+<h3>6b.1 大模型语料采集 6 题（蚂蚁风格的 AI 专业题）</h3>
+
+<div class="q">
+<div class="q-title">Q. 大模型语料采集和清洗应该注意什么？</div>
+<ul>
+<li><strong>采集维度</strong>：多样性（避免偏差）/ 时效性 / 合规性（版权 / 隐私）/ 质量分层</li>
+<li><strong>清洗维度</strong>：去重（fuzzy match）/ 噪音过滤（乱码 / 广告 / 低质 UGC）/ 格式标准化 / 毒性/违规内容过滤</li>
+<li><strong>金融场景特殊</strong>：PII 脱敏（身份证 / 账号 / 金额）+ 合规关键词过滤 + 引用溯源</li>
+</ul>
+</div>
+
+<div class="q">
+<div class="q-title">Q. 如何评判大模型语料采集的质量？</div>
+<p><strong>分四维度</strong>：</p>
+<ol>
+<li><strong>完整性</strong>：是否覆盖 target domain 的关键子域（可用 topic modeling 检测 gap）</li>
+<li><strong>准确性</strong>：事实一致性（人工 spot check + LLM-as-judge 批量评估）</li>
+<li><strong>多样性</strong>：语言风格 / 观点立场 / 时间跨度</li>
+<li><strong>时效性</strong>：数据新鲜度分布</li>
+</ol>
+<p><strong>举具体例子</strong>（如果面试官追问）：金融语料评判——"好"的金融语料应该覆盖研报 / 新闻 / 公告 / 行业分析 / 监管文件等 5 类来源，缺任何一类都有 gap。</p>
+</div>
+
+<div class="q">
+<div class="q-title">Q. 如何计算大模型语料采集的完整性？</div>
+<ul>
+<li><strong>先定义领域分类 schema</strong>：比如金融分 18 个子域（权益 / 固收 / 量化 / 合规...）</li>
+<li><strong>采样统计</strong>：每个子域的样本占比 vs 期望占比（用 chi-square 检测分布偏差）</li>
+<li><strong>embedding 空间覆盖率</strong>：把语料和"理想全集"都 embed，看 embedding cluster 覆盖率</li>
+<li><strong>外部验证</strong>：用 held-out 问题集（未见过的 query），看模型能不能答对 → 答不对的说明语料覆盖不够</li>
+</ul>
+</div>
+
+<div class="q">
+<div class="q-title">Q. 大模型语料采集的难点是什么？</div>
+<ul>
+<li><strong>高质量语料获取成本高</strong>：专业内容（法律/金融/医疗）都有版权，爬虫违规风险</li>
+<li><strong>合规和可用性的平衡</strong>：脱敏后语料的语义损失 vs 合规刚性要求</li>
+<li><strong>长尾场景难覆盖</strong>：通用语料好找，专业细分场景（如"东南亚伊斯兰金融合规"）找不到</li>
+<li><strong>质量评估主观性</strong>：没有 ground truth，评估依赖人工或 LLM-as-judge，成本高</li>
+<li><strong>语料时效 decay</strong>：金融语料半年前可能已过时，需要持续更新但成本高</li>
+</ul>
+</div>
+
+<h3>6b.2 Boss 的 AFI 挂钩点</h3>
+
+<div class="key">
+这些大模型语料题你可以<strong>用 AFI 的经验回答</strong>——AFI 本质就是做多源信号采集 + LLM 相关性打分：
+<ul>
+<li>采集：RSS / GitHub / ArXiv / HuggingFace 多源（vs 大模型多源）</li>
+<li>打分：LLM 按相关性筛选（vs 大模型质量评估）</li>
+<li>去重：我处理过 signal 的去重（vs 大模型语料去重）</li>
+<li>时效：AFI 的 daily 机制（vs 语料更新机制）</li>
+</ul>
+"我做 AFI 的时候在小体量上踩过这些坑，对大模型语料采集的难点有直观体感。"
+</div>
+
+<h3>6b.3 其他专业题（低概率但准备一下）</h3>
+
+<table>
+<tr><th>题目</th><th>核心答题点</th></tr>
+<tr><td>如何把一个用户需求变成落地的 AI 产品方案？</td><td>需求结构化 → 场景定义 → AI 能力匹配 → MVP → 数据反馈环。AFI 就是完整例子</td></tr>
+<tr><td>Diffusion 模型的实现原理了解多少？</td><td>诚实说"了解概念（前向扩散加噪 + 反向去噪生成），但不是算法专家"</td></tr>
+<tr><td>如何判断一个用户痛点是"真实痛点"而非"伪需求"？</td><td>看频次 × 痛的程度 × 愿意支付 × 现有替代方案的缺口</td></tr>
+<tr><td>AI 在金融行业的落地场景</td><td>智能投研 / 智能客服 / AI 风控 / 合规审查 / 跨境反洗钱——每个给 1 句话，不要展开</td></tr>
+<tr><td>过拟合 / 数据不平衡 / 模型可解释性</td><td>基础 ML 概念，读过论文能说核心 idea 就行——别装算法工程师</td></tr>
+</table>
+
+<h3>6b.4 典型 HR 终面 4 题（如果三面是 HR）</h3>
+
+<ol>
+<li>"可以推荐一款你觉得好用的产品吗？说说理由？" ← 经典 HR 题，考察审美和判断</li>
+<li>"是否考研？" ← 问 commitment（蚂蚁偏好能稳定实习到转正的）</li>
+<li>"如何处理和开发人员的问题？" ← 考察协作能力</li>
+<li>"还有啥要问我的不？" ← 永远要有 2-3 个有深度的反问</li>
+</ol>
+
 <h2>⏰ 七、上场前 Checklist（4/23 下午）</h2>
 
 <div class="checklist">
