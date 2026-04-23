@@ -121,6 +121,13 @@ const nodes = [
     "size": 12
   },
   {
+    "id": "afi-v2-lab-agent",
+    "label": "AFI v2 — 交互Lab知识Agent",
+    "group": "work",
+    "desc": "现有 afi（ai-frontier-insight）是单向推送工具：本地 launchd 采集 → push GitHub → 公司 lobi 爬 GitH…",
+    "size": 11
+  },
+  {
     "id": "interview-digest-skill",
     "label": "interview-digest-skill",
     "group": "work",
@@ -462,6 +469,11 @@ const edges = [
     "from": "ai-frontier-insight",
     "to": "prompt-tuning",
     "label": "→"
+  },
+  {
+    "from": "ai-frontier-insight",
+    "to": "afi-v2-lab-agent",
+    "label": "引用"
   },
   {
     "from": "summer-internship",
@@ -842,7 +854,7 @@ function loop() { tick(); draw(); requestAnimationFrame(loop); }
 loop();
 
 document.getElementById('timestamp').textContent =
-  'Updated: 2026-04-21 21:02 · ' + nodes.length + ' nodes · ' + edges.length + ' edges';
+  'Updated: 2026-04-23 14:50 · ' + nodes.length + ' nodes · ' + edges.length + ' edges';
 </script>
 </body>
 </html>
