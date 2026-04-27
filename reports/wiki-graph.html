@@ -142,6 +142,13 @@ const nodes = [
     "size": 10
   },
   {
+    "id": "2026-04-summer-internship-job-hunt",
+    "label": "2026 暑期实习求职复盘",
+    "group": "reflect",
+    "desc": "> Period: 2026-04-12 集中投递 → 2026-04-27 双 offer 落定（16 天）",
+    "size": 9
+  },
+  {
     "id": "个人项目复盘转面试素材",
     "label": "个人项目复盘转面试素材",
     "group": "pattern",
@@ -328,14 +335,14 @@ const nodes = [
     "label": "AI 时代的 Context 红利",
     "group": "topic",
     "desc": "Boss 的核心论点：AI 不是威胁，是属于 Gen Z 的时代红利。抓住红利的方式不是学技术，是用起来、积累 Context。",
-    "size": 10
+    "size": 11
   },
   {
     "id": "大厂AI产品布局模式",
     "label": "大厂 AI 产品布局模式",
     "group": "topic",
     "desc": "> 从面试/行业观察中提炼，用于面大厂 AI PM 岗时快速定位对方业务象限、准备针对性问题与案例。",
-    "size": 9
+    "size": 10
   }
 ];
 
@@ -477,6 +484,26 @@ const edges = [
   },
   {
     "from": "summer-internship",
+    "to": "2026-04-summer-internship-job-hunt",
+    "label": "引用"
+  },
+  {
+    "from": "2026-04-summer-internship-job-hunt",
+    "to": "summer-internship",
+    "label": "→"
+  },
+  {
+    "from": "2026-04-summer-internship-job-hunt",
+    "to": "ai-era-context-dividend",
+    "label": "→"
+  },
+  {
+    "from": "2026-04-summer-internship-job-hunt",
+    "to": "大厂AI产品布局模式",
+    "label": "→"
+  },
+  {
+    "from": "summer-internship",
     "to": "美团-2026春招产品运营笔试邀请",
     "label": "→"
   },
@@ -503,6 +530,11 @@ const edges = [
   {
     "from": "summer-internship",
     "to": "IDG-一面邀约-2026-04-22",
+    "label": "→"
+  },
+  {
+    "from": "summer-internship",
+    "to": "IDG-AI-Solutions-PM-岗位描述",
     "label": "→"
   },
   {
@@ -629,11 +661,6 @@ const edges = [
     "from": "易方达-一面邀约-2026-04-23",
     "to": "易方达-智能应用研究员-岗位描述",
     "label": "→"
-  },
-  {
-    "from": "summer-internship",
-    "to": "IDG-AI-Solutions-PM-岗位描述",
-    "label": "引用"
   },
   {
     "from": "IDG-AI-Solutions-PM-岗位描述",
@@ -854,7 +881,7 @@ function loop() { tick(); draw(); requestAnimationFrame(loop); }
 loop();
 
 document.getElementById('timestamp').textContent =
-  'Updated: 2026-04-23 14:50 · ' + nodes.length + ' nodes · ' + edges.length + ' edges';
+  'Updated: 2026-04-27 16:02 · ' + nodes.length + ' nodes · ' + edges.length + ' edges';
 </script>
 </body>
 </html>
