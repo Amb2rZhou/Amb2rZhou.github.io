@@ -146,7 +146,7 @@ const nodes = [
     "label": "2026 暑期实习求职复盘",
     "group": "reflect",
     "desc": "> Period: 2026-04-12 集中投递 → 2026-04-27 双 offer 落定（16 天）",
-    "size": 9
+    "size": 10
   },
   {
     "id": "个人项目复盘转面试素材",
@@ -223,7 +223,7 @@ const nodes = [
     "label": "intern-clawd（公开版）",
     "group": "life",
     "desc": "intern-agent-system 的脱敏公开模板版本，发布到 GitHub public，作为对外影响力载体。",
-    "size": 15
+    "size": 16
   },
   {
     "id": "skillhub",
@@ -231,6 +231,13 @@ const nodes = [
     "group": "life",
     "desc": "创业副业项目，PRD 在 ~/SkillHub-PRD.md，生态研究在 ~/personal-context/agent-skill-ecosystem-r…",
     "size": 13
+  },
+  {
+    "id": "time-twin",
+    "label": "Time Twin · 时光副本",
+    "group": "life",
+    "desc": "> \"以前只有大人物可以有自己的传记，小人物的一生匆匆逝去没人在意。在 AI 时代，每个普通人都可以永生。\" — Boss, 2026-04-27",
+    "size": 15
   },
   {
     "id": "summer-internship-backlog",
@@ -244,7 +251,7 @@ const nodes = [
     "label": "个人影响力计划",
     "group": "life",
     "desc": "这个时代很难脱颖而出：",
-    "size": 14
+    "size": 15
   },
   {
     "id": "intern-agent-system",
@@ -258,7 +265,7 @@ const nodes = [
     "label": "digital-twin",
     "group": "life",
     "desc": "求职导向的个人网站。wiki 是全量 context 的私有源头，本站是面向求职场景的公开子集。",
-    "size": 15
+    "size": 16
   },
   {
     "id": "中欧瑞博-暑期实习",
@@ -335,7 +342,7 @@ const nodes = [
     "label": "AI 时代的 Context 红利",
     "group": "topic",
     "desc": "Boss 的核心论点：AI 不是威胁，是属于 Gen Z 的时代红利。抓住红利的方式不是学技术，是用起来、积累 Context。",
-    "size": 11
+    "size": 12
   },
   {
     "id": "大厂AI产品布局模式",
@@ -588,9 +595,49 @@ const edges = [
     "label": "→"
   },
   {
+    "from": "intern-clawd",
+    "to": "time-twin",
+    "label": "→"
+  },
+  {
     "from": "digital-twin",
     "to": "skillhub",
     "label": "引用"
+  },
+  {
+    "from": "2026-04-summer-internship-job-hunt",
+    "to": "time-twin",
+    "label": "引用"
+  },
+  {
+    "from": "ai-era-context-dividend",
+    "to": "time-twin",
+    "label": "引用"
+  },
+  {
+    "from": "time-twin",
+    "to": "ai-era-context-dividend",
+    "label": "→"
+  },
+  {
+    "from": "time-twin",
+    "to": "digital-twin",
+    "label": "→"
+  },
+  {
+    "from": "time-twin",
+    "to": "intern-clawd",
+    "label": "→"
+  },
+  {
+    "from": "time-twin",
+    "to": "2026-04-summer-internship-job-hunt",
+    "label": "→"
+  },
+  {
+    "from": "time-twin",
+    "to": "personal-brand",
+    "label": "→"
   },
   {
     "from": "summer-internship-backlog",
@@ -634,6 +681,11 @@ const edges = [
   },
   {
     "from": "personal-brand",
+    "to": "time-twin",
+    "label": "→"
+  },
+  {
+    "from": "personal-brand",
     "to": "summer-internship",
     "label": "→"
   },
@@ -646,6 +698,11 @@ const edges = [
     "from": "intern-agent-system",
     "to": "digital-twin",
     "label": "引用"
+  },
+  {
+    "from": "digital-twin",
+    "to": "time-twin",
+    "label": "→"
   },
   {
     "from": "IDG-一面邀约-2026-04-22",
@@ -881,7 +938,7 @@ function loop() { tick(); draw(); requestAnimationFrame(loop); }
 loop();
 
 document.getElementById('timestamp').textContent =
-  'Updated: 2026-04-27 16:02 · ' + nodes.length + ' nodes · ' + edges.length + ' edges';
+  'Updated: 2026-04-28 11:52 · ' + nodes.length + ' nodes · ' + edges.length + ' edges';
 </script>
 </body>
 </html>
