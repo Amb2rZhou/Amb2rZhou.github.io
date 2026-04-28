@@ -102,14 +102,140 @@ strong{color:#1f2328}
 <li><strong>缺口</strong>：相比 Sora / Runway / Pika，TikTok 还<strong>没有自己的视频生成 base model</strong>——这是战略空白</li>
 </ul>
 
-<h3>1.4 AIGC 模型最新格局（你必须能 5 秒报）🔥</h3>
+<h3>1.4 AIGC 模型最新格局 · 深度版（必背）🔥</h3>
+
+<h4>📹 视频生成（TikTok 最相关）</h4>
 <table>
-<tr><th>模态</th><th>头部模型 / 公司</th></tr>
-<tr><td>视频生成</td><td>OpenAI Sora 2 · Google Veo 3 · Runway Gen-4 · Pika 2.0 · 字节即梦 · 快手可灵</td></tr>
-<tr><td>图像生成</td><td>Midjourney v7 · Flux 1.1 Pro · DALL-E 4 · 通义万相</td></tr>
-<tr><td>音乐生成</td><td>Suno v5 · Udio · 阿里听悟</td></tr>
-<tr><td>对话 / Agent</td><td>Claude 4 · GPT-5 · Gemini 2.5 · 字节豆包 · Qwen Max · DeepSeek R2</td></tr>
+<tr><th>模型</th><th>公司</th><th>突破点 / 关键 fact</th></tr>
+<tr><td><strong>Veo 3.1</strong></td><td>Google</td><td>原生 4K + <strong>同步音效</strong>（视频音频一次性生成）</td></tr>
+<tr><td><strong>Runway Gen-4.5</strong></td><td>Runway</td><td>4K + 最强 camera motion control + enterprise features</td></tr>
+<tr><td><strong>Kling 3.0</strong></td><td>快手</td><td>multi-shot 电影级序列 + 5 语言 native dialogue + <strong>$0.10/sec 价值之王</strong></td></tr>
+<tr><td>⚠️ <strong>Sora 2</strong></td><td>OpenAI</td><td>photoreal + native audio，但 <strong>2026-04-26 web/app 已停服，2026-09-24 API 停</strong>—— 这是 hot signal</td></tr>
+<tr><td>🔥 <strong>Seedance 2.0</strong></td><td><strong>字节自家</strong></td><td>2026-02 发布，<strong>统一音视频生成</strong> + 12 文件多模态输入 + <strong>8+ 语言 phoneme-level lip-sync</strong> —— TikTok 国际化关键武器</td></tr>
+<tr><td><strong>Luma Ray3</strong></td><td>Luma</td><td>natural lip-sync + lifelike body language</td></tr>
+<tr><td><strong>Pika 2.5</strong></td><td>Pika</td><td>学习曲线最低 + Pikaffects (melt / explode / transform)</td></tr>
+<tr><td>即梦</td><td>字节</td><td>已集成进 CapCut + Symphony</td></tr>
 </table>
+
+<div class="key">
+<strong>面试 talking points</strong>：
+<br>① <strong>Sora 2 退场</strong>（4/26 停服）→ 视频生成市场重新洗牌，字节 Seedance + Veo 是直接受益者
+<br>② <strong>字节自家 Seedance 2.0 才是 TikTok 真正护城河</strong> —— 8+ 语言 lip-sync 直接对应 TikTok 国际化战场
+<br>③ Veo 3.1 跟 Seedance 2.0 在"音视频统一生成"路线上竞争 —— 这是技术路径分水岭
+</div>
+
+<h4>🎨 图像生成</h4>
+<table>
+<tr><th>模型</th><th>公司</th><th>突破点</th></tr>
+<tr><td><strong>Midjourney V8</strong></td><td>Midjourney</td><td>2026-03 发布，<strong>美学之王</strong>，原生 2K + 5x 加速</td></tr>
+<tr><td><strong>Flux 2 Pro</strong></td><td>Black Forest Labs</td><td><strong>photorealism 王者</strong>，camera-accurate 光学特性（景深 / 镜头变形 / 色差 / 颗粒）</td></tr>
+<tr><td><strong>GPT Image 1.5</strong></td><td>OpenAI</td><td>DALL-E 3 后继，<strong>复杂指令理解最强</strong></td></tr>
+<tr><td>Imagen 4 Fast</td><td>Google</td><td>$0.02/image · 2K · 速度最快</td></tr>
+<tr><td>Stable Diffusion 3.5</td><td>Stability</td><td>开源 + 自定义自由度</td></tr>
+<tr><td>Firefly Image 3</td><td>Adobe</td><td>商用法律安全</td></tr>
+<tr><td>通义万相 / 即梦图</td><td>阿里 / 字节</td><td>中文场景优化</td></tr>
+</table>
+
+<h4>🎵 音乐生成</h4>
+<table>
+<tr><th>模型</th><th>公司</th><th>突破点</th></tr>
+<tr><td><strong>Suno v5.5</strong></td><td>Suno</td><td><strong>vocal 之王</strong>，voice cloning，Suno Studio 全功能 DAW，<strong>2M 付费 + $300M ARR</strong></td></tr>
+<tr><td><strong>Udio</strong></td><td>Udio</td><td><strong>instrumental 之王</strong>，48kHz stereo，inpainting + stem separation（最像 AI DAW）</td></tr>
+<tr><td>Stable Audio Open</td><td>Stability</td><td>开源但 47 秒限制，<strong>commercial-safe</strong>（背景音乐 / 游戏 OST）</td></tr>
+<tr><td>ElevenLab Music</td><td>ElevenLabs</td><td>voice 起家，music 起步</td></tr>
+</table>
+
+<div class="warn">
+<strong>音乐生成版权情报</strong>：Suno / Udio 2025 末跟 RIAA 部分和解，<strong>Warner 跟两家都签，UMG 单独跟 Udio 签</strong>，Sony 仍未和解。意味着<strong>商业用途上 Udio 法律安全度更高</strong>。
+</div>
+
+<h4>💬 对话 / Agent（参考，非主战场）</h4>
+<table>
+<tr><th>模型</th><th>关键</th></tr>
+<tr><td>Claude 4 / 4.5</td><td>Anthropic，coding + 长 context 强</td></tr>
+<tr><td>GPT-5</td><td>OpenAI</td></tr>
+<tr><td>Gemini 2.5</td><td>Google</td></tr>
+<tr><td>豆包 / Qwen Max / DeepSeek R2</td><td>字节 / 阿里 / DeepSeek</td></tr>
+</table>
+
+<h2>📊 一·b、TikTok 用户全链路 × AI 盘点（应用层探索 sweet spot）</h2>
+
+<div class="key">
+<strong>JD 第 2 条要的就是这个</strong>：站在系统视角，盘点 TikTok 用户全链路有哪些 AI、缺哪些、AI 怎么重构。
+</div>
+
+<h3>用户全链路（6 环节）现状</h3>
+
+<table>
+<tr><th>环节</th><th>现有 AI</th><th>明显缺口</th></tr>
+<tr><td><strong>① 发现 / 消费</strong></td><td>FYP 推荐算法 / Search Insights / AI Topic Controls</td><td>❌ AI 视频摘要（一秒判断要不要看）<br>❌ AI 可对话视频（暂停问视频里的问题）</td></tr>
+<tr><td><strong>② 创作</strong></td><td>Symphony Creative Studio / Smart Split / Effect House / CapCut / Digital Avatars / 即梦 / Seedance</td><td>❌ AI Co-Director（边录边给 suggestion）<br>❌ AI 创意发起（基于历史视频建议下一个）<br>❌ Voice cloning（创作者克隆自己声音）</td></tr>
+<tr><td><strong>③ 上传 / 分发</strong></td><td>AI Content Labeling（水印）/ 算法分发</td><td>❌ <strong>AI 跨语言版本</strong>（中文视频自动出英 / 西 / 印尼语版本）⭐⭐⭐<br>❌ AI 多版本 AB（自动生成 3 个 thumbnail / 3 个开头测试）</td></tr>
+<tr><td><strong>④ 互动</strong></td><td>评论翻译（部分）</td><td>❌ <strong>AI 评论助手</strong>（社恐救星）⭐⭐<br>❌ <strong>AI 直播副驾</strong>（实时给主播提示）⭐⭐<br>❌ <strong>AI 多语言桥</strong>（创作者跨语言跟粉丝互动）⭐⭐⭐<br>❌ AI 内容理解（评论问"这首歌叫啥" AI 答）</td></tr>
+<tr><td><strong>⑤ 转化（电商）</strong></td><td>Symphony Ads / Smart Split for Ads</td><td>❌ <strong>AI 数字主播 for Shop 直播</strong>（24/7 带货）<br>❌ AI 自动写商品描述<br>❌ AI 跨语言客服</td></tr>
+<tr><td><strong>⑥ 留存</strong></td><td>Memory（"你 X 年前的这天"）</td><td>❌ AI 季度回顾（你这季度看了 / 学了什么）<br>❌ AI 关系图（你跟谁互动最多）<br>❌ AI 个性化精选 curator</td></tr>
+</table>
+
+<h3>4 个最大空白（按 ROI 排序）</h3>
+
+<ol>
+<li>🔥 <strong>AI 跨语言版本</strong>（创作者侧）—— TikTok 国际化最直接 ROI，Seedance 2.0 已经技术 ready</li>
+<li>🔥 <strong>AI 多语言桥（互动侧）</strong> —— 创作者能跨语言跟全球粉丝实时互动，breakout 跨国创作者壁垒</li>
+<li>🔥 <strong>AI 评论 / 直播助手</strong> —— 创作者效率工具，让 long-tail 创作者更容易输出</li>
+<li>🔥 <strong>AI 数字主播 for Shop</strong> —— 直接对应 TikTok Shop 的 158 亿美金增长曲线</li>
+</ol>
+
+<h3>AI 怎么重构 4 个维度（JD 第 2 条核心）</h3>
+
+<h4>📝 表达（Expression）</h4>
+<ul>
+<li><strong>从</strong> "录视频" <strong>到</strong> "prompt → 生成视频"</li>
+<li><strong>从</strong> "我会剪辑" <strong>到</strong> "我有想法，AI 帮我做"</li>
+<li><strong>表达门槛崩塌</strong> → 更多人成为创作者 → 内容生态大爆炸</li>
+<li><strong>风险</strong>：模板化 / 同质化 / "AI 味"</li>
+</ul>
+
+<h4>💬 互动（Interaction）</h4>
+<ul>
+<li><strong>从</strong> "点赞 / 评论 / 分享" <strong>到</strong> "跟内容对话"</li>
+<li><strong>从</strong> "被动消费" <strong>到</strong> "问 AI 视频里的'为什么'"</li>
+<li>AI 评论助手 → 社恐也能社交</li>
+<li>多语言桥 → 跨国互动零门槛</li>
+</ul>
+
+<h4>👥 社交（Social）</h4>
+<ul>
+<li><strong>AI 数字分身</strong>（time-twin 思路 —— 你不在线时也能跟粉丝互动）</li>
+<li>基于内容偏好的 AI 推荐"应该认识"的创作者（不只是 follow 算法）</li>
+<li>AI Memory → 关系不只是 follow，是 AI 替你管的关系图</li>
+</ul>
+
+<h4>🎨 AI 原生创作体验（AI-Native）</h4>
+<ul>
+<li><strong>完全 AI 生成内容</strong>（用户提示 → 视频，零拍摄）</li>
+<li><strong>AI 协同创作</strong>（用户拍一段 + AI 续写一段）</li>
+<li><strong>AI Influencer</strong>（AI 数字人创作者，无需人类）</li>
+<li><strong>互动剧</strong>（用户决定剧情走向 → AI 实时生成）</li>
+<li><strong>动机重构</strong>：以前创作动机是 self-expression，AI 时代会出现"我跟我的 AI 副本一起创作"这种新动机</li>
+</ul>
+
+<div class="trump">
+<div class="trump-title">面试时如果被问"AI 怎么重构 TikTok"</div>
+<p>这一段 1 分钟版可背：</p>
+<blockquote>
+"我把 AI 重构 TikTok 分四个维度看：<strong>表达 / 互动 / 社交 / 原生体验</strong>。
+<br><br>
+表达层：门槛崩塌 —— 从'录视频'到'prompt 生成'，会有更多人成为创作者，但 TikTok 也面临内容同质化风险。
+<br><br>
+互动层：从'点赞'到'对话' —— 用户能跟视频内容对话，AI 评论助手让社恐也能社交，多语言桥让跨国互动零门槛。<strong>这是 TikTok 当前空白最大的一层</strong>。
+<br><br>
+社交层：AI 数字分身让你不在线时也能跟粉丝互动，AI 替你管关系图 —— 这一层比传统 follow 模式更深。
+<br><br>
+原生体验：长期看会出现'AI Influencer'、'互动剧'、'人 + AI 协同创作'这种全新形态。<strong>动机本身被重构</strong> —— 不只是 self-expression，是 'me + my AI 一起表达'。
+<br><br>
+TikTok 已经在创作侧（Symphony 全家桶）+ 算法侧（FYP）下了重注，但<strong>互动层和社交层 AI 几乎为零</strong> —— 这是接下来 18 个月最值得投入的方向。"
+</blockquote>
+</div>
 
 <h3>1.5 🔥 TikTok 现有 AI 全景（必背 · 面试 sweet spot）</h3>
 
