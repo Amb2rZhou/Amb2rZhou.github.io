@@ -1,0 +1,19 @@
+# macOS
+.DS_Store
+
+# Cloudflare Wrangler local state
+worker/.wrangler/
+.wrangler/
+
+# Env
+.env
+.env.local
+.dev.vars
+
+# Node
+node_modules/
+
+# IDE
+.vscode/
+.idea/
+*.swp
