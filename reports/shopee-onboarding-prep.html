@@ -327,52 +327,74 @@ GMV</pre>
 
 <hr>
 
-<h2 id="competitors">五、竞品 landscape · 5 家</h2>
+<h2 id="competitors">五、竞品 landscape · 5 家（2026-05 update）</h2>
 
-<div class="warn">
-信源截止 2024 年公开资料 + 业界口碑。<strong>入职第一周自己用 AFI 跑一轮最新动态扫一遍</strong>，下面只是给你一个起点。
+<div class="intel">
+信源：<strong>2026-04 ~ 2026-05 公开报道</strong>，AFI 跑出来的 + WebSearch 抓的最新动态。<strong>看清"现在什么形态" + "正在往哪迁移"</strong>这两层比看历史功能列表重要。
 </div>
 
-<h3>🥇 Amazon Rufus（最强参照系）</h3>
+<div class="key">
+<strong>🚨 行业级判断更新（2026-05）</strong>：AI 导购 chatbot 这个赛道<strong>整体在从"对话助手"升级到"agentic commerce"（能自主下单的 agent）</strong>。Amazon Rufus 4/28 上线 Scheduled Actions 是一个分水岭事件 —— 这意味着你入职后做的不只是"让 chatbot 回答得好"，是"让 chatbot 能替用户做决定 + 执行交易"。这也是为什么风险 1 反过来了（见第九节）。
+</div>
+
+<h3>🥇 Amazon Rufus · 已经从 chatbot 变成 agent（最强参照系）</h3>
 <table>
-<tr><td><strong>形态</strong></td><td>站内 chatbot（搜索栏右侧 Rufus 按钮 / 商品页 Q&amp;A）</td></tr>
-<tr><td><strong>核心能力</strong></td><td>多轮商品发现 / 商品对比 / 评论摘要 / 订单状态查询</td></tr>
-<tr><td><strong>训练数据</strong></td><td>Amazon catalog + community Q&amp;A + reviews + 用户行为</td></tr>
-<tr><td><strong>差异化</strong></td><td>真正消化 review 内容（"这款打字声音大吗" → 从 review 里抽答）</td></tr>
-<tr><td><strong>你能学的</strong></td><td>多触点入口设计（不只一个 chat 窗口）；review 当作 RAG 语料的工程实现；商品对比的对话状态机</td></tr>
+<tr><td><strong>用户量</strong></td><td><strong>2026 年至今 250M+ 用户</strong>用过 Rufus，MAU YoY +115% / +149%（不同口径），interactions YoY +210% / +400%。<strong>2025 年贡献 incremental annualized sales ≈ $12B</strong></td></tr>
+<tr><td><strong>2026-04-28 重大更新 ⚡</strong></td><td><strong>Scheduled Actions</strong> —— Rufus 可以无 prompt 自动下单：① 按日历周期自动补货（生日 / 纪念日 / 家庭定期复购）② 价格触发 ③ 预测家里某商品快用完。配合 <strong>Buy For Me</strong> 还能跨站买第三方</td></tr>
+<tr><td><strong>跨域记忆</strong></td><td>Rufus 现在有 account memory，未来要打通 Kindle / Prime Video / Audible 数据 —— <strong>"购物 chatbot"在变成"亚马逊全生态 AI 助手"</strong></td></tr>
+<tr><td><strong>UX 战略动向</strong></td><td>Amazon 内部正在评估<strong>把 AI chat 合并进主搜索框</strong>（pymnts.com 2026-04 报道）—— 未来"搜索 vs chatbot"边界可能消失</td></tr>
+<tr><td><strong>新形态</strong></td><td>商品页上线 <strong>AI 音频 Q&amp;A</strong>（2026-04-28）—— "AI shopping experts" 用对话语音回答问题</td></tr>
+<tr><td><strong>你能学的</strong></td><td>① <strong>chatbot 不是终点，agentic 是</strong> —— L4 跨域 tool（见框架 4）已经被 Rufus 实现 ② 多模态触点（文字 → 视觉 → 音频）的产品节奏 ③ 把搜索框和 chatbot 融合的可能性 —— 这可能是 Shopee 未来 6-12 个月要面对的设计选择</td></tr>
 </table>
 
-<h3>🥈 Lazada LazzieChat（直接对手）</h3>
+<h3>🥈 Lazada LazzieChat · 你的直接对手（2026 仍在 SEA 加速）</h3>
 <table>
-<tr><td><strong>形态</strong></td><td>站内对话助手，2023 年起在新加坡 / 印尼推出</td></tr>
-<tr><td><strong>核心能力</strong></td><td>商品发现 + 客服合一 + 跨品类推荐</td></tr>
-<tr><td><strong>底层</strong></td><td>初版用 Azure ChatGPT，后续迭代加自有调优</td></tr>
-<tr><td><strong>差异化</strong></td><td>同 Shopee 一样卡在东南亚多语言场景，<strong>他们怎么解决多语言 persona 是你最该研究的</strong></td></tr>
-<tr><td><strong>你能学的</strong></td><td>东南亚多市场 onboarding 节奏 / 失败案例（哪些功能上了又下了）/ 用户反馈 NPS</td></tr>
+<tr><td><strong>形态</strong></td><td>站内对话助手，<strong>2023-05 上线</strong>（Microsoft Azure ChatGPT 底）。当前已扩展到 <strong>MY / SG / ID</strong> 3 个市场</td></tr>
+<tr><td><strong>2026-04-23 重要动作</strong></td><td><strong>Nestlé Regional Super Brand Day</strong> —— 在 5 个东南亚市场（MY/SG/ID/TH/VN）跟 Nestlé 深度合作，把 LazzieChat <strong>嵌入到品牌商品页</strong>。这是 SEA 第一次大规模"品牌 × AI 助手"集成</td></tr>
+<tr><td><strong>新交互形态</strong></td><td>用户输入 "NESTLAZ" 进 LazzieChat → 上传一张照片 → 生成"future visualization"。<strong>把 chatbot 跟 AIGC 视觉能力结合</strong>，不只回答问题</td></tr>
+<tr><td><strong>战略读法</strong></td><td>Lazada 已经走"<strong>chatbot + 品牌联运</strong>"路线 —— 不是 toC 通用助手，是<strong>给品牌商当 AI 体验工具</strong>。这跟 Amazon Rufus 的 toC 通用 agent 是<strong>两条不同战略</strong></td></tr>
+<tr><td><strong>你能学的</strong></td><td>① 多语言 / 多市场上线节奏（MY → SG → ID 3 国都已落地）② 品牌联名作为 AI 助手破圈策略 ③ <strong>Shopee 的 toC 导购应该选哪条路</strong>：通用助手（学 Rufus）vs 品牌联运（学 Lazada）vs 自创 —— <strong>这是 PM 入职第一个月可以提的战略问题</strong></td></tr>
 </table>
 
-<h3>🥉 阿里小蜜 / 淘宝问问（多代成熟产品）</h3>
+<h3>🥉 阿里千问 / 淘宝问问 · 全生态 AI 入口（不只是 chatbot）</h3>
 <table>
-<tr><td><strong>形态</strong></td><td>分 toC（淘宝问问，2024 年起强化）+ toB（店小蜜，给商家用）</td></tr>
-<tr><td><strong>核心能力</strong></td><td>跨店凑单 / 多轮 SKU 收敛 / 个性化推荐 + 客服自动化</td></tr>
-<tr><td><strong>差异化</strong></td><td>10 年沉淀的客服 bot 工程能力 + 大语言模型加持</td></tr>
-<tr><td><strong>你能学的</strong></td><td>店小蜜 = Shopee 的"内部员工 Copilot"参考（一面情报里的第二层）；SKU 收敛多轮的话术模板</td></tr>
+<tr><td><strong>形态升级</strong></td><td>从单点"淘宝问问"chatbot → <strong>千问 APP 全生态战略</strong>。<strong>2026-02 春节投 30 亿</strong>启动"春节请客计划"，把千问跟<strong>盒马 / 飞猪 / 大麦 / 淘宝闪购 / 天猫超市</strong>全部打通</td></tr>
+<tr><td><strong>阿里小蜜更新</strong></td><td>升级为<strong>"以用户为中心的智能助理"</strong>（不再是问题客服 bot），加了"个性化称呼"/"猜你想问"/"服务管家"</td></tr>
+<tr><td><strong>新形态</strong></td><td>千问数字人<strong>"千问小酒窝"</strong> —— 把 AI 助手做成有人格的虚拟形象，不只是文字界面</td></tr>
+<tr><td><strong>战略读法</strong></td><td>阿里走的是<strong>"AI 不是 app 内功能，是横跨所有 app 的入口"</strong> —— 这条路对 Shopee 有<strong>巨大启示</strong>：Shopee 也是多业务线（电商 + ShopeeFood + ShopeePay + 物流），AI 助手该不该跨业务线？</td></tr>
+<tr><td><strong>你能学的</strong></td><td>① 跨业务线 AI 入口的产品架构 ② 30 亿春节投放 = 用户教育成本（你预算肯定没这个）—— 反向想"<strong>低预算怎么做用户教育</strong>" ③ 数字人形象作为差异化 ④ 阿里小蜜的"猜你想问" = 主动出击型 chatbot 设计</td></tr>
 </table>
 
-<h3>4️⃣ 京东京小智</h3>
+<h3>4️⃣ 京东京小智 5.0 · 多 Agent 协作 + 数据已验证</h3>
 <table>
-<tr><td><strong>形态</strong></td><td>客服 + 导购 + toB 商家服务</td></tr>
-<tr><td><strong>差异化</strong></td><td>toB 商家工具更强，toC 导购形态相对保守</td></tr>
-<tr><td><strong>你能学的</strong></td><td>客服 + 导购合并的边界设计（什么时候转人工）</td></tr>
+<tr><td><strong>2026 升级</strong></td><td>京小智 5.0 = <strong>JoyAI 大模型 + 多 Agent 协作</strong>，构建"客服-导购-跟单-分析-质检"全链路 Agent 矩阵。<strong>引入 DeepSeek R1</strong> 加强长推理</td></tr>
+<tr><td><strong>已验证数据 ⭐</strong></td><td><strong>5 万家店铺内测：转人工率 -28% / 售前咨询转化率 +37%</strong> —— 这是行业里少见的<strong>有具体数字</strong>的 ROI 验证。Shopee PM 跟商家服务团队对话时这是关键参照</td></tr>
+<tr><td><strong>双产品布局</strong></td><td>① <strong>京小智（toB）</strong>：商家用，导购+客服合一 ② <strong>京东 AI 购（toC）</strong>：评价总结 + 商品对比（2-4 件）+ 价格趋势 + 一句话购物</td></tr>
+<tr><td><strong>11.11 全场景</strong></td><td>智能客服 + 数字人导购 + 机器人，整合到大促节点</td></tr>
+<tr><td><strong>你能学的</strong></td><td>① <strong>多 Agent 协作架构</strong>：单 chatbot 处理全链路必崩，分工 Agent 是 2026 的成熟方案 ② <strong>数字证据 -28% / +37%</strong> 是说服内部 stakeholder 的子弹（"京东已经验证了 ROI，我们做不做"） ③ toB 工具能否反哺 toC（你 Shopee 的"内部员工 Copilot" + "站内导购"是天然双产品）</td></tr>
 </table>
 
-<h3>5️⃣ TikTok Shop（另一种解法 · 不靠 chatbot）</h3>
+<h3>5️⃣ TikTok Shop · toB Seller Assistant，toC 走内容路线</h3>
 <table>
-<tr><td><strong>形态</strong></td><td>没有专门 chatbot，主流量靠直播 + 短视频 + 创作者推荐</td></tr>
-<tr><td><strong>AI 在哪</strong></td><td>内容理解（视频里的商品识别）/ 推荐算法 / 创作者匹配</td></tr>
-<tr><td><strong>战略对照</strong></td><td>这是 Shopee 该警惕的：<strong>如果未来用户不在搜索框找东西，chatbot 也没用</strong>。Shopee 的 chatbot 战略要考虑"用户入口本身在哪"</td></tr>
-<tr><td><strong>你能学的</strong></td><td>避免把 chatbot 当成银弹 —— 它是入口之一，不是唯一</td></tr>
+<tr><td><strong>关键修正 ⚠️</strong></td><td>跟我之前理解相反：TikTok Shop <strong>有 chatbot，但是 toB</strong>。叫 <strong>Seller Assistant</strong>，集成在 Seller Center 里，给卖家用</td></tr>
+<tr><td><strong>Seller Assistant 能力</strong></td><td>24/7 卖家支持 / 性能数据查询（销量 / 流量 / 订单细分）/ 政策问答 / 个性化推荐 / 转人工。<strong>解锁条件</strong>：90 天内完成 30 单</td></tr>
+<tr><td><strong>2026-01 / 04 新动作</strong></td><td><strong>AI Fashion Video Maker</strong>：上传商品图自动生成短视频（含旁白 / 音乐）/ <strong>List with AI</strong>：1 张图 + 简短描述 → 自动生成完整商品 listing（标题 / 描述 / 类目）</td></tr>
+<tr><td><strong>toC 战略</strong></td><td><strong>仍然没有专门的 toC chatbot</strong>。toC 流量靠直播 + 短视频 + 创作者推荐，AI 主要在<strong>内容理解 / 推荐算法 / 创作者匹配</strong>侧</td></tr>
+<tr><td><strong>战略对照</strong></td><td>TikTok 的判断是：<strong>"用户在看视频时不会想跟 chatbot 聊天"</strong>。所以 toC AI 投在<strong>内容生成（视频）</strong>而不是<strong>对话推荐</strong></td></tr>
+<tr><td><strong>你能学的</strong></td><td>① <strong>chatbot 不是唯一解</strong> —— 视频驱动的电商完全可以走另一条 AI 路 ② Seller Assistant 是 Shopee "内部员工 Copilot"的直接对照参考 ③ 入职后值得追问：<strong>Shopee 的 toC 流量构成里，搜索 vs 推荐 vs 直播 vs 商品页 各占多少？</strong>—— 答案决定 chatbot 投入应该多大</td></tr>
 </table>
+
+<div class="callout">
+<strong>🎯 一张表 summary（入职第一次跟 mentor 对齐用）</strong>
+<table>
+<tr><th>玩家</th><th>2026-05 形态</th><th>战略走向</th><th>最值得 Shopee 借鉴的一点</th></tr>
+<tr><td>Amazon Rufus</td><td>站内 chatbot + 跨域 agent</td><td>chatbot → autonomous agentic commerce</td><td>Scheduled Actions / 多模态触点</td></tr>
+<tr><td>Lazada LazzieChat</td><td>3 国 chatbot + 品牌联运</td><td>跟品牌商深度合作做 AI 体验</td><td>多语言 SEA 落地节奏</td></tr>
+<tr><td>阿里千问</td><td>跨业务线全生态助手</td><td>横跨 app 的统一 AI 入口</td><td>多业务线整合 / 数字人形象</td></tr>
+<tr><td>京东京小智 5.0</td><td>多 Agent 协作 toB + toC 分流</td><td>toB 数据反哺 toC 决策</td><td>数字 ROI 证据（-28% / +37%）</td></tr>
+<tr><td>TikTok Shop</td><td>toB Seller Assistant + 内容 AI</td><td>toC 走内容不走对话</td><td>chatbot 不是唯一 AI 解法</td></tr>
+</table>
+</div>
 
 <hr>
 
@@ -490,9 +512,29 @@ Shopee → 6 月底走人，<strong>5 月就要跟 mentor 把"我 6 月底要去
 
 <h2 id="risks">九、单独提醒的风险点</h2>
 
-<h3>风险 1：chatbot 是过气还是趋势？</h3>
-<p>2024 起 Amazon Rufus / Lazada LazzieChat / 淘宝问问都在推，但用户实际用得多吗？<strong>这是悬而未决的问题</strong>。如果你的入职项目是"做 chatbot"，要心里有数：可能 6 个月后发现"chatbot 不是用户想要的形式"，要 pivot 到其他对话载体（语音 / 短视频内嵌 / Agent 后台）。</p>
-<p><strong>对策</strong>：你的能力树要可迁移 —— 学到的是<strong>"对话式商品策略"</strong>，不是<strong>"chatbot 这个壳"</strong>。</p>
+<h3>风险 1：chatbot 不是过气，是在变形（2026-05 update）</h3>
+<div class="key">
+原版风险点写的是"chatbot 可能过气"——基于 2024 年判断。<strong>2026-05 数据已经反过来：chatbot 不止没过气，是在升级成 agent</strong>。
+</div>
+<p>看这一年的关键节点：</p>
+<ul>
+<li><strong>Amazon Rufus 用户 +115% MAU / +400% interactions YoY</strong>，2025 年贡献 $12B 增量销售 —— 用户用得越来越多</li>
+<li><strong>Rufus 4/28 上线 Scheduled Actions</strong> —— chatbot 已经能自主下单，从"对话助手"变成"自动化购物 agent"</li>
+<li><strong>京东京小智 5.0 多 Agent 协作</strong>已经验证 ROI（-28% 转人工 / +37% 转化）—— 不再是实验</li>
+<li><strong>阿里千问</strong>把 AI 助手做成<strong>横跨业务线的统一入口</strong> —— chatbot 是一个入口，但同一个 AI 在所有 app 里</li>
+</ul>
+<p>真正的风险已经变成：</p>
+<ul>
+<li><strong>风险 1a：你做的"chatbot"半年后会不会被要求升级成 agent？</strong>（很可能会）</li>
+<li><strong>风险 1b：chatbot 入口会不会被合并进搜索框？</strong>（Amazon 在评估这个）</li>
+<li><strong>风险 1c：toC 流量主战场是不是其实在视频/直播侧？</strong>（TikTok 走的就是这条 —— 入职后<strong>第一周就该问到 Shopee 流量构成数据</strong>）</li>
+</ul>
+<p><strong>对策</strong>：</p>
+<ul>
+<li>你的能力树要从"chatbot PM"<strong>提前升级到 "agentic commerce PM"</strong> —— 多看 tool calling / scheduled actions / autonomous agents 这条线</li>
+<li>对 mentor 说 "我想从 L1 只读 chatbot 推到 L2 操作型" —— 这跟行业方向是同步的，不是激进</li>
+<li>留意 Shopee 内部对"chatbot vs 搜索框融合"的讨论 —— 这个决策影响你产品的存在感</li>
+</ul>
 
 <h3>风险 2：转正率 20% × 时间冲突 = 实际转正率可能更低</h3>
 <p>Shopee 的转正逻辑大概率是"实习期能完整跨越的人优先"。你 6 月底走、7 月去蚂蚁，对 Shopee 而言你是<strong>过渡型实习</strong>。这意味着：</p>
