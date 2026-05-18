@@ -44,6 +44,7 @@ PERSONAL_CONTEXT_FILES = [
     "claude-code-architecture-report.md",
     "harness-engineer-research-report.md",
     "skill-building-methodology.md",
+    "ai-ecommerce-map.md",
     "daily-thoughts/2026-04-02-context-is-the-moat.md",
     "daily-thoughts/2026-04-09-ai-era-context-dividend.md",
 ]
