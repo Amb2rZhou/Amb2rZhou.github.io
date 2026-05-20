@@ -1004,9 +1004,50 @@
     });
 
     // === Init ===
+    // === Hash routing: #daily=YYYY-MM-DD or #weekly=2026-W21.md ===
+    // 推送/分享链接可直接落到当天内容，如 https://amb2r.top/insights#daily=2026-05-20
+    function parseHash() {
+      const h = (window.location.hash || '').replace(/^#/, '');
+      const m = h.match(/^(daily|weekly)=(.+)$/);
+      if (!m) return null;
+      return { tab: m[1], value: decodeURIComponent(m[2]) };
+    }
+
+    async function applyHashRoute() {
+      const route = parseHash();
+      if (!route) return;
+      // 切到对应 tab（同步先切，列表 fetch 是 async）
+      switchTab(route.tab);
+      // 等列表 fetch 完成后再 loadContent
+      const listReady = route.tab === 'weekly'
+        ? () => weeklyFiles.length > 0
+        : () => dailyDates.length > 0;
+      const start = Date.now();
+      while (!listReady() && Date.now() - start < 8000) {
+        await new Promise(r => setTimeout(r, 100));
+      }
+      if (listReady()) loadContent(route.value, route.tab);
+    }
+
+    // 用户在侧边栏点条目时更新 hash，让 URL 可分享
+    const _origLoadContent = loadContent;
+    loadContent = function (value, type) {
+      const newHash = `#${type}=${encodeURIComponent(value)}`;
+      if (window.location.hash !== newHash) {
+        history.replaceState(null, '', newHash);
+      }
+      return _origLoadContent(value, type);
+    };
+
     document.addEventListener('DOMContentLoaded', () => {
       setLang(currentLang);
-      fetchWeeklyList();
+      const route = parseHash();
+      if (route) {
+        // 先切到目标 tab 触发对应列表 fetch
+        applyHashRoute();
+      } else {
+        fetchWeeklyList();
+      }
     });
   </script>
 </body>
