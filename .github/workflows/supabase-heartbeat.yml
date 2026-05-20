@@ -1,0 +1,32 @@
+name: Supabase Heartbeat
+
+on:
+  schedule:
+    - cron: '0 2 * * 1'
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Supabase REST to keep project active
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+        run: |
+          if [ -z "$SUPABASE_URL" ] || [ -z "$SUPABASE_KEY" ]; then
+            echo "::error::Missing SUPABASE_URL or SUPABASE_KEY secret"
+            exit 1
+          fi
+          HTTP_CODE=$(curl -sS -o /tmp/resp -w "%{http_code}" \
+            -H "apikey: $SUPABASE_KEY" \
+            -H "Authorization: Bearer $SUPABASE_KEY" \
+            "$SUPABASE_URL/rest/v1/documents?select=id&limit=1")
+          echo "HTTP $HTTP_CODE"
+          cat /tmp/resp
+          if [ "$HTTP_CODE" -ge 200 ] && [ "$HTTP_CODE" -lt 300 ]; then
+            echo "Heartbeat OK"
+          else
+            echo "::error::Heartbeat failed with HTTP $HTTP_CODE"
+            exit 1
+          fi
