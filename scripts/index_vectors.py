@@ -43,6 +43,8 @@ PERSONAL_CONTEXT_FILES = [
     "agent-skill-ecosystem-report.md",
     "claude-code-architecture-report.md",
     "harness-engineer-research-report.md",
+    "hermes-agent-research-report.md",
+    "字节飞书×OpenClaw协同体系研究_v5.md",
     "skill-building-methodology.md",
     "ai-ecommerce-map.md",
     "daily-thoughts/2026-04-02-context-is-the-moat.md",
