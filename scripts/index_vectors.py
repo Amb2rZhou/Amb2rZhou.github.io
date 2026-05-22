@@ -93,7 +93,7 @@ def gh_get(url: str, retries: int = 3) -> requests.Response:
 
 def fetch_daily_briefs() -> List[Dict[str, Any]]:
     """Return list of {source, filename, chunks} for daily briefs."""
-    print("[1/3] Fetching daily brief list ...")
+    print("[1/4] Fetching daily brief list ...")
     listing_url = (
         f"{GH_API}/repos/Amb2rZhou/ai-frontier-insight/contents/data/daily"
         f"?per_page=100"
@@ -194,7 +194,7 @@ def chunks_from_daily_brief(brief: Any) -> List[str]:
 
 def fetch_weekly_reports() -> List[Dict[str, Any]]:
     """Return list of {source, filename, chunks} for weekly .md files."""
-    print("[2/3] Fetching weekly report list ...")
+    print("[2/4] Fetching weekly report list ...")
     listing_url = (
         f"{GH_API}/repos/Amb2rZhou/ai-frontier-insight/contents/data/weekly"
         f"?per_page=100"
@@ -233,9 +233,50 @@ def fetch_weekly_reports() -> List[Dict[str, Any]]:
     return results
 
 
+def fetch_wiki_trends() -> List[Dict[str, Any]]:
+    """Return list of {source, filename, chunks} for ai-frontier-insight wiki/trends/*.md."""
+    print("[3/4] Fetching wiki trend pages ...")
+    listing_url = (
+        f"{GH_API}/repos/Amb2rZhou/ai-frontier-insight/contents/wiki/trends"
+        f"?per_page=100"
+    )
+    resp = gh_get(listing_url)
+    if resp.status_code != 200:
+        print(f"  WARNING: could not list wiki/trends ({resp.status_code})")
+        return []
+
+    md_files = [
+        item for item in resp.json()
+        if item.get("type") == "file" and item["name"].endswith(".md")
+    ]
+    print(f"  Found {len(md_files)} trend .md files")
+
+    results = []
+    for item in md_files:
+        fname = item["name"]
+        raw_url = (
+            f"{GH_RAW}/Amb2rZhou/ai-frontier-insight/main"
+            f"/wiki/trends/{fname}"
+        )
+        r = gh_get(raw_url)
+        if r.status_code != 200:
+            print(f"  Skip {fname}: ({r.status_code})")
+            continue
+
+        chunks = chunk_text(r.text)
+        results.append({
+            "source": "wiki-trend",
+            "filename": fname,
+            "chunks": chunks,
+        })
+        print(f"  {fname}: {len(chunks)} chunks")
+
+    return results
+
+
 def fetch_personal_context() -> List[Dict[str, Any]]:
     """Return list of {source, filename, chunks} for personal context files."""
-    print("[3/3] Fetching personal context files ...")
+    print("[4/4] Fetching personal context files ...")
     results = []
     for fname in PERSONAL_CONTEXT_FILES:
         raw_url = f"{GH_RAW}/Amb2rZhou/personal-context/main/{fname}"
@@ -411,6 +452,7 @@ def main():
     all_docs = []
     all_docs.extend(fetch_daily_briefs())
     all_docs.extend(fetch_weekly_reports())
+    all_docs.extend(fetch_wiki_trends())
     all_docs.extend(fetch_personal_context())
 
     if not all_docs:
