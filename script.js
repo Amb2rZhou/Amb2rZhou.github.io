@@ -20,10 +20,10 @@ const translations = {
     'exp.present': 'Present',
     'exp.ant.role': 'AI Product Intern',
     'exp.ant.company': 'Ant Group \u00b7 AI Intelligence Division',
-    'exp.ant.items': '<li>Competitive research for Agent Builder & data annotation products \u2014 translated into 20+ actionable requirements</li><li>Designed platform capabilities for Ant International\'s company-wide "AI 3-Hour" program: AI auto-annotation & QC pipeline feeding the knowledge base, lifting badcase resolution from &lt;20% to 75%+</li><li>Partnered with 7 business units to distill shared needs into reusable platform requirements</li><li>Co-designed PRD+UED Skills and built a high-fidelity demo deployment platform to accelerate product-eng collaboration</li>',
+    'exp.ant.items': '<li>Competitive research for Agent Builder & data annotation products \u2014 translated into <span data-countup>20</span>+ actionable requirements</li><li>Designed platform capabilities for Ant International\'s company-wide "AI 3-Hour" program: AI auto-annotation & QC pipeline feeding the knowledge base, lifting badcase resolution from &lt;20% to <span data-countup>75</span>%+</li><li>Partnered with 7 business units to distill shared needs into reusable platform requirements</li><li>Co-designed PRD+UED Skills and built a high-fidelity demo deployment platform to accelerate product-eng collaboration</li>',
     'exp.xhs.role': 'AI Technology Strategy Intern (Return Offer)',
     'exp.xhs.company': 'Xiaohongshu (REDnote) \u00b7 Shanghai',
-    'exp.xhs.items': '<li>Deep-dive research on AI Coding, embodied intelligence, and OpenClaw \u2014 reports endorsed by senior tech executives</li><li>Built <strong>Frontier Insight Bot</strong> with Claude Code: automated intelligence pipeline covering 250+ global AI sources, delivering daily briefs & weekly strategic reports</li><li>Led internal AI workshops on Vibe Coding; packaged workflows into Skills with 100+ downloads on company platform</li><li>Authored 10+ strategic business reports driving decisions across security, risk control, and operational efficiency</li>',
+    'exp.xhs.items': '<li>Deep-dive research on AI Coding, embodied intelligence, and OpenClaw \u2014 reports endorsed by senior tech executives</li><li>Built <strong>Frontier Insight Bot</strong> with Claude Code: automated intelligence pipeline covering <span data-countup>250</span>+ global AI sources, delivering daily briefs & weekly strategic reports</li><li>Led internal AI workshops on Vibe Coding; packaged workflows into Skills with <span data-countup>100</span>+ downloads on company platform</li><li>Authored <span data-countup>10</span>+ strategic business reports driving decisions across security, risk control, and operational efficiency</li>',
     'exp.ipsos.role': 'Social Media User Research Intern',
     'exp.ipsos.company': 'Ipsos China \u00b7 Shanghai',
     'exp.ipsos.items': '<li>Built multi-source social media keyword systems & corpus databases using AI-assisted pipelines</li><li>Developed rule-based models for sentiment analysis and multi-dimensional topic tracking</li><li>Produced regular reports on topic trends and sentiment analysis for FMCG & e-commerce clients</li>',
@@ -78,7 +78,9 @@ const translations = {
     'chat.suggest.personal.1': 'What roles would suit Amber?',
     'chat.suggest.personal.2': 'How was this website and chatbot built?',
     'chat.suggest.insights.1': 'What AI trends are most worth watching right now?',
-    'chat.suggest.insights.2': 'What do AI agent vendors mainly compete on?'
+    'chat.suggest.insights.2': 'What do AI agent vendors mainly compete on?',
+    'cmdk.placeholder': 'Type a command, or ask my AI anything...',
+    'cmdk.hint': '↑↓ navigate · Enter select · Esc close'
   },
   zh: {
     'nav.about': '\u5173\u4e8e\u6211',
@@ -100,10 +102,10 @@ const translations = {
     'exp.present': '\u81f3\u4eca',
     'exp.ant.role': 'AI \u4ea7\u54c1\u5b9e\u4e60\u751f',
     'exp.ant.company': '\u8682\u8681\u96c6\u56e2 \u00b7 AI \u667a\u80fd\u90e8',
-    'exp.ant.items': '<li>\u4e3a Agent Builder \u548c\u6570\u636e\u6807\u6ce8\u4ea7\u54c1\u8fdb\u884c\u6df1\u5165\u7ade\u54c1\u8c03\u7814\uff0c\u5c06\u8c03\u7814\u7ed3\u679c\u8f6c\u5316\u4e3a 20+ \u53ef\u843d\u5730\u9700\u6c42</li><li>\u4e3a\u8682\u8681\u56fd\u9645\u5168\u5458 AI3 \u5c0f\u65f6\u4efb\u52a1\u8bbe\u8ba1\u5e73\u53f0\u80fd\u529b\uff1a\u8bbe\u8ba1 AI \u81ea\u52a8\u6807\u6ce8\u4e0e\u8d28\u68c0\u80fd\u529b\u5e76\u6253\u901a\u77e5\u8bc6\u81ea\u52a8\u6d41\u5165\u77e5\u8bc6\u5e93\uff0cbadcase \u89e3\u51b3\u7387\u4ece &lt;20% \u63d0\u5347\u81f3 75%+</li><li>\u5b9a\u671f\u4e0e 7 \u5927\u4e1a\u52a1\u65b9\u5bf9\u63a5\uff0c\u5bfb\u627e\u5171\u6027\u9700\u6c42\uff0c\u8f6c\u5316\u4e3a\u4e1a\u52a1\u56e2\u961f\u95f4\u53ef\u590d\u7528\u7684\u5e73\u53f0\u9700\u6c42</li><li>\u53c2\u4e0e\u8bbe\u8ba1\u3001\u4f18\u5316 PRD+UED Skill\uff0c\u7f29\u77ed\u4ea7\u54c1\u8bbe\u8ba1\u73af\u8282\uff1b\u642d\u5efa\u9ad8\u4fdd\u771f demo \u90e8\u7f72\u5e73\u53f0\uff0c\u63d0\u9ad8\u4ea7\u7814\u534f\u4f5c\u6548\u7387</li>',
+    'exp.ant.items': '<li>\u4e3a Agent Builder \u548c\u6570\u636e\u6807\u6ce8\u4ea7\u54c1\u8fdb\u884c\u6df1\u5165\u7ade\u54c1\u8c03\u7814\uff0c\u5c06\u8c03\u7814\u7ed3\u679c\u8f6c\u5316\u4e3a <span data-countup>20</span>+ \u53ef\u843d\u5730\u9700\u6c42</li><li>\u4e3a\u8682\u8681\u56fd\u9645\u5168\u5458 AI3 \u5c0f\u65f6\u4efb\u52a1\u8bbe\u8ba1\u5e73\u53f0\u80fd\u529b\uff1a\u8bbe\u8ba1 AI \u81ea\u52a8\u6807\u6ce8\u4e0e\u8d28\u68c0\u80fd\u529b\u5e76\u6253\u901a\u77e5\u8bc6\u81ea\u52a8\u6d41\u5165\u77e5\u8bc6\u5e93\uff0cbadcase \u89e3\u51b3\u7387\u4ece &lt;20% \u63d0\u5347\u81f3 <span data-countup>75</span>%+</li><li>\u5b9a\u671f\u4e0e 7 \u5927\u4e1a\u52a1\u65b9\u5bf9\u63a5\uff0c\u5bfb\u627e\u5171\u6027\u9700\u6c42\uff0c\u8f6c\u5316\u4e3a\u4e1a\u52a1\u56e2\u961f\u95f4\u53ef\u590d\u7528\u7684\u5e73\u53f0\u9700\u6c42</li><li>\u53c2\u4e0e\u8bbe\u8ba1\u3001\u4f18\u5316 PRD+UED Skill\uff0c\u7f29\u77ed\u4ea7\u54c1\u8bbe\u8ba1\u73af\u8282\uff1b\u642d\u5efa\u9ad8\u4fdd\u771f demo \u90e8\u7f72\u5e73\u53f0\uff0c\u63d0\u9ad8\u4ea7\u7814\u534f\u4f5c\u6548\u7387</li>',
     'exp.xhs.role': 'AI \u6280\u672f\u6218\u7565\u5b9e\u4e60\u751f\uff08\u83b7\u8f6c\u6b63\u5f3a\u63a8\uff09',
     'exp.xhs.company': '\u5c0f\u7ea2\u4e66 \u00b7 \u4e0a\u6d77',
-    'exp.xhs.items': '<li>\u805a\u7126 AI Coding\u3001\u5177\u8eab\u667a\u80fd\u3001OpenClaw \u7b49\u524d\u6cbf\u9886\u57df\u6df1\u5ea6\u7814\u7a76\u2014\u2014\u62a5\u544a\u83b7\u591a\u4f4d\u6838\u5fc3\u6280\u672f\u9ad8\u7ba1\u70b9\u8d5e</li><li>\u57fa\u4e8e Claude Code \u72ec\u7acb\u5f00\u53d1 Frontier Insight Bot\uff1a\u8986\u76d6 250+ \u5168\u7403 AI \u4fe1\u6e90\u7684\u81ea\u52a8\u5316\u60c5\u62a5\u7cfb\u7edf\uff0c\u65e5\u63a8\u65e5\u62a5\u3001\u5468\u51fa\u6218\u7565\u5468\u62a5</li><li>\u53d7\u9080\u4e3e\u529e\u5185\u90e8 Vibe Coding Workshop\uff1b\u5c06\u91cd\u590d\u6d41\u7a0b\u5c01\u88c5\u4e3a Skill\uff0c\u4e0a\u67b6\u516c\u53f8 Skill Market\uff0c\u8d85 100 \u6b21\u4e0b\u8f7d</li><li>\u8f93\u51fa 10+ \u4efd\u6218\u7565 BP \u62a5\u544a\uff0c\u843d\u5730\u81f3\u5b89\u5168\u98ce\u63a7\u3001\u5185\u90e8\u6548\u7387\u63d0\u5347\u7b49\u591a\u4e2a\u573a\u666f</li>',
+    'exp.xhs.items': '<li>\u805a\u7126 AI Coding\u3001\u5177\u8eab\u667a\u80fd\u3001OpenClaw \u7b49\u524d\u6cbf\u9886\u57df\u6df1\u5ea6\u7814\u7a76\u2014\u2014\u62a5\u544a\u83b7\u591a\u4f4d\u6838\u5fc3\u6280\u672f\u9ad8\u7ba1\u70b9\u8d5e</li><li>\u57fa\u4e8e Claude Code \u72ec\u7acb\u5f00\u53d1 Frontier Insight Bot\uff1a\u8986\u76d6 <span data-countup>250</span>+ \u5168\u7403 AI \u4fe1\u6e90\u7684\u81ea\u52a8\u5316\u60c5\u62a5\u7cfb\u7edf\uff0c\u65e5\u63a8\u65e5\u62a5\u3001\u5468\u51fa\u6218\u7565\u5468\u62a5</li><li>\u53d7\u9080\u4e3e\u529e\u5185\u90e8 Vibe Coding Workshop\uff1b\u5c06\u91cd\u590d\u6d41\u7a0b\u5c01\u88c5\u4e3a Skill\uff0c\u4e0a\u67b6\u516c\u53f8 Skill Market\uff0c\u8d85 <span data-countup>100</span> \u6b21\u4e0b\u8f7d</li><li>\u8f93\u51fa <span data-countup>10</span>+ \u4efd\u6218\u7565 BP \u62a5\u544a\uff0c\u843d\u5730\u81f3\u5b89\u5168\u98ce\u63a7\u3001\u5185\u90e8\u6548\u7387\u63d0\u5347\u7b49\u591a\u4e2a\u573a\u666f</li>',
     'exp.ipsos.role': '\u793e\u5a92\u7528\u6237\u7814\u7a76\u5b9e\u4e60\u751f',
     'exp.ipsos.company': '\u76ca\u666e\u7d22\uff08\u4e2d\u56fd\uff09\u00b7 \u4e0a\u6d77',
     'exp.ipsos.items': '<li>\u5229\u7528 AI \u72ec\u7acb\u642d\u5efa\u591a\u6e90\u793e\u5a92\u5173\u952e\u8bcd\u4f53\u7cfb\u4e0e\u9ad8\u8d28\u91cf\u5206\u6790\u8bed\u6599\u5e93</li><li>\u642d\u5efa\u6761\u4ef6\u8bed\u53e5\u4e0e\u89c4\u5219\u6a21\u578b\uff0c\u8fdb\u884c\u60c5\u611f\u6781\u6027\u5224\u5b9a\u4e0e\u591a\u7ef4\u5ea6\u8bdd\u9898\u8ffd\u8e2a</li><li>\u5b9a\u671f\u5b8c\u6210\u8206\u60c5\u5206\u6790\u62a5\u544a\uff0c\u4e3a\u5feb\u6d88\u3001\u7535\u5546\u884c\u4e1a\u5ba2\u6237\u63d0\u4f9b\u53ef\u843d\u5730\u7684\u7b56\u7565\u5efa\u8bae</li>',
@@ -158,7 +160,9 @@ const translations = {
     'chat.suggest.personal.1': '\u5979\u9002\u5408\u505a\u4ec0\u4e48\u5de5\u4f5c\uff1f',
     'chat.suggest.personal.2': '\u8fd9\u4e2a\u7f51\u7ad9\u548c\u804a\u5929\u673a\u5668\u4eba\u662f\u600e\u4e48\u505a\u7684\uff1f',
     'chat.suggest.insights.1': '\u6700\u8fd1 AI \u9886\u57df\u6700\u503c\u5f97\u5173\u6ce8\u7684\u8d8b\u52bf\u662f\u4ec0\u4e48\uff1f',
-    'chat.suggest.insights.2': 'Agent \u5382\u5546\u7684\u4e3b\u8981\u7ade\u4e89\u5185\u5bb9\u662f\u4ec0\u4e48\uff1f'
+    'chat.suggest.insights.2': 'Agent \u5382\u5546\u7684\u4e3b\u8981\u7ade\u4e89\u5185\u5bb9\u662f\u4ec0\u4e48\uff1f',
+    'cmdk.placeholder': '\u8f93\u5165\u547d\u4ee4\uff0c\u6216\u76f4\u63a5\u5411\u6211\u7684 AI \u63d0\u95ee...',
+    'cmdk.hint': '\u2191\u2193 \u9009\u62e9 \u00b7 Enter \u6267\u884c \u00b7 Esc \u5173\u95ed'
   }
 };
 
@@ -220,6 +224,9 @@ function setLang(lang) {
   document.querySelectorAll('.lang-toggle').forEach(btn => {
     btn.textContent = lang === 'zh' ? '中 | EN' : 'EN | 中';
   });
+
+  // Notify effects.js (typewriter words, count-up re-scan, palette labels)
+  document.dispatchEvent(new CustomEvent('langchanged', { detail: { lang } }));
 }
 
 function updateFeaturedBadge(lang) {

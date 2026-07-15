@@ -26,6 +26,7 @@
         <a href="#projects" data-i18n="nav.projects">Projects</a>
         <a href="insights.html" data-i18n="nav.insights">Insights</a>
         <a href="#contact" data-i18n="nav.contact">Contact</a>
+        <button class="cmdk-badge" id="cmdkBadge" aria-label="Open command palette" title="Command palette">⌘K</button>
         <button class="lang-toggle" id="langToggle" aria-label="Toggle language">
           EN | 中
         </button>
@@ -34,6 +35,7 @@
         </button>
       </div>
       <div class="mobile-controls">
+        <button class="cmdk-badge" id="cmdkBadgeMobile" aria-label="Open command palette">⌘K</button>
         <button class="lang-toggle" id="langToggleMobile" aria-label="Toggle language">
           EN | 中
         </button>
@@ -55,10 +57,12 @@
 
   <!-- Hero -->
   <section class="hero" id="hero">
+    <canvas id="heroParticles" aria-hidden="true"></canvas>
     <div class="hero-content">
       <div class="hero-text">
         <p class="hero-greeting" data-i18n="hero.greeting">Hi, I'm</p>
         <h1 class="hero-name">Amber Zhou <span class="hero-name-cn">周芷乐</span></h1>
+        <p class="hero-roles" aria-hidden="true"><span id="typedText"></span><span class="typed-cursor">|</span></p>
         <p class="hero-desc" data-i18n="hero.desc" data-i18n-html="true">
           Master's student at <strong>CUHK & Northwestern University</strong>.
           Trained in economics to think rationally, deeply passionate about AI as the direction I want to grow in.
@@ -136,8 +140,8 @@
             <h3 data-i18n="exp.ant.role">AI Product Intern</h3>
             <p class="timeline-company" data-i18n="exp.ant.company">Ant Group · AI Intelligence Division</p>
             <ul data-i18n="exp.ant.items" data-i18n-html="true">
-              <li>Competitive research for Agent Builder & data annotation products — translated into 20+ actionable requirements</li>
-              <li>Designed platform capabilities for Ant International's company-wide "AI 3-Hour" program: AI auto-annotation & QC pipeline feeding the knowledge base, lifting badcase resolution from &lt;20% to 75%+</li>
+              <li>Competitive research for Agent Builder & data annotation products — translated into <span data-countup>20</span>+ actionable requirements</li>
+              <li>Designed platform capabilities for Ant International's company-wide "AI 3-Hour" program: AI auto-annotation & QC pipeline feeding the knowledge base, lifting badcase resolution from &lt;20% to <span data-countup>75</span>%+</li>
               <li>Partnered with 7 business units to distill shared needs into reusable platform requirements</li>
               <li>Co-designed PRD+UED Skills and built a high-fidelity demo deployment platform to accelerate product-eng collaboration</li>
             </ul>
@@ -151,9 +155,9 @@
             <p class="timeline-company" data-i18n="exp.xhs.company">Xiaohongshu (REDnote) · Shanghai</p>
             <ul data-i18n="exp.xhs.items" data-i18n-html="true">
               <li>Deep-dive research on AI Coding, embodied intelligence, and OpenClaw — reports endorsed by senior tech executives</li>
-              <li>Built <strong>Frontier Insight Bot</strong> with Claude Code: automated intelligence pipeline covering 250+ global AI sources, delivering daily briefs & weekly strategic reports</li>
-              <li>Led internal AI workshops on Vibe Coding; packaged workflows into Skills with 100+ downloads on company platform</li>
-              <li>Authored 10+ strategic business reports driving decisions across security, risk control, and operational efficiency</li>
+              <li>Built <strong>Frontier Insight Bot</strong> with Claude Code: automated intelligence pipeline covering <span data-countup>250</span>+ global AI sources, delivering daily briefs & weekly strategic reports</li>
+              <li>Led internal AI workshops on Vibe Coding; packaged workflows into Skills with <span data-countup>100</span>+ downloads on company platform</li>
+              <li>Authored <span data-countup>10</span>+ strategic business reports driving decisions across security, risk control, and operational efficiency</li>
             </ul>
           </div>
         </div>
@@ -369,8 +373,20 @@
 
   <!-- Footer -->
   <footer class="footer">
+    <div class="footer-terminal" id="footerTerm" title="Click me" role="button" tabindex="0">
+      <span class="term-prompt">amber@web:~$</span> <span id="termCmd"></span><span class="term-cursor">▊</span><span id="termOut"></span>
+    </div>
     <p data-i18n="footer.text">&copy; 2026 Zhile Zhou. Built with curiosity and Claude Code.</p>
   </footer>
+
+  <!-- Command Palette -->
+  <div class="cmdk-overlay" id="cmdkOverlay" hidden>
+    <div class="cmdk" role="dialog" aria-modal="true" aria-label="Command palette">
+      <input type="text" id="cmdkInput" data-i18n-placeholder="cmdk.placeholder" placeholder="Type a command, or ask my AI anything..." autocomplete="off" spellcheck="false">
+      <ul class="cmdk-list" id="cmdkList"></ul>
+      <div class="cmdk-hint" data-i18n="cmdk.hint">↑↓ navigate · Enter select · Esc close</div>
+    </div>
+  </div>
 
   <!-- Chat Widget -->
   <div class="chat-widget" id="chatWidget">
@@ -406,5 +422,6 @@
   </div>
 
   <script src="script.js"></script>
+  <script src="effects.js"></script>
 </body>
 </html>
