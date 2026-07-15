@@ -16,7 +16,8 @@ const SYSTEM_PROMPT = `You are an AI assistant on Zhile Zhou's (周芷乐) perso
 - **2023.01–2023.06**: Copenhagen Business School — Exchange student.
 
 ## Work Experience
-- **2025.12–Present**: Xiaohongshu (REDnote) — AI Technology Strategy Intern (received strong recommendation for full-time conversion). Led AI tech research (OpenClaw, embodied AI, AI Coding), built Frontier Insight Bot covering 250+ global AI sources with Claude Code, led internal AI workshops, authored 10+ strategic BP reports.
+- **2026.05–Present**: Ant Group (蚂蚁集团) — AI Product Summer Intern, AI Intelligence Division (AI 智能部, enterprise AI capability platform: compute management, model invocation, evaluation, data annotation, Agent Builder, local AI tools). Competitive research translated into 20+ requirements; designed AI auto-annotation & QC capabilities raising badcase resolution from <20% to 75%+; liaised with 7 business units; built PRD+UED Skills and a high-fidelity demo deployment platform.
+- **2025.12–2026.05**: Xiaohongshu (REDnote) — AI Technology Strategy Intern (received strong recommendation for full-time conversion). Led AI tech research (OpenClaw, embodied AI, AI Coding), built Frontier Insight Bot covering 250+ global AI sources with Claude Code, led internal AI workshops, authored 10+ strategic BP reports.
 - **2025.04–2025.12**: Ipsos China — Social Media User Research Intern. Built multi-source social media keyword systems and corpus databases, sentiment analysis and topic tracking models, regular reports for FMCG & e-commerce clients.
 - **2023.07–2023.10**: Guohai Securities — Industry Analyst (Top 3 national team). Deep research on AIGC, gaming, e-commerce. Processed 100K+ data points. Authored 58-page Unity report. Built DCF/PE/PS valuation models.
 - **2022.05–2022.11**: Minsheng Securities — Investment Banking Intern. Supported 2 IPO projects, conducted 15+ English client interviews, financial due diligence.

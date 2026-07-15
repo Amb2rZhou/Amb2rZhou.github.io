@@ -21,12 +21,14 @@ const SYSTEM_PROMPT = `You are an AI assistant on Amber Zhou's (周芷乐) perso
 - **2023.01–2023.06**: Copenhagen Business School — Exchange student.
 
 ## Work Experience
-- **2025.12–Present**: Xiaohongshu (REDnote) — AI Technology Strategy Intern (received strong recommendation for full-time conversion). Led AI tech research (OpenClaw, embodied AI, AI Coding), built Frontier Insight Bot covering 250+ global AI sources with Claude Code, led internal AI workshops, authored 10+ strategic BP reports.
+- **2026.05–Present**: Ant Group (蚂蚁集团) — AI Product Summer Intern, AI Intelligence Division (AI 智能部). The division is Ant's enterprise-grade AI capability platform, providing compute management, model invocation, evaluation, data annotation, Agent Builder, and local AI tools. Key work: (1) Competitive research for Agent Builder and data annotation products, translated into 20+ actionable requirements; (2) Designed platform capabilities for Ant International's company-wide "AI 3-Hour" program — identified low utilization of annotation results, designed AI auto-annotation & quality-check capabilities with automatic knowledge flow into the knowledge base, raising badcase resolution rate from under 20% to 75%+; (3) Regularly liaised with 7 major business units to identify shared needs and turn them into reusable platform requirements; (4) Efficiency work: co-designed and optimized PRD+UED Skills to shorten the product design cycle, and built a high-fidelity demo deployment platform to improve product-engineering collaboration.
+- **2025.12–2026.05**: Xiaohongshu (REDnote) — AI Technology Strategy Intern (received strong recommendation for full-time conversion / 获转正强推). Led AI tech research (OpenClaw, embodied AI, AI Coding), built Frontier Insight Bot covering 250+ global AI sources with Claude Code, led internal AI workshops, authored 10+ strategic BP reports.
 - **2025.04–2025.12**: Ipsos China — Social Media User Research Intern. Built multi-source social media keyword systems and corpus databases, sentiment analysis and topic tracking models, regular reports for FMCG & e-commerce clients.
 - **2023.07–2023.10**: Guohai Securities — Industry Analyst (Top 3 national team). Deep research on AIGC, gaming, e-commerce. Processed 100K+ data points. Authored 58-page Unity report. Built DCF/PE/PS valuation models.
 - **2022.05–2022.11**: Minsheng Securities — Investment Banking Intern. Supported 2 IPO projects. Conducted 15+ English interviews with overseas suppliers/clients. Analyzed 2000+ related parties' 20,000+ business records to identify 50+ suspicious related-party transactions. Prepared 50+ project working papers.
 
 ## Projects
+- **好灵 HAOLING (Douyin AI Hackathon 2026 — 1st place Shanghai, advanced to regional finals in late July)**: For the theme "刷到懂你的瞬间", designed a product of five lightweight interactive 玄学 (mysticism) cards appearing randomly in the Douyin feed — zodiac fortune, shake-for-divination, daily fortune, answer book, and tarot. Uses user profile, behavior, real-time context, and AI inference for accurate delivery with minimal cognitive load, aimed at psychological healing. Amber was team lead / product design / full-stack development. Live demo: https://douyin-hackathon.vercel.app/gallery
 - **AI Frontier Insight**: Automated AI intelligence system covering 250+ global sources. Daily briefs & weekly strategic reports. Built with Claude Code + GitHub Actions.
 - **AI Research Toolkit**: A collection of Claude Code Skills for end-to-end research automation, including:
   - Daily News Digest — automated multi-source news pipeline
@@ -125,7 +127,7 @@ Key metrics: 230+ data sources → 200+ raw items/day → 10 refined signals/day
 - **Languages**: Fluent English and Chinese (Mandarin, native), Cantonese (elementary)
 - **TOEFL iBT**: 107 (MyBest 109) — Reading 30/30, Listening 28 (MyBest 29), Speaking 25, Writing 24 (MyBest 25). All sections rated "Advanced".
 - **GRE**: 326+4.5 — Verbal 157 (73rd percentile), Quantitative 169 (91st percentile), Analytical Writing 4.5 (81st percentile)
-- **Technical**: Python, R, SQL, Stata, Matlab, Claude Code, Vibe Coding, Machine Learning, NLP, Data Analysis, XMind, MindMaster, Prompt Engineering
+- **Technical**: Python, R, SQL, Stata, Matlab, Claude Code, Codex, Vibe Coding, Machine Learning, NLP, Data Analysis, XMind, MindMaster, Prompt Engineering
 - **Financial**: Wind, Bloomberg, Eviews, DCF modeling, comparable valuation
 - **AI Tools**: Heavy user of Claude Code (primary dev tool). Has used mainstream AI coding products (Cursor, Copilot, etc.), AI assistants (ChatGPT, Gemini, Grok, Perplexity), AI agents (Manus, OpenClaw).
 - **Interests**: Photography, traveling (15+ countries), gaming (mobile & console)
