@@ -715,31 +715,69 @@ a:hover { color: var(--accent-light); }
   .cmdk-overlay { padding-top: 10vh; }
 }
 
-/* === Footer terminal === */
-.footer-terminal {
-  display: inline-block; margin-bottom: 10px;
-  font-family: 'SF Mono', 'Fira Code', Menlo, Consolas, monospace;
-  font-size: 0.8rem; color: var(--text-secondary);
-  background: var(--code-bg); border: 1px solid var(--card-border);
-  border-radius: 8px; padding: 8px 14px;
-  cursor: pointer; user-select: none;
-  transition: border-color var(--transition);
-  max-width: calc(100vw - 48px); overflow-x: auto; white-space: nowrap;
-}
-.footer-terminal:hover { border-color: var(--accent); }
-.term-prompt { color: var(--accent); font-weight: 600; }
-.term-cursor {
-  color: var(--accent-light); font-size: 0.7rem;
-  animation: cursorBlink 1s step-end infinite;
-}
-#termOut { color: var(--text-secondary); }
-
 /* === Reduced motion === */
 @media (prefers-reduced-motion: reduce) {
-  .typed-cursor, .term-cursor { animation: none; }
+  .typed-cursor { animation: none; }
   .scroll-hint { animation: none; }
   .chat-toggle, .chat-badge { animation: none; }
   .chat-toggle::after { animation: none; opacity: 0; }
   .fade-in { opacity: 1; transform: none; transition: none; }
   .timeline::after { transition: none; }
+}
+
+/* === Effects v2: scroll reveal, text scramble, timeline pen, spotlight === */
+:root { --sr-dim: #c9ccda; }
+[data-theme="dark"] { --sr-dim: #32405e; }
+
+.sr-w { color: var(--sr-dim); transition: color 0.3s ease; }
+.sr-w.on { color: inherit; }
+
+.scr-glyph { color: var(--accent); }
+
+.tl-pen {
+  position: absolute; left: 1px; top: var(--tl-progress, 0%);
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--accent-light);
+  box-shadow: 0 0 10px var(--accent), 0 0 22px var(--accent-bg);
+  transform: translate(-50%, -50%);
+  opacity: 0; transition: opacity 0.3s ease, top 0.15s linear;
+  pointer-events: none;
+}
+.tl-pen.visible { opacity: 1; }
+.tl-animated .timeline-content h3 { color: var(--text-secondary); transition: color 0.4s ease; }
+.tl-animated .timeline-item.lit .timeline-content h3 { color: var(--text); }
+.tl-animated .timeline-date { opacity: 0.55; transition: opacity 0.4s ease; }
+.tl-animated .timeline-item.lit .timeline-date { opacity: 1; }
+.tl-animated .timeline-item.lit .timeline-dot {
+  background: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-bg), 0 0 12px var(--accent);
+  transform: scale(1.15);
+}
+
+.spotlight {
+  position: relative; max-width: 700px; height: 170px;
+  margin: 40px auto 0; overflow: hidden;
+  cursor: crosshair; touch-action: none;
+}
+.spotlight-under, .spotlight-over {
+  position: absolute; inset: 0; display: grid; place-content: center;
+  text-align: center; padding: 20px;
+}
+.spotlight-under h3 {
+  font-size: 1.6rem; margin: 0; font-weight: 700;
+  background: linear-gradient(100deg, var(--accent-light), var(--accent) 45%, #0ea5e9);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.spotlight-over {
+  background: var(--bg-alt); z-index: 2;
+  -webkit-mask-image: radial-gradient(circle 100px at var(--sx, 50%) var(--sy, 130%), transparent 0 60%, black 100%);
+  mask-image: radial-gradient(circle 100px at var(--sx, 50%) var(--sy, 130%), transparent 0 60%, black 100%);
+}
+.spotlight-over p { color: var(--text-secondary); opacity: 0.5; font-size: 0.85rem; margin: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .sr-w { transition: none; color: inherit; }
+  .tl-pen { display: none; }
+  .tl-animated .timeline-content h3 { color: var(--text); }
+  .tl-animated .timeline-date { opacity: 1; }
 }

@@ -109,6 +109,9 @@
       timeline.style.setProperty('--tl-progress', '100%');
       items.forEach((it) => it.classList.add('lit'));
     } else {
+      const pen = document.createElement('div');
+      pen.className = 'tl-pen';
+      timeline.appendChild(pen);
       let ticking = false;
       const update = () => {
         ticking = false;
@@ -116,6 +119,7 @@
         const trigger = window.innerHeight * 0.65;
         const progress = Math.min(1, Math.max(0, (trigger - rect.top) / rect.height));
         timeline.style.setProperty('--tl-progress', (progress * 100).toFixed(1) + '%');
+        pen.classList.toggle('visible', progress > 0.02 && progress < 0.98);
         items.forEach((it) => {
           it.classList.toggle('lit', it.getBoundingClientRect().top < trigger);
         });
@@ -395,58 +399,124 @@
   }
 
   // ---------------------------------------------------------------
-  // D2. Footer terminal easter egg
+  // A6. Scroll text reveal — "What I Do" card lights up word by word
   // ---------------------------------------------------------------
-  const termCmd = document.getElementById('termCmd');
-  const termOut = document.getElementById('termOut');
-  const footerTerm = document.getElementById('footerTerm');
-  if (footerTerm && termCmd && termOut) {
-    const SCRIPTS = [
-      ['whoami', 'economist who builds with AI 🤖'],
-      ['ls ~/projects', 'frontier-insight/  haoling/  intern-clawd/  ai-toolkit/'],
-      ['fortune', '"The best way to predict the future is to build it."'],
-      ['sudo hire amber', '[sudo] permission granted ✅ — scroll up to say hi'],
-    ];
-    let scriptIdx = 0;
-    let termToken = 0;
-    let started = false;
+  const revealBox = document.querySelector('[data-i18n="about.whatido.content"]');
+  const CJK_RANGE = '\\u3000-\\u30ff\\u3400-\\u9fff\\uf900-\\ufaff\\uff00-\\uffef';
+  const TOKEN_RE = new RegExp('\\s+|[' + CJK_RANGE + ']|[^\\s' + CJK_RANGE + ']+', 'g');
+  let srSpans = [];
 
-    function playScript(idx) {
-      const token = ++termToken;
-      const [cmd, out] = SCRIPTS[idx % SCRIPTS.length];
-      termOut.textContent = '';
-      if (REDUCED) { termCmd.textContent = cmd; termOut.textContent = '  →  ' + out; return; }
-      termCmd.textContent = '';
-      let i = 0;
-      const typeChar = () => {
-        if (token !== termToken) return;
-        termCmd.textContent = cmd.slice(0, ++i);
-        if (i < cmd.length) setTimeout(typeChar, 70);
-        else setTimeout(() => { if (token === termToken) termOut.textContent = '  →  ' + out; }, 400);
-      };
-      typeChar();
-    }
+  function updateReveal() {
+    if (!srSpans.length) return;
+    const rect = revealBox.getBoundingClientRect();
+    const range = Math.max(1, Math.min(rect.height, window.innerHeight * 0.6));
+    const p = Math.min(1, Math.max(0, (window.innerHeight * 0.85 - rect.top) / range));
+    const n = Math.round(p * srSpans.length);
+    srSpans.forEach((s, i) => s.classList.toggle('on', i < n));
+  }
 
-    new IntersectionObserver((entries, obs) => {
-      if (entries.some((en) => en.isIntersecting) && !started) {
-        started = true;
-        playScript(0);
-        obs.disconnect();
+  function initScrollReveal() {
+    if (!revealBox || REDUCED) return;
+    const walker = document.createTreeWalker(revealBox, NodeFilter.SHOW_TEXT);
+    const textNodes = [];
+    while (walker.nextNode()) textNodes.push(walker.currentNode);
+    textNodes.forEach((node) => {
+      const tokens = node.textContent.match(TOKEN_RE);
+      if (!tokens) return;
+      const frag = document.createDocumentFragment();
+      tokens.forEach((tok) => {
+        if (/^\s+$/.test(tok)) { frag.appendChild(document.createTextNode(tok)); return; }
+        const s = document.createElement('span');
+        s.className = 'sr-w';
+        s.textContent = tok;
+        frag.appendChild(s);
+      });
+      node.parentNode.replaceChild(frag, node);
+    });
+    srSpans = Array.from(revealBox.querySelectorAll('.sr-w'));
+    updateReveal();
+  }
+
+  {
+    let srTick = false;
+    window.addEventListener('scroll', () => {
+      if (!srTick) { srTick = true; requestAnimationFrame(() => { srTick = false; updateReveal(); }); }
+    }, { passive: true });
+  }
+
+  // ---------------------------------------------------------------
+  // A7. Text scramble — hero name decodes on load, titles on lang switch
+  // ---------------------------------------------------------------
+  const SCR_LATIN = '!<>-_\\/[]{}=+*^?#01';
+  const SCR_CJK = '构建智能未来产品思维数据洞察';
+  const CJK_TEST = new RegExp('[' + CJK_RANGE + ']');
+  const escapeHTML = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+  function scrambleEl(el) {
+    if (!el || REDUCED) return;
+    const target = el.textContent;
+    const chars = Array.from(target);
+    if (!chars.length) return;
+    const token = (el._scrToken = (el._scrToken || 0) + 1);
+    // left-to-right decode: earlier chars settle first
+    const jobs = chars.map((ch, i) => ({ ch, end: 4 + i * 1.1 + Math.random() * 6 }));
+    let frame = 0;
+    const iv = setInterval(() => {
+      if (el._scrToken !== token) { clearInterval(iv); return; }
+      let out = '';
+      let done = 0;
+      for (const j of jobs) {
+        if (/\s/.test(j.ch) || frame >= j.end) { out += escapeHTML(j.ch); done++; continue; }
+        const pool = CJK_TEST.test(j.ch) ? SCR_CJK : SCR_LATIN;
+        out += '<span class="scr-glyph">' + pool[Math.floor(Math.random() * pool.length)] + '</span>';
       }
-    }, { threshold: 0.5 }).observe(footerTerm);
+      if (done === jobs.length) {
+        clearInterval(iv);
+        el.textContent = target;
+      } else {
+        el.innerHTML = out;
+      }
+      frame++;
+    }, 30);
+  }
 
-    footerTerm.addEventListener('click', () => {
-      scriptIdx = (scriptIdx + 1) % SCRIPTS.length;
-      playScript(scriptIdx);
+  const scrambleTitles = () => {
+    document.querySelectorAll('.hero-greeting, .section-title').forEach(scrambleEl);
+  };
+
+  // ---------------------------------------------------------------
+  // A8. Spotlight easter egg (contact section)
+  // ---------------------------------------------------------------
+  const spot = document.getElementById('spotlight');
+  if (spot) {
+    const over = spot.querySelector('.spotlight-over');
+    spot.addEventListener('pointermove', (e) => {
+      const r = spot.getBoundingClientRect();
+      over.style.setProperty('--sx', (e.clientX - r.left) + 'px');
+      over.style.setProperty('--sy', (e.clientY - r.top) + 'px');
+    }, { passive: true });
+    spot.addEventListener('pointerleave', () => {
+      over.style.setProperty('--sx', '50%');
+      over.style.setProperty('--sy', '130%');
     });
   }
 
   // ---------------------------------------------------------------
   // Language switch hook (dispatched from script.js setLang)
+  // Fires once on DOMContentLoaded (initial setLang), then on each toggle.
   // ---------------------------------------------------------------
+  let langInited = false;
   document.addEventListener('langchanged', (e) => {
     startTypewriter(e.detail.lang);
     initCountups();
     if (paletteOpen) renderList(cmdkInput.value);
+    initScrollReveal();
+    if (!langInited) {
+      langInited = true;
+      scrambleEl(document.querySelector('.hero-name-en'));
+      setTimeout(() => scrambleEl(document.querySelector('.hero-name-cn')), 250);
+    } else {
+      scrambleTitles();
+    }
   });
 })();

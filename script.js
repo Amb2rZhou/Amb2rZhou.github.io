@@ -12,7 +12,7 @@ const translations = {
     'about.education': 'Education',
     'about.edu.content': '<p><strong>CUHK & Northwestern University</strong><br>M.S. in Applied Economics & Quantitative Econometrics<br>GPA: 4.0/4.0 | Scholarship Recipient</p><p><strong>CUHK-Shenzhen</strong><br>B.A. in Economics | Top 1% Gaokao<br>Dean\'s List \u00d7 3 | First Class Honors</p><p><strong>Copenhagen Business School</strong><br>Exchange Student</p>',
     'about.whatido': 'What I Do',
-    'about.whatido.content': '<p>Economics trained how I think \u2014 identifying key variables and making decisions under uncertainty. AI is how I amplify that ability.</p><p>Currently an AI product intern at <strong>Ant Group</strong>\'s AI Intelligence division, after an AI technology strategy internship at <strong>Xiaohongshu (REDnote)</strong>. I read arXiv papers and track GitHub repos daily, and I build my own tools from scratch. I believe good judgment is built on truly understanding the technology \u2014 I don\'t make calls on things I haven\'t dug into myself.</p>',
+    'about.whatido.content': '<p>Economics trained how I think \u2014 identifying key variables and making decisions under uncertainty. AI is how I amplify that ability.</p><p>Currently an AI product intern at <strong>Ant Group</strong>\'s AI Intelligence division, after an AI technology strategy internship at <strong>Xiaohongshu (REDnote)</strong>. I read arXiv papers and track GitHub repos, and I build my own tools from scratch. I believe good judgment is built on truly understanding the technology.</p>',
     'about.techstack': 'Tech Stack',
     'about.beyond': 'Beyond Work',
     'about.beyond.content': '\ud83d\udcf7 Photography enthusiast<br>\ud83c\udf0d Traveled 15+ countries<br>\ud83c\udfae Mobile & console gamer<br>\ud83d\udde3\ufe0f Fluent in English & Chinese<br><span class="subtle">GRE 326+4.5 | TOEFL 109</span>',
@@ -62,6 +62,8 @@ const translations = {
     'beyond.lang': 'Fluent in English & Chinese',
     'contact.title': 'Get in Touch',
     'contact.desc': "Feel free to reach out \u2014 whether it's about collaboration, opportunities, or just a chat about AI.",
+    'contact.spot.title': "Let's build something.",
+    'contact.spot.hint': 'Something seems to be hidden in the dark\u2026 sweep your light across',
     'hero.resume': 'Resume',
     'footer.text': '\u00a9 2026 Amber Zhou. Built with curiosity and Claude Code.',
     'chat.badge': 'Try my AI assistant!',
@@ -94,7 +96,7 @@ const translations = {
     'about.education': '\u6559\u80b2\u80cc\u666f',
     'about.edu.content': '<p><strong>\u9999\u6e2f\u4e2d\u6587\u5927\u5b66 & \u7f8e\u56fd\u897f\u5317\u5927\u5b66</strong><br>\u5e94\u7528\u7ecf\u6d4e\u5b66\u4e0e\u91cf\u5316\u8ba1\u91cf\u53cc\u5b66\u4f4d\u7855\u58eb<br>GPA\uff1a4.0/4.0 | \u5956\u5b66\u91d1\u83b7\u5f97\u8005</p><p><strong>\u9999\u6e2f\u4e2d\u6587\u5927\u5b66\uff08\u6df1\u5733\uff09</strong><br>\u7ecf\u6d4e\u5b66\u5b66\u58eb | \u9ad8\u8003\u524d1%<br>\u9662\u957f\u5609\u8bb8\u5956\u00d73 | \u7532\u7b49\u8363\u8a89\u5b66\u4f4d</p><p><strong>\u4e39\u9ea6\u54e5\u672c\u54c8\u6839\u5546\u5b66\u9662</strong><br>\u4ea4\u6362\u751f</p>',
     'about.whatido': '\u6211\u5728\u505a\u4ec0\u4e48',
-    'about.whatido.content': '<p>\u7ecf\u6d4e\u5b66\u8bad\u7ec3\u4e86\u6211\u7684\u5224\u65ad\u529b\u2014\u2014\u5728\u4e0d\u786e\u5b9a\u6027\u4e2d\u8bc6\u522b\u5173\u952e\u53d8\u91cf\u3001\u505a\u51fa\u51b3\u7b56\u3002AI \u662f\u6211\u5c06\u8fd9\u79cd\u80fd\u529b\u653e\u5927\u7684\u65b9\u5f0f\u3002</p><p>\u76ee\u524d\u5728<strong>\u8682\u8681\u96c6\u56e2</strong> AI \u667a\u80fd\u90e8\u505a AI \u4ea7\u54c1\u5b9e\u4e60\uff0c\u6b64\u524d\u5728<strong>\u5c0f\u7ea2\u4e66</strong>\u4ece\u4e8b AI \u6280\u672f\u6218\u7565\u5b9e\u4e60\u3002\u6211\u6bcf\u5929\u9605\u8bfb arXiv \u8bba\u6587\u3001\u8ffd\u8e2a GitHub \u524d\u6cbf\u4ed3\u5e93\uff0c\u4e5f\u81ea\u5df1\u52a8\u624b\u628a\u60f3\u6cd5\u9020\u51fa\u6765\u3002\u6211\u76f8\u4fe1\u597d\u7684\u5224\u65ad\u529b\u5efa\u7acb\u5728\u5bf9\u6280\u672f\u7684\u771f\u6b63\u7406\u89e3\u4e4b\u4e0a\u2014\u2014\u770b\u4e0d\u61c2\u7684\u4e1c\u897f\uff0c\u6211\u4e0d\u4f1a\u5047\u88c5\u80fd\u505a\u51b3\u7b56\u3002</p>',
+    'about.whatido.content': '<p>\u7ecf\u6d4e\u5b66\u8bad\u7ec3\u4e86\u6211\u7684\u5224\u65ad\u529b\u2014\u2014\u5728\u4e0d\u786e\u5b9a\u6027\u4e2d\u8bc6\u522b\u5173\u952e\u53d8\u91cf\u3001\u505a\u51fa\u51b3\u7b56\u3002AI \u662f\u6211\u5c06\u8fd9\u79cd\u80fd\u529b\u653e\u5927\u7684\u65b9\u5f0f\u3002</p><p>\u76ee\u524d\u5728<strong>\u8682\u8681\u96c6\u56e2</strong> AI \u667a\u80fd\u90e8\u505a AI \u4ea7\u54c1\u5b9e\u4e60\uff0c\u6b64\u524d\u5728<strong>\u5c0f\u7ea2\u4e66</strong>\u4ece\u4e8b AI \u6280\u672f\u6218\u7565\u5b9e\u4e60\u3002\u6211\u9605\u8bfb arXiv \u8bba\u6587\u3001\u8ffd\u8e2a GitHub \u524d\u6cbf\u4ed3\u5e93\uff0c\u4e5f\u81ea\u5df1\u52a8\u624b\u628a\u60f3\u6cd5\u9020\u51fa\u6765\u3002\u6211\u76f8\u4fe1\u597d\u7684\u5224\u65ad\u529b\u5efa\u7acb\u5728\u5bf9\u6280\u672f\u7684\u771f\u6b63\u7406\u89e3\u4e4b\u4e0a\u3002</p>',
     'about.techstack': '\u6280\u672f\u6808',
     'about.beyond': '\u5de5\u4f5c\u4e4b\u5916',
     'about.beyond.content': '\ud83d\udcf7 \u6444\u5f71\u7231\u597d\u8005<br>\ud83c\udf0d \u65c5\u5c4515+\u56fd\u5bb6<br>\ud83c\udfae \u624b\u6e38&\u4e3b\u673a\u6e38\u620f\u73a9\u5bb6<br>\ud83d\udde3\ufe0f \u4e2d\u82f1\u53cc\u8bed\u6d41\u5229<br><span class="subtle">GRE 326+4.5 | TOEFL 109</span>',
@@ -144,6 +146,8 @@ const translations = {
     'beyond.lang': '\u4e2d\u82f1\u53cc\u8bed\u6d41\u5229',
     'contact.title': '\u8054\u7cfb\u6211',
     'contact.desc': '\u6b22\u8fce\u8054\u7cfb\u6211\u2014\u2014\u65e0\u8bba\u662f\u5408\u4f5c\u3001\u673a\u4f1a\uff0c\u8fd8\u662f\u804a\u804a AI\u3002',
+    'contact.spot.title': "Let's build something.",
+    'contact.spot.hint': '\u9ed1\u6697\u91cc\u597d\u50cf\u85cf\u7740\u4ec0\u4e48\u2026\u2026\u7528\u5149\u7167\u7167\u770b',
     'hero.resume': '\u4e0b\u8f7d\u7b80\u5386',
     'footer.text': '\u00a9 2026 \u5468\u82b7\u4e50. \u7528\u597d\u5947\u5fc3\u548c Claude Code \u6784\u5efa\u3002',
     'chat.badge': '\u8bd5\u8bd5\u6211\u7684 AI \u52a9\u624b\uff01',
@@ -171,8 +175,8 @@ const isCleanMode = new URLSearchParams(window.location.search).get('ref') === '
 
 if (isCleanMode) {
   // Override "What I Do" translations to remove XHS mention
-  translations.en['about.whatido.content'] = '<p>Economics trained how I think — identifying key variables and making decisions under uncertainty. AI is how I amplify that ability.</p><p>I read arXiv papers and track GitHub repos daily, and I build my own tools from scratch. I believe good judgment is built on truly understanding the technology — I don\'t make calls on things I haven\'t dug into myself.</p>';
-  translations.zh['about.whatido.content'] = '<p>经济学训练了我的判断力——在不确定性中识别关键变量、做出决策。AI 是我将这种能力放大的方式。</p><p>我每天阅读 arXiv 论文、追踪 GitHub 前沿仓库，也自己动手把想法造出来。我相信好的判断力建立在对技术的真正理解之上——看不懂的东西，我不会假装能做决策。</p>';
+  translations.en['about.whatido.content'] = '<p>Economics trained how I think — identifying key variables and making decisions under uncertainty. AI is how I amplify that ability.</p><p>I read arXiv papers and track GitHub repos, and I build my own tools from scratch. I believe good judgment is built on truly understanding the technology.</p>';
+  translations.zh['about.whatido.content'] = '<p>经济学训练了我的判断力——在不确定性中识别关键变量、做出决策。AI 是我将这种能力放大的方式。</p><p>我阅读 arXiv 论文、追踪 GitHub 前沿仓库，也自己动手把想法造出来。我相信好的判断力建立在对技术的真正理解之上。</p>';
 
   // Override meta description
   const metaDesc = document.querySelector('meta[name="description"]');
