@@ -2,11 +2,15 @@
   "rewrites": [
     {
       "source": "/dreamhome",
-      "destination": "https://web-five-rho-44.vercel.app/prototype/pages/discover/index.html"
+      "destination": "https://web-five-rho-44.vercel.app/prototype/pages/discover/app/index.html"
     },
     {
       "source": "/dreamhome/",
-      "destination": "https://web-five-rho-44.vercel.app/prototype/pages/discover/index.html"
+      "destination": "https://web-five-rho-44.vercel.app/prototype/pages/discover/app/index.html"
+    },
+    {
+      "source": "/dreamhome/prototype/pages/discover/index.html",
+      "destination": "https://web-five-rho-44.vercel.app/prototype/pages/discover/app/index.html"
     },
     {
       "source": "/dreamhome/:path*",
