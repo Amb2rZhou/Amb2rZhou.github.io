@@ -1,17 +1,13 @@
 {
-  "redirects": [
+  "rewrites": [
     {
       "source": "/dreamhome",
-      "destination": "/dreamhome/prototype/pages/discover/index.html",
-      "permanent": false
+      "destination": "https://web-five-rho-44.vercel.app/prototype/pages/discover/index.html"
     },
     {
       "source": "/dreamhome/",
-      "destination": "/dreamhome/prototype/pages/discover/index.html",
-      "permanent": false
-    }
-  ],
-  "rewrites": [
+      "destination": "https://web-five-rho-44.vercel.app/prototype/pages/discover/index.html"
+    },
     {
       "source": "/dreamhome/:path*",
       "destination": "https://web-five-rho-44.vercel.app/:path*"
