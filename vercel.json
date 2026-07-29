@@ -1,4 +1,110 @@
 {
+  "redirects": [
+    {
+      "source": "/dreamhome",
+      "destination": "/dreamhome/prototype/pages/discover/index.html",
+      "permanent": false
+    },
+    {
+      "source": "/dreamhome/",
+      "destination": "/dreamhome/prototype/pages/discover/index.html",
+      "permanent": false
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/dreamhome/:path*",
+      "destination": "https://web-five-rho-44.vercel.app/:path*"
+    },
+    {
+      "source": "/prototype/:path*",
+      "destination": "https://web-five-rho-44.vercel.app/prototype/:path*"
+    },
+    {
+      "source": "/videos/:path*",
+      "destination": "https://web-five-rho-44.vercel.app/videos/:path*"
+    },
+    {
+      "source": "/models/:path*",
+      "destination": "https://web-five-rho-44.vercel.app/models/:path*"
+    },
+    {
+      "source": "/mascot-motion/:path*",
+      "destination": "https://web-five-rho-44.vercel.app/mascot-motion/:path*"
+    },
+    {
+      "source": "/fonts/:path*",
+      "destination": "https://web-five-rho-44.vercel.app/fonts/:path*"
+    },
+    {
+      "source": "/ui/:path*",
+      "destination": "https://web-five-rho-44.vercel.app/ui/:path*"
+    },
+    {
+      "source": "/dreamhome-api/:path*",
+      "destination": "https://web-five-rho-44.vercel.app/dreamhome-api/:path*"
+    },
+    {
+      "source": "/api/photo-to-3d",
+      "destination": "https://web-five-rho-44.vercel.app/api/photo-to-3d"
+    },
+    {
+      "source": "/api/selection-to-3d",
+      "destination": "https://web-five-rho-44.vercel.app/api/selection-to-3d"
+    },
+    {
+      "source": "/api/jobs/:path*",
+      "destination": "https://web-five-rho-44.vercel.app/api/jobs/:path*"
+    },
+    {
+      "source": "/api/dreamhome-jobs/:path*",
+      "destination": "https://web-five-rho-44.vercel.app/api/dreamhome-jobs/:path*"
+    },
+    {
+      "source": "/mascot-initial.png",
+      "destination": "https://web-five-rho-44.vercel.app/mascot-initial.png"
+    },
+    {
+      "source": "/mascot-happy.png",
+      "destination": "https://web-five-rho-44.vercel.app/mascot-happy.png"
+    },
+    {
+      "source": "/mascot-working.png",
+      "destination": "https://web-five-rho-44.vercel.app/mascot-working.png"
+    },
+    {
+      "source": "/mascot-workshop-header.png",
+      "destination": "https://web-five-rho-44.vercel.app/mascot-workshop-header.png"
+    },
+    {
+      "source": "/mascot-discovery-banner.png",
+      "destination": "https://web-five-rho-44.vercel.app/mascot-discovery-banner.png"
+    },
+    {
+      "source": "/imported_traces.json",
+      "destination": "https://web-five-rho-44.vercel.app/imported_traces.json"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/dreamhome/prototype/pages/discover/app/assets/:path*",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/dreamhome/prototype/pages/:path*/index.html",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-cache, no-store, must-revalidate"
+        }
+      ]
+    }
+  ],
   "functions": {
     "api/*.js": {
       "maxDuration": 60
