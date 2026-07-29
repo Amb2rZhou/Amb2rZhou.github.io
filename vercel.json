@@ -41,12 +41,24 @@
       "destination": "https://web-five-rho-44.vercel.app/ui/:path*"
     },
     {
+      "source": "/vendor/:path*",
+      "destination": "https://web-five-rho-44.vercel.app/vendor/:path*"
+    },
+    {
+      "source": "/asset-cdn/:path*",
+      "destination": "https://web-five-rho-44.vercel.app/asset-cdn/:path*"
+    },
+    {
       "source": "/dreamhome-api/:path*",
       "destination": "https://web-five-rho-44.vercel.app/dreamhome-api/:path*"
     },
     {
       "source": "/api/photo-to-3d",
       "destination": "https://web-five-rho-44.vercel.app/api/photo-to-3d"
+    },
+    {
+      "source": "/api/health",
+      "destination": "https://web-five-rho-44.vercel.app/api/health"
     },
     {
       "source": "/api/selection-to-3d",
