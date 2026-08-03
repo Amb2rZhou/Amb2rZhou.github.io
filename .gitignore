@@ -17,3 +17,9 @@ node_modules/
 .vscode/
 .idea/
 *.swp
+.vercel
+.env*.local
+
+# Local source photography; production uses optimized responsive WebP assets.
+assets/photography/
+assets/portraits/

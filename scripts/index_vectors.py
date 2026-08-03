@@ -44,7 +44,6 @@ PERSONAL_CONTEXT_FILES = [
     "claude-code-architecture-report.md",
     "harness-engineer-research-report.md",
     "hermes-agent-research-report.md",
-    "字节飞书×OpenClaw协同体系研究_v5.md",
     "skill-building-methodology.md",
     "ai-ecommerce-map.md",
     "daily-thoughts/2026-04-02-context-is-the-moat.md",
@@ -296,6 +295,48 @@ def fetch_personal_context() -> List[Dict[str, Any]]:
     return results
 
 
+def fetch_blog_posts() -> List[Dict[str, Any]]:
+    """Return public Blog posts explicitly marked for RAG indexing."""
+    print("[5/5] Fetching public Blog posts ...")
+    index_url = (
+        f"{GH_RAW}/Amb2rZhou/Amb2rZhou.github.io/main"
+        f"/blog/posts/index.json"
+    )
+    response = gh_get(index_url)
+    if response.status_code != 200:
+        print(f"  WARNING: could not fetch Blog index ({response.status_code})")
+        return []
+
+    try:
+        posts = response.json()
+    except json.JSONDecodeError:
+        print("  WARNING: Blog index is not valid JSON")
+        return []
+
+    results = []
+    for post in posts:
+        if not post.get("rag") or not post.get("slug"):
+            continue
+        slug = post["slug"]
+        raw_url = (
+            f"{GH_RAW}/Amb2rZhou/Amb2rZhou.github.io/main"
+            f"/blog/posts/{slug}.md"
+        )
+        article = gh_get(raw_url)
+        if article.status_code != 200:
+            print(f"  Skip {slug}: ({article.status_code})")
+            continue
+        chunks = chunk_text(article.text)
+        results.append({
+            "source": "blog",
+            "filename": f"blog/{slug}.md",
+            "chunks": chunks,
+        })
+        print(f"  {slug}: {len(chunks)} chunks")
+
+    return results
+
+
 # ---------------------------------------------------------------------------
 # Chunking
 # ---------------------------------------------------------------------------
@@ -454,6 +495,7 @@ def main():
     all_docs.extend(fetch_weekly_reports())
     all_docs.extend(fetch_wiki_trends())
     all_docs.extend(fetch_personal_context())
+    all_docs.extend(fetch_blog_posts())
 
     if not all_docs:
         print("No documents fetched. Exiting.")

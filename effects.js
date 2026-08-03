@@ -513,7 +513,7 @@
     initScrollReveal();
     if (!langInited) {
       langInited = true;
-      scrambleEl(document.querySelector('.hero-name-en'));
+      scrambleEl(document.querySelector('.hero-name-en:not([data-no-scramble])'));
       setTimeout(() => scrambleEl(document.querySelector('.hero-name-cn')), 250);
     } else {
       scrambleTitles();

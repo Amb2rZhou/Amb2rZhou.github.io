@@ -2,6 +2,55 @@
 
 import { rateLimit } from './_ratelimit.js';
 
+const PUBLIC_RAG_DENYLIST = new Set([
+  '字节飞书×OpenClaw协同体系研究_v5.md',
+]);
+
+async function fetchPublicResearchContext(question) {
+  const embeddingRes = await fetch('https://api.siliconflow.cn/v1/embeddings', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${process.env.SILICONFLOW_API_KEY}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ model: 'BAAI/bge-m3', input: question }),
+  });
+  if (!embeddingRes.ok) throw new Error(`Embedding API error (${embeddingRes.status})`);
+  const embeddingData = await embeddingRes.json();
+  const embedding = embeddingData.data?.[0]?.embedding;
+  if (!embedding) return '';
+
+  const configuredSupabaseUrl = process.env.SUPABASE_URL || '';
+  if (!configuredSupabaseUrl || !process.env.SUPABASE_KEY) return '';
+  const supabaseUrl = configuredSupabaseUrl.startsWith('http')
+    ? configuredSupabaseUrl
+    : `https://${configuredSupabaseUrl}`;
+  const searchRes = await fetch(`${supabaseUrl}/rest/v1/rpc/match_documents`, {
+    method: 'POST',
+    headers: {
+      'apikey': process.env.SUPABASE_KEY,
+      'Authorization': `Bearer ${process.env.SUPABASE_KEY}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      query_embedding: embedding,
+      match_threshold: 0.2,
+      match_count: 30,
+    }),
+  });
+  if (!searchRes.ok) throw new Error(`Vector search error (${searchRes.status})`);
+
+  const documents = (await searchRes.json())
+    .filter(doc => (doc.source === 'personal' || doc.source === 'blog') && !PUBLIC_RAG_DENYLIST.has(doc.filename))
+    .slice(0, 8);
+  if (documents.length === 0) return '';
+
+  return documents.map(doc => {
+    const source = doc.filename || 'Amber original research';
+    return `--- ${source} ---\n${doc.content}`;
+  }).join('\n\n');
+}
+
 const SYSTEM_PROMPT = `You are an AI assistant on Amber Zhou's (周芷乐) personal website. Answer questions about her based on the following information. Be friendly, concise, and professional. Answer in the same language the user asks in (Chinese or English).
 
 ## About Amber
@@ -176,7 +225,17 @@ export default async function handler(req, res) {
 
     // Build messages with conversation history (keep last 10 turns to limit tokens)
     const today = new Date().toISOString().split('T')[0];
+    let researchContext = '';
+    try {
+      researchContext = await fetchPublicResearchContext(question);
+    } catch (err) {
+      console.error('Personal research retrieval error:', err);
+    }
+
     let systemContent = SYSTEM_PROMPT + `\n\nToday's date is ${today}.`;
+    if (researchContext) {
+      systemContent += `\n\n## Relevant public research and ideas written by Amber\n${researchContext}\n\nUse this retrieved material when it is relevant. Attribute ideas to Amber, stay grounded in the excerpts, and do not infer or reveal private/internal information.`;
+    }
     if (ref === 't') {
       systemContent += `\n\nIMPORTANT: Do not mention Xiaohongshu (小红书), REDnote, or any work/projects done there. If asked about current work experience, only discuss Ipsos, Guohai Securities, and Minsheng Securities internships. The AI Frontier Insight and AI Research Toolkit projects should not be attributed to any company.`;
     }

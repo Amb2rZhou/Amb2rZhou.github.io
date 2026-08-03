@@ -1,0 +1,72 @@
+[
+  {
+    "slug": "what-to-all-in-ai",
+    "title": "AI 时代，什么样的公司和岗位值得 All in？",
+    "date": "2026-08-02",
+    "category": "idea",
+    "readTime": "约 8 分钟",
+    "excerpt": "选择工作时，不只看公司有没有 AI 项目，而要判断它的基础设施、业务和组织是否真正 AI native，以及岗位是否足够接近决策与业务核心。",
+    "tags": ["AI Native", "职业选择", "组织变革"],
+    "rag": true
+  },
+  {
+    "slug": "does-embodied-ai-need-humanoid-form",
+    "title": "具身智能一定要长成人形吗？",
+    "date": "2026-07-01",
+    "category": "idea",
+    "readTime": "约 11 分钟",
+    "excerpt": "人形也许不是智能的终点，而是 AI 进入一个为人设计的世界时，最现实的过渡形态。真正决定具身智能上限的，可能不是身体，而是世界模型。",
+    "tags": ["具身智能", "人形机器人", "世界模型"],
+    "rag": true
+  },
+  {
+    "slug": "world-models-beyond-video",
+    "title": "世界模型：不是生成视频，而是学习世界如何变化",
+    "date": "2026-05-22",
+    "category": "research",
+    "readTime": "约 15 分钟",
+    "excerpt": "世界模型真正的分界线不是画面是否逼真，而是能否理解状态、动作与未来之间的关系。四条技术路线正在争夺物理 AI 的底座。",
+    "tags": ["World Model", "空间智能", "具身智能"],
+    "rag": true
+  },
+  {
+    "slug": "ai-era-context-dividend",
+    "title": "AI 是属于 Gen Z 的时代红利",
+    "date": "2026-04-09",
+    "category": "idea",
+    "readTime": "约 9 分钟",
+    "excerpt": "模型终将成为基础设施，真正难以复制和迁移的是人的 Context。Gen Z 的时代红利，或许正是把数字化人生转化为个人 Agent 的资产。",
+    "tags": ["Context", "Gen Z", "Digital Twin", "个人 Agent"],
+    "rag": true
+  },
+  {
+    "slug": "harness-engineering",
+    "title": "Harness Engineering：模型之外，才是 Agent 的真实上限",
+    "date": "2026-04-02",
+    "category": "research",
+    "readTime": "约 14 分钟",
+    "excerpt": "Agent = Model + Harness。可靠性不只来自更强的模型，也来自工具、约束、反馈、可观测性与状态管理共同组成的运行环境。",
+    "tags": ["Harness", "Agent Engineering", "Feedback Loop"],
+    "rag": true
+  },
+  {
+    "slug": "agent-os-ecosystem",
+    "title": "Agent 会成为下一代操作系统吗？",
+    "date": "2026-03-25",
+    "category": "research",
+    "readTime": "约 6 分钟",
+    "excerpt": "从现有 OS 上的意图编排层，到 OS 原生能力，再到 Agent-first 硬件：三个层级之后，Skill 与服务生态会如何重排？",
+    "tags": ["Agent OS", "Skill 生态", "Scale"],
+    "rag": true
+  },
+  {
+    "slug": "openclaw-architecture",
+    "title": "OpenClaw 的架构真正新在哪里？",
+    "date": "2026-02-28",
+    "category": "research",
+    "readTime": "约 14 分钟",
+    "excerpt": "OpenClaw 没有发明所有零件，但它把 Gateway、Channel、Agent、Skill、记忆和工作流重新组合成了一套 Agent 原生基础设施。",
+    "tags": ["OpenClaw", "Agent Architecture", "Gateway"],
+    "rag": true
+  }
+]

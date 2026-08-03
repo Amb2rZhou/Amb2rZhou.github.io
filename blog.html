@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog | Amber Zhou</title>
+  <meta name="description" content="Amber Zhou 的个人随想、AI 研究与构建笔记。">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%236366f1' rx='20' width='100' height='100'/><text x='50' y='68' text-anchor='middle' fill='white' font-family='Inter,sans-serif' font-weight='700' font-size='48'>ZZ</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="blog.css">
+</head>
+<body>
+  <nav class="nav blog-nav" aria-label="主导航">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo" aria-label="返回首页">ZZ</a>
+      <div class="blog-nav-links">
+        <a href="index.html">首页</a>
+        <a href="insights.html">洞察</a>
+        <a href="blog.html" class="active" aria-current="page">Blog</a>
+        <button class="theme-toggle" id="blogThemeToggle" aria-label="切换主题">
+          <i class="fas fa-moon"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main id="blogApp">
+    <section class="blog-hero" id="blogIndexHeader">
+      <div class="blog-shell">
+        <p class="blog-kicker">FIELD NOTES · IDEAS IN PROGRESS</p>
+        <h1>一些还在生长的想法。</h1>
+        <p class="blog-intro">关于 AI、产品与人的随想。这里保留判断形成的过程，而不只陈列最后的答案。</p>
+        <aside class="blog-editorial-note" aria-labelledby="editorialNoteTitle">
+          <p class="blog-editorial-label" id="editorialNoteTitle">关于这些内容</p>
+          <p>这里的文章主要来自我与 AI 的持续讨论：有些是我随手发给 AI 的想法，在被记录、整理和重写后形成。它们更接近一份思考档案，不代表我逐字审计过的正式研究结论；涉及事实、数据与外部观点时，请以原始来源为准。</p>
+        </aside>
+        <div class="blog-filters" id="blogFilters" aria-label="文章分类">
+          <button class="blog-filter active" data-filter="all">全部</button>
+          <button class="blog-filter" data-filter="idea">随想</button>
+          <button class="blog-filter" data-filter="research">研究</button>
+          <button class="blog-filter" data-filter="build">构建笔记</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="blog-shell blog-list-section" id="blogIndexView">
+      <div class="blog-list-heading">
+        <h2>最新文章</h2>
+        <span id="postCount" aria-live="polite"></span>
+      </div>
+      <div class="blog-grid" id="blogGrid"></div>
+      <p class="blog-empty" id="blogEmpty" hidden>这个分类还没有公开文章。</p>
+    </section>
+
+    <article class="blog-shell blog-article" id="blogArticleView" hidden>
+      <a href="blog.html" class="blog-back"><i class="fas fa-arrow-left"></i> 返回全部文章</a>
+      <header class="blog-article-header">
+        <div class="blog-article-meta" id="articleMeta"></div>
+        <h1 id="articleTitle"></h1>
+        <p id="articleExcerpt"></p>
+      </header>
+      <div class="blog-prose" id="articleContent"></div>
+    </article>
+  </main>
+
+  <footer class="footer blog-footer">
+    <p>&copy; 2026 Amber Zhou · Ideas are working notes, not finished truths.</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="blog.js?v=20260802-2"></script>
+</body>
+</html>

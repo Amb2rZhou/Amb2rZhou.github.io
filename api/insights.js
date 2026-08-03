@@ -3,6 +3,10 @@
 
 import { rateLimit } from './_ratelimit.js';
 
+const PUBLIC_RAG_DENYLIST = new Set([
+  '字节飞书×OpenClaw协同体系研究_v5.md',
+]);
+
 async function embedQuestion(question) {
   const res = await fetch('https://api.siliconflow.cn/v1/embeddings', {
     method: 'POST',
@@ -55,6 +59,11 @@ async function searchDocuments(embedding, matchCount = 20) {
 function buildContext(documents) {
   if (!documents || documents.length === 0) {
     return 'No relevant documents found.';
+  }
+
+  documents = documents.filter(doc => !PUBLIC_RAG_DENYLIST.has(doc.filename));
+  if (documents.length === 0) {
+    return 'No relevant public documents found.';
   }
 
   // Separate personal research from other sources — personal gets priority
